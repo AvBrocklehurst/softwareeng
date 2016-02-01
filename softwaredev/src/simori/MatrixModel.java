@@ -9,7 +9,7 @@ package simori;
  * @version 1.0.0
  */
 public class MatrixModel implements MatrixModelInterface {
-	private Layer[][] layers;
+	private Layer[] layers;
 	
 	public MatrixModel(){
 		
