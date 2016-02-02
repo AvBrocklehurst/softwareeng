@@ -5,7 +5,7 @@ package simori;
  * <p> 
  *
  * @author  Adam
- * @version 1.0.2
+ * @version 1.0.4
  */
 public class Layer {
 	private boolean[][] grid; //Grid to store whether each button is on (True) or off (False).
@@ -73,7 +73,7 @@ public class Layer {
 	/**
 	 * Method to update a button in the grid when it is turned on / off.
 	 * @author  Adam
-	 * @version 1.0.0
+	 * @version 1.1.0
 	 * @param column  The column containing the button to change 
 	 * @param row     The row containing the button to change
 	 * @throws InvalidCoordinatesException 
