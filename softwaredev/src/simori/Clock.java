@@ -10,6 +10,7 @@ package simori;
 public class Clock implements Runnable {
 		private boolean running = true;
 		private MatrixModel model;
+		private int currentColumn;
 		
 		/**
 		 * Constructor for the class
@@ -29,7 +30,10 @@ public class Clock implements Runnable {
 		@Override
 		public void run() {
 			while(running){
-				
+				//TODO GET A LIST OF LISTS FOR THE CURRENT COLUMN FROM MatrixModel
+				//TODO SEND LIST OF LISTS TO MidiPlayer
+				//TODO WAIT A SET OF TIME == THE TEMPO
+				//TODO CHECK IF END OF COLUMN LOOP FOUND, IF SO currentColumn = 0, ELSE currentColumn += 1
 			}
 			//prepare for running the thread again
 			running = true;
