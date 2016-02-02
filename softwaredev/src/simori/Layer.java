@@ -58,15 +58,32 @@ public class Layer {
 		return instrument;
 	}
 	
+	
+	/**
+	 * Method to set the instrument of that layer
+	 * @author  Adam
+	 * @version 1.0.0
+	 * @param  newInstrument  an int containing the value to change the layers instrument to
+	 */
+	public void setInstrument(int newInstrument){
+		instrument = newInstrument;
+	}
+	
+	
 	/**
 	 * Method to update a button in the grid when it is turned on / off.
 	 * @author  Adam
 	 * @version 1.0.0
 	 * @param column  The column containing the button to change 
 	 * @param row     The row containing the button to change
+	 * @throws InvalidCoordinatesException 
 	 */
-	public void updateButton(int column, int row){
-		grid[row][column] = !grid[row][column]; //Inverse the current value to swap.
+	public void updateButton(int column, int row) throws InvalidCoordinatesException{
+		if(column >= 0 && column < 16 && row >= 0 && row < 16){
+			grid[row][column] = !grid[row][column]; //Inverse the current value to swap.
+		} else {
+			throw new InvalidCoordinatesException("Column or Row not between 0 and 16");
+		}
 	}
 	
 	
