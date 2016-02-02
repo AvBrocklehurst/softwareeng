@@ -5,7 +5,7 @@ package simori;
  * <p> 
  *
  * @author  Adam
- * @version 1.0.1
+ * @version 1.0.2
  */
 public class Layer {
 	private boolean[][] grid; //Grid to store whether each button is on (True) or off (False).
@@ -49,6 +49,16 @@ public class Layer {
 	}
 	
 	/**
+	 * Method to return the layers instrument, used by the midi framework.
+	 * @author  Adam
+	 * @version 1.0.0
+	 * @return int containing the value of the layers instrument 
+	 */
+	public int getInstrument(){
+		return instrument;
+	}
+	
+	/**
 	 * Method to update a button in the grid when it is turned on / off.
 	 * @author  Adam
 	 * @version 1.0.0
@@ -58,6 +68,7 @@ public class Layer {
 	public void updateButton(int column, int row){
 		grid[row][column] = !grid[row][column]; //Inverse the current value to swap.
 	}
+	
 	
 	
 }
