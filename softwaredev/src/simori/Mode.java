@@ -6,7 +6,8 @@ import static simori.SimoriGuiEvents.FunctionButton;
 
 /**
  * An abstract class defining methods for general
- * use in the Mode subclasses.
+ * use in the Mode subclasses. Mode handles the logic
+ * of a given Function Button press.
  * 
  * @author James
  * @version 1.0.0
@@ -14,10 +15,12 @@ import static simori.SimoriGuiEvents.FunctionButton;
 public abstract class Mode implements FunctionButtonListener {
 	
 	Layer tempLayer = new Layer();
+	String currentMode;
 	
 	
 	/**
-	 * Changes the current mode to a specified one.
+	 * Changes the current mode based on a specified 
+	 * FunctionButton.
 	 * 
 	 * @author James
 	 * @version 1.0.0
