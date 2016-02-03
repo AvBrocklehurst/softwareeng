@@ -12,7 +12,8 @@ public class MatrixModel  {
 	private Layer[] layers;
 	
 	public MatrixModel(){
-		
+		layers = new Layer[16];
+		System.out.println(layers[0]);
 	}
 	
 
