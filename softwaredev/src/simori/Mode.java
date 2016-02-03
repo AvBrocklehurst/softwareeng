@@ -2,6 +2,8 @@ package simori;
 
 import simori.SimoriGuiEvents.FunctionButtonEvent;
 import simori.SimoriGuiEvents.FunctionButtonListener;
+import simori.SimoriGuiEvents.GridButtonListener;
+
 import static simori.SimoriGuiEvents.FunctionButton;
 
 /**
@@ -12,7 +14,7 @@ import static simori.SimoriGuiEvents.FunctionButton;
  * @author James
  * @version 1.0.0
  */
-public abstract class Mode implements FunctionButtonListener {
+public abstract class Mode implements FunctionButtonListener, GridButtonListener {
 	
 	Layer tempLayer = new Layer();
 	String currentMode;
