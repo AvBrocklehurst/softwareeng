@@ -1,6 +1,8 @@
 package simori;
 
-import javax.sound.midi.Synthesizer;
+import javax.sound.midi.MidiUnavailableException;
+import javax.sound.midi.Receiver;
+import simori.Note;
 
 /**
  * 
@@ -18,10 +20,11 @@ public interface MIDIPlayer {
 	 * @return Synthesizer
 	 * @throws MidiUnavailableException
 	 * 
-	 * Produces a MIDI synthesizer (for system to use).
+	 * Produces a MIDI synthesizer (for system to use) with an attached receiver that can send messages to the synthesizer
 	 * 
 	 */
-	public Synthesizer getSynthesizer();
+	public Receiver getSynthesizer() throws MidiUnavailableException;
+	
 	
 	/**
 	 * @author Josh
@@ -31,7 +34,7 @@ public interface MIDIPlayer {
 	 * Method will take a list of all notes (where a note consists of a channel, instrument, pitch and velocity)
 	 * Method will play all notes simulatenously(or as close to simulatneous as possible)
 	 */
-	public void playNotes(int[][] notes);
+	public void playNotes(Note[] notes);
 	
 	
 
