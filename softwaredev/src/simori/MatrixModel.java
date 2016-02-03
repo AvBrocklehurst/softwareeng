@@ -25,6 +25,14 @@ public class MatrixModel  {
 		layers[0] = new Layer();
 	}
 	
+	/**
+	 * Method to shut down data structure in event of the simori-on being turned off.
+	 * @author  Adam
+	 * @version 1.0.0
+	 */
+	public void off(){
+		layers = null;
+	}
 	
 	/**
 	 * Priavte method that instantiates a layer if it doesn't exist.
