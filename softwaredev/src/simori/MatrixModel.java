@@ -11,10 +11,22 @@ package simori;
 public class MatrixModel  {
 	private Layer[] layers;
 	
+	
+	
 	public MatrixModel(){
 		layers = new Layer[16];
-		System.out.println(layers[0]);
+		layers[0] = new Layer();
 	}
 	
+	private void layerExists(int laynum){
+		if(layers[laynum] == null){
+			layers[laynum] = new Layer();
+		}
+	}
+	
+	public boolean[][] getGrid(int laynum){
+		return layers[laynum].getGrid();
+	}
+		
 
 }
