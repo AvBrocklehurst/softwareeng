@@ -8,7 +8,7 @@ package simori;
  * @author  Adam
  * @version 1.0.0
  */
-public class MatrixModel implements MatrixModelInterface {
+public class MatrixModel  {
 	private Layer[] layers;
 	
 	public MatrixModel(){
