@@ -1,4 +1,4 @@
-package simori;
+package simori.Exceptions;
 
 public class InvalidCoordinatesException extends Exception{
 	 //Parameterless Constructor

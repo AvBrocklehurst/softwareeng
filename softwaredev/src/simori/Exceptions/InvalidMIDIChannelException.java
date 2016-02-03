@@ -1,6 +1,6 @@
 package simori.Exceptions;
 
-public class InvalidMIDIChannelException {
+public class InvalidMIDIChannelException extends Exception {
     
 	public InvalidMIDIChannelException() {}
 
