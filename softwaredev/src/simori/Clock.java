@@ -10,6 +10,8 @@ package simori;
 public class Clock implements Runnable {
 		private boolean running = true;
 		private MatrixModel model;
+		private MIDIPlayer midi;
+		private Mode mode;
 		private int currentColumn;
 		
 		/**
@@ -18,8 +20,10 @@ public class Clock implements Runnable {
 		 * @version 1.0.2
 		 * @param model Holds the reference to the MatrixModel
 		 */
-		Clock(MatrixModel model){
+		Clock(MatrixModel model, MIDIPlayer midi, Mode mode){
 			this.model = model;
+			this.midi = midi;
+			this.mode = mode;
 		}
 	
 		/**
@@ -35,8 +39,6 @@ public class Clock implements Runnable {
 				//TODO WAIT A SET OF TIME == THE TEMPO
 				//TODO CHECK IF END OF COLUMN LOOP FOUND, IF SO currentColumn = 0, ELSE currentColumn += 1
 			}
-			//prepare for running the thread again
-			running = true;
 		}
 		
 		/**
@@ -44,7 +46,7 @@ public class Clock implements Runnable {
 		 * @author Jurek
 		 * @version 1.0.1
 		 */
-		public void stop() {
+		public void off() {
 			running = false;
 		}
 	
