@@ -1,5 +1,7 @@
 package simori;
 
+import simori.Exceptions.InvalidCoordinatesException;
+
 /**
  * Class to store the 16x16 grid of 1 layer.
  * <p> 

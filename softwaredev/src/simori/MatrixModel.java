@@ -1,5 +1,7 @@
 package simori;
 
+import simori.Exceptions.InvalidCoordinatesException;
+
 /**
  * Class to handle the storage of data for the 16x16 grid.
  * Contains each of the 16 layers {@link simori.Layer}
@@ -72,6 +74,20 @@ public class MatrixModel  {
 	public int getInstrument(int laynum){
 		layerExists(laynum);
 		return layers[laynum].getInstrument();
+	}
+	
+	/**
+	 * Method to update a layers button.
+	 * @author Adam
+	 * @verion 1.0.0
+	 * @param laynum  the layer to update
+	 * @param col     the column the button is in.
+	 * @param row     the row the layer is in.
+	 * @throws InvalidCoordinatesException
+	 */
+	public void updateButton(int laynum, int col, int row) throws InvalidCoordinatesException{
+		layerExists(laynum);
+		layers[laynum].updateButton(col, row);
 	}
 
 }
