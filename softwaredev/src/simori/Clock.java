@@ -10,7 +10,7 @@ import simori.Exceptions.InvalidCoordinatesException;
 /**
 	 * 
 	 * @author Jurek
-	 * @version 1.0.2
+	 * @version 1.1.0
 	 *
 	 */
 
@@ -25,7 +25,7 @@ public class Clock implements Runnable {
 		/**
 		 * Constructor for the class
 		 * @author Jurek
-		 * @version 1.0.2
+		 * @version 1.1.0
 		 * @param model Holds the reference to the MatrixModel
 		 */
 		Clock(MatrixModel model, MIDIPlayer midi, PerformanceMode mode){
