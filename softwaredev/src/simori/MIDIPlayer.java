@@ -14,6 +14,12 @@ import java.util.ArrayList;
 public interface MIDIPlayer {
 	/**
 	 * @author Josh
+	 * 
+	 * Constructor will create a 
+	 */
+	
+	/**
+	 * @author Josh
 	 * @param array
 	 * @return void
 	 * 

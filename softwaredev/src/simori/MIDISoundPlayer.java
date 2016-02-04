@@ -20,6 +20,7 @@ import javax.sound.midi.Synthesizer;
  */
 public class MIDISoundPlayer implements MIDIPlayer  {
 	/*
+	 * TODO change this explanation
 	 * array of arrays
 	 * Outer array will contain 16 arrays (at most, if a layer has not been used then there's no point sending it)
 	 * inner arrays will contain:
@@ -66,11 +67,11 @@ public class MIDISoundPlayer implements MIDIPlayer  {
 	private void readArray(ArrayList<ArrayList<Integer>> array) throws InvalidMidiDataException{
 		
 		for (ArrayList<Integer> layer : array) { // for each 'layer' with a sound that needs playing: 
-			message = new ShortMessage(ShortMessage.PROGRAM_CHANGE, layer.get(0), layer.get(1)); // for the given layer set the channel and instrument 
+			message = new ShortMessage(ShortMessage.PROGRAM_CHANGE, layer.get(0), layer.get(1), 0); // for the given layer set the channel and instrument, the zero is arbitrary (but is needed for correct number of bytes to be sent)
 			messageArray.add(message); // add MIDI message to array of all MIDI messages
 		
 			for (int i = 3; i < layer.size(); i++) { // for all notes in a given layer:
-				message = new ShortMessage(ShortMessage.NOTE_ON,layer.get(0), layer.get(i), layer.get(2)); // set a play command for that note with the correct pitch and velocity
+				message = new ShortMessage(ShortMessage.NOTE_ON, layer.get(0), layer.get(i), layer.get(2)); // set a play command for that note with the correct pitch and velocity
 				messageArray.add(message); // add MIDI message to array of all MIDI messages
 			} 
 		}
@@ -109,7 +110,7 @@ public class MIDISoundPlayer implements MIDIPlayer  {
 		ArrayList<ArrayList<Integer>> noteArray = new ArrayList<ArrayList<Integer>>();
 		ArrayList<Integer> layer1 = new ArrayList<Integer>();
 		layer1.add(0);
-		layer1.add(0);
+		layer1.add(100);
 		layer1.add(80);
 		layer1.add(60);
 		layer1.add(64);
@@ -117,7 +118,7 @@ public class MIDISoundPlayer implements MIDIPlayer  {
 		noteArray.add(layer1);
 		
 		josh.play(noteArray);
-		Thread.sleep(10000);
+		Thread.sleep(2000);
 		
 		// ArrayList<ArrayList<Integer>> array
 		
