@@ -13,6 +13,16 @@ import simori.SimoriGuiEvents.GridButtonListener;
 
 public class PerformanceMode extends Mode implements GridButtonListener {
 	
+	
+	private int loopspeed;
+	private int looppoint;
+
+	public PerformanceMode(int loopspeed, int looppoint /*voice, velocity*/){
+		this.loopspeed = loopspeed;
+		this.looppoint = looppoint;
+		
+	}
+	
 	/**
 	 * Gets the current mode name.
 	 * 
