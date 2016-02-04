@@ -7,21 +7,26 @@ import simori.Exceptions.InvalidCoordinatesException;
  * <p> 
  *
  * @author  Adam
- * @version 1.0.4
+ * @version 1.1.0
  */
 public class Layer {
 	private boolean[][] grid; //Grid to store whether each button is on (True) or off (False).
-	private int instrument; //int to store current instrument value.
+	private short instrument; //int to store current instrument value.
+	private byte channel;
+	private byte velocity;
 	
 	/**
 	 * Constructor for an individual layer.
-	 * Initialises the 2D array (grid) and sets a default instrument.
+	 * Initialises the 2D array (grid) and sets a default instrument,
+	 * channel and velocity.
 	 * @author  Adam
 	 * @version 1.0.1
 	 */
 	public Layer() {
 		this.grid = new boolean[16][16]; //Initialise the grid as a 16x16 2 dimensional array.
 		this.instrument = 0; //Set a default instrument.
+		this.channel = 0;
+		this.velocity = 80;
 	}
 	
 	
@@ -32,7 +37,7 @@ public class Layer {
 	 * @param column  The integer value of the column to be returned.
 	 * @return boolean array containing each value in the column as a True for on or False for off
 	 */
-	public boolean[] getCol(int column){
+	public boolean[] getCol(byte column){
 		boolean[] col = new boolean[16];
 		for(int i = 0; i < 16; i++) { //For each row of the grid.
 			col[i] = grid[i][column]; // Add the requested column value to the array col.
@@ -54,10 +59,30 @@ public class Layer {
 	 * Method to return the layers instrument, used by the midi framework.
 	 * @author  Adam
 	 * @version 1.0.0
-	 * @return int containing the value of the layers instrument 
+	 * @return short containing the value of the layers instrument 
 	 */
-	public int getInstrument(){
+	public short getInstrument(){
 		return instrument;
+	}
+	
+	/**
+	 * Method to return the layers channel, used by the midi framework.
+	 * @author  Adam
+	 * @version 1.0.0
+	 * @return byte containing the value of the layers channel 
+	 */
+	public byte getChannel(){
+		return channel;
+	}
+	
+	/**
+	 * Method to return the layers velocity, used by the midi framework.
+	 * @author  Adam
+	 * @version 1.0.0
+	 * @return byte containing the value of the layers velocity 
+	 */
+	public byte getVelocity(){
+		return velocity;
 	}
 	
 	
@@ -65,10 +90,30 @@ public class Layer {
 	 * Method to set the instrument of that layer
 	 * @author  Adam
 	 * @version 1.0.0
-	 * @param  newInstrument  an int containing the value to change the layers instrument to
+	 * @param  newInstrument  an short containing the value to change the layers instrument to
 	 */
-	public void setInstrument(int newInstrument){
+	public void setInstrument(short newInstrument){
 		instrument = newInstrument;
+	}
+	
+	/**
+	 * Method to set the channel of that layer
+	 * @author  Adam
+	 * @version 1.0.0
+	 * @param  newInstrument  a byte containing the value to change the layers channel to
+	 */
+	public void setChannel(byte newChannel){
+		channel = newChannel;
+	}
+	
+	/**
+	 * Method to set the velocity of that layer
+	 * @author  Adam
+	 * @version 1.0.0
+	 * @param  newInstrument  a byte containing the value to change the layers velocity to
+	 */
+	public void setVelocity(byte newVelocity){
+		velocity = newVelocity;
 	}
 	
 	
@@ -80,7 +125,7 @@ public class Layer {
 	 * @param row     The row containing the button to change
 	 * @throws InvalidCoordinatesException 
 	 */
-	public void updateButton(int column, int row) throws InvalidCoordinatesException{
+	public void updateButton(byte column, byte row) throws InvalidCoordinatesException{
 		if(column >= 0 && column < 16 && row >= 0 && row < 16){
 			grid[row][column] = !grid[row][column]; //Inverse the current value to swap.
 		} else {
