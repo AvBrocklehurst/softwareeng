@@ -9,6 +9,7 @@ import simori.SimoriGuiEvents.FunctionButtonEvent;
 import simori.SimoriGuiEvents.FunctionButtonListener;
 import simori.SimoriGuiEvents.GridButtonEvent;
 import simori.SimoriGuiEvents.GridButtonListener;
+import simori.Exceptions.InvalidCoordinatesException;
 
 public class SimoriGui {
 	
@@ -43,7 +44,12 @@ public class SimoriGui {
 				final GridButtonEvent e = new GridButtonEvent(this, x, y);
 				leds[x][y].setOnPressListener(new OnPressListener() {
 					public void onPress(Led led) {
-						//TODO gListener.onGridButtonPress(e);
+						try {
+							gListener.onGridButtonPress(e);
+						} catch (InvalidCoordinatesException e1) {
+							// TODO Get rid of this try-catch
+							e1.printStackTrace();
+						}
 						System.out.println(e.getX() + ", " + e.getY());
 					}
 				});

@@ -2,8 +2,10 @@ package simori;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Shape;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.geom.Ellipse2D;
 
 import javax.swing.JComponent;
 
@@ -46,12 +48,21 @@ public class Led extends JComponent implements MouseListener {
 		g.setColor(BORDER);
 		g.drawOval(0, 0, getSize().width-1, getSize().height-1);
 	}
+	
+	Shape shape; //TODO Manage this somewhere
+	public boolean contains(int x, int y) {
+	    if (shape == null || 
+	      !shape.getBounds().equals(getBounds())) {
+	      shape = new Ellipse2D.Float(0, 0, getWidth(), getHeight()); //TODO Rewrite with proper indentation
+	    }
+	    return shape.contains(x, y);
+	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {}
 
 	@Override
-	public void mouseEntered(MouseEvent e) { //TODO mouseDown may not be real
+	public void mouseEntered(MouseEvent e) { //TODO Get more accurate mouseDown from mouse
 		mouseOver = true;
 		if (mouseDown) {
 			pushed = true;

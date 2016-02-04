@@ -55,12 +55,10 @@ public class SimoriGuiEvents {
 	}
 	
 	public interface GridButtonListener  {
-		
 		public void onGridButtonPress(GridButtonEvent e) throws InvalidCoordinatesException;
 	}
 	
 	public interface FunctionButtonListener {
-		
 		public void onFunctionButtonPress(FunctionButtonEvent e);
 	}
 }

@@ -6,6 +6,6 @@ public class Simori {
 
 	public static void main(String[] args) {
 		SimoriGui gui = new SimoriGui(GRID_WIDTH, GRID_HEIGHT);
-		//TODO gui.setMode(new PerformanceMode());
+		gui.setMode(new PerformanceMode(0,0)); //TODO Off mode by default
 	}
 }
