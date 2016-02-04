@@ -17,7 +17,7 @@ import static simori.SimoriGuiEvents.FunctionButton;
 public abstract class Mode implements FunctionButtonListener, GridButtonListener {
 	
 	private Layer tempLayer = new Layer();     //default layer setting between modes
-	public String currentMode;         //keep track of current mode name
+	public String currentModeName;         //keep track of current mode name
 	 
 	
 	/**
@@ -35,35 +35,36 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 		
 		switch(fb){
 		
-		case L1 : //mode to change voice
+		case L1 : //TODO(next sprint) mode to change voice
 					break;
 		
-		case L2 : //mode to change velocity
+		case L2 : //TODO(next sprint) mode to change velocity
 					break;
 		
-		case L3 : //mode to loop speed
+		case L3 : //TODO(next sprint) mode to loop speed
 					break;
 		
-		case L4 : //mode to loop point
+		case L4 : //TODO(next sprint) mode to loop point
 					break;
 		
-		case R1 : //mode to change layer mode
+		case R1 : //TODO(next sprint) mode to change layer mode
 					break;
 		
-		case R2 :// mode to save configuration mode
+		case R2 : //TODO(next sprint) mode to save configuration mode
 					break;
 		
-		case R3 :// mode to load configuration mode
+		case R3 : //TODO(next sprint) mode to load configuration mode
 					break;
 		
-		case R4 :// mode to Master/Slave mode
+		case R4 : //TODO(next sprint) mode to Master/Slave mode
 					break;
 		
 		case OK :	sg.setMode(new PerformanceMode(1, 1));      //change source, the Gui to performance mode
-					currentMode = "Performance Mode";                //update tracker
+					currentModeName = "Performance Mode";                //update tracker
 					break;
 		
-		case POWER : //ON/OFF 
+		case POWER: sg.setMode(new PerformanceMode(1,1));
+		
 					break;
 		}
 	}
