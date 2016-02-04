@@ -1,6 +1,8 @@
 package simori;
 import java.util.EventObject;
 
+import simori.Exceptions.InvalidCoordinatesException;
+
 public class SimoriGuiEvents {
 	
 	public class GridButtonEvent extends EventObject {
@@ -52,9 +54,9 @@ public class SimoriGuiEvents {
 		L1, L2, L3, L4, R1, R2, R3, R4, POWER, OK
 	}
 	
-	public interface GridButtonListener {
+	public interface GridButtonListener  {
 		
-		public void onGridButtonPress(GridButtonEvent e);
+		public void onGridButtonPress(GridButtonEvent e) throws InvalidCoordinatesException;
 	}
 	
 	public interface FunctionButtonListener {

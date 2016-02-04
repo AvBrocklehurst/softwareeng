@@ -16,21 +16,21 @@ import static simori.SimoriGuiEvents.FunctionButton;
  */
 public abstract class Mode implements FunctionButtonListener, GridButtonListener {
 	
-	private Layer tempLayer = new Layer();
-	public String currentMode;
-	
+	private Layer tempLayer = new Layer();     //default layer setting between modes
+	public String currentMode;         //keep track of current mode name
+	 
 	
 	/**
-	 * Changes the current mode based on a specified 
-	 * FunctionButton.
+	 * Gets the function button pressed and the source Gui and then
+	 * changes the current mode based on a specified FunctionButton.
 	 * 
 	 * @author James
-	 * @version 1.0.0
+	 * @version 1.0.1
 	 */
 	public void onFunctionButtonPress(FunctionButtonEvent e){
 		
 		FunctionButton fb = e.getFunctionButton();
-		SimoriGui sg = e.getSource();
+		SimoriGui sg = e.getSource();       //get the source object and the button pressed (from enum Function Button)
 		
 		
 		switch(fb){
@@ -59,8 +59,8 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 		case R4 :// mode to Master/Slave mode
 					break;
 		
-		case OK :	sg.setMode(new PerformanceMode(1, 1));
-					currentMode = "Performance Mode";
+		case OK :	sg.setMode(new PerformanceMode(1, 1));      //change source, the Gui to performance mode
+					currentMode = "Performance Mode";                //update tracker
 					break;
 		
 		case POWER : //ON/OFF 
@@ -68,10 +68,15 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 		}
 	}
 	
-	public void tick(int xcord){
-		
-	}
-	
+	/**
+	 * Gets the temporary empty layer which is a default setting
+	 * between modes. On invoking certain modes given lights are 
+	 * lit.
+	 * 
+	 * @author James
+	 * @return Layer
+	 * @see tempLayer
+	 */
 	public Layer getTempLayer(){
 		return tempLayer;
 	}
