@@ -1,7 +1,6 @@
 package simori;
 import java.awt.GridLayout;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
 
 import simori.SimoriGuiEvents.FunctionButtonListener;
@@ -22,11 +21,17 @@ public class SimoriGui {
 		GridLayout grid = new GridLayout(rows, columns, GAP, GAP);
 		frame.setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 		frame.setLayout(grid);
+		Led five = null, seven = null;
 		for (int y = 0; y < rows; y++) {
 			for (int x = 0; x < columns; x++) {
-				frame.add(new JButton(x + "," + y));
+				Led led = new Led(x, y);
+				if (x == 5 && y == 5) five = led;
+				frame.add(led);
+				if (x == 7 && y == 7) seven = led;
 			}
 		}
+		five.setSize(five.getWidth() / 2, five.getHeight() / 2);
+		seven.setSize(seven.getWidth() / 2, seven .getHeight() / 2);
 		frame.setVisible(true);
 	}
 	
