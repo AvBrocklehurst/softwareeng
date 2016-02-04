@@ -1,8 +1,7 @@
 package simori;
 
-import javax.sound.midi.MidiUnavailableException;
-import javax.sound.midi.Receiver;
-import simori.Note;
+import javax.sound.midi.InvalidMidiDataException;
+import java.util.ArrayList;
 
 /**
  * 
@@ -13,29 +12,23 @@ import simori.Note;
  *
  */
 public interface MIDIPlayer {
-	
 	/**
 	 * @author Josh
-	 * @param None 
-	 * @return Synthesizer
-	 * @throws MidiUnavailableException
-	 * 
-	 * Produces a MIDI synthesizer (for system to use) with an attached receiver that can send messages to the synthesizer
-	 * 
-	 */
-	public Receiver getSynthesizer() throws MidiUnavailableException;
-	
-	
-	/**
-	 * @author Josh
-	 * @param notes
+	 * @param array
 	 * @return void
 	 * 
-	 * Method will take a list of all notes (where a note consists of a channel, instrument, pitch and velocity)
+	 * Method will take an arrayList which will contain (at most) 16 arrayList of Integers.
+	 * Each one of these arrays corresponds to a single layer in the Simori.
+	 * 
+	 * Each one of the sub-ArrayLists will contain the following information:
+	 * First element: MIDI channel 0-15 (1-16)
+	 * Second element: MIDI instrument (e.g. 0 for piano, 127 for gunshot, 39 for clap if channel 9)
+	 * Third element: MIDI velocity (for that layer)
+	 * All subsequent elements: Notes to be played, the values correspond to the pitch that needs to be played
+	 * 
 	 * Method will play all notes simulatenously(or as close to simulatneous as possible)
 	 */
-	public void playNotes(Note[] notes);
-	
-	
+	public void play(ArrayList<ArrayList<Integer>> array) throws InvalidMidiDataException, InterruptedException;
 
+	
 }

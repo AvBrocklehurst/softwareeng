@@ -2,7 +2,6 @@ package simori;
 
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiSystem;
@@ -11,17 +10,15 @@ import javax.sound.midi.Receiver;
 import javax.sound.midi.ShortMessage;
 import javax.sound.midi.Synthesizer;
 
-import simori.Exceptions.InvalidMIDIChannelException;
-import simori.Exceptions.InvalidMIDIInstrumentException;
-import simori.Exceptions.InvalidMIDIPitchException;
-import simori.Exceptions.InvalidMIDIVelocityException;
+
 
 /**
  * 
  * @author Josh
- *
+ * @version 3.0.0
+ * 
  */
-public class MIDISoundPlayer{ //implements MIDIPlayer  {
+public class MIDISoundPlayer implements MIDIPlayer  {
 	/*
 	 * array of arrays
 	 * Outer array will contain 16 arrays (at most, if a layer has not been used then there's no point sending it)
@@ -32,65 +29,97 @@ public class MIDISoundPlayer{ //implements MIDIPlayer  {
 	 * [[0,10,80,1,2....]]
 	 * [[9,0,80,45,46,47...]]
 	 * 
-	 * the percussion channel (9) doesnt have instruments,the pitch determines the instrument to be played
+	 * the percussion channel (9) doesn't have instruments,the pitch determines the instrument to be played
 	 */
-	private int[] channelsPreviousInstruments;
-	Synthesizer synth;
-	Receiver reciever;
-	final static int TIMESTAMP = -1;
-	ArrayList<ShortMessage>  messageArray = new ArrayList<ShortMessage>();
-	ShortMessage message;
 	
+	//TODO CHANNEL 9 WILL BE A RIGHT PAIN! 
+	
+	final static int TIMESTAMP = -1;
+	
+	private Synthesizer synth;
+	private Receiver reciever;
+	private ArrayList<ShortMessage>  messageArray; 
+	private ShortMessage message;
+	
+	
+	/**
+	 * @author Josh
+	 * 
+	 * @throws MidiUnavailableException
+	 */
 	public MIDISoundPlayer() throws MidiUnavailableException {
-		channelsPreviousInstruments = new int[16];
-		for (int i : channelsPreviousInstruments) {channelsPreviousInstruments[i] = 0;}
+		//TODO getSynth (check for null etc)
 		
-		synth  = MidiSystem.getSynthesizer();
+		synth = MidiSystem.getSynthesizer();
 		synth.open();
 		reciever = synth.getReceiver();
+		messageArray = new ArrayList<ShortMessage>(); // Initialise arrayList that will hold all MIDI messages for a single tick
 	}
 	
-	public void readArray(int[][] array) throws InvalidMidiDataException{
+	
+	
+	/**
+	 * 
+	 * @param array
+	 * @throws InvalidMidiDataException
+	 */
+	private void readArray(ArrayList<ArrayList<Integer>> array) throws InvalidMidiDataException{
 		
-		for (int[] layer : array) {
-			message = new ShortMessage(ShortMessage.PROGRAM_CHANGE, layer[0], layer[1], 0);
-			messageArray.add(message);
-			for (int i = 3; i < layer.length; i++) {
-				message = new ShortMessage(ShortMessage.NOTE_ON,layer[0], layer[i], layer[2]);
-				messageArray.add(message);
-			}
+		for (ArrayList<Integer> layer : array) { // for each 'layer' with a sound that needs playing: 
+			message = new ShortMessage(ShortMessage.PROGRAM_CHANGE, layer.get(0), layer.get(1)); // for the given layer set the channel and instrument 
+			messageArray.add(message); // add MIDI message to array of all MIDI messages
+		
+			for (int i = 3; i < layer.size(); i++) { // for all notes in a given layer:
+				message = new ShortMessage(ShortMessage.NOTE_ON,layer.get(0), layer.get(i), layer.get(2)); // set a play command for that note with the correct pitch and velocity
+				messageArray.add(message); // add MIDI message to array of all MIDI messages
+			} 
 		}
 	}
 
-	public void play() throws InterruptedException{
-		for (ShortMessage message : messageArray) {
-			reciever.send(message, TIMESTAMP);
+	
+	/**
+	 * @author Josh
+	 * @throws InterruptedException
+	 */
+	private void playArray() throws InterruptedException{
+		for (ShortMessage message : messageArray) { // for every message in the MIDI message arrayList:
+			reciever.send(message, TIMESTAMP); // send that MIDI message to the synthesizer.
 		}
 	}
 	
+	
+	/**
+	 * @author Josh
+	 * {@inheritDoc}
+	 */
+	public void play(ArrayList<ArrayList<Integer>> array) throws InvalidMidiDataException, InterruptedException{
+		readArray(array);
+		playArray();
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 	public static void main(String[] args) throws MidiUnavailableException, InvalidMidiDataException, InterruptedException {
 		MIDISoundPlayer josh = new MIDISoundPlayer();
-		int[][] notes = new int[3][];
-		notes[0] = new int[] {0,0,5,57,58,59,60,61,62,63,64,65,66,67,68,69,70};
-		notes[1] = new int[] {0,126,80,57,58,59,60,61,62,63};
-		notes[2] = new int[] {0,110,5,57,58,59,64,65,66,67,68,69,70};
+		ArrayList<ArrayList<Integer>> noteArray = new ArrayList<ArrayList<Integer>>();
+		ArrayList<Integer> layer1 = new ArrayList<Integer>();
+		layer1.add(0);
+		layer1.add(0);
+		layer1.add(80);
+		layer1.add(60);
+		layer1.add(64);
+		layer1.add(67);
+		noteArray.add(layer1);
 		
-		System.out.println("START");
-		/*
-		for (int[] is : notes) {
-			System.out.println(is);
-			for (int i : is) {
-				System.out.println(i);
-			}
-			
-		}
-		*/
-		josh.readArray(notes);
-		//Thread.sleep(2000);
-		josh.play();
-		Thread.sleep(8000);
-		System.out.println("DONE");
+		josh.play(noteArray);
+		Thread.sleep(10000);
 		
+		// ArrayList<ArrayList<Integer>> array
 		
 		
 	}
