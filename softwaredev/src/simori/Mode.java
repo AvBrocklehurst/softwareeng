@@ -16,8 +16,8 @@ import static simori.SimoriGuiEvents.FunctionButton;
  */
 public abstract class Mode implements FunctionButtonListener, GridButtonListener {
 	
-	Layer tempLayer = new Layer();
-	String currentMode;
+	private Layer tempLayer = new Layer();
+	public String currentMode;
 	
 	
 	/**
@@ -30,44 +30,50 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 	public void onFunctionButtonPress(FunctionButtonEvent e){
 		
 		FunctionButton fb = e.getFunctionButton();
+		SimoriGui sg = e.getSource();
 		
 		
 		switch(fb){
 		
-		case L1 : mode to change voice
+		case L1 : //mode to change voice
 					break;
 		
-		case L2 : mode to change velocity
+		case L2 : //mode to change velocity
 					break;
 		
-		case L3 : mode to loop speed
+		case L3 : //mode to loop speed
 					break;
 		
-		case L4 : mode to loop point
+		case L4 : //mode to loop point
 					break;
 		
-		case R1 : mode to change layer mode
+		case R1 : //mode to change layer mode
 					break;
 		
-		case R2 : mode to save configuration mode
+		case R2 :// mode to save configuration mode
 					break;
 		
-		case R3 : mode to load configuration mode
+		case R3 :// mode to load configuration mode
 					break;
 		
-		case R4 : mode to Master/Slave mode
+		case R4 :// mode to Master/Slave mode
 					break;
 		
-		case OK : mode to performance mode
+		case OK :	sg.setMode(new PerformanceMode(1, 1));
+					currentMode = "Performance Mode";
 					break;
 		
-		case POWER : ON/OFF 
+		case POWER : //ON/OFF 
 					break;
 		}
 	}
 	
 	public void tick(int xcord){
 		
+	}
+	
+	public Layer getTempLayer(){
+		return tempLayer;
 	}
 	
 
