@@ -1,10 +1,8 @@
 package simori;
-import java.awt.Color;
-import java.util.EventObject;
+import java.awt.GridLayout;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JTable;
 
 import simori.SimoriGuiEvents.FunctionButtonListener;
 import simori.SimoriGuiEvents.GridButtonListener;
@@ -12,21 +10,23 @@ import simori.SimoriGuiEvents.GridButtonListener;
 public class SimoriGui {
 	
 	private static final String WINDOW_TITLE = "Simori-ON";
-	private static final Color TRANSPARENT = new Color(0x00000000, true);
+	private static final int DEFAULT_WIDTH = 720;
+	private static final int DEFAULT_HEIGHT = 720;
+	private static final int GAP = 0;
 	
 	private GridButtonListener gListener;
 	private FunctionButtonListener fListener;
 	
-	public static void main(String[] args) {
-		new SimoriGui(1, 1);
-	}
-	
 	public SimoriGui(int rows, int columns) {
 		JFrame frame = new JFrame(WINDOW_TITLE);
-		JPanel outer = new JPanel();
-		JTable table = new JTable(rows, columns);
-		frame.setSize(720, 720);
-		frame.setBackground(TRANSPARENT);
+		GridLayout grid = new GridLayout(rows, columns, GAP, GAP);
+		frame.setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+		frame.setLayout(grid);
+		for (int y = 0; y < rows; y++) {
+			for (int x = 0; x < columns; x++) {
+				frame.add(new JButton(x + "," + y));
+			}
+		}
 		frame.setVisible(true);
 	}
 	
