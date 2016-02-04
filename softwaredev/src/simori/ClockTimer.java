@@ -36,6 +36,7 @@ public class ClockTimer implements Runnable{
 			  @Override
 			  public void run() {
 			    clock.notify();
+			    
 			  }
 			}, period, period);
 	}
