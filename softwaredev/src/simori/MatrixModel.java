@@ -1,5 +1,8 @@
 package simori;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import simori.Exceptions.InvalidCoordinatesException;
 
 /**
@@ -34,6 +37,22 @@ public class MatrixModel  {
 	 */
 	public void off(){
 		layers = null;
+	}
+	
+	/**
+	 * Method to return a list of all in use layers
+	 * @author Adam
+	 * @version 1.0.0
+	 * @return arraylist containing all active layers.
+	 */
+	public List<Byte> getLayers(){
+		List<Byte> lay = new ArrayList<Byte>();
+		for(byte x = 0; x < layers.length; x ++){
+			if(layers[x] != null){
+				lay.add(x);
+			}
+		}
+		return lay;		
 	}
 	
 	/**
