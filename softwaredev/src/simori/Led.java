@@ -15,14 +15,16 @@ public class Led extends JComponent implements MouseListener {
 	private static final Color OFF_IN = new Color(0xEEEEEE);
 	private static final Color BORDER = new Color(0x000000);
 	
-	private int x, y;
 	private boolean pushed, lit;
 	private boolean mouseDown, mouseOver;
+	private OnPressListener listener;
 	
-	public Led(int x, int y) {
-		this.x = x;
-		this.y = y;
+	public Led() {
 		addMouseListener(this);
+	}
+	
+	public void setOnPressListener(OnPressListener l) {
+		listener = l;
 	}
 	
 	public void setIlluminated(boolean on) {
@@ -30,10 +32,6 @@ public class Led extends JComponent implements MouseListener {
 			lit = on;
 			repaint();
 		}
-	}
-	
-	private void pressed() {
-		System.out.println(x + ", " + y);
 	}
 	
 	@Override
@@ -53,7 +51,7 @@ public class Led extends JComponent implements MouseListener {
 	public void mouseClicked(MouseEvent e) {}
 
 	@Override
-	public void mouseEntered(MouseEvent e) {
+	public void mouseEntered(MouseEvent e) { //TODO mouseDown may not be real
 		mouseOver = true;
 		if (mouseDown) {
 			pushed = true;
@@ -88,5 +86,13 @@ public class Led extends JComponent implements MouseListener {
 			pushed = false;
 			repaint();
 		}
+	}
+	
+	private void pressed() {
+		if (listener != null) listener.onPress(this);
+	}
+	
+	public interface OnPressListener {
+		public void onPress(Led led);
 	}
 }

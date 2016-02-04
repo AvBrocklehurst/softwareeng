@@ -5,7 +5,7 @@ import simori.Exceptions.InvalidCoordinatesException;
 
 public class SimoriGuiEvents {
 	
-	public class GridButtonEvent extends EventObject {
+	public static class GridButtonEvent extends EventObject {
 		
 		private int x, y;
 		private SimoriGui src;
@@ -30,7 +30,7 @@ public class SimoriGuiEvents {
 		}
 	}
 	
-	public class FunctionButtonEvent extends EventObject {
+	public static class FunctionButtonEvent extends EventObject {
 		
 		private FunctionButton btn;
 		private SimoriGui src;
