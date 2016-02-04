@@ -2,6 +2,7 @@ package simori;
 
 import simori.SimoriGuiEvents.GridButtonEvent;
 import simori.SimoriGuiEvents.GridButtonListener;
+import simori.Exceptions.InvalidCoordinatesException;
 
 /**
  * The class for Performance Mode, extending
@@ -16,10 +17,21 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 	
 	private int loopspeed;
 	private int looppoint;
+	private Layer currentLayer;
 
 	public PerformanceMode(int loopspeed, int looppoint /*voice, velocity*/){
 		this.loopspeed = loopspeed;
 		this.looppoint = looppoint;
+		
+	}
+	
+	
+	public void onGridButtonPress(GridButtonEvent e) throws InvalidCoordinatesException{
+		
+		int x = e.getX();
+		int y = e.getY();
+		currentLayer = getTempLayer();
+		currentLayer.updateButton(x, y);
 		
 	}
 	
@@ -33,8 +45,8 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 		return currentMode;
 	}
 	
-	public void onGridButtonPress(GridButtonEvent e){
-		
+	public Layer getCurrentLayer(){
+		return currentLayer;
 	}
 
 }
