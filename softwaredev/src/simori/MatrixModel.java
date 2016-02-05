@@ -1,6 +1,7 @@
 package simori;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import simori.Exceptions.InvalidCoordinatesException;
@@ -191,6 +192,7 @@ public class MatrixModel  {
 	public void updateButton(byte laynum, byte col, byte row) throws InvalidCoordinatesException{
 		layerExists(laynum);
 		layers[laynum].updateButton(col, row);
+		System.out.println(Arrays.deepToString(layers[laynum].getGrid()));
 	}
 
 }
