@@ -73,7 +73,7 @@ public class SimoriGui {
 		return null;
 	}
 	
-	private OnPressListener makeListenerWith(GridButtonEvent e) {
+	private OnPressListener makeListenerWith(final GridButtonEvent e) {
 		return new OnPressListener() {
 			public void onPress(Led led) {
 				try {
