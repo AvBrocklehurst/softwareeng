@@ -5,23 +5,23 @@ import java.util.TimerTask;
 	/**
 	 * 
 	 * @author Jurek
-	 * @version 1.0.0
+	 * @version 1.0.1
 	 * 
 	 */
 
 public class ClockTimer implements Runnable{
-	private Clock clock;
+	private Thread clock;
 	private int period;
 	private TimerTask timerTask;
 	
 	/**
 	 * Constructs the ClockTimer
 	 * @author Jurek
-	 * @version 1.0.0
+	 * @version 1.0.1
 	 * @param clock Reference to the Clock object
 	 * @param beatsperminute
 	 */
-	ClockTimer(Clock clock, int beatsperminute){
+	ClockTimer(Thread clock, int beatsperminute){
 		this.clock = clock;
 		period = (1/(beatsperminute/60)) * 1000;
 	}
@@ -43,6 +43,8 @@ public class ClockTimer implements Runnable{
 	
 	/**
 	 * Kills the thread
+	 * @author Jurek
+	 * @version 1.0.2
 	 */
 	public void off() {
 		timerTask.cancel();
