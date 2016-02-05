@@ -192,7 +192,7 @@ public class MatrixModel  {
 	public void updateButton(byte laynum, byte col, byte row) throws InvalidCoordinatesException{
 		layerExists(laynum);
 		layers[laynum].updateButton(col, row);
-		System.out.println(Arrays.deepToString(layers[laynum].getGrid()));
+		//System.out.println(Arrays.deepToString(layers[laynum].getGrid()));
 	}
 
 }
