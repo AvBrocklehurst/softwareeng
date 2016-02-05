@@ -16,7 +16,7 @@ import javax.sound.midi.Synthesizer;
 /**
  * 
  * @author Josh
- * @version 3.0.1
+ * @version 3.0.3
  * 
  */
 public class MIDISoundPlayer implements MIDIPlayer  {
@@ -49,12 +49,18 @@ public class MIDISoundPlayer implements MIDIPlayer  {
 	 * 
 	 * @throws MidiUnavailableException
 	 */
-	public MIDISoundPlayer() throws MidiUnavailableException {
+	public MIDISoundPlayer() {
 		//TODO getSynth (check for null etc)
 		
-		synth = MidiSystem.getSynthesizer();
-		synth.open();
-		reciever = synth.getReceiver();
+		try {
+			synth = MidiSystem.getSynthesizer();
+			synth.open();
+			reciever = synth.getReceiver();
+		} catch (MidiUnavailableException e) {
+			e.printStackTrace();
+			System.exit(1);
+		}
+
 		messageArray = new ArrayList<ShortMessage>(); // Initialise arrayList that will hold all MIDI messages for a single tick
 	}
 	
@@ -65,14 +71,19 @@ public class MIDISoundPlayer implements MIDIPlayer  {
 	 * @param array
 	 * @throws InvalidMidiDataException
 	 */
-	private void readArray(ArrayList<ArrayList<Short>> array) throws InvalidMidiDataException{
+	private void readArray(ArrayList<ArrayList<Short>> array){
+		
 		
 		for (ArrayList<Short> layer : array) { // for each 'layer' with a sound that needs playing: 
-			message = new ShortMessage(ShortMessage.PROGRAM_CHANGE, layer.get(0), layer.get(1), 0); // for the given layer set the channel and instrument, the zero is arbitrary (but is needed for correct number of bytes to be sent)
+			try {
+				message = new ShortMessage(ShortMessage.PROGRAM_CHANGE, layer.get(0), layer.get(1), 0); // for the given layer set the channel and instrument, the zero is arbitrary (but is needed for correct number of bytes to be sent)
+			} catch (InvalidMidiDataException e) {e.printStackTrace(); System.exit(1);} 
 			messageArray.add(message); // add MIDI message to array of all MIDI messages
 		
 			for (int i = 3; i < layer.size(); i++) { // for all notes in a given layer:
-				message = new ShortMessage(ShortMessage.NOTE_ON, layer.get(0), layer.get(i), layer.get(2)); // set a play command for that note with the correct pitch and velocity
+				try {
+					message = new ShortMessage(ShortMessage.NOTE_ON, layer.get(0), layer.get(i), layer.get(2)); // set a play command for that note with the correct pitch and velocity
+				} catch (InvalidMidiDataException e) {e.printStackTrace();  System.exit(1);} 
 				messageArray.add(message); // add MIDI message to array of all MIDI messages
 			} 
 		}
@@ -83,7 +94,7 @@ public class MIDISoundPlayer implements MIDIPlayer  {
 	 * @author Josh
 	 * @throws InterruptedException
 	 */
-	private void playArray() throws InterruptedException{
+	private void playArray(){
 		for (ShortMessage message : messageArray) { // for every message in the MIDI message arrayList:
 			reciever.send(message, TIMESTAMP); // send that MIDI message to the synthesizer.
 		}
@@ -94,7 +105,7 @@ public class MIDISoundPlayer implements MIDIPlayer  {
 	 * @author Josh
 	 * {@inheritDoc}
 	 */
-	public void play(ArrayList<ArrayList<Short>> array) throws InvalidMidiDataException, InterruptedException{
+	public void play(ArrayList<ArrayList<Short>> array){
 		readArray(array);
 		playArray();
 	}
@@ -106,7 +117,7 @@ public class MIDISoundPlayer implements MIDIPlayer  {
 	
 	
 	
-	public static void main(String[] args) throws MidiUnavailableException, InvalidMidiDataException, InterruptedException {
+	public static void main(String[] args){
 		MIDISoundPlayer josh = new MIDISoundPlayer();
 		ArrayList<ArrayList<Short>> noteArray = new ArrayList<ArrayList<Short>>();
 		ArrayList<Short> layer1 = new ArrayList<Short>();
@@ -116,7 +127,12 @@ public class MIDISoundPlayer implements MIDIPlayer  {
 		noteArray.add(layer1);
 
 		josh.play(noteArray);
-		Thread.sleep(2000);
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		// ArrayList<ArrayList<Integer>> array
 		
 		
