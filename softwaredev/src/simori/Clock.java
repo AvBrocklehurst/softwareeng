@@ -59,11 +59,12 @@ public class Clock implements Runnable {
 				  }
 				}, period, period);
 			
-			ArrayList<ArrayList<Short>> layers = new ArrayList<ArrayList<Short>>();
+			ArrayList<ArrayList<Short>> layers;
 			boolean[] layer;
 			List<Byte> activeLayers;
 			byte currentLayer = 0;
 			while(running){
+				layers = new ArrayList<ArrayList<Short>>();
 				activeLayers = model.getLayers();
 				for (Byte layerLoc : activeLayers){
 					layer = model.getCol(layerLoc, currentColumn);
@@ -92,7 +93,7 @@ public class Clock implements Runnable {
 				//15 will need to be replaced later
 				if(currentColumn == 15){currentColumn = 0;}
 				else{currentColumn++;}
-				layers = null;
+				
 				//TODO GET A LIST OF LISTS FOR THE CURRENT COLUMN FROM MatrixModel-----------------------DONE
 				//TODO SEND LIST OF LISTS TO MidiPlayer---------------------DONE
 				//TODO SEND GUI A MESSAGE --------------------------------DONE
