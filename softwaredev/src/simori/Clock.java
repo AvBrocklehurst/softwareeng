@@ -87,7 +87,7 @@ public class Clock implements Runnable {
 					catch (InterruptedException e) {}
 				}
 					
-				mode.tickerLight(currentColumn);
+				try{mode.tickerLight(currentColumn);} catch (InvalidCoordinatesException e) {}
 				midi.play(layers);
 				
 				//15 will need to be replaced later
