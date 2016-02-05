@@ -72,7 +72,7 @@ public class Clock implements Runnable {
 						layers.get(layerLoc).addAll(Arrays.asList((short)model.getChannel(layerLoc), model.getInstrument(layerLoc), (short)model.getVelocity(layerLoc)));
 						for(short row=0; row<17;row++){
 							if(layer[row] == true){
-								layers.get(currentLayer+3).add(row);
+								layers.get(currentLayer+3).add((short)(63-row));
 								currentLayer++;
 							}
 						}
