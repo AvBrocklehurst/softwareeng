@@ -1,11 +1,12 @@
 package simori;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 import simori.Led.OnPressListener;
-import simori.SimoriGuiEvents.FunctionButtonEvent;
 import simori.SimoriGuiEvents.FunctionButtonListener;
 import simori.SimoriGuiEvents.GridButtonEvent;
 import simori.SimoriGuiEvents.GridButtonListener;
@@ -27,34 +28,38 @@ public class SimoriGui {
 	
 	public SimoriGui(int rows, int columns) {
 		JFrame frame = new JFrame(WINDOW_TITLE);
-		GridLayout grid = new GridLayout(rows, columns, GAP, GAP);
 		frame.setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
-		frame.setLayout(grid);
-		addLeds(frame, rows, columns);
+		frame.setLayout(new BorderLayout());
+		frame.add(makeLedPanel(rows, columns), BorderLayout.CENTER);
 		frame.setBackground(GRID_BACKGROUND);
 		frame.setVisible(true);
 	}
 	
-	private void addLeds(JFrame frame, int rows, int columns) {
+	private JPanel makeLedPanel(int rows, int columns) {
+		JPanel panel = new JPanel(new GridLayout(rows, columns, GAP, GAP));
 		leds = new Led[rows][columns];
 		for (int y = 0; y < rows; y++) {
 			for (int x = 0; x < columns; x++) {
 				leds[x][y] = new Led();
-				frame.add(leds[x][y]);
+				panel.add(leds[x][y]);
 				final GridButtonEvent e = new GridButtonEvent(this, x, y);
-				leds[x][y].setOnPressListener(new OnPressListener() {
-					public void onPress(Led led) {
-						try {
-							gListener.onGridButtonPress(e);
-						} catch (InvalidCoordinatesException e1) {
-							// TODO Get rid of this try-catch
-							e1.printStackTrace();
-						}
-						System.out.println(e.getX() + ", " + e.getY());
-					}
-				});
+				leds[x][y].setOnPressListener(makeListenerWith(e));
 			}
 		}
+		return panel;
+	}
+	
+	private OnPressListener makeListenerWith(GridButtonEvent e) {
+		return new OnPressListener() {
+			public void onPress(Led led) {
+				try {
+					gListener.onGridButtonPress(e);
+				} catch (InvalidCoordinatesException e1) {
+					// TODO Get rid of this try-catch
+					e1.printStackTrace();
+				}
+			}
+		};
 	}
 	
 	public void setPattern(Layer pattern) {
