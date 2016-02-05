@@ -17,6 +17,7 @@ public class Simori {
 		simori.gui.setMode(new PerformanceMode(simori,0,0)); //TODO Off mode by default
 		//JoshThing joshthing = new JoshThing()
 		//joshthing.setKerryThing(new KerryThing(model))
+
 	}
 	
 	public SimoriGui getSimoriGui(){

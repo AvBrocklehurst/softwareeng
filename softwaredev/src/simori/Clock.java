@@ -25,6 +25,7 @@ public class Clock implements Runnable {
 		private byte currentColumn;
 		public Object lock;
 		private TimerTask timerTask;
+		private int period;
 		
 		/**
 		 * Constructor for the class
@@ -32,11 +33,12 @@ public class Clock implements Runnable {
 		 * @version 1.0.3
 		 * @param model Holds the reference to the MatrixModel
 		 */
-		Clock(MatrixModel model, MIDIPlayer midi, PerformanceMode mode){
+		Clock(MatrixModel model, MIDIPlayer midi, PerformanceMode mode, int bbm){
 			this.model = model;
 			this.midi = midi;
 			this.mode = mode;
 			lock = new Object();
+			period = (1/(bbm/60))*1000;
 		}
 	
 		/**
@@ -50,15 +52,12 @@ public class Clock implements Runnable {
 			timer.scheduleAtFixedRate(timerTask = new TimerTask() {
 				  @Override
 				  public void run() {
-					  System.out.println("Notifying");
 					  synchronized(lock){
-
+						  System.out.println("Tick");
 						  lock.notify();
-					  }
-				    
+					  }	
 				  }
-				}, 1000, 1000);
-			
+				}, period, period);
 			
 			ArrayList<ArrayList<Short>> layers = new ArrayList<ArrayList<Short>>();
 			boolean[] layer;
@@ -68,15 +67,15 @@ public class Clock implements Runnable {
 				activeLayers = model.getLayers();
 				for (Byte layerLoc : activeLayers){
 					layer = model.getCol(layerLoc, currentColumn);
-					if (Arrays.asList(layer).contains(true)){
-						layers.get(layerLoc).addAll(Arrays.asList((short)model.getChannel(layerLoc), model.getInstrument(layerLoc), (short)model.getVelocity(layerLoc)));
-						for(short row=0; row<17;row++){
+					if (contains(layer)){
+						layers.add(new ArrayList<Short>());
+						layers.get(currentLayer).addAll(Arrays.asList((short)model.getChannel(layerLoc), model.getInstrument(layerLoc), (short)model.getVelocity(layerLoc)));
+						for(short row=0; row<layer.length;row++){
 							if(layer[row] == true){
-								layers.get(currentLayer+3).add((short)(63-row));
-								currentLayer++;
+								layers.get(currentLayer).add((short)(72-row));
 							}
 						}
-						currentLayer = 0;
+						currentLayer++;
 					}
 				}
 
@@ -103,6 +102,11 @@ public class Clock implements Runnable {
 			}
 		}
 		
+		public boolean contains(boolean[] layer){
+			for (boolean bool : layer) if (bool == true) return true;
+			return false;
+		}
+		
 		/**
 		 * Stops the execution of the thread
 		 * @author Jurek
@@ -112,4 +116,10 @@ public class Clock implements Runnable {
 			running = false;
 			timerTask.cancel();
 		}	
+		
+//		public static void main(String[] args){
+//			Clock clock = new Clock(new MIDISoundPlayer());
+//			Thread thread = new Thread(clock);
+//			thread.start();
+//		}
 }
