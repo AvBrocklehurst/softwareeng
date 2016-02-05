@@ -41,11 +41,11 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 	
 	/**
 	 * When a grid button is pressed in Performance mode, this method updates the current 
-	 * layer by inverting the true/false value at the coordinates of press on the GUI.
+	 * layer by inverting the true/false value at the coordinates of press in the Grid.
 	 * 
 	 * @param e (A GridButtonEvent)
 	 * @author James
-	 * @see SimoriGuiEvents$GridButtonEvent, SimoriGuiEvents.GridButtonListener, Layer.updateButton
+	 * @see SimoriGuiEvents$GridButtonEvent, SimoriGuiEvents.GridButtonListener, Layer.updateButton, SimoriGui.setGrid
 	 * @version 1.1.0
 	 */
 	public void onGridButtonPress(GridButtonEvent e) throws InvalidCoordinatesException{
@@ -54,9 +54,9 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 		int y = e.getY();  
 		SimoriGui sc = e.getSource();
 		
-		grid[x][y] = !grid[x][y];
+		grid[x][y] = !grid[x][y];       //invert grid button 
 		simori.getModel().updateButton((byte) 0, (byte) x, (byte) y);   //update the data structure by inverting button at Gui position x,y
-		sc.setGrid(grid);
+		sc.setGrid(grid);       //relay the change to the gui
 	}
 	
 	/**
@@ -67,30 +67,40 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 	 * @param col
 	 * @author James
 	 * @throws InvalidCoordinatesException
-	 * @see Layer.updateButton, simori.Exceptions.InvalidCoordinatesException
+	 * @see simori.Exceptions.InvalidCoordinatesException
 	 * @version 1.0.0
 	 */
 	public void tickerLight(byte col) throws InvalidCoordinatesException{
 		
-		makeGridCopy((byte)0);
+		makeGridCopy((byte)0);   //copy the grid
 		
 		grid[0][col] = true;
 		grid[5][col] = true;
-		grid[10][col] = true;   //data passed to GUI and structure through MatrixModel.updateButton()
-		grid[15][col] = true;	//positions of lit buttons due to the clock	
+		grid[10][col] = true;   
+		grid[15][col] = true;	//positions of buttons due to the clock, forcing them to light on tick
 		simori.getGui().setGrid(grid);
 	}
 	
+	/**
+	 * Gets the current grid for the current model, based on the current layer number
+	 * (layno). Then a grid to copy to is created. The whole grid and then button by button
+	 * are copied into the new grid.
+	 * 
+	 * @author James
+	 * @param layno
+	 * @version 1.0.0
+	 * @see Simori.getModel(), MatrixModel.getGrid(), System.arraycopy()
+	 */
 	public void makeGridCopy(byte layno){
 		
-		boolean[][] grid1 = simori.getModel().getGrid(layno);
-		grid = new boolean[grid1.length][];
+		boolean[][] grid1 = simori.getModel().getGrid(layno);   //grid in use
+		grid = new boolean[grid1.length][];       //grid to copy to
 		
 		System.arraycopy(grid1, 0, grid, 0, grid1.length);
 		
 		for(int i = 0 ; i<grid.length ; i++){
 			grid[i] = new boolean[grid1[i].length];
-			System.arraycopy(grid1[i], 0, grid[i], 0, grid1[i].length);
+			System.arraycopy(grid1[i], 0, grid[i], 0, grid1[i].length);   //deepcopy element by element
 		}
 	}
 	
