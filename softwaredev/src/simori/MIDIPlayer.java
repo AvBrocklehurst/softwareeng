@@ -1,12 +1,11 @@
 package simori;
 
-import javax.sound.midi.InvalidMidiDataException;
 import java.util.ArrayList;
 
 /**
  * 
  * @author Josh
- * @version 1.0.0
+ * @version 1.0.4
  * 
  * Interface that describes the public methods available to accessing and playing MIDI sounds
  *
@@ -34,7 +33,7 @@ public interface MIDIPlayer {
 	 * 
 	 * Method will play all notes simulatenously(or as close to simulatneous as possible)
 	 */
-	public void play(ArrayList<ArrayList<Short>> array) throws InvalidMidiDataException, InterruptedException;
+	public void play(ArrayList<ArrayList<Short>> array);
 
 	
 }
