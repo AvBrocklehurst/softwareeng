@@ -18,7 +18,7 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 	private int loopspeed;
 	private int looppoint;
 	private Layer currentLayer;    //current layer to be modified
-	private MatrixModel model;
+	private Simori simori;
 
 	/**
 	 * Constructor for Performance Mode. In performance mode the ticker loops
@@ -30,10 +30,10 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 	 * @author James
 	 * @version 1.0.0
 	 */
-	public PerformanceMode(MatrixModel model, int loopspeed, int looppoint /*voice, velocity*/){
+	public PerformanceMode(Simori simori, int loopspeed, int looppoint /*voice, velocity*/){
 		this.loopspeed = loopspeed;
 		this.looppoint = looppoint;
-		this.model = model;
+		this.simori = simori;
 		
 	}
 	
@@ -49,10 +49,12 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 	public void onGridButtonPress(GridButtonEvent e) throws InvalidCoordinatesException{
 		
 		int x = e.getX();            //grid position of button press
-		int y = e.getY();
+		int y = e.getY();  
 		SimoriGui sc = e.getSource();
-		currentLayer = getTempLayer();       
-		currentLayer.updateButton((byte) x, (byte) y);   //update the data structure by inverting button at Gui position x,y
+		currentLayer = getTempLayer();     //get the temp layer to set as currently working layer
+		
+		currentLayer.updateButton((byte) x, (byte) y);
+		simori.getModel().updateButton((byte) 0, (byte) x, (byte) y);   //update the data structure by inverting button at Gui position x,y
 		sc.setPattern(currentLayer);
 	}
 	
@@ -69,11 +71,12 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 	 */
 	public void tickerLight(byte col) throws InvalidCoordinatesException{
 		
-		model.updateButton((byte) 0, col, (byte) 0);
-		model.updateButton((byte) 0, col, (byte) 5);
-		model.updateButton((byte) 0, col, (byte) 10);   //data passed to GUI and structure through MatrixModel.updateButton()
-		model.updateButton((byte) 0, col, (byte) 15);	//positions of lit buttons due to the clock	
-		
+		currentLayer = getTempLayer();
+		currentLayer.updateButton(col, (byte) 0);
+		currentLayer.updateButton(col, (byte) 5);
+		currentLayer.updateButton(col, (byte) 10);   //data passed to GUI and structure through MatrixModel.updateButton()
+		currentLayer.updateButton(col, (byte) 15);	//positions of lit buttons due to the clock	
+		simori.getSimoriGui().setPattern(currentLayer);
 	}
 	
 	
