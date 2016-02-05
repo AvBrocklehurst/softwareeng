@@ -2,6 +2,7 @@ package simori;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiSystem;
@@ -15,7 +16,7 @@ import javax.sound.midi.Synthesizer;
 /**
  * 
  * @author Josh
- * @version 3.0.0
+ * @version 3.0.1
  * 
  */
 public class MIDISoundPlayer implements MIDIPlayer  {
@@ -64,9 +65,9 @@ public class MIDISoundPlayer implements MIDIPlayer  {
 	 * @param array
 	 * @throws InvalidMidiDataException
 	 */
-	private void readArray(ArrayList<ArrayList<Integer>> array) throws InvalidMidiDataException{
+	private void readArray(ArrayList<ArrayList<Byte>> array) throws InvalidMidiDataException{
 		
-		for (ArrayList<Integer> layer : array) { // for each 'layer' with a sound that needs playing: 
+		for (ArrayList<Byte> layer : array) { // for each 'layer' with a sound that needs playing: 
 			message = new ShortMessage(ShortMessage.PROGRAM_CHANGE, layer.get(0), layer.get(1), 0); // for the given layer set the channel and instrument, the zero is arbitrary (but is needed for correct number of bytes to be sent)
 			messageArray.add(message); // add MIDI message to array of all MIDI messages
 		
@@ -93,7 +94,7 @@ public class MIDISoundPlayer implements MIDIPlayer  {
 	 * @author Josh
 	 * {@inheritDoc}
 	 */
-	public void play(ArrayList<ArrayList<Integer>> array) throws InvalidMidiDataException, InterruptedException{
+	public void play(ArrayList<ArrayList<Byte>> array) throws InvalidMidiDataException, InterruptedException{
 		readArray(array);
 		playArray();
 	}
@@ -107,19 +108,15 @@ public class MIDISoundPlayer implements MIDIPlayer  {
 	
 	public static void main(String[] args) throws MidiUnavailableException, InvalidMidiDataException, InterruptedException {
 		MIDISoundPlayer josh = new MIDISoundPlayer();
-		ArrayList<ArrayList<Integer>> noteArray = new ArrayList<ArrayList<Integer>>();
-		ArrayList<Integer> layer1 = new ArrayList<Integer>();
-		layer1.add(0);
-		layer1.add(100);
-		layer1.add(80);
-		layer1.add(60);
-		layer1.add(64);
-		layer1.add(67);
-		noteArray.add(layer1);
+		ArrayList<ArrayList<Byte>> noteArray = new ArrayList<ArrayList<Byte>>();
+		ArrayList<Byte> layer1 = new ArrayList<Byte>();
+		Byte[] innerLayer1 = new Byte[] {9,0,80,39,40,41,45};
 		
+		layer1.addAll(Arrays.asList(innerLayer1));
+		noteArray.add(layer1);
+
 		josh.play(noteArray);
 		Thread.sleep(2000);
-		
 		// ArrayList<ArrayList<Integer>> array
 		
 		
