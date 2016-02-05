@@ -76,11 +76,11 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 		currentLayer = getTempLayer();
 		boolean[][] grid = simori.getModel().getGrid((byte)0);
 		
-		grid[col][0] = true;
-		grid[col][5] = true;
-		grid[col][10] = true;   //data passed to GUI and structure through MatrixModel.updateButton()
-		grid[col][15] = true;	//positions of lit buttons due to the clock	
-		simori.getGui().setGrid(grid));
+		grid[0][col] = true;
+		grid[5][col] = true;
+		grid[10][col] = true;   //data passed to GUI and structure through MatrixModel.updateButton()
+		grid[15][col] = true;	//positions of lit buttons due to the clock	
+		simori.getGui().setGrid(grid);
 	}
 	
 	
