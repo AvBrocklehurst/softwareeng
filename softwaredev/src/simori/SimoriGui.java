@@ -59,9 +59,9 @@ public class SimoriGui {
 	
 	public void setPattern(Layer pattern) {
 		boolean[][] grid = pattern.getGrid();
-		for (int x = 0; x < grid.length; x++) {
-			for (int y = 0; y < grid[x].length; y++) {
-				leds[x][y].setIlluminated(grid[x][y]);
+		for (int y = 0; y < grid.length; y++) {
+			for (int x = 0; x < grid[y].length; x++) {
+				leds[x][y].setIlluminated(grid[y][x]); //TODO Is grid the wrong way 'round or am I?
 			}
 		}
 	}

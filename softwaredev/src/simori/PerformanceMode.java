@@ -50,7 +50,7 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 		int y = e.getY();
 		SimoriGui sc = e.getSource();
 		currentLayer = getTempLayer();       
-		currentLayer.updateButton(x, y);   //update the data structure by inverting button at Gui position x,y
+		currentLayer.updateButton((byte) x, (byte) y);   //update the data structure by inverting button at Gui position x,y
 		sc.setPattern(currentLayer); 
 	}
 	
@@ -65,12 +65,12 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 	 * @see Layer.updateButton, simori.Exceptions.InvalidCoordinatesException
 	 * @version 1.0.0
 	 */
-	public void tickerLight(int col) throws InvalidCoordinatesException{
-		
-		currentLayer.updateButton(col, 0);
-		currentLayer.updateButton(col, 5);
-		currentLayer.updateButton(col, 10);
-		currentLayer.updateButton(col, 15);       //positions of lit buttons due to the clock
+	public void tickerLight(byte col) throws InvalidCoordinatesException{
+
+		currentLayer.updateButton(col, (byte) 0);
+		currentLayer.updateButton(col, (byte) 5);
+		currentLayer.updateButton(col, (byte) 10);
+		currentLayer.updateButton(col, (byte) 15);	//positions of lit buttons due to the clock
 		
 	}
 	
