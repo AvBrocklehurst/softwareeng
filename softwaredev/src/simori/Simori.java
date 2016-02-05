@@ -7,6 +7,6 @@ public class Simori {
 	public static void main(String[] args) {
 		MatrixModel model = new MatrixModel();
 		SimoriGui gui = new SimoriGui(GRID_WIDTH, GRID_HEIGHT);
-		gui.setMode(new PerformanceMode(0,0)); //TODO Off mode by default
+		gui.setMode(new PerformanceMode(model,0,0)); //TODO Off mode by default
 	}
 }

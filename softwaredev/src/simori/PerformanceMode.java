@@ -18,6 +18,7 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 	private int loopspeed;
 	private int looppoint;
 	private Layer currentLayer;    //current layer to be modified
+	private MatrixModel model;
 
 	/**
 	 * Constructor for Performance Mode. In performance mode the ticker loops
@@ -29,9 +30,10 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 	 * @author James
 	 * @version 1.0.0
 	 */
-	public PerformanceMode(int loopspeed, int looppoint /*voice, velocity*/){
+	public PerformanceMode(MatrixModel model, int loopspeed, int looppoint /*voice, velocity*/){
 		this.loopspeed = loopspeed;
 		this.looppoint = looppoint;
+		this.model = model;
 		
 	}
 	
@@ -48,9 +50,8 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 		
 		int x = e.getX();            //grid position of button press
 		int y = e.getY();
-		SimoriGui sc = e.getSource();
-		currentLayer = getTempLayer();       
-		currentLayer.updateButton((byte) x, (byte) y);   //update the data structure by inverting button at Gui position x,y
+		SimoriGui sc = e.getSource();     
+		model.updateButton((byte) 0, (byte) x, (byte) y);   //update the data structure by inverting button at Gui position x,y
 		sc.setPattern(currentLayer); 
 	}
 	
@@ -66,11 +67,11 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 	 * @version 1.0.0
 	 */
 	public void tickerLight(byte col) throws InvalidCoordinatesException{
-
-		currentLayer.updateButton(col, (byte) 0);
-		currentLayer.updateButton(col, (byte) 5);
-		currentLayer.updateButton(col, (byte) 10);
-		currentLayer.updateButton(col, (byte) 15);	//positions of lit buttons due to the clock
+		
+		model.updateButton((byte) 0, col, (byte) 0);
+		model.updateButton((byte) 0, col, (byte) 5);
+		model.updateButton((byte) 0, col, (byte) 10);
+		model.updateButton((byte) 0, col, (byte) 15);	//positions of lit buttons due to the clock	
 		
 	}
 	
