@@ -35,7 +35,8 @@ public class ClockTimer implements Runnable{
 		timer.scheduleAtFixedRate(timerTask = new TimerTask() {
 			  @Override
 			  public void run() {
-			    clock.notify();
+				  System.out.println("Notifying");
+				  Thread.currentThread().interrupt();
 			    
 			  }
 			}, period, period);

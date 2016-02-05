@@ -3,6 +3,9 @@ package simori;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiUnavailableException;
 import simori.Exceptions.InvalidCoordinatesException;
@@ -21,6 +24,7 @@ public class Clock implements Runnable {
 		private PerformanceMode mode;
 		private byte currentColumn;
 		public Object lock;
+		private TimerTask timertask;
 		
 		/**
 		 * Constructor for the class
@@ -28,10 +32,11 @@ public class Clock implements Runnable {
 		 * @version 1.0.3
 		 * @param model Holds the reference to the MatrixModel
 		 */
-		Clock(MatrixModel model, MIDIPlayer midi, PerformanceMode mode){
-			this.model = model;
-			this.midi = midi;
-			this.mode = mode;
+		Clock(/*MatrixModel model, MIDIPlayer midi, PerformanceMode mode*/){
+//			this.model = model;
+//			this.midi = midi;
+//			this.mode = mode;
+			lock = new Object();
 		}
 	
 		/**
@@ -41,24 +46,38 @@ public class Clock implements Runnable {
 		 */
 		@Override
 		public void run() {
-			ArrayList<ArrayList<Byte>> layers = new ArrayList<ArrayList<Byte>>();
-			boolean[] layer;
-			List<Byte> activeLayers;
-			byte currentLayer = 0;
+			Timer timer = new Timer();
+			timer.scheduleAtFixedRate(new TimerTask() {
+				  @Override
+				  public void run() {
+					  System.out.println("Notifying");
+					  synchronized(lock){
+
+						  lock.notify();
+					  }
+				    
+				  }
+				}, 1000, 1000);
+			
+			
+//			ArrayList<ArrayList<Byte>> layers = new ArrayList<ArrayList<Byte>>();
+//			boolean[] layer;
+//			List<Byte> activeLayers;
+//			byte currentLayer = 0;
 			while(running){
-				activeLayers = model.getLayers();
-				for (Byte layerLoc : activeLayers){
-					layer = model.getCol(layerLoc, currentColumn);
-					if (Arrays.asList(layer).contains(true)){
-						layers.get(layerLoc).addAll(Arrays.asList(/*model.getChannel(layerLoc)*/(byte)0, /*model.getInstrument(layerLoc)*/(byte)0, /*model.getVelocity(layerLoc)*/(byte)80));
-						for(byte row=0; row<17;row++){
-							if(layer[row] == true){
-								layers.get(currentLayer+3).add(row);
-							}
-						}
-						currentLayer = 0;
-					}
-				}
+//				activeLayers = model.getLayers();
+//				for (Byte layerLoc : activeLayers){
+//					layer = model.getCol(layerLoc, currentColumn);
+//					if (Arrays.asList(layer).contains(true)){
+//						layers.get(layerLoc).addAll(Arrays.asList(/*model.getChannel(layerLoc)*/(byte)0, /*model.getInstrument(layerLoc)*/(byte)0, /*model.getVelocity(layerLoc)*/(byte)80));
+//						for(byte row=0; row<17;row++){
+//							if(layer[row] == true){
+//								layers.get(currentLayer+3).add(row);
+//							}
+//						}
+//						currentLayer = 0;
+//					}
+//				}
 //				for(byte i=0; i<model.getLayers().size(); i++){
 //					layer = model.getCol(i, currentColumn);
 //					if (Arrays.asList(layer).contains(true)){
@@ -74,12 +93,19 @@ public class Clock implements Runnable {
 				//fuckery of waiting for the clock to tell me to play shit
 				//kerry no -josh
 				//KERRY YES!!! >:D
-				lock = new Object();
-				synchronized(lock){try {while(!Thread.interrupted()){lock.wait();}} catch (InterruptedException e) {}}
+				System.out.println("Pre-notify");
+				synchronized(lock){
+					try {
+							lock.wait();} catch (InterruptedException e) {}
+					//catch (IllegalMonitorStateException FUCKYOU){}
+						}
+					
 				
-				//will have to get rid of the try catches later somehow (bleh)
-				try {mode.tickerLight(currentColumn);} catch (InvalidCoordinatesException e1) {}
-				try {midi.play(layers);} catch (InvalidMidiDataException | InterruptedException e) {}
+				System.out.println("Post-notify");
+				
+//				//will have to get rid of the try catches later somehow (bleh)
+//				try {mode.tickerLight(currentColumn);} catch (InvalidCoordinatesException e1) {}
+//				try {midi.play(layers);} catch (InvalidMidiDataException | InterruptedException e) {}
 				
 				//15 will need to be replaced later
 				if(currentColumn == 15){currentColumn = 0;}
@@ -111,12 +137,12 @@ public class Clock implements Runnable {
 		 * @category godihopeourgithistoryisntassessed
 		 */
 		public static void main(String[] args) throws MidiUnavailableException{
-			Clock clock = new Clock(new MatrixModel(), new MIDISoundPlayer(), new PerformanceMode(69, 0));
+			Clock clock = new Clock();
 			Thread thread = new Thread(clock);
-			ClockTimer timer = new ClockTimer(thread, 88);
-			Thread threadTimer = new Thread(timer);
+			//ClockTimer timer = new ClockTimer(thread, 88);
+			//Thread threadTimer = new Thread(timer);
 			thread.start();
-			threadTimer.start();
+			//threadTimer.start();
 		}
 	
 }
