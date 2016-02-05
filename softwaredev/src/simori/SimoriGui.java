@@ -30,11 +30,11 @@ public class SimoriGui {
 		JFrame frame = new JFrame(WINDOW_TITLE);
 		frame.setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 		frame.setLayout(new BorderLayout());
-		frame.add(makeTopButtons(), BorderLayout.PAGE_START);
-		frame.add(makeLeftButtons(), BorderLayout.LINE_START);
+		//frame.add(makeTopButtons(), BorderLayout.PAGE_START);
+		//frame.add(makeLeftButtons(), BorderLayout.LINE_START);
 		frame.add(makeLedPanel(rows, columns), BorderLayout.CENTER);
-		frame.add(makeRightButtons(), BorderLayout.LINE_END);
-		frame.add(makeBottomButtons(), BorderLayout.PAGE_END);
+		//frame.add(makeRightButtons(), BorderLayout.LINE_END);
+		//frame.add(makeBottomButtons(), BorderLayout.PAGE_END);
 		frame.setBackground(GRID_BACKGROUND);
 		frame.setVisible(true);
 	}
@@ -54,7 +54,7 @@ public class SimoriGui {
 	}
 	
 	private JPanel makeTopButtons() {
-		//TODO Make them
+		//JPanel box = new JPanel(new BoxLayout());
 		return null;
 	}
 	
