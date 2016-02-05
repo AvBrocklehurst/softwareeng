@@ -5,10 +5,6 @@ public class Simori {
 	private static final int GRID_WIDTH = 16, GRID_HEIGHT = 16;
 	private SimoriGui gui;
 	private MatrixModel model;
-	
-	public Simori(){
-		
-	}
 
 	public static void main(String[] args) {
 		Simori simori = new Simori();
@@ -20,7 +16,7 @@ public class Simori {
 
 	}
 	
-	public SimoriGui getSimoriGui(){
+	public SimoriGui getGui(){
 		return gui;
 	}
 	
