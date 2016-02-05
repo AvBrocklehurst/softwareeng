@@ -11,9 +11,6 @@ public class Simori {
 		simori.model = new MatrixModel(); //Use GRID_WIDTH and GRID_HEIGHT?
 		simori.gui = new SimoriGui(GRID_WIDTH, GRID_HEIGHT);
 		simori.gui.setMode(new PerformanceMode(simori,0,0)); //TODO Off mode by default
-		//JoshThing joshthing = new JoshThing()
-		//joshthing.setKerryThing(new KerryThing(model))
-
 	}
 	
 	public SimoriGui getGui(){

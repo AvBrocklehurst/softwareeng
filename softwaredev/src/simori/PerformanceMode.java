@@ -76,7 +76,7 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 		currentLayer.updateButton(col, (byte) 5);
 		currentLayer.updateButton(col, (byte) 10);   //data passed to GUI and structure through MatrixModel.updateButton()
 		currentLayer.updateButton(col, (byte) 15);	//positions of lit buttons due to the clock	
-		simori.getSimoriGui().setPattern(currentLayer);
+		simori.getGui().setPattern(currentLayer);
 	}
 	
 	
