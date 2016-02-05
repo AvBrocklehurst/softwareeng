@@ -70,7 +70,7 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 		
 		model.updateButton((byte) 0, col, (byte) 0);
 		model.updateButton((byte) 0, col, (byte) 5);
-		model.updateButton((byte) 0, col, (byte) 10);
+		model.updateButton((byte) 0, col, (byte) 10);   //data passed to GUI and structure through MatrixModel.updateButton()
 		model.updateButton((byte) 0, col, (byte) 15);	//positions of lit buttons due to the clock	
 		
 	}

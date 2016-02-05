@@ -18,7 +18,7 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 	
 	private Layer tempLayer = new Layer();     //default layer setting between modes
 	public String currentModeName;         //keep track of current mode name
-	 
+	private MatrixModel model;
 	
 	/**
 	 * Gets the function button pressed and the source Gui and then
@@ -59,11 +59,11 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 		case R4 : //TODO(next sprint) mode to Master/Slave mode
 					break;
 		
-		case OK :	sg.setMode(new PerformanceMode(1, 1));      //change source, the Gui to performance mode
+		case OK :	//sg.setMode(new PerformanceMode(model, 1, 1));      //change source, the Gui to performance mode
 					currentModeName = "Performance Mode";                //update tracker
 					break;
 		
-		case POWER: sg.setMode(new PerformanceMode(1,1));
+		case POWER: //sg.setMode(new PerformanceMode(model, 1,1));
 					currentModeName = "Performance Mode";
 					break;
 		}
