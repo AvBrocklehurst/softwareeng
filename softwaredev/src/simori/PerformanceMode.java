@@ -54,7 +54,7 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 		int y = e.getY();  
 		SimoriGui sc = e.getSource();
 		
-		grid[x][y] = !grid[x][y];
+		grid[y][x] = !grid[y][x];
 		simori.getModel().updateButton((byte) 0, (byte) x, (byte) y);   //update the data structure by inverting button at Gui position x,y
 		sc.setGrid(grid);
 	}
