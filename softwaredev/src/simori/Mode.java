@@ -64,7 +64,7 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 					break;
 		
 		case POWER: sg.setMode(new PerformanceMode(1,1));
-		
+					currentModeName = "Performance Mode";
 					break;
 		}
 	}
