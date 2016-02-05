@@ -16,7 +16,6 @@ public class Simori {
 		Clock clock = new Clock(simori.model, midi, mode, 88);
 		Thread thread = new Thread(clock);
 		thread.start();
-
 	}
 	
 	public SimoriGui getGui(){

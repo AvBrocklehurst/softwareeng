@@ -30,7 +30,11 @@ public class SimoriGui {
 		JFrame frame = new JFrame(WINDOW_TITLE);
 		frame.setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 		frame.setLayout(new BorderLayout());
+		frame.add(makeTopButtons(), BorderLayout.PAGE_START);
+		frame.add(makeLeftButtons(), BorderLayout.LINE_START);
 		frame.add(makeLedPanel(rows, columns), BorderLayout.CENTER);
+		frame.add(makeRightButtons(), BorderLayout.LINE_END);
+		frame.add(makeBottomButtons(), BorderLayout.PAGE_END);
 		frame.setBackground(GRID_BACKGROUND);
 		frame.setVisible(true);
 	}
@@ -47,6 +51,26 @@ public class SimoriGui {
 			}
 		}
 		return panel;
+	}
+	
+	private JPanel makeTopButtons() {
+		//TODO Make them
+		return null;
+	}
+	
+	private JPanel makeLeftButtons() {
+		//TODO Make them
+		return null;
+	}
+	
+	private JPanel makeRightButtons() {
+		//TODO Make them
+		return null;
+	}
+	
+	private JPanel makeBottomButtons() {
+		//TODO Make them
+		return null;
 	}
 	
 	private OnPressListener makeListenerWith(final GridButtonEvent e) {
