@@ -38,7 +38,7 @@ public class Clock implements Runnable {
 			this.midi = midi;
 			this.mode = mode;
 			lock = new Object();
-			period = (1/(bbm*60))*1000;
+			period = (1/(bbm/60))*1000;
 		}
 	
 		/**
@@ -54,7 +54,7 @@ public class Clock implements Runnable {
 				  public void run() {
 					  synchronized(lock){
 						  lock.notify();
-					  }
+					  }	
 				  }
 				}, period, period);
 			
