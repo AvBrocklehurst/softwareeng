@@ -34,7 +34,7 @@ public interface MIDIPlayer {
 	 * 
 	 * Method will play all notes simulatenously(or as close to simulatneous as possible)
 	 */
-	public void play(ArrayList<ArrayList<Byte>> array) throws InvalidMidiDataException, InterruptedException;
+	public void play(ArrayList<ArrayList<Short>> array) throws InvalidMidiDataException, InterruptedException;
 
 	
 }

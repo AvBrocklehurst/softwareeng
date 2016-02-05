@@ -65,9 +65,9 @@ public class MIDISoundPlayer implements MIDIPlayer  {
 	 * @param array
 	 * @throws InvalidMidiDataException
 	 */
-	private void readArray(ArrayList<ArrayList<Byte>> array) throws InvalidMidiDataException{
+	private void readArray(ArrayList<ArrayList<Short>> array) throws InvalidMidiDataException{
 		
-		for (ArrayList<Byte> layer : array) { // for each 'layer' with a sound that needs playing: 
+		for (ArrayList<Short> layer : array) { // for each 'layer' with a sound that needs playing: 
 			message = new ShortMessage(ShortMessage.PROGRAM_CHANGE, layer.get(0), layer.get(1), 0); // for the given layer set the channel and instrument, the zero is arbitrary (but is needed for correct number of bytes to be sent)
 			messageArray.add(message); // add MIDI message to array of all MIDI messages
 		
@@ -94,7 +94,7 @@ public class MIDISoundPlayer implements MIDIPlayer  {
 	 * @author Josh
 	 * {@inheritDoc}
 	 */
-	public void play(ArrayList<ArrayList<Byte>> array) throws InvalidMidiDataException, InterruptedException{
+	public void play(ArrayList<ArrayList<Short>> array) throws InvalidMidiDataException, InterruptedException{
 		readArray(array);
 		playArray();
 	}
@@ -108,9 +108,9 @@ public class MIDISoundPlayer implements MIDIPlayer  {
 	
 	public static void main(String[] args) throws MidiUnavailableException, InvalidMidiDataException, InterruptedException {
 		MIDISoundPlayer josh = new MIDISoundPlayer();
-		ArrayList<ArrayList<Byte>> noteArray = new ArrayList<ArrayList<Byte>>();
-		ArrayList<Byte> layer1 = new ArrayList<Byte>();
-		Byte[] innerLayer1 = new Byte[] {9,0,80,39,40,41,45};
+		ArrayList<ArrayList<Short>> noteArray = new ArrayList<ArrayList<Short>>();
+		ArrayList<Short> layer1 = new ArrayList<Short>();
+		Short[] innerLayer1 = new Short[] {0,0,80,39,40,41,45};
 		
 		layer1.addAll(Arrays.asList(innerLayer1));
 		noteArray.add(layer1);
