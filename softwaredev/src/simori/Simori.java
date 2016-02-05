@@ -10,7 +10,7 @@ public class Simori {
 		Simori simori = new Simori();
 		simori.model = new MatrixModel(); //Use GRID_WIDTH and GRID_HEIGHT?
 		simori.gui = new SimoriGui(GRID_WIDTH, GRID_HEIGHT);
-		PerformanceMode mode = new PerformanceMode(simori,0,0);
+		PerformanceMode mode = new PerformanceMode(simori,0,0,(byte)0);
 		simori.gui.setMode(mode); //TODO Off mode by default
 		MIDISoundPlayer midi = new MIDISoundPlayer();
 		Clock clock = new Clock(simori.model, midi, mode, 88);

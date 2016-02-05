@@ -31,11 +31,11 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 	 * @author James
 	 * @version 1.0.0
 	 */
-	public PerformanceMode(Simori simori, int loopspeed, int looppoint /*voice, velocity*/){
+	public PerformanceMode(Simori simori, int loopspeed, int looppoint, byte layno /*voice, velocity*/){
 		this.loopspeed = loopspeed;
 		this.looppoint = looppoint;
 		this.simori = simori;
-		this.coords =  coords;
+		makeGridCopy((byte)layno);
 		
 	}
 	
@@ -72,15 +72,7 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 	 */
 	public void tickerLight(byte col) throws InvalidCoordinatesException{
 		
-		boolean[][] grid1 = simori.getModel().getGrid((byte)0);
-		grid = new boolean[grid1.length][];
-		
-		System.arraycopy(grid1, 0, grid, 0, grid1.length);
-		
-		for(int i = 0 ; i<grid.length ; i++){
-			grid[i] = new boolean[grid1[i].length];
-			System.arraycopy(grid1[i], 0, grid[i], 0, grid1[i].length);
-		}
+		makeGridCopy((byte)0);
 		
 		grid[0][col] = true;
 		grid[5][col] = true;
@@ -89,6 +81,18 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 		simori.getGui().setGrid(grid);
 	}
 	
+	public void makeGridCopy(byte layno){
+		
+		boolean[][] grid1 = simori.getModel().getGrid(layno);
+		grid = new boolean[grid1.length][];
+		
+		System.arraycopy(grid1, 0, grid, 0, grid1.length);
+		
+		for(int i = 0 ; i<grid.length ; i++){
+			grid[i] = new boolean[grid1[i].length];
+			System.arraycopy(grid1[i], 0, grid[i], 0, grid1[i].length);
+		}
+	}
 	
 	/**
 	 * Gets the current mode name.
