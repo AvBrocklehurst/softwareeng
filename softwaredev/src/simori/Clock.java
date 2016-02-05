@@ -53,18 +53,18 @@ public class Clock implements Runnable {
 				  @Override
 				  public void run() {
 					  synchronized(lock){
+						  System.out.println("Tick");
 						  lock.notify();
 					  }	
 				  }
 				}, period, period);
-			
 			
 			ArrayList<ArrayList<Short>> layers = new ArrayList<ArrayList<Short>>();
 			boolean[] layer;
 			List<Byte> activeLayers;
 			byte currentLayer = 0;
 			while(running){
-				activeLayers = Arrays.asList((byte)1, (byte)2, (byte)3);//model.getLayers();
+				activeLayers = model.getLayers();
 				for (Byte layerLoc : activeLayers){
 					layer = model.getCol(layerLoc, currentColumn);
 					if (contains(layer)){
