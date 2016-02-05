@@ -106,6 +106,7 @@ public class MIDISoundPlayer implements MIDIPlayer  {
 	 * {@inheritDoc}
 	 */
 	public void play(ArrayList<ArrayList<Short>> array){
+		messageArray = new ArrayList<ShortMessage>();
 		readArray(array);
 		playArray();
 	}
