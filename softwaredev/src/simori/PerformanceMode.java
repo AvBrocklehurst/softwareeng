@@ -50,16 +50,10 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 		
 		int x = e.getX();            //grid position of button press
 		int y = e.getY();
-<<<<<<< HEAD
 		SimoriGui sc = e.getSource();
 		currentLayer = getTempLayer();       
 		currentLayer.updateButton((byte) x, (byte) y);   //update the data structure by inverting button at Gui position x,y
 		sc.setPattern(currentLayer);
-=======
-		SimoriGui sc = e.getSource();     
-		model.updateButton((byte) 0, (byte) x, (byte) y);   //update the data structure by inverting button at Gui position x,y
-		sc.setPattern(currentLayer); 
->>>>>>> f14ccba8caccb106c275d33950c2afa950494ae2
 	}
 	
 	/**
