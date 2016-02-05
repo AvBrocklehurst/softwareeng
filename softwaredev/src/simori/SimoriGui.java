@@ -6,6 +6,7 @@ import java.awt.GridLayout;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.WindowConstants;
 
 import simori.Led.OnPressListener;
 import simori.SimoriGuiEvents.FunctionButtonListener;
@@ -37,6 +38,7 @@ public class SimoriGui {
 		//frame.add(makeRightButtons(), BorderLayout.LINE_END);
 		//frame.add(makeBottomButtons(), BorderLayout.PAGE_END);
 		frame.setBackground(GRID_BACKGROUND);
+		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 	}
 	

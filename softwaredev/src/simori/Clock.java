@@ -25,7 +25,7 @@ public class Clock implements Runnable {
 		private byte currentColumn;
 		public Object lock;
 		private TimerTask timerTask;
-		private int period;
+		private long period;
 		
 		/**
 		 * Constructor for the class
@@ -33,12 +33,12 @@ public class Clock implements Runnable {
 		 * @version 1.0.3
 		 * @param model Holds the reference to the MatrixModel
 		 */
-		Clock(MatrixModel model, MIDIPlayer midi, PerformanceMode mode, int bbm){
+		Clock(MatrixModel model, MIDIPlayer midi, PerformanceMode mode, float bbm){
 			this.model = model;
 			this.midi = midi;
 			this.mode = mode;
 			lock = new Object();
-			period = (1/(bbm/60))*1000;
+			period = (long)((1f/(bbm/60f))*1000f);
 		}
 	
 		/**
