@@ -19,9 +19,9 @@ import simori.Exceptions.InvalidCoordinatesException;
 
 public class Clock implements Runnable {
 		private boolean running = true;
-		private MatrixModel model;
+//		private MatrixModel model;
 		private MIDIPlayer midi;
-		private PerformanceMode mode;
+//		private PerformanceMode mode;
 		private byte currentColumn;
 		public Object lock;
 		private TimerTask timerTask;
@@ -32,10 +32,10 @@ public class Clock implements Runnable {
 		 * @version 1.0.3
 		 * @param model Holds the reference to the MatrixModel
 		 */
-		Clock(MatrixModel model, MIDIPlayer midi, PerformanceMode mode){
-			this.model = model;
+		Clock(/*MatrixModel model, */MIDIPlayer midi/*, PerformanceMode mode*/){
+//			this.model = model;
 			this.midi = midi;
-			this.mode = mode;
+//			this.mode = mode;
 			lock = new Object();
 		}
 	
@@ -50,34 +50,31 @@ public class Clock implements Runnable {
 			timer.scheduleAtFixedRate(timerTask = new TimerTask() {
 				  @Override
 				  public void run() {
-					  System.out.println("Notifying");
 					  synchronized(lock){
-
 						  lock.notify();
 					  }
-				    
 				  }
 				}, 1000, 1000);
 			
 			
 			ArrayList<ArrayList<Short>> layers = new ArrayList<ArrayList<Short>>();
-			boolean[] layer;
+			List<Boolean> layer;
 			List<Byte> activeLayers;
 			byte currentLayer = 0;
 			while(running){
-				activeLayers = model.getLayers();
+				activeLayers = Arrays.asList((byte)1, (byte)2, (byte)3);//model.getLayers();
 				for (Byte layerLoc : activeLayers){
-					layer = model.getCol(layerLoc, currentColumn);
-					if (Arrays.asList(layer).contains(true)){
-						layers.get(layerLoc).addAll(Arrays.asList((short)model.getChannel(layerLoc), model.getInstrument(layerLoc), (short)model.getVelocity(layerLoc)));
-						for(short row=0; row<17;row++){
-							if(layer[row] == true){
-								layers.get(currentLayer+3).add((short)(63-row));
-								currentLayer++;
+					layer = Arrays.asList(true, false, false, true);//model.getCol(layerLoc, currentColumn);
+					if (contains(layer)){
+						layers.add(new ArrayList<Short>());//(short)model.getChannel(layerLoc), model.getInstrument(layerLoc), (short)model.getVelocity(layerLoc)));
+						layers.get(currentLayer).addAll(Arrays.asList((short)0, (short)0, (short)80));
+						for(short row=0; row<layer.size();row++){
+							if(layer.get(row) == true){
+								layers.get(currentLayer).add((short)(63-row));
 							}
 						}
-						currentLayer = 0;
 					}
+					currentLayer++;
 				}
 
 
@@ -87,7 +84,7 @@ public class Clock implements Runnable {
 					catch (InterruptedException e) {}
 				}
 					
-				try{mode.tickerLight(currentColumn);} catch (InvalidCoordinatesException e) {}
+//				try{mode.tickerLight(currentColumn);} catch (InvalidCoordinatesException e) {}
 				midi.play(layers);
 				
 				//15 will need to be replaced later
@@ -103,6 +100,11 @@ public class Clock implements Runnable {
 			}
 		}
 		
+		public boolean contains(List<Boolean> layer){
+			for (Boolean bool : layer) if (bool == true) return true;
+			return false;
+		}
+		
 		/**
 		 * Stops the execution of the thread
 		 * @author Jurek
@@ -112,4 +114,10 @@ public class Clock implements Runnable {
 			running = false;
 			timerTask.cancel();
 		}	
+		
+		public static void main(String[] args){
+			Clock clock = new Clock(new MIDISoundPlayer());
+			Thread thread = new Thread(clock);
+			thread.start();
+		}
 }
