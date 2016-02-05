@@ -53,7 +53,6 @@ public class Clock implements Runnable {
 				  @Override
 				  public void run() {
 					  synchronized(lock){
-						  System.out.println("Tick");
 						  lock.notify();
 					  }	
 				  }
@@ -64,16 +63,12 @@ public class Clock implements Runnable {
 			List<Byte> activeLayers;
 			byte currentLayer;
 			while(running){
-				System.out.println("currentcolumn" + currentColumn);
 				layers = new ArrayList<ArrayList<Short>>();
 				currentLayer = 0;
 				activeLayers = model.getLayers();
 				for (Byte layerLoc : activeLayers){
 					layer = model.getCol(layerLoc, currentColumn);
 					if (contains(layer)){
-						
-						System.out.println("currentlayer" + currentLayer);
-						
 						layers.add(new ArrayList<Short>());
 						layers.get(currentLayer).addAll(Arrays.asList((short)model.getChannel(layerLoc), model.getInstrument(layerLoc), (short)model.getVelocity(layerLoc)));
 						for(short row=0; row<layer.length;row++){
@@ -85,20 +80,11 @@ public class Clock implements Runnable {
 					}
 				}
 
-
 				synchronized(lock){
 					try {
 						lock.wait();}
 					catch (InterruptedException e) {}
 				}
-				
-				System.out.print("To be played: ");
-				try{for(int i=0; i<layers.size();i++){
-					for (Short thing : layers.get(i)) System.out.print(thing + " ");
-					System.out.print("|");
-				}}
-				catch (Exception e){}
-				System.out.println();
 				
 				try{mode.tickerLight(currentColumn);} catch (InvalidCoordinatesException e) {}
 				midi.play(layers);
