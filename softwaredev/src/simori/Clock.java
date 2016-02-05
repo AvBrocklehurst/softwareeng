@@ -24,7 +24,7 @@ public class Clock implements Runnable {
 		private PerformanceMode mode;
 		private byte currentColumn;
 		public Object lock;
-		private TimerTask timertask;
+		private TimerTask timerTask;
 		
 		/**
 		 * Constructor for the class
@@ -32,10 +32,10 @@ public class Clock implements Runnable {
 		 * @version 1.0.3
 		 * @param model Holds the reference to the MatrixModel
 		 */
-		Clock(/*MatrixModel model, MIDIPlayer midi, PerformanceMode mode*/){
-//			this.model = model;
-//			this.midi = midi;
-//			this.mode = mode;
+		Clock(MatrixModel model, MIDIPlayer midi, PerformanceMode mode){
+			this.model = model;
+			this.midi = midi;
+			this.mode = mode;
 			lock = new Object();
 		}
 	
@@ -47,7 +47,7 @@ public class Clock implements Runnable {
 		@Override
 		public void run() {
 			Timer timer = new Timer();
-			timer.scheduleAtFixedRate(new TimerTask() {
+			timer.scheduleAtFixedRate(timerTask = new TimerTask() {
 				  @Override
 				  public void run() {
 					  System.out.println("Notifying");
@@ -60,52 +60,35 @@ public class Clock implements Runnable {
 				}, 1000, 1000);
 			
 			
-//			ArrayList<ArrayList<Byte>> layers = new ArrayList<ArrayList<Byte>>();
-//			boolean[] layer;
-//			List<Byte> activeLayers;
-//			byte currentLayer = 0;
+			ArrayList<ArrayList<Short>> layers = new ArrayList<ArrayList<Short>>();
+			boolean[] layer;
+			List<Byte> activeLayers;
+			byte currentLayer = 0;
 			while(running){
-//				activeLayers = model.getLayers();
-//				for (Byte layerLoc : activeLayers){
-//					layer = model.getCol(layerLoc, currentColumn);
-//					if (Arrays.asList(layer).contains(true)){
-//						layers.get(layerLoc).addAll(Arrays.asList(/*model.getChannel(layerLoc)*/(byte)0, /*model.getInstrument(layerLoc)*/(byte)0, /*model.getVelocity(layerLoc)*/(byte)80));
-//						for(byte row=0; row<17;row++){
-//							if(layer[row] == true){
-//								layers.get(currentLayer+3).add(row);
-//							}
-//						}
-//						currentLayer = 0;
-//					}
-//				}
-//				for(byte i=0; i<model.getLayers().size(); i++){
-//					layer = model.getCol(i, currentColumn);
-//					if (Arrays.asList(layer).contains(true)){
-//						layers.get(i).addAll(Arrays.asList(/*model.getChannel(i)*/(byte)0, /*model.getInstrument(i)*/(byte)0, /*model.getVelocity(i)*/(byte)80));
-//						for(byte j=0; j<17;i++){
-//							if(layer[j] == true){
-//								layers.get(i).add(j);
-//							}
-//						}
-//					}
-//				}
+				activeLayers = model.getLayers();
+				for (Byte layerLoc : activeLayers){
+					layer = model.getCol(layerLoc, currentColumn);
+					if (Arrays.asList(layer).contains(true)){
+						layers.get(layerLoc).addAll(Arrays.asList((short)model.getChannel(layerLoc), model.getInstrument(layerLoc), (short)model.getVelocity(layerLoc)));
+						for(short row=0; row<17;row++){
+							if(layer[row] == true){
+								layers.get(currentLayer+3).add(row);
+								currentLayer++;
+							}
+						}
+						currentLayer = 0;
+					}
+				}
 
-				//fuckery of waiting for the clock to tell me to play shit
-				//kerry no -josh
-				//KERRY YES!!! >:D
-				System.out.println("Pre-notify");
+
 				synchronized(lock){
 					try {
-							lock.wait();} catch (InterruptedException e) {}
-					//catch (IllegalMonitorStateException FUCKYOU){}
-						}
+						lock.wait();}
+					catch (InterruptedException e) {}
+				}
 					
-				
-				System.out.println("Post-notify");
-				
-//				//will have to get rid of the try catches later somehow (bleh)
-//				try {mode.tickerLight(currentColumn);} catch (InvalidCoordinatesException e1) {}
-//				try {midi.play(layers);} catch (InvalidMidiDataException | InterruptedException e) {}
+				mode.tickerLight(currentColumn);
+				midi.play(layers);
 				
 				//15 will need to be replaced later
 				if(currentColumn == 15){currentColumn = 0;}
@@ -113,8 +96,8 @@ public class Clock implements Runnable {
 				
 				//TODO GET A LIST OF LISTS FOR THE CURRENT COLUMN FROM MatrixModel-----------------------DONE
 				//TODO SEND LIST OF LISTS TO MidiPlayer---------------------DONE
-				//TODO SEND GUI A MESSAGE
-				//TODO WAIT A SET OF TIME == THE TEMPO ------- WILL DO NEXT SPRINT OR LATER AT SOME POINT >.>
+				//TODO SEND GUI A MESSAGE --------------------------------DONE
+				//TODO WAIT A SET OF TIME == THE TEMPO ------------------------ DONE
 				//TODO CHECK IF END OF COLUMN LOOP FOUND, IF SO currentColumn = 0, ELSE currentColumn += 1 ---------- SORT OF DONE, SINCE LOOP CHANGING IS NOT SET
 				
 			}
@@ -127,22 +110,6 @@ public class Clock implements Runnable {
 		 */
 		public void off() {
 			running = false;
-		}
-	
-		/**
-		 * Testing because fuck you
-		 * @author Jurek
-		 * @version 1.0.0
-		 * @throws MidiUnavailableException 
-		 * @category godihopeourgithistoryisntassessed
-		 */
-		public static void main(String[] args) throws MidiUnavailableException{
-			Clock clock = new Clock();
-			Thread thread = new Thread(clock);
-			//ClockTimer timer = new ClockTimer(thread, 88);
-			//Thread threadTimer = new Thread(timer);
-			thread.start();
-			//threadTimer.start();
-		}
-	
+			timerTask.cancel();
+		}	
 }
