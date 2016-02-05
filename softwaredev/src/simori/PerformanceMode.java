@@ -17,8 +17,9 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 	
 	private int loopspeed;
 	private int looppoint;
-	private Layer currentLayer;    //current layer to be modified
 	private Simori simori;
+	private byte[] coords;
+	private boolean[][] grid;
 
 	/**
 	 * Constructor for Performance Mode. In performance mode the ticker loops
@@ -34,6 +35,7 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 		this.loopspeed = loopspeed;
 		this.looppoint = looppoint;
 		this.simori = simori;
+		this.coords =  coords;
 		
 	}
 	
@@ -51,11 +53,10 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 		int x = e.getX();            //grid position of button press
 		int y = e.getY();  
 		SimoriGui sc = e.getSource();
-		currentLayer = getTempLayer();     //get the temp layer to set as currently working layer
 		
-		currentLayer.updateButton((byte) x, (byte) y);
+		grid[x][y] = !grid[x][y];
 		simori.getModel().updateButton((byte) 0, (byte) x, (byte) y);   //update the data structure by inverting button at Gui position x,y
-		sc.setPattern(currentLayer);
+		sc.setGrid(grid);
 	}
 	
 	/**
@@ -71,12 +72,21 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 	 */
 	public void tickerLight(byte col) throws InvalidCoordinatesException{
 		
-		currentLayer = getTempLayer();
-		currentLayer.updateButton(col, (byte) 0);
-		currentLayer.updateButton(col, (byte) 5);
-		currentLayer.updateButton(col, (byte) 10);   //data passed to GUI and structure through MatrixModel.updateButton()
-		currentLayer.updateButton(col, (byte) 15);	//positions of lit buttons due to the clock	
-		simori.getGui().setPattern(currentLayer);
+		boolean[][] grid1 = simori.getModel().getGrid((byte)0);
+		grid = new boolean[grid1.length][];
+		
+		System.arraycopy(grid1, 0, grid, 0, grid1.length);
+		
+		for(int i = 0 ; i<grid.length ; i++){
+			grid[i] = new boolean[grid1[i].length];
+			System.arraycopy(grid1[i], 0, grid[i], 0, grid1[i].length);
+		}
+		
+		grid[0][col] = true;
+		grid[5][col] = true;
+		grid[10][col] = true;   //data passed to GUI and structure through MatrixModel.updateButton()
+		grid[15][col] = true;	//positions of lit buttons due to the clock	
+		simori.getGui().setGrid(grid);
 	}
 	
 	
@@ -89,19 +99,6 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 	 */
 	public String getModeName(){
 		return currentModeName;
-	}
-	
-	
-	/**
-	 * Gets the current layer.
-	 * 
-	 * @author James
-	 * @return Layer
-	 * @see currentLayer
-	 * @version 1.0.0
-	 */
-	public Layer getCurrentLayer(){
-		return currentLayer;
 	}
 
 }

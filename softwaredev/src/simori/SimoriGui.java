@@ -3,6 +3,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
 
+import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -54,7 +55,8 @@ public class SimoriGui {
 	}
 	
 	private JPanel makeTopButtons() {
-		//JPanel box = new JPanel(new BoxLayout());
+		JPanel box = new JPanel();
+		BoxLayout layout = new BoxLayout(box, BoxLayout.PAGE_AXIS);
 		return null;
 	}
 	
@@ -86,8 +88,16 @@ public class SimoriGui {
 		};
 	}
 	
-	public void setPattern(Layer pattern) {
+	public void setPattern(Layer pattern) { //TODO Remove when James has finished using
 		boolean[][] grid = pattern.getGrid();
+		for (int y = 0; y < grid.length; y++) {
+			for (int x = 0; x < grid[y].length; x++) {
+				leds[x][y].setIlluminated(grid[y][x]);
+			}
+		}
+	}
+	
+	public void setGrid(boolean[][] grid) {
 		for (int y = 0; y < grid.length; y++) {
 			for (int x = 0; x < grid[y].length; x++) {
 				leds[x][y].setIlluminated(grid[y][x]); //TODO Is grid the wrong way 'round or am I?
