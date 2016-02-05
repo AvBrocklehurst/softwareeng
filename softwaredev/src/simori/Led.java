@@ -17,9 +17,10 @@ public class Led extends JComponent implements MouseListener {
 	private static final Color OFF_IN = new Color(0xEEEEEE);
 	private static final Color BORDER = new Color(0x000000);
 	
-	private boolean pushed, lit;
-	private boolean mouseDown, mouseOver;
+	private static boolean mouseDown;
+	private boolean pushed, lit, mouseOver;
 	private OnPressListener listener;
+	private Shape hitbox;
 	
 	public Led() {
 		addMouseListener(this);
@@ -49,20 +50,18 @@ public class Led extends JComponent implements MouseListener {
 		g.drawOval(0, 0, getSize().width-1, getSize().height-1);
 	}
 	
-	Shape shape; //TODO Manage this somewhere
 	public boolean contains(int x, int y) {
-	    if (shape == null || 
-	      !shape.getBounds().equals(getBounds())) {
-	      shape = new Ellipse2D.Float(0, 0, getWidth(), getHeight()); //TODO Rewrite with proper indentation
-	    }
-	    return shape.contains(x, y);
+		if (hitbox == null ||  !hitbox.getBounds().equals(getBounds())) {
+			hitbox = new Ellipse2D.Float(0, 0, getWidth(), getHeight());
+		}
+		return hitbox.contains(x, y);
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {}
 
 	@Override
-	public void mouseEntered(MouseEvent e) { //TODO Get more accurate mouseDown from mouse
+	public void mouseEntered(MouseEvent e) {
 		mouseOver = true;
 		if (mouseDown) {
 			pushed = true;
