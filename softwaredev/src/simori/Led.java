@@ -46,6 +46,7 @@ public class Led extends JComponent implements MouseListener {
 	
 	@Override
 	protected void paintBorder(Graphics g) {
+		if (lit) return;
 		g.setColor(BORDER);
 		g.drawOval(0, 0, getSize().width-1, getSize().height-1);
 	}
