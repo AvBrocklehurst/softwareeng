@@ -44,6 +44,7 @@ public class Clock implements Runnable {
 		/**
 		 * The thread method for running the clock
 		 * @author Jurek
+		 * @author Adam
 		 * @version 1.1.1
 		 */
 		@Override
@@ -57,16 +58,18 @@ public class Clock implements Runnable {
 					  }	
 				  }
 				}, period, period);
+			
+			
 			currentColumn = 0;
 			while(running){
-				List<Byte> layers = model.getLayers();
-				int size = layers.size();
-				byte[][] lays =  new byte[size][];
-				for(byte x = 0; x < (byte)size; x++){
+				List<Byte> activeLayers = model.getLayers();
+				byte[][] layers = new byte[activeLayers.size()][];
+				ArrayList<Byte> usedColumns = new ArrayList<Byte>();
+				for(byte x=0; x<(byte)activeLayers.size(); x++){
 					byte notZero = 0;
 					byte[] thisLayer = new byte[19];
-					boolean[] layer = model.getCol(layers.get(x), currentColumn);
-					for(byte y = 0; y < 16; y ++){
+					boolean[] layer = model.getCol(activeLayers.get(x), currentColumn);
+					for(byte y=0; y<layer.length; y++){
 						if(layer[y]){
 							thisLayer[y + 3] = (byte) (67 - y);
 							notZero++;
@@ -75,34 +78,36 @@ public class Clock implements Runnable {
 						}
 					}
 					if(notZero > 0){
-						lays[x] = new byte[notZero + 3];
-						short instru = model.getInstrument(layers.get(x));
-						lays[x][0] = (byte) ((instru < 128) ? instru : instru - 127);
-						lays[x][2] = model.getVelocity(layers.get(x));
-						lays[x][0] = model.getChannel(layers.get(x));
+						usedColumns.add(x);
+						layers[x] = new byte[notZero + 3];
+						short instrument = model.getInstrument(activeLayers.get(x));
+						layers[x][1] = (byte) ((instrument < 128) ? instrument : instrument - 127);
+						layers[x][2] = model.getVelocity(activeLayers.get(x));
+						layers[x][0] = model.getChannel(activeLayers.get(x));
 						byte count = 3;
 						for(byte y = 0; y < thisLayer.length; y ++){
 							if(thisLayer[y] != 0){
-								lays[x][count] = thisLayer[y];
+								layers[x][count] = thisLayer[y];
 								count++;
 							} 
 						}
 					}
-					
 				}
+				byte[][] toBePlayed = new byte[usedColumns.size()][];
+				for (byte i=0; i<usedColumns.size(); i++){
+					toBePlayed[i] = layers[usedColumns.get(i)];
+				}
+				
 				synchronized(lock){
 					try {
 						lock.wait();
 					} catch (InterruptedException e) {}
 				}
-				if(lays[0] != null){
-					System.out.println(Arrays.deepToString(lays));
-					midi.play(lays);
-				}
+				if(layers[0] != null) midi.play(layers);
 				try{mode.tickerLight(currentColumn);} catch (InvalidCoordinatesException e) {}
 				
 				//15 will need to be replaced later
-				if(currentColumn == 15){currentColumn = 0;}
+				if(currentColumn == /*model.getLoop*/15){currentColumn = 0;}
 				else{currentColumn++;}
 				
 				//TODO GET A LIST OF LISTS FOR THE CURRENT COLUMN FROM MatrixModel-----------------------DONE
