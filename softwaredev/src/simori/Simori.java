@@ -1,12 +1,13 @@
 package simori;
 
+import javax.sound.midi.MidiUnavailableException;
+
 public class Simori {
 	
 	private static final int GRID_WIDTH = 16, GRID_HEIGHT = 16;
 	private SimoriGui gui;
 	private MatrixModel model;
-
-	public static void main(String[] args) {
+	public static void main(String[] args) throws MidiUnavailableException {
 		Simori simori = new Simori();
 		simori.model = new MatrixModel(); //Use GRID_WIDTH and GRID_HEIGHT?
 		simori.gui = new SimoriGui(GRID_WIDTH, GRID_HEIGHT);
