@@ -33,7 +33,7 @@ public interface MIDIPlayer {
 	 * 
 	 * Method will play all notes simulatenously(or as close to simulatneous as possible)
 	 */
-	public void play(ArrayList<ArrayList<Short>> array);
+	public void play(byte[][] array);
 
 	
 }

@@ -57,44 +57,48 @@ public class Clock implements Runnable {
 					  }	
 				  }
 				}, period, period);
-			
-			ArrayList<ArrayList<Short>> layers;
-			boolean[] layer;
-			List<Byte> activeLayers;
-			byte currentLayer;
+			currentColumn = 0;
 			while(running){
-				layers = new ArrayList<ArrayList<Short>>();
-				currentLayer = 0;
-				activeLayers = model.getLayers();
-				for (Byte layerLoc : activeLayers){
-					layer = model.getCol(layerLoc, currentColumn);
-					if (contains(layer)){
-						layers.add(new ArrayList<Short>());
-						layers.get(currentLayer).addAll(Arrays.asList((short)model.getChannel(layerLoc), model.getInstrument(layerLoc), (short)model.getVelocity(layerLoc)));
-						if (layers.get(currentLayer).get(0) == 9){
-							for(short row=0; row<layer.length;row++){
-								if(layer[row] == true){
-									layers.get(currentLayer).add((short)(layers.get(currentLayer).get(1)-97));
-								}
-							}
+				List<Byte> layers = model.getLayers();
+				int size = layers.size();
+				byte[][] lays =  new byte[size][];
+				for(byte x = 0; x < (byte)size; x++){
+					byte notZero = 0;
+					byte[] thisLayer = new byte[19];
+					boolean[] layer = model.getCol(layers.get(x), currentColumn);
+					for(byte y = 0; y < 16; y ++){
+						if(layer[y]){
+							thisLayer[y + 3] = (byte) (67 - y);
+							notZero++;
 						} else {
-							for(short row=0; row<layer.length;row++){
-								if(layer[row] == true){
-									layers.get(currentLayer).add((short)(72-row));
-								}
-							}
+							thisLayer[y + 3] = 0;
 						}
-						currentLayer++;
 					}
+					if(notZero > 0){
+						lays[x] = new byte[notZero + 3];
+						short instru = model.getInstrument(layers.get(x));
+						lays[x][0] = (byte) ((instru < 128) ? instru : instru - 127);
+						lays[x][2] = model.getVelocity(layers.get(x));
+						lays[x][0] = model.getChannel(layers.get(x));
+						byte count = 3;
+						for(byte y = 0; y < thisLayer.length; y ++){
+							if(thisLayer[y] != 0){
+								lays[x][count] = thisLayer[y];
+								count++;
+							} 
+						}
+					}
+					
 				}
-
 				synchronized(lock){
 					try {
-						lock.wait();}
-					catch (InterruptedException e) {}
+						lock.wait();
+					} catch (InterruptedException e) {}
 				}
-				
-				midi.play(layers);
+				if(lays[0] != null){
+					System.out.println(Arrays.deepToString(lays));
+					midi.play(lays);
+				}
 				try{mode.tickerLight(currentColumn);} catch (InvalidCoordinatesException e) {}
 				
 				//15 will need to be replaced later

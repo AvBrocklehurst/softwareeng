@@ -71,22 +71,23 @@ public class MIDISoundPlayer implements MIDIPlayer  {
 	 * @param array
 	 * @throws InvalidMidiDataException
 	 */
-	private void readArray(ArrayList<ArrayList<Short>> array){
-		
-		
-		for (ArrayList<Short> layer : array) { // for each 'layer' with a sound that needs playing: 
-			try {
-				message = new ShortMessage(ShortMessage.PROGRAM_CHANGE, layer.get(0), layer.get(1), 0); // for the given layer set the channel and instrument, the zero is arbitrary (but is needed for correct number of bytes to be sent)
-			} catch (InvalidMidiDataException e) {e.printStackTrace(); System.exit(1);} 
-			messageArray.add(message); // add MIDI message to array of all MIDI messages
-		
-			for (int i = 3; i < layer.size(); i++) { // for all notes in a given layer:
+	private void readArray(byte[][] array){
+			System.out.println(Arrays.deepToString(array));
+			for (byte[] layer : array) { // for each 'layer' with a sound that needs playing: 
+				System.out.println(Arrays.toString(layer));
 				try {
-					message = new ShortMessage(ShortMessage.NOTE_ON, layer.get(0), layer.get(i), layer.get(2)); // set a play command for that note with the correct pitch and velocity
-				} catch (InvalidMidiDataException e) {e.printStackTrace();  System.exit(1);} 
+					message = new ShortMessage(ShortMessage.PROGRAM_CHANGE, layer[0], layer[1], 0); // for the given layer set the channel and instrument, the zero is arbitrary (but is needed for correct number of bytes to be sent)
+				} catch (InvalidMidiDataException e) {e.printStackTrace(); System.exit(1);} 
 				messageArray.add(message); // add MIDI message to array of all MIDI messages
-			} 
-		}
+			
+				for (int i = 3; i < layer.length;i++) { // for all notes in a given layer:
+					try {
+						message = new ShortMessage(ShortMessage.NOTE_ON, layer[0], layer[i], layer[2]); // set a play command for that note with the correct pitch and velocity
+					} catch (InvalidMidiDataException e) {e.printStackTrace();  System.exit(1);} 
+					messageArray.add(message); // add MIDI message to array of all MIDI messages
+				} 
+			}
+		
 	}
 
 	
@@ -105,7 +106,7 @@ public class MIDISoundPlayer implements MIDIPlayer  {
 	 * @author Josh
 	 * {@inheritDoc}
 	 */
-	public void play(ArrayList<ArrayList<Short>> array){
+	public void play(byte[][] array){
 		messageArray = new ArrayList<ShortMessage>();
 		readArray(array);
 		playArray();
@@ -116,7 +117,7 @@ public class MIDISoundPlayer implements MIDIPlayer  {
 	
 	
 	
-	
+	/*
 	
 	public static void main(String[] args){
 		MIDISoundPlayer josh = new MIDISoundPlayer();
@@ -138,6 +139,8 @@ public class MIDISoundPlayer implements MIDIPlayer  {
 		
 		
 	}
+	
+	*/
 	
 	
 }
