@@ -13,6 +13,7 @@ import simori.Exceptions.InvalidCoordinatesException;
 	/**
 	 * 
 	 * @author Jurek
+	 * @author Adam
 	 * @version 1.1.1
 	 *
 	 */
