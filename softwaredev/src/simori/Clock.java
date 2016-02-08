@@ -106,6 +106,7 @@ public class Clock implements Runnable {
 				}
 				if(layers[0] != null)
 					try {
+						//TODO sprint2: error checking before play(layers) I (Josh) will do this
 						midi.play(layers);
 					} catch (InvalidMidiDataException e1) {e1.printStackTrace(); System.exit(1);}
 				try{mode.tickerLight(currentColumn);} catch (InvalidCoordinatesException e) {}
