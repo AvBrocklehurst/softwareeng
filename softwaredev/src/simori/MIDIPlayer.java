@@ -1,5 +1,6 @@
 package simori;
 
+import javax.sound.midi.InvalidMidiDataException;
 
 /**
  * 
@@ -28,7 +29,7 @@ public interface MIDIPlayer {
 	 * 
 	 * Method will play all notes simultaneously(or as close to simultaneous as possible).
 	 */
-	public void play(byte[][] array);
+	public void play(byte[][] array)throws InvalidMidiDataException;
 
 	/**
 	 * @author Josh

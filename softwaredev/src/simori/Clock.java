@@ -104,7 +104,13 @@ public class Clock implements Runnable {
 						lock.wait();
 					} catch (InterruptedException e) {}
 				}
-				if(layers[0] != null) midi.play(layers);
+				if(layers[0] != null)
+					try {
+						midi.play(layers);
+					} catch (InvalidMidiDataException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				try{mode.tickerLight(currentColumn);} catch (InvalidCoordinatesException e) {}
 				
 				//15 will need to be replaced later
