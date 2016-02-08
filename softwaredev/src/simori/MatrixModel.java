@@ -110,7 +110,7 @@ public class MatrixModel  {
 	 * @version 1.0.0
 	 * @param newBPM  byte with the value to set the bpm too.
 	 */
-	public void setBPM(byte newBPM){
+	public void setBPM(short newBPM){
 		BPM = newBPM;
 	}
 	
