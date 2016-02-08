@@ -1,7 +1,6 @@
 package simori;
 
 import java.util.ArrayList;
-
 import javax.sound.midi.MidiSystem;
 import javax.sound.midi.Receiver;
 import javax.sound.midi.ShortMessage;
@@ -15,15 +14,15 @@ import javax.sound.midi.InvalidMidiDataException;
  * @see MIDIPlayer
  * @see ShortMessage
  * 
- * Class that implements the MIDIPlayer interface
+ * Class that implements the MIDIPlayer interface.
  */
 public class MIDISoundPlayer implements MIDIPlayer{
-	//TODO implement in sprint 2: The percussion channel (9) doesn't have instruments,the pitch determines the instrument to be played
+	//TODO implement in sprint 2: The percussion channel (9) doesn't have instruments,the pitch determines the instrument to be played.
 	
-	final static int TIMESTAMP = -1; // Timestamp of -1 means MIDI messages will be executed immediately
+	final static int TIMESTAMP = -1; // Timestamp of -1 means MIDI messages will be executed immediately.
 	private Synthesizer synth;
 	private Receiver reciever;
-	private ArrayList<ShortMessage>  messageArray; // ArrayList that will hold all MIDI messages for a single tick
+	private ArrayList<ShortMessage>  messageArray; // ArrayList that will hold all MIDI messages for a single tick.
 	private ShortMessage message;
 	
 	
@@ -32,10 +31,10 @@ public class MIDISoundPlayer implements MIDIPlayer{
 	 * @version 1.0.1
 	 * @throws MidiUnavailableException
 	 * 
-	 * Constructor that creates a MIDISynthesizer with a connected receiver that can send MIDI short messages to the synthesizer
+	 * Constructor that creates a MIDISynthesizer with a connected receiver that can send MIDI short messages to the synthesizer.
 	 */
 	public MIDISoundPlayer() {
-		//TODO Error checking 2: getSynth (check for null etc)
+		//TODO Error checking sprint 2: getSynth (check for null etc).
 		try {
 			synth = MidiSystem.getSynthesizer();
 			synth.open();
@@ -43,6 +42,7 @@ public class MIDISoundPlayer implements MIDIPlayer{
 		} catch (MidiUnavailableException e) {e.printStackTrace();System.exit(1);}
 
 	}
+	
 	
 	/**
 	 * @author Josh
@@ -52,21 +52,20 @@ public class MIDISoundPlayer implements MIDIPlayer{
 	 * @throws InvalidMidiDataException
 	 * 
 	 * Method takes the input array array of bytes and turns those into a MIDI messages.
-	 * These messages are stored in an ArrayList ready to be executed simultaneously 
+	 * These messages are stored in an ArrayList ready to be executed simultaneously.
 	 */
 	private void readArray(byte[][] array){
-		
 		for(byte[] layer : array) { // for each 'layer' with a sound that needs playing: 
 			try {
-				message = new ShortMessage(ShortMessage.PROGRAM_CHANGE, layer[0], layer[1], 0); // for the given layer set the channel and instrument, the zero is arbitrary (but is needed for correct number of bytes to be sent)
+				message = new ShortMessage(ShortMessage.PROGRAM_CHANGE, layer[0], layer[1], 0); // for the given layer set the channel and instrument, the zero is arbitrary (but is needed for correct number of bytes to be sent).
 			} catch (InvalidMidiDataException e) {e.printStackTrace(); System.exit(1);} 
-			messageArray.add(message); // add MIDI message to array of all MIDI messages
+			messageArray.add(message); // add MIDI message to array of all MIDI messages.
 		
 			for (int i = 3; i < layer.length; i++) { // for all notes in a given layer:
 				try {
-					message = new ShortMessage(ShortMessage.NOTE_ON, layer[0], layer[i], layer[2]); // set a play command for that note with the correct pitch and velocity
+					message = new ShortMessage(ShortMessage.NOTE_ON, layer[0], layer[i], layer[2]); // set a play command for that note with the correct pitch and velocity.
 				} catch (InvalidMidiDataException e) {e.printStackTrace();  System.exit(1);} 
-				messageArray.add(message); // add MIDI message to array of all MIDI messages
+				messageArray.add(message); // add MIDI message to array of all MIDI messages.
 			} 
 		}
 	}
@@ -75,15 +74,15 @@ public class MIDISoundPlayer implements MIDIPlayer{
 	/**
 	 * @author Josh
 	 * @version 4.0.0
-	 * @throws InterruptedException
 	 * 
-	 * Method takes arrayList of MIDI messages and executes them simultaneously (or near simultaneous)
+	 * Method takes arrayList of MIDI messages and executes them simultaneously (or near simultaneous).
 	 */
 	private void playArray(){
 		for (ShortMessage message : messageArray) { // for every message in the MIDI message arrayList:
 			reciever.send(message, TIMESTAMP); // send that MIDI message to the synthesizer.
 		}
 	}
+	
 	
 	/**
 	 * @author Josh
@@ -93,10 +92,9 @@ public class MIDISoundPlayer implements MIDIPlayer{
 	@Override
 	public void play(byte[][] array){
 		messageArray = new ArrayList<ShortMessage>(); 
-		readArray(array); // take the array and turn it into MIDI messages
-		playArray(); //play all the MIDI messages
+		readArray(array); // take the array and turn it into MIDI messages.
+		playArray(); //play all the MIDI messages.
 	}
-	
 	
 	
 	/**
@@ -114,4 +112,6 @@ public class MIDISoundPlayer implements MIDIPlayer{
 		reciever.send(message, TIMESTAMP);
 		*/
 	}	
+	
+	
 }
