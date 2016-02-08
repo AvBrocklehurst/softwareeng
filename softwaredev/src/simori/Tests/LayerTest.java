@@ -24,7 +24,7 @@ public class LayerTest {
 
 	@Test
 	public void testInstrument() {
-		testlayer.setInstrument(3);
+		testlayer.setInstrument((short) 3);
 		assertEquals(3, testlayer.getInstrument());
 	}
 	
