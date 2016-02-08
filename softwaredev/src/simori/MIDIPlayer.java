@@ -1,10 +1,12 @@
 package simori;
 
+import javax.sound.midi.InvalidMidiDataException;
 
 /**
  * 
  * @author Josh
  * @version 1.1.4
+ * 
  * Interface that describes the public methods available to accessing and playing MIDI sounds.
  * 
  */
@@ -27,7 +29,7 @@ public interface MIDIPlayer {
 	 * 
 	 * Method will play all notes simultaneously(or as close to simultaneous as possible).
 	 */
-	public void play(byte[][] array);
+	public void play(byte[][] array)throws InvalidMidiDataException;
 
 	/**
 	 * @author Josh
