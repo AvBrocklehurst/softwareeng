@@ -37,14 +37,11 @@ public class MIDISoundPlayer implements MIDIPlayer{
 	 * 
 	 * Constructor that creates a MIDISynthesizer with a connected receiver that can send MIDI short messages to the synthesizer.
 	 */
-	public MIDISoundPlayer() {
+	public MIDISoundPlayer() throws MidiUnavailableException {
 		//TODO Error checking sprint 2: getSynth (check for null etc).
-		try {
-			synth = MidiSystem.getSynthesizer();
-			synth.open();
-			reciever = synth.getReceiver();
-		} catch (MidiUnavailableException e) {e.printStackTrace();System.exit(1);}
-
+		synth = MidiSystem.getSynthesizer();
+		synth.open();
+		reciever = synth.getReceiver();
 	}
 	
 	
@@ -59,16 +56,12 @@ public class MIDISoundPlayer implements MIDIPlayer{
 	 * These messages are stored in an ArrayList ready to be executed simultaneously.
 	 */
 	private void readArray(byte[][] array) throws InvalidMidiDataException{
-		for(byte[] layer : array) { // for each 'layer' with a sound that needs playing: 
-			//try {
-				message = new ShortMessage(ShortMessage.PROGRAM_CHANGE, layer[0], layer[1], 0); // for the given layer set the channel and instrument, the zero is arbitrary (but is needed for correct number of bytes to be sent).
-			//} catch (InvalidMidiDataException e) {e.printStackTrace(); System.exit(1);} 
+		for(byte[] layer : array) { // for each 'layer' with a sound that needs playing:
+			message = new ShortMessage(ShortMessage.PROGRAM_CHANGE, layer[0], layer[1], 0); // for the given layer set the channel and instrument, the zero is arbitrary (but is needed for correct number of bytes to be sent).
 			messageArray.add(message); // add MIDI message to array of all MIDI messages.
 		
 			for (int i = 3; i < layer.length; i++) { // for all notes in a given layer:
-				//try {
-					message = new ShortMessage(ShortMessage.NOTE_ON, layer[0], layer[i], layer[2]); // set a play command for that note with the correct pitch and velocity.
-				//} catch (InvalidMidiDataException e) {e.printStackTrace();  System.exit(1);} 
+				message = new ShortMessage(ShortMessage.NOTE_ON, layer[0], layer[i], layer[2]); // set a play command for that note with the correct pitch and velocity.
 				messageArray.add(message); // add MIDI message to array of all MIDI messages.
 			} 
 		}
