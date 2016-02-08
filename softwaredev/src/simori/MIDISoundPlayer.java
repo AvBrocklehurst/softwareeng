@@ -11,10 +11,14 @@ import javax.sound.midi.InvalidMidiDataException;
 /**
  * @author Josh
  * @version 3.2.4
- * @see MIDIPlayer
- * @see ShortMessage
+ * {@link simori.MIDIPlayer}
+ * {@link ShortMessage}
  * 
  * Class that implements the MIDIPlayer interface.
+ * NOTE: This class is designed to have the lowest overhead as possible.
+ * This is because it is played after the clock, i.e. if it takes too long to process it may become out of sync with the rest of the system.
+ * The amount of time it takes to do .play(Array) is ideally zero.
+ * As a result there is little to no error checking in this class. All error checking is done before this method is played (whilst it is still in sync with the clock)
  */
 public class MIDISoundPlayer implements MIDIPlayer{
 	//TODO implement in sprint 2: The percussion channel (9) doesn't have instruments,the pitch determines the instrument to be played.
