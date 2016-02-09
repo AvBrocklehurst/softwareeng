@@ -101,7 +101,7 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 		
 		for(int i = 0 ; i<grid.length ; i++){
 			grid[i] = new boolean[grid1[i].length];
-			System.arraycopy(grid1[i], 0, grid[i], 0, grid1[i].length);   //deepcopy element by element
+			System.arraycopy(grid1[i], 0, grid[i], 0, grid1[i].length);   //deep copy element by element
 		}
 	}
 	
@@ -115,5 +115,8 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 	public String getModeName(){
 		return currentModeName;
 	}
-
+	
+	public boolean[][] getModifiedGrid(){
+		return grid;
+	}
 }

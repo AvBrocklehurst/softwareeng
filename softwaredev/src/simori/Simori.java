@@ -26,4 +26,8 @@ public class Simori {
 	public MatrixModel getModel(){
 		return model;
 	}
+	
+	public void setModel(MatrixModel model){
+		this.model = model; 
+	}
 }
