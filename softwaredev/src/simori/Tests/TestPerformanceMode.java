@@ -1,22 +1,31 @@
 package simori.Tests;
 
 import static org.junit.Assert.assertEquals;
+import static org.hamcrest.CoreMatchers.startsWith;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
+import org.junit.Rule;
+import org.junit.rules.ExpectedException;
 
 import simori.MatrixModel;
 import simori.PerformanceMode;
 import simori.Simori;
+import simori.SimoriGui;
 import simori.Exceptions.InvalidCoordinatesException;
 
 
 
 /**
- * The class for testing Performance Mode.
+ * The class for testing Performance Mode
+ * 
+ * The Mode class itself is abstract and cannot be instantiated,
+ * therefore it is tested through its implementation classes.
+ * 
+ * Coverage = 100%
  * 
  * @author James
  * @version 1.0.0
@@ -30,6 +39,10 @@ public class TestPerformanceMode {
 	Simori testsimori;
 	MockGridButtonEvent mockgb;
 	MatrixModel testmodel;
+	SimoriGui testgui;
+	
+	@Rule
+	public ExpectedException thrown = ExpectedException.none();
 	
 	@Before
 	public void setUp(){
@@ -39,6 +52,7 @@ public class TestPerformanceMode {
 		testsimori.setModel(testmodel);
 		testpm = new PerformanceMode(testsimori, 0, 0, (byte)0);
 		mockgb = new MockGridButtonEvent(3, 2);
+		testsimori.setGui(testgui);
 	
 	}
 	
@@ -49,13 +63,13 @@ public class TestPerformanceMode {
 		testmodel = null;
 		testpm = null;
 		mockgb = null;
+		testgui = null;
 		
 	}
 	
 	@Test
 	public void test_onGridButtonPress() throws InvalidCoordinatesException{
 		
-		boolean gridcoords = testpm.getModifiedGrid()[2][3];
 		testpm.onGridButtonPress(mockgb);
 		boolean changedgridcoords = testpm.getModifiedGrid()[2][3];
 		assertEquals("The grid button was not inverted!", true, changedgridcoords);
@@ -64,29 +78,38 @@ public class TestPerformanceMode {
 	}
 	
 	@Test
+	public void test_onGridButtonPress_false() throws InvalidCoordinatesException{
+		
+		testpm.onGridButtonPress(mockgb); //invert to true
+		testpm.onGridButtonPress(mockgb); //invert to false
+		boolean changedgridcoords = testpm.getModifiedGrid()[2][3];
+		assertEquals("The grid button was not inverted back to false!", false, changedgridcoords);
+	}
+	
+	@Test
 	public void test_onGridButtonPress_notInverted() throws InvalidCoordinatesException{
 		
-		boolean gridcoords = testpm.getModifiedGrid()[5][6];
 		testpm.onGridButtonPress(mockgb);
 		boolean changedgridcoords = testpm.getModifiedGrid()[5][6];
 		assertEquals("The grid button should not be inverted!", false, changedgridcoords);
 		
 	}
 	
-
-	/*@Test
+	@Test
 	public void test_tickerLight() throws InvalidCoordinatesException{
 		
-		boolean[][] grid = testpm.getModifiedGrid();
-	
-		for(int i = 0 ; i<grid)
-		
 		testpm.tickerLight((byte)0); 
-		assertEquals("The values are grid index grid[5][0] were not inverted", true, grid[5][0]);
+		boolean tickeredgridcoords = testpm.getModifiedGrid()[5][0];
+		assertEquals("The values are grid index grid[5][0] were not set to true by the ticker", true, tickeredgridcoords);
 	}
 	
 	@Test
 	public void test_makeGridCopy(){
 		
-	}*/
+		boolean[][] initialgrid = testpm.getModifiedGrid();
+		testpm.makeGridCopy((byte)0);
+		boolean[][] finalgrid = testpm.getModifiedGrid();
+		assertEquals("The grid was not copied correctly!", false, finalgrid[2][3]);
+		
+	}
 }

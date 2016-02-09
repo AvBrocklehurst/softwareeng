@@ -2,11 +2,28 @@ package simori;
 
 import javax.sound.midi.MidiUnavailableException;
 
+/**
+ * The main Simori class, runs the the whole Simori system.
+ * 
+ * 
+ * @author James, Josh, Matt, Adam, Jurek
+ * @version 1.0.1
+ *
+ */
 public class Simori {
 	
 	private static final int GRID_WIDTH = 16, GRID_HEIGHT = 16;
 	private SimoriGui gui;
 	private MatrixModel model;
+	
+	/**
+	 * Instantiates all the required classes to render and use a Simori.
+	 * 
+	 * @author James, Josh, Matt, Adam, Jurek
+	 * @param args
+	 * @throws MidiUnavailableException
+	 * @version 1.0.0
+	 */
 	public static void main(String[] args) throws MidiUnavailableException {
 		Simori simori = new Simori();
 		simori.model = new MatrixModel(); //Use GRID_WIDTH and GRID_HEIGHT?
@@ -19,15 +36,53 @@ public class Simori {
 		thread.start();
 	}
 	
+	/**
+	 * Returns the gui for the Simori.
+	 * 
+	 * @author James, Matt
+	 * @return SimoriGui
+	 * @version 1.0.0
+	 */
 	public SimoriGui getGui(){
 		return gui;
 	}
 	
+	/**
+	 * Returns the model for the Simori.
+	 * 
+	 * @author James, Matt
+	 * @return MatrixModel
+	 * @version 1.0.0
+	 */
 	public MatrixModel getModel(){
 		return model;
 	}
 	
+	/**
+	 * Allows setting of the model for testing classes,
+	 * as general instantiation is done in the main method
+	 * on run.
+	 * 
+	 * @author James, Matt
+	 * @param model
+	 * @version 1.0.0
+	 * @see TestPerformanceMode
+	 */
 	public void setModel(MatrixModel model){
 		this.model = model; 
+	}
+	
+	/**
+	 * Allows setting of the model for testing classes,
+	 * as general instantiation is done in the main method
+	 * on run.
+	 * 
+	 * @author James
+	 * @param gui
+	 * @version 1.0.0
+	 * @see TestPerformanceMode
+	 */
+	public void setGui(SimoriGui gui){
+		this.gui = new SimoriGui(16, 16);
 	}
 }

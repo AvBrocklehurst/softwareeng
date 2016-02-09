@@ -29,7 +29,8 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 	 * @param loopspeed
 	 * @param looppoint
 	 * @author James
-	 * @version 1.0.0
+	 * @version 1.2.0
+	 * @see makeGridCopy()
 	 */
 	public PerformanceMode(Simori simori, int loopspeed, int looppoint, byte layno /*voice, velocity*/){
 		this.loopspeed = loopspeed;
@@ -46,7 +47,8 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 	 * @param e (A GridButtonEvent)
 	 * @author James
 	 * @see SimoriGuiEvents$GridButtonEvent, SimoriGuiEvents.GridButtonListener, Layer.updateButton, SimoriGui.setGrid
-	 * @version 1.1.0
+	 * @see GridButtonEvent.getX(), GridButtonEvent.getY(), GridButtonEvent.getSource()
+	 * @version 1.1.3
 	 */
 	public void onGridButtonPress(GridButtonEvent e) throws InvalidCoordinatesException{
 		
@@ -68,8 +70,8 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 	 * @param col
 	 * @author James
 	 * @throws InvalidCoordinatesException
-	 * @see simori.Exceptions.InvalidCoordinatesException
-	 * @version 1.0.0
+	 * @see simori.Exceptions.InvalidCoordinatesException, makeGridCopy(), Simori.getGui(), SimoriGui.setGrid()
+	 * @version 2.0.1
 	 */
 	public void tickerLight(byte col) throws InvalidCoordinatesException{
 		
@@ -89,7 +91,7 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 	 * 
 	 * @author James
 	 * @param layno
-	 * @version 1.0.0
+	 * @version 1.1.2
 	 * @see Simori.getModel(), MatrixModel.getGrid(), System.arraycopy()
 	 */
 	public void makeGridCopy(byte layno){
@@ -106,17 +108,17 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 	}
 	
 	/**
-	 * Gets the current mode name.
+	 * A method to get the current grid pattern when its been modified by
+	 * tickerLight or onGridButtonPress. This grid pattern is passed to
+	 * the gui to instruct the lights to turn on.
 	 * 
 	 * @author James
-	 * @see Mode.currentMode
+	 * @return boolean[][]
 	 * @version 1.0.0
+	 * @see tickerLight, onGridButtonPress
 	 */
-	public String getModeName(){
-		return currentModeName;
-	}
-	
 	public boolean[][] getModifiedGrid(){
 		return grid;
 	}
+	
 }

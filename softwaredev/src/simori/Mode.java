@@ -11,8 +11,11 @@ import static simori.SimoriGuiEvents.FunctionButton;
  * use in the Mode subclasses. Mode handles the logic
  * of a given Function Button press.
  * 
+ * Mode is an abstract class and so is tested through its concrete
+ * implementations.
+ * 
  * @author James
- * @version 1.0.0
+ * @version 1.1.0
  */
 public abstract class Mode implements FunctionButtonListener, GridButtonListener {
 	
@@ -26,6 +29,7 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 	 * 
 	 * @author James
 	 * @version 1.0.1
+	 * @see FunctionButton.getFunctionButton(), SimoriGui.getSource(), SimoriGui.setMode()
 	 */
 	public void onFunctionButtonPress(FunctionButtonEvent e){
 		
@@ -76,10 +80,10 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 	 * 
 	 * @author James
 	 * @return Layer
-	 * @see tempLayer
+	 * @version 1.0.0
 	 */
 	public Layer getTempLayer(){
-		return tempLayer;
+		return tempLayer; //TODO relevant next sprint
 	}
 	
 
