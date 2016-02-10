@@ -5,8 +5,12 @@ import javax.sound.midi.MidiUnavailableException;
 /**
  * The main Simori class, runs the the whole Simori system.
  * 
+ * @author Adam
+ * @author James
+ * @author Josh
+ * @author Jurek
+ * @author Matt 
  * 
- * @author James, Josh, Matt, Adam, Jurek
  * @version 1.0.1
  *
  */
@@ -19,7 +23,11 @@ public class Simori {
 	/**
 	 * Instantiates all the required classes to render and use a Simori.
 	 * 
-	 * @author James, Josh, Matt, Adam, Jurek
+	 * @author Adam
+	 * @author James
+	 * @author Josh
+	 * @author Jurek
+	 * @author Matt 
 	 * @param args
 	 * @throws MidiUnavailableException
 	 * @version 1.0.0
