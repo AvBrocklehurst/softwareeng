@@ -6,7 +6,6 @@ import java.awt.Shape;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.Ellipse2D;
-import java.lang.annotation.Inherited;
 
 import javax.swing.JComponent;
 
