@@ -10,7 +10,11 @@ import org.junit.Test;
 
 import simori.MatrixModel;
 import simori.Exceptions.InvalidCoordinatesException;
-
+/**
+ * 
+ * @author Adam
+ *
+ */
 public class TestMatrixModel {
 	MatrixModel model;
 
