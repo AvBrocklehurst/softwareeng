@@ -16,15 +16,19 @@ import simori.SimoriGuiEvents.GridButtonEvent;
 import simori.SimoriGuiEvents.GridButtonListener;
 import simori.Exceptions.InvalidCoordinatesException;
 
+/**
+ * 
+ * @author Matt
+ * @version 2.1.3
+ */
 public class SimoriGui {
 	
-	//TODO Make LEDs always circular
-	//TODO Make Grid always square
+	//TODO Control resizing to ensure grid is always square
 	
 	private static final String WINDOW_TITLE = "Simori-ON";
 	private static final int DEFAULT_WIDTH = 720;
 	private static final int DEFAULT_HEIGHT = 720;
-	private static final int GAP = 0;
+	private static final int GAP = 0; //Padding between components
 	
 	private static final Color BACKGROUND_COLOUR = new Color(0xFFFFFF);
 	private static final Color BORDER_COLOUR = new Color(0x000000);
