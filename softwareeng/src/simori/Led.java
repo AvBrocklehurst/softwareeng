@@ -6,7 +6,6 @@ import java.awt.Shape;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.Ellipse2D;
-import java.lang.annotation.Inherited;
 
 import javax.swing.JComponent;
 
@@ -142,15 +141,19 @@ public class Led extends JComponent implements MouseListener {
 			pushed = false;
 			repaint(); //Redraw, no longer with 'IN' colour
 		}
+		/*
+		 * FIXME Very hard to notice, but buttons won't redraw as no
+		 * 		 longer pressed if they're the last of a click and drag
+		 */
 	}
 	
 	/** Informs the registered {@link OnPressListener} of a press */
 	private void pressed() {
-		if (listener != null) listener.onPress(this);
+		if (listener != null) listener.onPress();
 	}
 	
 	/** Callback interface for notification upon LED press */
 	public interface OnPressListener {
-		public void onPress(Led led);
+		public void onPress();
 	}
 }

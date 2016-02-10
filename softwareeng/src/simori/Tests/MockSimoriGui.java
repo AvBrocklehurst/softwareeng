@@ -1,15 +1,18 @@
 package simori.Tests;
 
+import simori.Led;
+import simori.Led.OnPressListener;
 import simori.SimoriGui;
+import simori.SimoriGuiEvents.GridButtonEvent;
 
 /**
  * A SimoriGui Mock object. A Mock is needed
  * to prevent the gui window from permanently rendering.
- * 
+ * Also exposes LED array for testing.
  * @author James
+ * @author Matt
  * @version 1.0.0
  * @see SimoriGui
- *
  */
 
 public class MockSimoriGui extends SimoriGui{
@@ -24,6 +27,45 @@ public class MockSimoriGui extends SimoriGui{
 	 */
 	public MockSimoriGui(int rows, int columns) {
 		super(rows, columns);
+		setVisible(false);
 	}
-
+	
+	/** @return Reference to LED at specified grid coordinates */
+	public Led getLed(int x, int y) {
+		return leds[x][y];
+	}
+	
+	/** @param Whether to show the GUI */
+	public void setVisible(boolean visible) {
+		frame.setVisible(visible);
+	}
+	
+	/** Resizes to the specified dimensions */
+	public void setSize(int width, int height) {
+		frame.setSize(width, height);
+	}
+	
+	public int getWidth() {
+		return frame.getWidth();
+	}
+	
+	public int getHeight() {
+		return frame.getHeight();
+	}
+	
+	/**
+	 * Invokes the helper methods which
+	 * build the edge GUI elements.
+	 */
+	public void makeEdgeButtons() {
+		makeBottomButtons();
+		makeTopButtons();
+		makeLeftButtons();
+		makeRightButtons();
+	}
+	
+	/** Exposes makeListenerWith for testing */
+	public OnPressListener makeListenerWith(GridButtonEvent e) {
+		return super.makeListenerWith(e);
+	}
 }

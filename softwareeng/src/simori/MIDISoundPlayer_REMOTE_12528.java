@@ -115,4 +115,3 @@ public class MIDISoundPlayer implements MIDIPlayer{
 	
 	
 }
-

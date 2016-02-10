@@ -21,6 +21,7 @@ public class TestClock {
 	MIDISoundPlayer midi;
 	Clock clock;
 	Thread thread;
+	Throwable e;
 	
 	@Before
 	public void setUp() throws MidiUnavailableException, InvalidCoordinatesException {
@@ -31,6 +32,17 @@ public class TestClock {
 		simori.getGui().setMode(mode);
 		simori.getModel().updateButton((byte)0, (byte)1, (byte)5);
 		midi = new MIDISoundPlayer();
+		e = null;
+	}
+	
+	private void setUpThread() {
+		thread = new Thread(clock);
+		Thread.UncaughtExceptionHandler h = new Thread.UncaughtExceptionHandler() {
+		    public void uncaughtException(Thread t, Throwable e) {
+		        TestClock.this.e = e;
+		    }
+		};
+		thread.setUncaughtExceptionHandler(h);
 	}
 	
 	@After
@@ -41,55 +53,62 @@ public class TestClock {
 		midi = null;
 		clock = null;
 		thread = null;
+		e = null;
 	}
 	
 	@Test
 	public void testRun() throws MidiUnavailableException {
 		clock = new Clock(simori.getModel(), midi, mode, 88);
-		thread = new Thread(clock);
+		setUpThread();
 		thread.start();
-		try{Thread.sleep(5000);} catch (InterruptedException e) {}
+		try{Thread.sleep(2000);} catch (InterruptedException e) {}
+		assertNull(e);
 	}
 	
-	@Test(expected = NullPointerException.class)
+	@Test
 	public void testRunNullModel() throws MidiUnavailableException {
 		midi = new MIDISoundPlayer();
 		clock = new Clock(null, midi, mode, 88);
-		thread = new Thread(clock);
+		setUpThread();
 		thread.start();
-		try{Thread.sleep(5000);} catch (InterruptedException e) {}
+		try{Thread.sleep(2000);} catch (InterruptedException e) {}
+		assertEquals(e.getClass(), NullPointerException.class);
 	}
 	
-	@Test(expected = NullPointerException.class)
+	@Test
 	public void testRunNullMIDI() {
 		clock = new Clock(simori.getModel(), null, mode, 88);
-		thread = new Thread(clock);
+		setUpThread();
 		thread.start();
-		try{Thread.sleep(5000);} catch (InterruptedException e) {}
+		try{Thread.sleep(2000);} catch (InterruptedException e) {}
+		assertEquals(e.getClass(), NullPointerException.class);
 	}
 	
-	@Test(expected = NullPointerException.class)
+	@Test
 	public void testRunNullMode() throws MidiUnavailableException {
 		clock = new Clock(simori.getModel(), midi, null, 88);
-		thread = new Thread(clock);
+		setUpThread();
 		thread.start();
-		try{Thread.sleep(5000);} catch (InterruptedException e) {}
+		try{Thread.sleep(2000);} catch (InterruptedException e) {}
+		assertEquals(e.getClass(), NullPointerException.class);
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void testRunTempoNegative() throws MidiUnavailableException {
 		clock = new Clock(simori.getModel(), midi, mode, -1);
-		thread = new Thread(clock);
+		setUpThread();
 		thread.start();
-		try{Thread.sleep(5000);} catch (InterruptedException e) {}
+		try{Thread.sleep(2000);} catch (InterruptedException e) {}
+		assertEquals(e.getClass(), IllegalArgumentException.class);
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void testRunTempoZero() throws MidiUnavailableException {
 		clock = new Clock(simori.getModel(), midi, mode, 0);
-		thread = new Thread(clock);
+		setUpThread();
 		thread.start();
-		try{Thread.sleep(5000);} catch (InterruptedException e) {}
+		try{Thread.sleep(2000);} catch (InterruptedException e) {}
+		assertEquals(e.getClass(), IllegalArgumentException.class);
 	}
 
 

@@ -57,13 +57,11 @@ public class MIDISoundPlayer implements MIDIPlayer{
 	 */
 	private void readArray(byte[][] array) throws InvalidMidiDataException{
 		for(byte[] layer : array) { // for each 'layer' with a sound that needs playing:
-			message = new ShortMessage(); // for some reason constructor does not work in blue room, so setMessage has to be used instead
-			message.setMessage(ShortMessage.PROGRAM_CHANGE, layer[0], layer[1], 0); // for the given layer set the channel and instrument, the zero is arbitrary (but is needed for correct number of bytes to be sent).
+			message = new ShortMessage(ShortMessage.PROGRAM_CHANGE, layer[0], layer[1], 0); // for the given layer set the channel and instrument, the zero is arbitrary (but is needed for correct number of bytes to be sent).
 			messageArray.add(message); // add MIDI message to array of all MIDI messages.
 		
 			for (int i = 3; i < layer.length; i++) { // for all notes in a given layer:
-				message = new ShortMessage(); // for some reason constructor does not work in blue room, so setMessage has to be used instead
-				message.setMessage(ShortMessage.NOTE_ON, layer[0], layer[i], layer[2]); // set a play command for that note with the correct pitch and velocity.
+				message = new ShortMessage(ShortMessage.NOTE_ON, layer[0], layer[i], layer[2]); // set a play command for that note with the correct pitch and velocity.
 				messageArray.add(message); // add MIDI message to array of all MIDI messages.
 			}  
 		}
@@ -115,4 +113,3 @@ public class MIDISoundPlayer implements MIDIPlayer{
 	
 	
 }
-
