@@ -6,7 +6,8 @@ To run our project please do the following:
 3. Please make sure all following batch files are set to be executable
 4. To compile the Simori code, run compilecode.bat from the folder in which it is located
 5. To run the Simori code, run runcode.bat
-6. Place the two required jar files in the same folder as the batch files
+6. Ensure that the two required jar files are present
+   You should find them already in the same folder as the batch files
 7. To compile the JUnit tests, run compiletests.bat
 8. To run the JUnit tests, run runtests.bat
 
