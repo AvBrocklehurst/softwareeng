@@ -40,7 +40,7 @@ public class Clock implements Runnable {
 		 * @param mode Holds the reference to the GUI
 		 * @param bbm Beats Per Minute; used to calculate the period
 		 */
-		Clock(MatrixModel model, MIDIPlayer midi, PerformanceMode mode, float bbm){
+		public Clock(MatrixModel model, MIDIPlayer midi, PerformanceMode mode, float bbm){
 			this.model = model;
 			this.midi = midi;
 			this.mode = mode;
@@ -126,7 +126,7 @@ public class Clock implements Runnable {
 				}
 				//...and send a play request to the MIDIPlayer
 				//if MIDIPlayer throws an error, print it out and stop the JVM
-				if(layers[0] != null) try {midi.play(layers);} catch (InvalidMidiDataException e1) {e1.printStackTrace(); System.exit(1);}
+				if(layers[0] != null) midi.play(layers);
 				//turn the lights on the current column
 				try{mode.tickerLight(currentColumn);} catch (InvalidCoordinatesException e) {}
 				

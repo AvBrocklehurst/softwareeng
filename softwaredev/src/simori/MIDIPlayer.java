@@ -29,7 +29,7 @@ public interface MIDIPlayer {
 	 * 
 	 * Method will play all notes simultaneously(or as close to simultaneous as possible).
 	 */
-	public void play(byte[][] array)throws InvalidMidiDataException;
+	public void play(byte[][] array);
 
 	/**
 	 * @author Josh

@@ -7,6 +7,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import simori.Clock;
 import simori.MIDISoundPlayer;
 import simori.MatrixModel;
 import simori.PerformanceMode;
@@ -17,6 +18,8 @@ public class TestClock {
 	MatrixModel model;
 	MIDISoundPlayer midi;
 	PerformanceMode mode;
+	Thread thread;
+	Clock clock;
 	
 	@Before
 	public void setUp() {
@@ -31,7 +34,20 @@ public class TestClock {
 		model = null;
 		midi = null;
 		mode = null;
+		clock = null;
+		thread = null;
 	}
+	
+	@Test
+	public void testRun() throws MidiUnavailableException {
+		midi = new MIDISoundPlayer();
+		clock = new Clock(model, midi, mode, 88);
+		thread = new Thread(clock);
+		thread.start();
+	}
+	
+	@Test
+	public void testRun
 	
 	@Test
 	public void whatExactlyAmISuppposedToTest() {
