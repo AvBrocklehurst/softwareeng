@@ -13,12 +13,15 @@ Please Note: Some of our unit tests use GUI-related mock objects with uninstanti
 and this can lead to NullPointerExceptions during the JUnit testing if the GUIs which pop up
 are interacted with  in any way. Even having the mouse inside the window when the tests start
 can cause an issue!
+As a result please put the mouse on the other side of the screen.
+Also please avoiding touching the computer whilst the tests run!
 
 Jars required for JUnit tests:
 junit-4.12.jar
 hamcrest-core-1.3.jar
+These are included within the zip file.
 
-All batch files listed above were tested on the machines in the blue room as specified in the spefication.
+All files were tested on the machines in the blue room as specified in the specification.
 
 Cheers,
 Team H
