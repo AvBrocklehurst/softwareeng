@@ -47,7 +47,8 @@ public class SimoriGui {
 	private GridButtonListener gListener;
 	private FunctionButtonListener fListener;
 	
-	private Led[][] leds;
+	protected JFrame frame;
+	protected Led[][] leds;
 	
 	/**
 	 * Creates a new GUI which will be visible immediately.
@@ -61,7 +62,7 @@ public class SimoriGui {
 		 * Led grid is a JPanel containing Leds arranged with GridLayout.
 		 * Buttons around the edges are in JPanels arranged with BoxLayout.
 		 */
-		JFrame frame = new JFrame(WINDOW_TITLE);
+		frame = new JFrame(WINDOW_TITLE);
 		frame.setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 		frame.setLayout(new BorderLayout(GAP, GAP));
 		//frame.add(makeTopButtons(), BorderLayout.PAGE_START);

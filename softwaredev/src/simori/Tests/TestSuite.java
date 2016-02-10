@@ -10,5 +10,6 @@ import org.junit.runners.Suite;
    TestMatrixModel.class,
    TestMIDISoundPlayer.class,
    TestPerformanceMode.class,
+   TestLed.class
 })
 public class TestSuite {}  
