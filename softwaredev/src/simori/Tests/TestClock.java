@@ -91,10 +91,6 @@ public class TestClock {
 		thread.start();
 		try{Thread.sleep(5000);} catch (InterruptedException e) {}
 	}
-		
-	@Test
-	public void whatExactlyAmISuppposedToTest() {
-		
-	}
-	
+
+
 }
