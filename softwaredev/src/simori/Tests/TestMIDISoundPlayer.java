@@ -27,7 +27,7 @@ import simori.MIDISoundPlayer;
  * Tests with this condition will be labelled with something along the lines of 'ArbitarySoundTest'.
  *
  */
-public class MIDISoundPlayerTest {
+public class TestMIDISoundPlayer {
 	MIDISoundPlayer player; // declare a MIDISoundPlayer.
 	byte[][] array; // declare an array to be used with play(array) tests.
 	

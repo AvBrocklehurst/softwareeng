@@ -84,12 +84,5 @@ public class TestClock {
 		thread = new Thread(clock);
 		thread.start();
 	}
-	
-	
-	
-	@Test
-	public void whatExactlyAmISuppposedToTest() {
-		
-	}
-	
+	@Test public void whatExactlyAmISuppposedToTest() {}
 }
