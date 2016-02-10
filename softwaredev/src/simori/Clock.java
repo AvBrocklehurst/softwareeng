@@ -15,7 +15,7 @@ import simori.Exceptions.InvalidCoordinatesException;
 	 * @author Jurek
 	 * @author Adam
 	 * @version 1.2.0
-	 *
+	 * @see run()
 	 */
 	//TODO different loop breakpoints
 	//TODO error checking for midi.play(layers)
