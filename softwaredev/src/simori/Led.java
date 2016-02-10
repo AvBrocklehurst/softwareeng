@@ -149,11 +149,11 @@ public class Led extends JComponent implements MouseListener {
 	
 	/** Informs the registered {@link OnPressListener} of a press */
 	private void pressed() {
-		if (listener != null) listener.onPress(this);
+		if (listener != null) listener.onPress();
 	}
 	
 	/** Callback interface for notification upon LED press */
 	public interface OnPressListener {
-		public void onPress(Led led);
+		public void onPress();
 	}
 }

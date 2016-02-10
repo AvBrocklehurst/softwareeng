@@ -1,7 +1,9 @@
 package simori.Tests;
 
 import simori.Led;
+import simori.Led.OnPressListener;
 import simori.SimoriGui;
+import simori.SimoriGuiEvents.GridButtonEvent;
 
 /**
  * A SimoriGui Mock object. A Mock is needed
@@ -49,5 +51,21 @@ public class MockSimoriGui extends SimoriGui{
 	
 	public int getHeight() {
 		return frame.getHeight();
+	}
+	
+	/**
+	 * Invokes the helper methods which
+	 * build the edge GUI elements.
+	 */
+	public void makeEdgeButtons() {
+		makeBottomButtons();
+		makeTopButtons();
+		makeLeftButtons();
+		makeRightButtons();
+	}
+	
+	/** Exposes makeListenerWith for testing */
+	public OnPressListener makeListenerWith(GridButtonEvent e) {
+		return super.makeListenerWith(e);
 	}
 }

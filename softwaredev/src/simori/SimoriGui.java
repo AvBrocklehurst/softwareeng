@@ -105,7 +105,7 @@ public class SimoriGui {
 	 * @param columns Number of LEDs in the horizontal dimension
 	 * @return The completed panel containing a grid of Leds
 	 */
-	private JPanel makeLedPanel(int rows, int columns) {
+	protected JPanel makeLedPanel(int rows, int columns) {
 		JPanel panel = new JPanel(new GridLayout(rows, columns, GAP, GAP));
 		leds = new Led[rows][columns];
 		for (int y = 0; y < rows; y++) {
@@ -128,7 +128,7 @@ public class SimoriGui {
 	 * row of buttons along the top of the Simori.
 	 * @return The completed panel
 	 */
-	private JPanel makeTopButtons() {
+	protected JPanel makeTopButtons() {
 		JPanel box = new JPanel();
 		BoxLayout layout = new BoxLayout(box, BoxLayout.LINE_AXIS);
 		box.setLayout(layout);
@@ -141,7 +141,7 @@ public class SimoriGui {
 	 * row of buttons along the left of the Simori
 	 * @return The completed panel
 	 */
-	private JPanel makeLeftButtons() {
+	protected JPanel makeLeftButtons() {
 		JPanel box = new JPanel();
 		BoxLayout layout = new BoxLayout(box, BoxLayout.PAGE_AXIS);
 		box.setLayout(layout);
@@ -157,7 +157,7 @@ public class SimoriGui {
 	 * row of buttons along the right of the Simori
 	 * @return The completed panel
 	 */
-	private JPanel makeRightButtons() {
+	protected JPanel makeRightButtons() {
 		JPanel box = new JPanel();
 		BoxLayout layout = new BoxLayout(box, BoxLayout.PAGE_AXIS);
 		box.setLayout(layout);
@@ -173,7 +173,7 @@ public class SimoriGui {
 	 * row of UI elements along the bottom of the Simori
 	 * @return The completed panel
 	 */
-	private JPanel makeBottomButtons() {
+	protected JPanel makeBottomButtons() {
 		JPanel box = new JPanel();
 		BoxLayout layout = new BoxLayout(box, BoxLayout.LINE_AXIS);
 		box.setLayout(layout);
@@ -189,9 +189,9 @@ public class SimoriGui {
 	 * @param e Event with coordinates and source set
 	 * @return A listener, ready to use
 	 */
-	private OnPressListener makeListenerWith(final GridButtonEvent e) {
+	protected OnPressListener makeListenerWith(final GridButtonEvent e) {
 		return new OnPressListener() {
-			public void onPress(Led led) {
+			public void onPress() {
 				try {
 					gListener.onGridButtonPress(e);
 				} catch (InvalidCoordinatesException ex) {
