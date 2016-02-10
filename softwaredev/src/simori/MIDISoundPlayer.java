@@ -83,7 +83,7 @@ public class MIDISoundPlayer implements MIDIPlayer{
 	
 	/**
 	 * @author Josh
-	 * @version 1.0.1
+	 * @version 1.0.5;
 	 * {@inheritDoc}
 	 * @throws InvalidMidiDataException 
 	 */
