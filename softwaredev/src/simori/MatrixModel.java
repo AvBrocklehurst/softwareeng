@@ -26,9 +26,9 @@ public class MatrixModel  {
 	 * @version 1.0.0
 	 */
 	public MatrixModel(){
-		layers = new Layer[16];
-		layers[0] = new Layer();
-		BPM = 88;
+		layers = new Layer[16]; //make layers 16 long to hold all 16 layers
+		layers[0] = new Layer(); //instatiate the first layer
+		BPM = 88; // default BPM
 	}
 	
 	/**
@@ -38,6 +38,7 @@ public class MatrixModel  {
 	 */
 	public void off(){
 		layers = null;
+		BPM = 88;
 	}
 	
 	/**
@@ -49,7 +50,7 @@ public class MatrixModel  {
 	public List<Byte> getLayers(){
 		List<Byte> lay = new ArrayList<Byte>();
 		for(byte x = 0; x < layers.length; x ++){
-			if(layers[x] != null){
+			if(layers[x] != null){ // If layer exists
 				lay.add(x);
 			}
 		}
@@ -64,8 +65,8 @@ public class MatrixModel  {
 	 * 
 	 */
 	private void layerExists(byte laynum){
-		if(layers[laynum] == null){
-			layers[laynum] = new Layer();
+		if(layers[laynum] == null){ //if the layer isn't instatiated
+			layers[laynum] = new Layer(); //create a new layer
 		}
 	}
 	
@@ -192,7 +193,6 @@ public class MatrixModel  {
 	public void updateButton(byte laynum, byte col, byte row) throws InvalidCoordinatesException{
 		layerExists(laynum);
 		layers[laynum].updateButton(col, row);
-		//System.out.println(Arrays.deepToString(layers[laynum].getGrid()));
 	}
 
 }
