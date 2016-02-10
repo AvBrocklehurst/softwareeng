@@ -46,8 +46,46 @@ public class TestClock {
 		thread.start();
 	}
 	
-	@Test
-	public void testRun
+	@Test(expected = NullPointerException.class)
+	public void testRunNullModel() throws MidiUnavailableException {
+		midi = new MIDISoundPlayer();
+		clock = new Clock(null, midi, mode, 88);
+		thread = new Thread(clock);
+		thread.start();
+	}
+	
+	@Test(expected = NullPointerException.class)
+	public void testRunNullMIDI() {
+		clock = new Clock(model, null, mode, 88);
+		thread = new Thread(clock);
+		thread.start();
+	}
+	
+	@Test(expected = NullPointerException.class)
+	public void testRunNullMode() throws MidiUnavailableException {
+		midi = new MIDISoundPlayer();
+		clock = new Clock(model, midi, null, 88);
+		thread = new Thread(clock);
+		thread.start();
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testRunTempoNegative() throws MidiUnavailableException {
+		midi = new MIDISoundPlayer();
+		clock = new Clock(model, midi, mode, -1);
+		thread = new Thread(clock);
+		thread.start();
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testRunTempoZero() throws MidiUnavailableException {
+		midi = new MIDISoundPlayer();
+		clock = new Clock(model, midi, mode, 0);
+		thread = new Thread(clock);
+		thread.start();
+	}
+	
+	
 	
 	@Test
 	public void whatExactlyAmISuppposedToTest() {

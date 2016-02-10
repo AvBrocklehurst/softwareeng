@@ -20,6 +20,7 @@ import simori.Exceptions.InvalidCoordinatesException;
 	//TODO different loop breakpoints
 	//TODO error checking for midi.play(layers)
 	//TODO fine-tune the processing so that all the notes from the next column are played
+	//TODO tempo testing, making sure its within bounds of 0<160, and in increments of 10
 
 public class Clock implements Runnable {
 		private boolean running = true;
