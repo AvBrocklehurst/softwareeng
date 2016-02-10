@@ -55,18 +55,20 @@ public class MIDISoundPlayer implements MIDIPlayer{
 	 * Method takes the input array array of bytes and turns those into a MIDI messages.
 	 * These messages are stored in an ArrayList ready to be executed simultaneously.
 	 */
-	private void readArray(byte[][] array) {
-		try {
+	private void readArray(byte[][] array){
 		for(byte[] layer : array) { // for each 'layer' with a sound that needs playing:
+			try{
 			message = new ShortMessage(ShortMessage.PROGRAM_CHANGE, layer[0], layer[1], 0); // for the given layer set the channel and instrument, the zero is arbitrary (but is needed for correct number of bytes to be sent).
+			}catch (InvalidMidiDataException e1) {e1.printStackTrace(); System.exit(1);}
 			messageArray.add(message); // add MIDI message to array of all MIDI messages.
 		
 			for (int i = 3; i < layer.length; i++) { // for all notes in a given layer:
+				try{
 				message = new ShortMessage(ShortMessage.NOTE_ON, layer[0], layer[i], layer[2]); // set a play command for that note with the correct pitch and velocity.
+				}catch (InvalidMidiDataException e1) {e1.printStackTrace(); System.exit(1);}
 				messageArray.add(message); // add MIDI message to array of all MIDI messages.
 			} 
 		}
-		} catch (InvalidMidiDataException e1) {e1.printStackTrace(); System.exit(1);}
 	}
 
 	

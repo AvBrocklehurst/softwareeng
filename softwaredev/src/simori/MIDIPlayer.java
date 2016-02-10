@@ -1,6 +1,5 @@
 package simori;
 
-import javax.sound.midi.InvalidMidiDataException;
 
 /**
  * 
