@@ -1,2 +1,2 @@
-cd softwaredev/src
+cd softwareeng/src
 javac -cp . simori/Simori.java
