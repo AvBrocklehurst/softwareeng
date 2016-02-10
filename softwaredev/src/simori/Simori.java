@@ -63,7 +63,7 @@ public class Simori {
 	public MatrixModel getModel(){
 		return model;
 	}
-	
+	 
 	/**
 	 * Allows setting of the model for testing classes,
 	 * as general instantiation is done in the main method
