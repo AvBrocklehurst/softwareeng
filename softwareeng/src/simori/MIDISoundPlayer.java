@@ -101,18 +101,30 @@ public class MIDISoundPlayer implements MIDIPlayer{
 	 * @author Josh
 	 * @version 1.0.1
 	 * {@inheritDoc}
+	 * @throws InvalidMidiDataException 
 	 */
 	@Override
-	public void stop() {
-		/*  TODO implement in sprint 2 
-		 * will probably be something along the lines of.....
-		try {
-			message = new ShortMessage(ShortMessage.STOP);
-		} catch (InvalidMidiDataException e) {e.printStackTrace(); System.exit(1);}
-		reciever.send(message, TIMESTAMP);
-		*/
+	public void stop() throws InvalidMidiDataException {
+		synth.close();
 	}	
 	
+	
+	public static void main(String[] args) throws InvalidMidiDataException, MidiUnavailableException, InterruptedException {
+		MIDISoundPlayer player = new MIDISoundPlayer();
+		byte[][] array; // declare an array to be used with play(array) tests.
+		final byte[] goodNote = {0,0,80,60}; // channel:0 , instrument:0 (piano), velocity:80, pitch 60 (middle c).
+		final byte[] secondGoodNote = {0,0,80,64}; // channel:0 , instrument:0 (piano), velocity:80, pitch 64.
+		final byte[] thirdGoodNote = {0,0,80,67}; // channel:0 , instrument:0 (piano), velocity:80, pitch 67.
+		
+		array = new byte[3][];
+		array[0] = goodNote;
+		array[1] = secondGoodNote;
+		array[2] = thirdGoodNote;
+		player.play(array); 
+		Thread.sleep(1000);
+		player.stop();
+		Thread.sleep(10000);
+	}
 	
 }
 

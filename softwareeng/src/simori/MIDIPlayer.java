@@ -38,7 +38,7 @@ public interface MIDIPlayer {
 	 * 
 	 * Method stops all music being played.
 	 */
-	public void stop();
+	public void stop() throws InvalidMidiDataException;
 }
 
 
