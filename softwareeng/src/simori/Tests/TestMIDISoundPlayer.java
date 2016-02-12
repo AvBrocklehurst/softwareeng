@@ -175,6 +175,24 @@ public class TestMIDISoundPlayer {
 		player.play(array); 
 	}
 	
+	/**
+	 * @author Josh
+	 * @version 1.0.0
+	 * @throws InvalidMidiDataException 
+	 * 
+	 * ArbitarySoundTest
+	 * test sound stops playing
+	 */
+	@Test
+	public void testStop() throws InvalidMidiDataException {
+		array = new byte[1][];
+		array[0] = goodNote;
+		player.play(array); 
+		player.stop();
+	}
+	
+	
+	
 	
 	
 	
