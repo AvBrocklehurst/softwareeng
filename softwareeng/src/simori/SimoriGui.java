@@ -1,16 +1,23 @@
 package simori;
+import static simori.SimoriGuiEvents.FunctionButton.OK;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
 import simori.Led.OnPressListener;
+import simori.SimoriGuiEvents.FunctionButton;
+import simori.SimoriGuiEvents.FunctionButtonEvent;
 import simori.SimoriGuiEvents.FunctionButtonListener;
 import simori.SimoriGuiEvents.GridButtonEvent;
 import simori.SimoriGuiEvents.GridButtonListener;
@@ -48,7 +55,9 @@ public class SimoriGui {
 	private FunctionButtonListener fListener;
 	
 	protected JFrame frame;
+	protected JLabel lcd;
 	protected Led[][] leds;
+	protected boolean[][] grid;
 	
 	/**
 	 * Creates a new GUI which will be visible immediately.
@@ -69,7 +78,7 @@ public class SimoriGui {
 		//frame.add(makeLeftButtons(), BorderLayout.LINE_START);
 		frame.add(makeLedPanel(rows, columns), BorderLayout.CENTER);
 		//frame.add(makeRightButtons(), BorderLayout.LINE_END);
-		//frame.add(makeBottomButtons(), BorderLayout.PAGE_END);
+		frame.add(makeBottomButtons(), BorderLayout.PAGE_END);
 		frame.setBackground(BACKGROUND_COLOUR);
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		frame.setVisible(true);
@@ -80,6 +89,7 @@ public class SimoriGui {
 	 * @param grid Matrix of values with true in the locations to illuminate
 	 */
 	public void setGrid(boolean[][] grid) {
+		this.grid = grid;
 		for (int y = 0; y < grid.length; y++) {
 			for (int x = 0; x < grid[y].length; x++) {
 				
@@ -87,6 +97,14 @@ public class SimoriGui {
 				leds[x][y].setIlluminated(grid[y][x]);
 			}
 		}
+	}
+	
+	public boolean[][] getGrid() {
+		return grid;
+	}
+	
+	public void setText(String text) {
+		lcd.setText(text);
 	}
 	
 	/**
@@ -177,8 +195,11 @@ public class SimoriGui {
 		JPanel box = new JPanel();
 		BoxLayout layout = new BoxLayout(box, BoxLayout.LINE_AXIS);
 		box.setLayout(layout);
-		box.add(new JButton("OK"));
-		//There will eventually be an LCD screen
+		lcd = new JLabel();
+		JButton ok = new JButton("OK");
+		ok.addActionListener(makeListenerWith(OK));
+		box.add(lcd);
+		box.add(ok);
 		return box;
 	}
 	
@@ -197,6 +218,16 @@ public class SimoriGui {
 				} catch (InvalidCoordinatesException ex) {
 					//TODO Add handling in case this is actually possible to trigger
 				}
+			}
+		};
+	}
+	
+	protected ActionListener makeListenerWith(final FunctionButton btn) {
+		return new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				fListener.onFunctionButtonPress(
+						new FunctionButtonEvent(SimoriGui.this, btn));
 			}
 		};
 	}
