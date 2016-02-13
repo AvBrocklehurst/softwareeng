@@ -101,6 +101,10 @@ public class SimoriGui {
 		lcd.setText(text);
 	}
 	
+	public void setTitle(String text) {
+		frame.setTitle(text);
+	}
+	
 	/**
 	 * Change the mode of the Simori-ON.
 	 * @param mode The mode to switch to

@@ -50,19 +50,30 @@ public class Simori {
 	}
 	
 	private static void experimentWithModeOf(Simori simori) {
-		simori.gui.setMode(new ChangerMode(makeTestChanger(), true, true));
+		simori.gui.setMode(new ChangerMode(simori, makeTestChanger(), true, true));
 	}
 	
 	private static Changer makeTestChanger() {
 		return new Changer() {
+			
+			String heldValue;
+			
 			@Override
 			public String getText(int x, int y) {
-				if (x + y < 100) return x + ", " + y;
-				return null;
+				if (x + y < 20) {
+					heldValue = "Some function of (" + x + ", " + y + ")";
+				} else {
+					heldValue = null;
+				}
+				return heldValue;
 			}
 			
 			@Override
-			public boolean doThing() {
+			public boolean doThingTo(Simori simori) {
+				if (heldValue != null) {
+					simori.getGui().setTitle(heldValue);
+					return true;
+				}
 				return false;
 			}
 		};
