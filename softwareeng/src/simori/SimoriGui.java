@@ -57,7 +57,6 @@ public class SimoriGui {
 	protected JFrame frame;
 	protected JLabel lcd;
 	protected Led[][] leds;
-	protected boolean[][] grid;
 	
 	/**
 	 * Creates a new GUI which will be visible immediately.
@@ -89,7 +88,6 @@ public class SimoriGui {
 	 * @param grid Matrix of values with true in the locations to illuminate
 	 */
 	public void setGrid(boolean[][] grid) {
-		this.grid = grid;
 		for (int y = 0; y < grid.length; y++) {
 			for (int x = 0; x < grid[y].length; x++) {
 				
@@ -97,10 +95,6 @@ public class SimoriGui {
 				leds[x][y].setIlluminated(grid[y][x]);
 			}
 		}
-	}
-	
-	public boolean[][] getGrid() {
-		return grid;
 	}
 	
 	public void setText(String text) {

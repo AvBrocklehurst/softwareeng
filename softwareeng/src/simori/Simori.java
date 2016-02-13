@@ -2,6 +2,8 @@ package simori;
 
 import javax.sound.midi.MidiUnavailableException;
 
+import simori.ChangerMode.Changer;
+
 /**
  * The main Simori class, runs the the whole Simori system.
  * @author Adam
@@ -38,12 +40,32 @@ public class Simori {
 		Simori simori = new Simori();
 		simori.model = new MatrixModel();
 		simori.gui = new SimoriGui(GRID_WIDTH, GRID_HEIGHT);
-		PerformanceMode mode = new PerformanceMode(simori,0,0,(byte)0);
-		simori.gui.setMode(mode); //TODO Off mode by default
-		MIDISoundPlayer midi = new MIDISoundPlayer();
-		Clock clock = new Clock(simori.model, midi, mode, 88);
-		Thread thread = new Thread(clock);
-		thread.start();
+		//PerformanceMode mode = new PerformanceMode(simori,0,0,(byte)0);
+		//simori.gui.setMode(mode); //TODO Off mode by default
+		experimentWithModeOf(simori);
+		//MIDISoundPlayer midi = new MIDISoundPlayer();
+		//Clock clock = new Clock(simori.model, midi, mode, 88);
+		//Thread thread = new Thread(clock);
+		//thread.start();
+	}
+	
+	private static void experimentWithModeOf(Simori simori) {
+		simori.gui.setMode(new ChangerMode(makeTestChanger(), true, true));
+	}
+	
+	private static Changer makeTestChanger() {
+		return new Changer() {
+			@Override
+			public String getText(int x, int y) {
+				if (x + y < 100) return x + ", " + y;
+				return null;
+			}
+			
+			@Override
+			public boolean doThing() {
+				return false;
+			}
+		};
 	}
 	
 	/**
