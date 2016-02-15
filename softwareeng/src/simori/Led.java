@@ -2,6 +2,7 @@ package simori;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 
 /**
@@ -55,6 +56,16 @@ public class Led extends Button {
 			lit = on;
 			repaint(); //Redraw after any visual change
 		}
+	}
+	
+	@Override
+	public String getText() {
+		return null;
+	}
+	
+	@Override
+	protected void drawText(Graphics g) {
+		return;
 	}
 	
 	@Override

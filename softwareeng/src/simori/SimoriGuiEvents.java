@@ -87,10 +87,29 @@ public class SimoriGuiEvents {
 	/**
 	 * Enumerated class to distinguish types of button
 	 * @author Matt
-	 * @version 1.0.1
+	 * @version 2.0.0
 	 */
 	public enum FunctionButton {
-		L1, L2, L3, L4, R1, R2, R3, R4, POWER, OK
+		L1 ("L1"),
+		L2 ("L2"),
+		L3 ("L3"),
+		L4 ("L4"),
+		R1 ("R1"),
+		R2 ("R2"),
+		R3 ("R3"),
+		R4 ("R4"),
+		POWER ("ON"),
+		OK ("OK");
+		
+		private String buttonName;
+		
+		private FunctionButton(String name) {
+			this.buttonName = name;
+		}
+		
+		public String buttonName() {
+			return buttonName;
+		}
 	}
 	
 	/** Listener interface for {@link GridButtonEvent} */
