@@ -25,6 +25,7 @@ public class Simori {
 	private SimoriGui gui;
 	private MatrixModel model;
 	private int displayLayer;
+	private Mode currentMode;
 	
 	/**
 	 * Instantiates all the required classes to render and use a Simori.
@@ -41,43 +42,11 @@ public class Simori {
 		Simori simori = new Simori();
 		simori.model = new MatrixModel(GRID_WIDTH, GRID_HEIGHT);
 		simori.gui = new SimoriGui(GRID_WIDTH, GRID_HEIGHT);
-		//PerformanceMode mode = new PerformanceMode(simori,0,0,(byte)0);
-		//simori.gui.setMode(mode); //TODO Off mode by default
-		experimentWithModeOf(simori);
+		simori.setMode(new PerformanceMode(simori,0,0,(byte)0));
 		MIDISoundPlayer midi = new MIDISoundPlayer();
-		Clock clock = new Clock(simori.model, midi, 88);
+		Clock clock = new Clock(simori, midi, 88);
 		Thread thread = new Thread(clock);
 		thread.start();
-	}
-	
-	private static void experimentWithModeOf(Simori simori) {
-		simori.gui.setMode(new ChangerMode(simori, makeTestChanger(), true, true));
-	}
-	
-	private static Changer makeTestChanger() {
-		return new Changer() {
-			
-			String heldValue;
-			
-			@Override
-			public String getText(int x, int y) {
-				if (x + y < 20) {
-					heldValue = "Some function of (" + x + ", " + y + ")";
-				} else {
-					heldValue = null;
-				}
-				return heldValue;
-			}
-			
-			@Override
-			public boolean doThingTo(Simori simori) {
-				if (heldValue != null) {
-					simori.getGui().setTitle(heldValue);
-					return true;
-				}
-				return false;
-			}
-		};
 	}
 	
 	/**
@@ -130,5 +99,17 @@ public class Simori {
 	
 	public void setDisplayLayer(int layno){
 		this.displayLayer = layno;
+	}
+	
+	public void setMode(Mode mode) {
+		if (mode.equals(currentMode)) return;
+		gui.clearGrid();
+		currentMode = mode;
+		gui.setGridButtonListener(mode);
+		gui.setFunctionButtonListener(mode);
+	}
+	
+	public Mode getMode() {
+		return currentMode;
 	}
 }

@@ -58,6 +58,8 @@ public class SimoriGui {
 	private GridButtonListener gListener;
 	private FunctionButtonListener fListener;
 	
+	private int rows, columns;
+	
 	protected JFrame frame;
 	protected JLabel lcd;
 	protected Led[][] leds;
@@ -74,6 +76,8 @@ public class SimoriGui {
 		 * Led grid is a JPanel containing Leds arranged with GridLayout.
 		 * Buttons around the edges are in JPanels arranged with BoxLayout.
 		 */
+		this.rows = rows;
+		this.columns = columns;
 		frame = new JFrame(WINDOW_TITLE);
 		frame.getContentPane().setPreferredSize(DEFAULT);
 		frame.pack();
@@ -102,22 +106,16 @@ public class SimoriGui {
 		}
 	}
 	
+	public void clearGrid() {
+		setGrid(new boolean[rows][columns]);
+	}
+	
 	public void setText(String text) {
 		lcd.setText(text);
 	}
 	
 	public void setTitle(String text) {
 		frame.setTitle(text);
-	}
-	
-	/**
-	 * Change the mode of the Simori-ON.
-	 * @param mode The mode to switch to
-	 */
-	public void setMode(Mode mode) {
-		//TODO Check whether it's already in the requested mode
-		setGridButtonListener(mode);
-		setFunctionButtonListener(mode);
 	}
 	
 	/**
@@ -258,12 +256,12 @@ public class SimoriGui {
 	}
 	
 	/** Sets the listener to receive events for Leds in the grid */
-	private void setGridButtonListener(GridButtonListener l) {
+	public void setGridButtonListener(GridButtonListener l) {
 		gListener = l;
 	}
 	
 	/** Sets the listener to receive events for non-grid buttons */
-	private void setFunctionButtonListener(FunctionButtonListener l) {
+	public void setFunctionButtonListener(FunctionButtonListener l) {
 		fListener = l;
 	}
 }

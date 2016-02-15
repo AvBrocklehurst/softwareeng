@@ -1,13 +1,12 @@
 package simori;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.sound.midi.InvalidMidiDataException;
-import javax.sound.midi.MidiUnavailableException;
+
 import simori.Exceptions.InvalidCoordinatesException;
 
 	/**
@@ -30,6 +29,7 @@ public class Clock implements Runnable {
 		public Object lock;
 		private TimerTask timerTask;
 		private long period;
+		private Simori simori;
 		
 		/**
 		 * Constructor for the class
@@ -39,9 +39,10 @@ public class Clock implements Runnable {
 		 * @param midi Holds the reference to the MIDIPlayer
 		 * @param bbm Beats Per Minute; used to calculate the period
 		 */
-		public Clock(MatrixModel model, MIDIPlayer midi, float bbm){
-			this.model = model;
+		public Clock(Simori simori, MIDIPlayer midi, float bbm){
+			this.model = simori.getModel();
 			this.midi = midi;
+			this.simori = simori;
 			lock = new Object();
 			//converts the beats per minute into the period, i.e.: how many seconds to play the notes
 			period = (long)((1f/(bbm/60f))*1000f);
@@ -126,7 +127,12 @@ public class Clock implements Runnable {
 				//if MIDIPlayer throws an error, print it out and stop the JVM
 				if(layers[0] != null)try {midi.play(layers);} catch (InvalidMidiDataException e1) {e1.printStackTrace(); System.exit(1);}
 				//turn the lights on the current column
-				try{mode.tickerLight(currentColumn);} catch (InvalidCoordinatesException e) {}   //FIXME HARDCODED
+				try {
+					Mode m = simori.getMode(); //A PerformanceMode may not exist since another mode could be active!
+					if (m instanceof PerformanceMode) {
+						((PerformanceMode) m).tickerLight(currentColumn);
+					}
+				} catch (InvalidCoordinatesException e) {}
 				
 				//check if the loop needs to be restarted, otherwise just continue to the next column
 				if(currentColumn == 15){currentColumn = 0;}

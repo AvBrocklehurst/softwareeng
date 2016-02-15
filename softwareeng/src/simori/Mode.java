@@ -73,8 +73,7 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 									}
 			
 					}, false, true);
-					
-					sg.setMode(c);
+					simori.setMode(c);
 					break;
 		
 		case R2 : //TODO(next sprint) mode to save configuration mode
