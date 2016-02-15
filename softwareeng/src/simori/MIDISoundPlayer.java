@@ -22,6 +22,8 @@ import javax.sound.midi.InvalidMidiDataException;
  */
 public class MIDISoundPlayer implements MIDIPlayer{
 	//TODO implement in sprint 2: The percussion channel (9) doesn't have instruments,the pitch determines the instrument to be played.
+	// TODO midi goes from 1-128, we go from 0-127, will need to change!
+	
 	
 	final static int TIMESTAMP = -1; // Timestamp of -1 means MIDI messages will be executed immediately.
 	private Synthesizer synth;
@@ -111,6 +113,8 @@ public class MIDISoundPlayer implements MIDIPlayer{
 	
 	public static void main(String[] args) throws InvalidMidiDataException, MidiUnavailableException, InterruptedException {
 		MIDISoundPlayer player = new MIDISoundPlayer();
+		
+		
 		byte[][] array; // declare an array to be used with play(array) tests.
 		final byte[] goodNote = {0,0,80,60}; // channel:0 , instrument:0 (piano), velocity:80, pitch 60 (middle c).
 		final byte[] secondGoodNote = {0,0,80,64}; // channel:0 , instrument:0 (piano), velocity:80, pitch 64.

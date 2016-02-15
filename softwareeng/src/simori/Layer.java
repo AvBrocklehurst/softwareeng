@@ -1,6 +1,7 @@
 package simori;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 import simori.Exceptions.InvalidCoordinatesException;
 
@@ -52,6 +53,7 @@ public class Layer implements Serializable {
 		for(int i = 0; i < width; i++) { //For each row of the grid.
 			col[i] = grid[i][currentColumn]; // Add the requested column value to the array col.
 		}
+		System.out.println(Arrays.toString(col));
 		return col;
 	}
 	

@@ -96,6 +96,7 @@ public class MatrixModel implements Serializable{
 	 */
 	public boolean[] getCol(byte laynum){
 		layerExists(laynum);
+		System.out.println("layer " + laynum);
 		return layers[laynum].getCol();
 	}
 	
@@ -164,6 +165,7 @@ public class MatrixModel implements Serializable{
 	 */
 	public byte getCurrentColumn(byte laynum){
 		layerExists(laynum);
+		
 		return layers[laynum].getColumn();
 	}
 	
@@ -228,6 +230,7 @@ public class MatrixModel implements Serializable{
 	public void updateButton(byte laynum, byte col, byte row) throws InvalidCoordinatesException{
 		layerExists(laynum);
 		layers[laynum].updateButton(col, row);
+		
 	}
 
 }
