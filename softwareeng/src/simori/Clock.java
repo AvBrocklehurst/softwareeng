@@ -13,7 +13,7 @@ import simori.Exceptions.InvalidCoordinatesException;
 	 * Class implementing Runnable which keeps track of the current tempo and plays notes which are currently active
 	 * @author Jurek
 	 * @author Adam
-	 * @version 1.2.0
+	 * @version 1.2.2
 	 * @see run()
 	 */
 	//TODO different loop breakpoints
@@ -56,7 +56,7 @@ public class Clock implements Runnable {
 		 * the mode.
 		 * @author Jurek
 		 * @author Adam
-		 * @version 1.2.0
+		 * @version 1.2.2
 		 */
 		@Override
 		public void run() {
@@ -83,7 +83,7 @@ public class Clock implements Runnable {
 					byte notZero = 0;
 					byte[] thisLayer = new byte[19];
 					//...get its current column...
-					boolean[] layer = model.getCol(activeLayers.get(x), currentColumn);
+					boolean[] layer = model.getCol(activeLayers.get(x), /*model.getCurCol(activeLayers.get(x))*/currentColumn);
 					//...add any active notes to the current inner array...
 					for(byte y=0; y<layer.length; y++){
 						if(layer[y]){
@@ -135,6 +135,10 @@ public class Clock implements Runnable {
 				} catch (InvalidCoordinatesException e) {}
 				
 				//check if the loop needs to be restarted, otherwise just continue to the next column
+				/*for(int i=0;i<16;i++){
+					if(model.getCurCol(i) == model.getLoop(i)){model.setCurCol(i, 0);}
+					else{model.setCurCol(i, model.getCurCol(i)++);}
+				}*/
 				if(currentColumn == 15){currentColumn = 0;}
 				else{currentColumn++;}
 			}
