@@ -13,10 +13,9 @@ import simori.Exceptions.InvalidCoordinatesException;
 	 * Class implementing Runnable which keeps track of the current tempo and plays notes which are currently active
 	 * @author Jurek
 	 * @author Adam
-	 * @version 1.2.2
+	 * @version 1.2.3
 	 * @see run()
 	 */
-	//TODO different loop breakpoints
 	//TODO error checking for midi.play(layers)
 	//TODO fine-tune the processing so that all the notes from the next column are played
 	//TODO tempo testing, making sure its within bounds of 0<160, and in increments of 10
@@ -25,8 +24,7 @@ public class Clock implements Runnable {
 		private boolean running = true;
 		private MatrixModel model;
 		private MIDIPlayer midi;
-		private byte currentColumn;
-		public Object lock;
+		private Object lock;
 		private TimerTask timerTask;
 		private long period;
 		private Simori simori;
@@ -34,7 +32,7 @@ public class Clock implements Runnable {
 		/**
 		 * Constructor for the class
 		 * @author Jurek
-		 * @version 1.0.4
+		 * @version 1.0.5
 		 * @param model Holds the reference to the MatrixModel
 		 * @param midi Holds the reference to the MIDIPlayer
 		 * @param bbm Beats Per Minute; used to calculate the period
@@ -56,7 +54,7 @@ public class Clock implements Runnable {
 		 * the mode.
 		 * @author Jurek
 		 * @author Adam
-		 * @version 1.2.2
+		 * @version 1.2.3
 		 */
 		@Override
 		public void run() {
@@ -71,8 +69,6 @@ public class Clock implements Runnable {
 				  }
 				}, period, period);
 			
-			
-			currentColumn = 0;
 			while(running){
 				List<Byte> activeLayers = model.getLayers();
 				byte[][] layers = new byte[activeLayers.size()][];
@@ -83,7 +79,7 @@ public class Clock implements Runnable {
 					byte notZero = 0;
 					byte[] thisLayer = new byte[19];
 					//...get its current column...
-					boolean[] layer = model.getCol(activeLayers.get(x), /*model.getCurCol(activeLayers.get(x))*/currentColumn);
+					boolean[] layer = model.getCol(activeLayers.get(x));
 					//...add any active notes to the current inner array...
 					for(byte y=0; y<layer.length; y++){
 						if(layer[y]){
@@ -134,13 +130,11 @@ public class Clock implements Runnable {
 					}
 				} catch (InvalidCoordinatesException e) {}
 				
-				//check if the loop needs to be restarted, otherwise just continue to the next column
-				/*for(int i=0;i<16;i++){
-					if(model.getCurCol(i) == model.getLoop(i)){model.setCurCol(i, 0);}
-					else{model.setCurCol(i, model.getCurCol(i)++);}
-				}*/
-				if(currentColumn == 15){currentColumn = 0;}
-				else{currentColumn++;}
+				for(Byte activeLayer : activeLayers){
+					model.incrementColumn(activeLayer);
+				}
+				//if(currentColumn == 15){currentColumn = 0;}
+				//else{currentColumn++;}
 			}
 		}
 				
