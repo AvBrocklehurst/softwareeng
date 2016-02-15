@@ -125,7 +125,7 @@ public class Clock implements Runnable {
 				}
 				//...and send a play request to the MIDIPlayer
 				//if MIDIPlayer throws an error, print it out and stop the JVM
-				if(layers[0] != null)try {midi.play(layers);} catch (InvalidMidiDataException e1) {e1.printStackTrace(); System.exit(1);}
+				if(layers[0] != null)try {midi.play(toBePlayed);} catch (InvalidMidiDataException e1) {e1.printStackTrace(); System.exit(1);}
 				//turn the lights on the current column
 				try {
 					Mode m = simori.getMode(); //A PerformanceMode may not exist since another mode could be active!
