@@ -1,9 +1,9 @@
 package simori;
 
+import simori.ChangerMode.Changer;
 import simori.SimoriGuiEvents.FunctionButtonEvent;
 import simori.SimoriGuiEvents.FunctionButtonListener;
 import simori.SimoriGuiEvents.GridButtonListener;
-
 import static simori.SimoriGuiEvents.FunctionButton;
 
 /**
@@ -19,9 +19,13 @@ import static simori.SimoriGuiEvents.FunctionButton;
  */
 public abstract class Mode implements FunctionButtonListener, GridButtonListener {
 	
-	private Layer tempLayer = new Layer();     //default layer setting between modes
 	public String currentModeName;         //keep track of current mode name
 	private MatrixModel model;
+	private Simori simori;
+	
+	public Mode(Simori simori){
+		this.simori = simori;
+	}
 	
 	/**
 	 * Gets the function button pressed and the source Gui and then
@@ -51,7 +55,26 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 		case L4 : //TODO(next sprint) mode to loop point
 					break;
 		
-		case R1 : //TODO(next sprint) mode to change layer mode
+		case R1 :   ChangerMode c = new ChangerMode(simori, new Changer(){
+									
+									private int selectedLayer;
+
+									@Override
+									public String getText(int x, int y) {
+										selectedLayer = y;
+										return String.valueOf(y);
+										
+									}
+
+									@Override
+									public boolean doThingTo(Simori simori) {
+										simori.setDisplayLayer(selectedLayer);
+										return true;
+									}
+			
+					}, false, true);
+					
+					sg.setMode(c);
 					break;
 		
 		case R2 : //TODO(next sprint) mode to save configuration mode
@@ -71,19 +94,6 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 					currentModeName = "Performance Mode";
 					break;
 		}
-	}
-	
-	/**
-	 * Gets the temporary empty layer which is a default setting
-	 * between modes. On invoking certain modes given lights are 
-	 * lit.
-	 * 
-	 * @author James
-	 * @return Layer
-	 * @version 1.0.0
-	 */
-	public Layer getTempLayer(){
-		return tempLayer; //TODO relevant next sprint
 	}
 	
 

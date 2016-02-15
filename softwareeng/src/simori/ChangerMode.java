@@ -14,6 +14,7 @@ public class ChangerMode extends Mode {
 	
 	public ChangerMode(Simori simori, Changer changer,
 			boolean verticalLine, boolean horizontalLine) {
+		super(simori);
 		this.simori = simori;
 		this.changer = changer;
 		this.hLine = horizontalLine;

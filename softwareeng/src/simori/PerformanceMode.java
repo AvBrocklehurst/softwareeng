@@ -33,6 +33,7 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 	 * @see makeGridCopy()
 	 */
 	public PerformanceMode(Simori simori, int loopspeed, int looppoint, byte layno /*voice, velocity*/){
+		super(simori);
 		this.loopspeed = loopspeed;
 		this.looppoint = looppoint;
 		this.simori = simori;
@@ -58,7 +59,7 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 		
 		grid[y][x] = !grid[y][x];    //invert grid button
 
-		simori.getModel().updateButton((byte) 0, (byte) x, (byte) y);   //update the data structure by inverting button at Gui position x,y
+		simori.getModel().updateButton((byte)simori.getDisplayLayer(), (byte) x, (byte) y);   //update the data structure by inverting button at Gui position x,y
 		sc.setGrid(grid);       //relay the change to the gui
 	}
 	
@@ -75,7 +76,7 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 	 */
 	public void tickerLight(byte col) throws InvalidCoordinatesException{
 		
-		makeGridCopy((byte)0);   //copy the grid
+		makeGridCopy((byte)simori.getDisplayLayer());   //copy the grid
 		
 		grid[0][col] = true;
 		grid[5][col] = true;

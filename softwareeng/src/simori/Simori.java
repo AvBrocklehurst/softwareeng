@@ -24,6 +24,7 @@ public class Simori {
 	
 	private SimoriGui gui;
 	private MatrixModel model;
+	private int displayLayer;
 	
 	/**
 	 * Instantiates all the required classes to render and use a Simori.
@@ -43,10 +44,10 @@ public class Simori {
 		//PerformanceMode mode = new PerformanceMode(simori,0,0,(byte)0);
 		//simori.gui.setMode(mode); //TODO Off mode by default
 		experimentWithModeOf(simori);
-		//MIDISoundPlayer midi = new MIDISoundPlayer();
-		//Clock clock = new Clock(simori.model, midi, mode, 88);
-		//Thread thread = new Thread(clock);
-		//thread.start();
+		MIDISoundPlayer midi = new MIDISoundPlayer();
+		Clock clock = new Clock(simori.model, midi, 88);
+		Thread thread = new Thread(clock);
+		thread.start();
 	}
 	
 	private static void experimentWithModeOf(Simori simori) {
@@ -121,5 +122,13 @@ public class Simori {
 	 */
 	public void setGui(SimoriGui gui){
 		this.gui = new SimoriGui(16, 16);
+	}
+	
+	public int getDisplayLayer(){
+		return displayLayer;
+	}
+	
+	public void setDisplayLayer(int layno){
+		this.displayLayer = layno;
 	}
 }

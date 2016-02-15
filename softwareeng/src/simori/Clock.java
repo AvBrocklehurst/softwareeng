@@ -26,7 +26,6 @@ public class Clock implements Runnable {
 		private boolean running = true;
 		private MatrixModel model;
 		private MIDIPlayer midi;
-		private PerformanceMode mode;
 		private byte currentColumn;
 		public Object lock;
 		private TimerTask timerTask;
@@ -38,13 +37,11 @@ public class Clock implements Runnable {
 		 * @version 1.0.4
 		 * @param model Holds the reference to the MatrixModel
 		 * @param midi Holds the reference to the MIDIPlayer
-		 * @param mode Holds the reference to the GUI
 		 * @param bbm Beats Per Minute; used to calculate the period
 		 */
-		public Clock(MatrixModel model, MIDIPlayer midi, PerformanceMode mode, float bbm){
+		public Clock(MatrixModel model, MIDIPlayer midi, float bbm){
 			this.model = model;
 			this.midi = midi;
-			this.mode = mode;
 			lock = new Object();
 			//converts the beats per minute into the period, i.e.: how many seconds to play the notes
 			period = (long)((1f/(bbm/60f))*1000f);
@@ -129,7 +126,7 @@ public class Clock implements Runnable {
 				//if MIDIPlayer throws an error, print it out and stop the JVM
 				if(layers[0] != null)try {midi.play(layers);} catch (InvalidMidiDataException e1) {e1.printStackTrace(); System.exit(1);}
 				//turn the lights on the current column
-				try{mode.tickerLight(currentColumn);} catch (InvalidCoordinatesException e) {}
+				try{mode.tickerLight(currentColumn);} catch (InvalidCoordinatesException e) {}   //FIXME HARDCODED
 				
 				//check if the loop needs to be restarted, otherwise just continue to the next column
 				if(currentColumn == 15){currentColumn = 0;}
