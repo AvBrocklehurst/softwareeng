@@ -47,10 +47,10 @@ public class Layer implements Serializable {
 	 * @param column  The integer value of the column to be returned.
 	 * @return boolean array containing each value in the column as a True for on or False for off
 	 */
-	public boolean[] getCol(byte column){
+	public boolean[] getCol(){
 		boolean[] col = new boolean[16];
 		for(int i = 0; i < width; i++) { //For each row of the grid.
-			col[i] = grid[i][column]; // Add the requested column value to the array col.
+			col[i] = grid[i][currentColumn]; // Add the requested column value to the array col.
 		}
 		return col;
 	}

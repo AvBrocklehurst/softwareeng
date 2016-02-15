@@ -95,9 +95,9 @@ public class MatrixModel implements Serializable{
 	 * @param col     the column number to return
 	 * @return boolean array represting the on and off state of a column
 	 */
-	public boolean[] getCol(byte laynum, byte col){
+	public boolean[] getCol(byte laynum){
 		layerExists(laynum);
-		return layers[laynum].getCol(col);
+		return layers[laynum].getCol();
 	}
 	
 	/**
@@ -182,7 +182,7 @@ public class MatrixModel implements Serializable{
 	 * Method to increment the current column in a given layer.
 	 * @param laynum      the layer to update
 	 */
-	public void IncrementColumn(byte laynum){
+	public void incrementColumn(byte laynum){
 		layerExists(laynum);
 		layers[laynum].incrementColumn();
 	}
