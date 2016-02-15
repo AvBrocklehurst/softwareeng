@@ -106,7 +106,7 @@ public class Layer implements Serializable {
 	}
 	
 	/**
-	 * Method to return the layer's loop point.
+	 * Method to return the layer's current column.
 	 * @author  Adam
 	 * @version 1.0.0
 	 * @return byte containing the value of the layers current column

@@ -92,7 +92,6 @@ public class MatrixModel implements Serializable{
 	 * @author Adam
 	 * @version 1.0.0
 	 * @param laynum  the layer number to get the grid from
-	 * @param col     the column number to return
 	 * @return boolean array represting the on and off state of a column
 	 */
 	public boolean[] getCol(byte laynum){
@@ -157,15 +156,15 @@ public class MatrixModel implements Serializable{
 	}
 	
 	/**
-	 * Method to get the velocty from a given layer.
+	 * Method to get the th current column from a given layer.
 	 * @author Adam
 	 * @version 1.0.0
-	 * @param laynum  the number of the layer to get the velocity from
+	 * @param laynum  the number of the layer to get the column from
 	 * @return byte containing the layers velocity
 	 */
 	public byte getCurrentColumn(byte laynum){
 		layerExists(laynum);
-		return layers[laynum].getVelocity();
+		return layers[laynum].getColumn();
 	}
 	
 	/**
