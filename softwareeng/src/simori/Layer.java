@@ -14,6 +14,8 @@ public class Layer {
 	private short instrument; //int to store current instrument value.
 	private byte channel;
 	private byte velocity;
+	private int width;
+	private int height;
 	
 	/**
 	 * Constructor for an individual layer.
@@ -22,9 +24,11 @@ public class Layer {
 	 * @author  Adam
 	 * @version 1.0.1
 	 */
-	public Layer() {
-		this.grid = new boolean[16][16]; //Initialise the grid as a 16x16 2 dimensional array.
+	public Layer(int width, int height) {
+		this.grid = new boolean[width][height]; //Initialise the grid as a 16x16 2 dimensional array.
 		this.instrument = 0; //Set a default instrument.
+		this.height = height;
+		this.width = width;
 		this.channel = 0;
 		this.velocity = 80;
 	}
@@ -39,7 +43,7 @@ public class Layer {
 	 */
 	public boolean[] getCol(byte column){
 		boolean[] col = new boolean[16];
-		for(int i = 0; i < 16; i++) { //For each row of the grid.
+		for(int i = 0; i < width; i++) { //For each row of the grid.
 			col[i] = grid[i][column]; // Add the requested column value to the array col.
 		}
 		return col;
