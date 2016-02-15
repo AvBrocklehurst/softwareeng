@@ -17,6 +17,8 @@ import simori.Exceptions.InvalidCoordinatesException;
 public class MatrixModel  {
 	private Layer[] layers;
 	private short BPM;
+	private int height;
+	private int width;
 	
 	
 	/**
@@ -25,9 +27,11 @@ public class MatrixModel  {
 	 * @author  Adam
 	 * @version 1.0.0
 	 */
-	public MatrixModel(){
+	public MatrixModel(int width, int height){
+		this.width = width;
+		this.height = height;
 		layers = new Layer[16]; //make layers 16 long to hold all 16 layers
-		layers[0] = new Layer(); //instatiate the first layer
+		layers[0] = new Layer(width, height); //instatiate the first layer
 		BPM = 88; // default BPM
 	}
 	
@@ -66,7 +70,7 @@ public class MatrixModel  {
 	 */
 	private void layerExists(byte laynum){
 		if(layers[laynum] == null){ //if the layer isn't instatiated
-			layers[laynum] = new Layer(); //create a new layer
+			layers[laynum] = new Layer(width, height); //create a new layer
 		}
 	}
 	

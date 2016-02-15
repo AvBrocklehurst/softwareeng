@@ -38,7 +38,7 @@ public class Simori {
 	 */
 	public static void main(String[] args) throws MidiUnavailableException {
 		Simori simori = new Simori();
-		simori.model = new MatrixModel();
+		simori.model = new MatrixModel(GRID_WIDTH, GRID_HEIGHT);
 		simori.gui = new SimoriGui(GRID_WIDTH, GRID_HEIGHT);
 		//PerformanceMode mode = new PerformanceMode(simori,0,0,(byte)0);
 		//simori.gui.setMode(mode); //TODO Off mode by default
