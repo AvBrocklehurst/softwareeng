@@ -85,8 +85,8 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 		case R4 : //TODO(next sprint) mode to Master/Slave mode
 					break;
 		
-		case OK :	//sg.setMode(new PerformanceMode(model, 1, 1));      //change source, the Gui to performance mode
-					currentModeName = "Performance Mode";                //update tracker
+		case OK :	PerformanceMode pm = new PerformanceMode(simori, 0, 0, (byte)simori.getDisplayLayer());
+					simori.setMode(pm);
 					break;
 		
 		case POWER: //sg.setMode(new PerformanceMode(model, 1,1));

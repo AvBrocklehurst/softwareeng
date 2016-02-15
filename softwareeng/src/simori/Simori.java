@@ -26,6 +26,7 @@ public class Simori {
 	private MatrixModel model;
 	private int displayLayer;
 	private Mode currentMode;
+	private static final byte DEFAULT_LAYER = 0;
 	
 	/**
 	 * Instantiates all the required classes to render and use a Simori.
@@ -42,7 +43,7 @@ public class Simori {
 		Simori simori = new Simori();
 		simori.model = new MatrixModel(GRID_WIDTH, GRID_HEIGHT);
 		simori.gui = new SimoriGui(GRID_WIDTH, GRID_HEIGHT);
-		simori.setMode(new PerformanceMode(simori,0,0,(byte)0));
+		simori.setMode(new PerformanceMode(simori,0,0, DEFAULT_LAYER));
 		MIDISoundPlayer midi = new MIDISoundPlayer();
 		Clock clock = new Clock(simori, midi, 88);
 		Thread thread = new Thread(clock);
