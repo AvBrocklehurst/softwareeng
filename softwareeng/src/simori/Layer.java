@@ -1,5 +1,7 @@
 package simori;
 
+import java.io.Serializable;
+
 import simori.Exceptions.InvalidCoordinatesException;
 
 /**
@@ -9,13 +11,15 @@ import simori.Exceptions.InvalidCoordinatesException;
  * @author  Adam
  * @version 1.1.0
  */
-public class Layer {
+public class Layer implements Serializable {
 	private boolean[][] grid; //Grid to store whether each button is on (True) or off (False).
 	private short instrument; //int to store current instrument value.
 	private byte channel;
 	private byte velocity;
 	private int width;
 	private int height;
+	private byte loopPoint;
+	private byte currentColumn;
 	
 	/**
 	 * Constructor for an individual layer.
@@ -31,6 +35,8 @@ public class Layer {
 		this.width = width;
 		this.channel = 0;
 		this.velocity = 80;
+		this.loopPoint = 15;
+		this.currentColumn = 0;
 	}
 	
 	
@@ -87,6 +93,52 @@ public class Layer {
 	 */
 	public byte getVelocity(){
 		return velocity;
+	}
+	
+	/**
+	 * Method to return the layer's loop point.
+	 * @author  Adam
+	 * @version 1.0.0
+	 * @return byte containing the value of the layers loop point 
+	 */
+	public byte getLoopPoint(){
+		return loopPoint;
+	}
+	
+	/**
+	 * Method to return the layer's loop point.
+	 * @author  Adam
+	 * @version 1.0.0
+	 * @return byte containing the value of the layers current column
+	 */
+	public byte getColumn(){
+		return currentColumn;
+	}
+	
+	
+	/**
+	 * Method to increment the current column of the layer.
+	 * If the currentcolumn is greater than or equal to the loop point then return to 0.
+	 * @author  Adam
+	 * @version 1.0.0
+	 * @param  loopPoint  a byte containing the value to change the layers loop point to
+	 */
+	public void incrementColumn(){
+		if(currentColumn < loopPoint){
+			currentColumn++;
+		} else {
+			currentColumn = 0;
+		}
+	}
+	
+	/**
+	 * Method to set the looppoint of the layer
+	 * @author  Adam
+	 * @version 1.0.0
+	 * @param  loopPoint  a byte containing the value to change the layers loop point to
+	 */
+	public void setLoopPoint(byte loopPoint){
+		this.loopPoint = loopPoint;
 	}
 	
 	

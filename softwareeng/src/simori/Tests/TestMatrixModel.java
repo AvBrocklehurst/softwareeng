@@ -20,7 +20,7 @@ public class TestMatrixModel {
 
 	@Before
 	public void setUp() {
-		model = new MatrixModel();
+		model = new MatrixModel(16, 16);
 	}
 
 	@After

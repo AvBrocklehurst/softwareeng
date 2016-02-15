@@ -1,5 +1,6 @@
 package simori;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -14,7 +15,7 @@ import simori.Exceptions.InvalidCoordinatesException;
  * @author  Adam
  * @version 1.2.0
  */
-public class MatrixModel  {
+public class MatrixModel implements Serializable{
 	private Layer[] layers;
 	private short BPM;
 	private int height;
@@ -153,6 +154,37 @@ public class MatrixModel  {
 	public byte getVelocity(byte laynum){
 		layerExists(laynum);
 		return layers[laynum].getVelocity();
+	}
+	
+	/**
+	 * Method to get the velocty from a given layer.
+	 * @author Adam
+	 * @version 1.0.0
+	 * @param laynum  the number of the layer to get the velocity from
+	 * @return byte containing the layers velocity
+	 */
+	public byte getCurrentColumn(byte laynum){
+		layerExists(laynum);
+		return layers[laynum].getVelocity();
+	}
+	
+	/**
+	 * Method to set the loop point of a given layer
+	 * @param laynum      the layer to update
+	 * @param loopPoint  the value for loop point to be set to.
+	 */
+	public void setLoopPoint(byte laynum, byte loopPoint){
+		layerExists(laynum);
+		layers[laynum].setLoopPoint(loopPoint);
+	}
+	
+	/**
+	 * Method to increment the current column in a given layer.
+	 * @param laynum      the layer to update
+	 */
+	public void IncrementColumn(byte laynum){
+		layerExists(laynum);
+		layers[laynum].incrementColumn();
 	}
 	
 	/**
