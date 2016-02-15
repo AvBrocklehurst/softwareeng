@@ -52,25 +52,42 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 		case L3 : //TODO(next sprint) mode to loop speed
 					break;
 		
-		case L4 : //TODO(next sprint) mode to loop point
+		case L4 : //TODO Adam, pls get your shit together ;3 
+			/*ChangerMode loopPoint = new ChangerMode(simori, new Changer(){
+			
+						private int selectedColumn;
+
+						@Override
+						public String getText(int x, int y) {
+							selectedColumn = x;
+							return String.valueOf(x);
+						}
+
+						@Override
+						public boolean doThingTo(Simori simori) {
+							model.setLoop(simori.getDisplayLayer(), selectedColumn);
+							return true;
+						}
+
+					}, true, false);
+					simori.setMode(loopPoint);*/
 					break;
 		
 		case R1 :   ChangerMode c = new ChangerMode(simori, new Changer(){
 									
-									private int selectedLayer;
+						private int selectedLayer;
 
-									@Override
-									public String getText(int x, int y) {
-										selectedLayer = y;
-										return String.valueOf(y);
-										
-									}
+						@Override
+						public String getText(int x, int y) {
+							selectedLayer = y;
+							return String.valueOf(y);
+						}
 
-									@Override
-									public boolean doThingTo(Simori simori) {
-										simori.setDisplayLayer(selectedLayer);
-										return true;
-									}
+						@Override
+						public boolean doThingTo(Simori simori) {
+							simori.setDisplayLayer(selectedLayer);
+							return true;
+						}
 			
 					}, false, true);
 					simori.setMode(c);
