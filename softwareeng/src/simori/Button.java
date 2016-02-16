@@ -41,13 +41,12 @@ public class Button extends JComponent implements MouseListener {
 		addMouseListener(this);
 	}
 	
-	/**
-	 * Allows a single {@link OnPressListener} to be registered.
-	 * The listener will receive a callback when this LED is pressed.
-	 * @param l
-	 */
 	public void setOnPressListener(OnPressListener l) {
 		listener = l;
+	}
+	
+	public void setText(String text) {
+		this.text = text;
 	}
 	
 	public String getText() {
@@ -79,7 +78,7 @@ public class Button extends JComponent implements MouseListener {
 		Rectangle b = getBounds();
 		g.setFont(new Font(Font.DIALOG, Font.PLAIN, 12));
 		g.setColor(TEXT);
-		g.drawString(getText(), b.x, b.y);
+		g.drawString(getText(), b.x + b.height/2, b.y - b.height/2);
 	}
 	
 	/** @return true if given coordinates lie inside the LED's circular area */

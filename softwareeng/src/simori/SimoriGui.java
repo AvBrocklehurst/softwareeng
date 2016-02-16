@@ -48,12 +48,12 @@ public class SimoriGui {
 	private static final int EDGE_SIZE = 60;
 	private static final int GAP = 0; //Padding between components
 	
-	private static final Color BACKGROUND = new Color(0xFFFFFF);
-	private static final Color BORDER_COLOUR = new Color(0x000000);
+	public static final Color BACKGROUND = new Color(0xFFFFFF);
+	public static final Color BORDER = new Color(0x000000);
 	
-	private static final Dimension SIDEBAR = new Dimension(EDGE_SIZE, SIZE - 2*EDGE_SIZE);
-	private static final Dimension TOPBAR = new Dimension(SIZE, EDGE_SIZE);
-	private static final Dimension DEFAULT = new Dimension(SIZE, SIZE);
+	public static final Dimension SIDEBAR = new Dimension(EDGE_SIZE, SIZE - 2*EDGE_SIZE);
+	public static final Dimension TOPBAR = new Dimension(SIZE, EDGE_SIZE);
+	public static final Dimension DEFAULT = new Dimension(SIZE, SIZE);
 	
 	private GridButtonListener gListener;
 	private FunctionButtonListener fListener;
@@ -139,7 +139,7 @@ public class SimoriGui {
 			}
 		}
 		panel.setBackground(BACKGROUND);
-		panel.setBorder(BorderFactory.createLineBorder(BORDER_COLOUR));
+		panel.setBorder(BorderFactory.createLineBorder(BORDER));
 		return panel;
 	}
 	

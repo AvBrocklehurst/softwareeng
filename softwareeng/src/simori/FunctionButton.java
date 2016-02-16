@@ -13,12 +13,18 @@ public enum FunctionButton {
 	OK ("OK", "Confirm Changes");
 	
 	private String buttonName;
+	private String toolTip;
 	
 	private FunctionButton(String name, String toolTip) {
 		this.buttonName = name;
+		this.toolTip = toolTip;
 	}
 	
 	public String buttonName() {
 		return buttonName;
+	}
+	
+	public String toolTip() {
+		return toolTip;
 	}
 }
