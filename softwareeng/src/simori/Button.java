@@ -2,9 +2,7 @@ package simori;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.FontMetrics;
 import java.awt.Graphics;
-import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
 
 public class Button extends PressableCircle {
@@ -22,18 +20,16 @@ public class Button extends PressableCircle {
 	}
 	
 	private void drawText(Graphics g) {
-		Rectangle b = getBounds();
 		g.setFont(new Font(Font.DIALOG, Font.PLAIN, 1));
 		g.setColor(TEXT);
-		updateSize(g, b); //TODO Only if bounds has changed
+		updateSize(g); //TODO Only if bounds has changed
 		g.drawString(text, textX, textY);
-		g.getFontMetrics().getStringBounds(text, g);
 	}
 	
-	private void updateSize(Graphics g, Rectangle bounds) {
+	private void updateSize(Graphics g) {
 		calculateSpace();
 		resizeFont(g);
-		placeText(g.getFontMetrics(), bounds);
+		placeText(g);
 	}
 	
 	private void calculateSpace() {
@@ -54,11 +50,13 @@ public class Button extends PressableCircle {
 		g.setFont(g.getFont().deriveFont(--size));
 	}
 	
-	private void placeText(FontMetrics m, Rectangle bounds) {
-		int spareX = space - m.stringWidth(text);
-		int spareY = space - m.getAscent() + m.getDescent();
-		textX = bounds.x + spareX / 2;
-		textY = bounds.y - bounds.height + spareY / 2;
+	private void placeText(Graphics g) {
+		Rectangle2D textBounds = g.getFontMetrics().getStringBounds(text, g);
+		int textWidth = (int) textBounds.getWidth();
+		int textHeight = (int) textBounds.getHeight();
+		int ascent = g.getFontMetrics().getAscent();
+		textX = (getWidth() - textWidth) / 2 + 1;
+		textY = (getHeight() - textHeight) / 2 + ascent - 1;
 	}
 	
 	public void setText(String text) {
