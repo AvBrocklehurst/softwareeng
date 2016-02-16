@@ -1,6 +1,5 @@
 package simori;
 
-import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiUnavailableException;
 
 /**
@@ -15,28 +14,20 @@ import javax.sound.midi.MidiUnavailableException;
 public class Simori {
 	
 	private static final int GRID_WIDTH = 16, GRID_HEIGHT = 16;
-	private static final byte DEFAULT_LAYER = 0;
-	
-	private SimoriGui gui;
-	private Mode mode;
-	private MatrixModel model;
-	private Clock clock;
-	private MIDISoundPlayer player;
-	
-	private int displayLayer;
-	private boolean on;
 	
 	public static void main(String[] args) {
-		Simori s = new Simori();
-		s.setMode(new OffMode(s));
+		try {
+			new Simori();
+		} catch (MidiUnavailableException e) {
+			e.printStackTrace();
+		}
 	}
 	
-	public Simori() {
-		model = new MatrixModel(GRID_WIDTH, GRID_HEIGHT);
-		gui = new SimoriGui(GRID_WIDTH, GRID_HEIGHT);
+	public Simori() throws MidiUnavailableException {
+		MatrixModel model = new MatrixModel(GRID_WIDTH, GRID_HEIGHT);
+		SimoriGui gui = new SimoriGui(GRID_WIDTH, GRID_HEIGHT);
+		MIDISoundPlayer player = new MIDISoundPlayer();
+		ModeController modes = new ModeController(gui, model);
+		Clock clock = new Clock(modes, model, player);
 	}
-	
-	
-	
-	
 }

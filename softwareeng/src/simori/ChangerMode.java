@@ -8,14 +8,14 @@ import simori.Exceptions.InvalidCoordinatesException;
 
 public class ChangerMode extends Mode {
 	
-	private Simori simori;
+	private ModeController controller;
 	private Changer changer;
 	private boolean hLine, vLine;
 	
-	public ChangerMode(Simori simori, Changer changer,
+	public ChangerMode(ModeController controller, Changer changer,
 			boolean verticalLine, boolean horizontalLine) {
-		super(simori);
-		this.simori = simori;
+		super(controller);
+		this.controller = controller;;
 		this.changer = changer;
 		this.hLine = horizontalLine;
 		this.vLine = verticalLine;
@@ -35,7 +35,7 @@ public class ChangerMode extends Mode {
 	@Override
 	public void onFunctionButtonPress(FunctionButtonEvent e) {
 		if (e.getFunctionButton() == OK) {
-			if (!changer.doThingTo(simori)) return;
+			if (!changer.doThingTo(controller)) return;
 		}
 		super.onFunctionButtonPress(e);
 	}
@@ -54,6 +54,6 @@ public class ChangerMode extends Mode {
 	
 	public interface Changer {
 		public String getText(int x, int y);
-		public boolean doThingTo(Simori simori);
+		public boolean doThingTo(ModeController controller);
 	}
 }

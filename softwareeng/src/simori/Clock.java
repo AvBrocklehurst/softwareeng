@@ -27,7 +27,7 @@ public class Clock implements Runnable {
 		private Object lock;
 		private TimerTask timerTask;
 		private long period;
-		private Simori simori;
+		private ModeController modes;
 		
 		/**
 		 * Constructor for the class
@@ -37,10 +37,11 @@ public class Clock implements Runnable {
 		 * @param midi Holds the reference to the MIDIPlayer
 		 * @param bbm Beats Per Minute; used to calculate the period
 		 */
-		public Clock(Simori simori, MIDIPlayer midi, float bbm){
-			this.model = simori.getModel();
+		public Clock(ModeController modes, MatrixModel model, MIDIPlayer midi){
+			float bbm = 88;
+			this.model = model;
 			this.midi = midi;
-			this.simori = simori;
+			this.modes = modes;
 			lock = new Object();
 			//converts the beats per minute into the period, i.e.: how many seconds to play the notes
 			period = (long)((1f/(bbm/60f))*1000f);
@@ -85,7 +86,7 @@ public class Clock implements Runnable {
 				try {midi.play(toBePlayed);} catch (InvalidMidiDataException e1) {e1.printStackTrace(); System.exit(1);}
 				
 				//turn the lights on the current column
-				//simori.getMode().tickerLight(currentColumn); //TODO That any better?
+				//modes.tickThrough(currentColumn) //TODO actually have a currentColumn again
 				
 				for(Byte activeLayer : activeLayers){
 					model.incrementColumn(activeLayer);

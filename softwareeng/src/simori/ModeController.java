@@ -5,16 +5,36 @@ import javax.sound.midi.MidiUnavailableException;
 
 public class ModeController {
 	
+	private SimoriGui gui;
+	private MatrixModel model;
+	
+	private Mode mode;
+	private byte displayLayer;
+	private boolean on;
+	
+	public ModeController(SimoriGui gui, MatrixModel model) {
+		this.gui = gui;
+		this.model = model;
+	}
+	
+	public MatrixModel getModel() {
+		return model;
+	}
+	
+	public SimoriGui getGui() {
+		return gui;
+	}
+	
 	public boolean isOn() {
 		return on;
 	}
 	
-	public int getDisplayLayer(){
+	public byte getDisplayLayer(){
 		return displayLayer;
 	}
 	
-	public void setDisplayLayer(int layno){
-		this.displayLayer = layno;
+	public void setDisplayLayer(byte layerNum){
+		this.displayLayer = layerNum;
 	}
 	
 	public void setMode(Mode mode) {

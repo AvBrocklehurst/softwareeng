@@ -19,11 +19,26 @@ import simori.Exceptions.InvalidCoordinatesException;
  */
 public abstract class Mode implements FunctionButtonListener, GridButtonListener {
 	
-	public String currentModeName;         //keep track of current mode name
-	private Simori simori;
+	private ModeController controller;
 	
-	public Mode(Simori simori){
-		this.simori = simori;
+	public Mode(ModeController controller){
+		this.controller = controller;
+	}
+	
+	protected ModeController getModeController() {
+		return controller;
+	}
+	
+	protected SimoriGui getGui() {
+		return controller.getGui();
+	}
+	
+	protected MatrixModel getModel() {
+		return controller.getModel();
+	}
+	
+	protected byte getDisplayLayer() {
+		return controller.getDisplayLayer();
 	}
 	
 	/**
@@ -43,10 +58,10 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 		case L3 : //TODO(next sprint) mode to loop speed
 			break;
 		case L4 : 
-			simori.setMode(new ChangerMode(simori, makePointChanger(), true, false));
+			controller.setMode(new ChangerMode(controller, makePointChanger(), true, false));
 			break;
 		case R1 :
-			simori.setMode(new ChangerMode(simori, makeLayerChanger(), false, true));
+			controller.setMode(new ChangerMode(controller, makeLayerChanger(), false, true));
 			break;
 		case R2 :
 			//TODO(next sprint) mode to save configuration mode
@@ -58,11 +73,10 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 			//TODO(next sprint) mode to Master/Slave mode
 			break;
 		case OK:
-			simori.setMode(new PerformanceMode(simori,
-					0, 0, (byte) simori.getDisplayLayer()));
+			controller.setMode(new PerformanceMode(controller));
 			break;
 		case POWER:
-			simori.setOn(!simori.isOn());
+			controller.setOn(!controller.isOn());
 			break;
 		}
 	}
@@ -81,8 +95,8 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 			}
 			
 			@Override
-			public boolean doThingTo(Simori simori) {
-				simori.setDisplayLayer(selectedLayer);
+			public boolean doThingTo(ModeController controller) {
+				controller.setDisplayLayer((byte) selectedLayer); //TODO make x and y bytes anyway
 				return true;
 			}
 		};
@@ -100,7 +114,7 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 			}
 			
 			@Override
-			public boolean doThingTo(Simori simori) {
+			public boolean doThingTo(ModeController controller) {
 				//TODO simori.getModel().setLoop(simori.getDisplayLayer(), selectedColumn);
 				return true;
 			}

@@ -15,10 +15,6 @@ import simori.Exceptions.InvalidCoordinatesException;
 
 public class PerformanceMode extends Mode implements GridButtonListener {
 	
-	private int loopspeed;
-	private int looppoint;
-	private Simori simori;
-	private byte[] coords;
 	private boolean[][] grid;
 
 	/**
@@ -32,13 +28,9 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 	 * @version 1.2.0
 	 * @see makeGridCopy()
 	 */
-	public PerformanceMode(Simori simori, int loopspeed, int looppoint, byte layno /*voice, velocity*/){
-		super(simori);
-		this.loopspeed = loopspeed;
-		this.looppoint = looppoint;
-		this.simori = simori;
-		makeGridCopy((byte)layno);
-		
+	public PerformanceMode(ModeController controller){
+		super(controller);
+		makeGridCopy((byte) controller.getDisplayLayer());
 	}
 	
 	/**
@@ -59,7 +51,7 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 		
 		grid[y][x] = !grid[y][x];    //invert grid button
 
-		simori.getModel().updateButton((byte)simori.getDisplayLayer(), (byte) x, (byte) y);   //update the data structure by inverting button at Gui position x,y
+		getModel().updateButton(getDisplayLayer(), (byte) x, (byte) y);   //update the data structure by inverting button at Gui position x,y
 		sc.setGrid(grid);       //relay the change to the gui
 	}
 	
@@ -77,13 +69,12 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 	@Override
 	public void tickerLight(byte col) throws InvalidCoordinatesException {
 		
-		makeGridCopy((byte)simori.getDisplayLayer());   //copy the grid
-		
+		makeGridCopy(getDisplayLayer());   //copy the grid
 		grid[0][col] = true;
 		grid[5][col] = true;
 		grid[10][col] = true;   
 		grid[15][col] = true;	//positions of buttons due to the clock, forcing them to light on tick
-		simori.getGui().setGrid(grid); //FIXME: Mode may have changed! (Without this being deconstructed yet)
+		getGui().setGrid(grid); //FIXME: Mode may have changed! (Without this being deconstructed yet)
 	}
 	
 	/**
@@ -98,7 +89,7 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 	 */
 	public void makeGridCopy(byte layno){
 		
-		boolean[][] grid1 = simori.getModel().getGrid(layno);   //grid in use
+		boolean[][] grid1 = getModel().getGrid(layno);   //grid in use
 		grid = new boolean[grid1.length][];       //grid to copy to
 		
 		System.arraycopy(grid1, 0, grid, 0, grid1.length);
@@ -122,5 +113,4 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 	public boolean[][] getModifiedGrid(){
 		return grid;
 	}
-	
 }
