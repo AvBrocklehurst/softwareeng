@@ -2,7 +2,6 @@ package simori;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import simori.Exceptions.InvalidCoordinatesException;
@@ -20,6 +19,8 @@ public class MatrixModel implements Serializable{
 	private short BPM;
 	private int height;
 	private int width;
+	private byte loopPoint;
+	private byte currentColumn;
 	
 	
 	/**
@@ -31,9 +32,10 @@ public class MatrixModel implements Serializable{
 	public MatrixModel(int width, int height){
 		this.width = width;
 		this.height = height;
-		layers = new Layer[16]; //make layers 16 long to hold all 16 layers
-		layers[0] = new Layer(width, height); //instatiate the first layer
-		BPM = 88; // default BPM
+		this.layers = new Layer[16]; //make layers 16 long to hold all 16 layers
+		this.layers[0] = new Layer(width, height); //instatiate the first layer
+		this.BPM = 88; // default BPM
+		this.loopPoint = 15;
 	}
 	
 	/**
@@ -96,8 +98,7 @@ public class MatrixModel implements Serializable{
 	 */
 	public boolean[] getCol(byte laynum){
 		layerExists(laynum);
-		System.out.println("layer " + laynum);
-		return layers[laynum].getCol();
+		return layers[laynum].getCol(currentColumn);
 	}
 	
 	/**
@@ -163,29 +164,20 @@ public class MatrixModel implements Serializable{
 	 * @param laynum  the number of the layer to get the column from
 	 * @return byte containing the layers velocity
 	 */
-	public byte getCurrentColumn(byte laynum){
-		layerExists(laynum);
-		
-		return layers[laynum].getColumn();
-	}
-	
-	/**
-	 * Method to set the loop point of a given layer
-	 * @param laynum      the layer to update
-	 * @param loopPoint  the value for loop point to be set to.
-	 */
-	public void setLoopPoint(byte laynum, byte loopPoint){
-		layerExists(laynum);
-		layers[laynum].setLoopPoint(loopPoint);
+	public byte getCurrentColumn(){
+		return currentColumn;
 	}
 	
 	/**
 	 * Method to increment the current column in a given layer.
 	 * @param laynum      the layer to update
 	 */
-	public void incrementColumn(byte laynum){
-		layerExists(laynum);
-		layers[laynum].incrementColumn();
+	public void incrementColumn(){
+		if(currentColumn < loopPoint){
+			currentColumn++;
+		} else {
+			currentColumn = 0;
+		}
 	}
 	
 	/**

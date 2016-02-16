@@ -20,7 +20,6 @@ public class Layer implements Serializable {
 	private int width;
 	private int height;
 	private byte loopPoint;
-	private byte currentColumn;
 	
 	/**
 	 * Constructor for an individual layer.
@@ -37,7 +36,6 @@ public class Layer implements Serializable {
 		this.channel = 0;
 		this.velocity = 80;
 		this.loopPoint = 15;
-		this.currentColumn = 0;
 	}
 	
 	
@@ -48,10 +46,10 @@ public class Layer implements Serializable {
 	 * @param column  The integer value of the column to be returned.
 	 * @return boolean array containing each value in the column as a True for on or False for off
 	 */
-	public boolean[] getCol(){
+	public boolean[] getCol(byte column){
 		boolean[] col = new boolean[16];
 		for(int i = 0; i < width; i++) { //For each row of the grid.
-			col[i] = grid[i][currentColumn]; // Add the requested column value to the array col.
+			col[i] = grid[i][column]; // Add the requested column value to the array col.
 		}
 		System.out.println(Arrays.toString(col));
 		return col;
@@ -105,42 +103,6 @@ public class Layer implements Serializable {
 	 */
 	public byte getLoopPoint(){
 		return loopPoint;
-	}
-	
-	/**
-	 * Method to return the layer's current column.
-	 * @author  Adam
-	 * @version 1.0.0
-	 * @return byte containing the value of the layers current column
-	 */
-	public byte getColumn(){
-		return currentColumn;
-	}
-	
-	
-	/**
-	 * Method to increment the current column of the layer.
-	 * If the currentcolumn is greater than or equal to the loop point then return to 0.
-	 * @author  Adam
-	 * @version 1.0.0
-	 * @param  loopPoint  a byte containing the value to change the layers loop point to
-	 */
-	public void incrementColumn(){
-		if(currentColumn < loopPoint){
-			currentColumn++;
-		} else {
-			currentColumn = 0;
-		}
-	}
-	
-	/**
-	 * Method to set the looppoint of the layer
-	 * @author  Adam
-	 * @version 1.0.0
-	 * @param  loopPoint  a byte containing the value to change the layers loop point to
-	 */
-	public void setLoopPoint(byte loopPoint){
-		this.loopPoint = loopPoint;
 	}
 	
 	
