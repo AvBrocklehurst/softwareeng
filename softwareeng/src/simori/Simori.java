@@ -1,8 +1,7 @@
 package simori;
 
+import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiUnavailableException;
-
-import simori.ChangerMode.Changer;
 
 /**
  * The main Simori class, runs the the whole Simori system.
@@ -11,87 +10,46 @@ import simori.ChangerMode.Changer;
  * @author Josh
  * @author Jurek
  * @author Matt 
- * @version 1.0.1
+ * @version 2.1.0
  */
 public class Simori {
 	
-	/* 
-	 * FIXME These are only used by SimoriGui. Should be used in MatrixModel too.
-	 * 		 Grid is accidentally trasposed in several places so may crash if
-	 * 		 GRID_WIDTH != GRID_HEIGHT. Maybe use just one GRID_DIMENSION constant.
-	 */
 	private static final int GRID_WIDTH = 16, GRID_HEIGHT = 16;
-	
-	private SimoriGui gui;
-	private MatrixModel model;
-	private int displayLayer;
-	private Mode currentMode;
 	private static final byte DEFAULT_LAYER = 0;
 	
-	/**
-	 * Instantiates all the required classes to render and use a Simori.
-	 * @author Adam
-	 * @author James
-	 * @author Josh
-	 * @author Jurek
-	 * @author Matt
-	 * @param args unused
-	 * @throws MidiUnavailableException
-	 * @version 1.0.0
-	 */
-	public static void main(String[] args) throws MidiUnavailableException {
-		Simori simori = new Simori();
-		simori.model = new MatrixModel(GRID_WIDTH, GRID_HEIGHT);
-		simori.gui = new SimoriGui(GRID_WIDTH, GRID_HEIGHT);
-		simori.setMode(new PerformanceMode(simori,0,0, DEFAULT_LAYER));
-		MIDISoundPlayer midi = new MIDISoundPlayer();
-		Clock clock = new Clock(simori, midi, 88);
-		Thread thread = new Thread(clock);
-		thread.start();
+	private SimoriGui gui;
+	private Mode mode;
+	private MatrixModel model;
+	private Clock clock;
+	private MIDISoundPlayer player;
+	
+	private int displayLayer;
+	private boolean on;
+	
+	public static void main(String[] args) {
+		Simori s = new Simori();
+		s.setMode(new OffMode(s));
 	}
 	
-	/**
-	 * @author James
-	 * @return the GUI in use
-	 * @version 1.0.0
-	 */
+	public Simori() {
+		model = new MatrixModel(GRID_WIDTH, GRID_HEIGHT);
+		gui = new SimoriGui(GRID_WIDTH, GRID_HEIGHT);
+	}
+	
+	public boolean isOn() {
+		return on;
+	}
+	
 	public SimoriGui getGui(){
 		return gui;
 	}
 	
-	/**
-	 * @author James
-	 * @return the model in use
-	 * @version 1.0.0
-	 */
-	public MatrixModel getModel(){
-		return model;
-	}
-	 
-	/**
-	 * Allows setting of the model for testing classes,
-	 * as general instantiation is done in the main method
-	 * on run.
-	 * @author James
-	 * @param model
-	 * @version 1.0.0
-	 * @see TestPerformanceMode
-	 */
-	public void setModel(MatrixModel model){
-		this.model = model; 
+	public Mode getMode() {
+		return mode;
 	}
 	
-	/**
-	 * Allows setting of the model for testing classes,
-	 * as general instantiation is done in the main method
-	 * on run.
-	 * @author James
-	 * @param gui
-	 * @version 1.0.0
-	 * @see TestPerformanceMode
-	 */
-	public void setGui(SimoriGui gui){
-		this.gui = new SimoriGui(16, 16);
+	public MatrixModel getModel(){
+		return model;
 	}
 	
 	public int getDisplayLayer(){
@@ -103,14 +61,39 @@ public class Simori {
 	}
 	
 	public void setMode(Mode mode) {
-		if (mode.equals(currentMode)) return;
-		gui.clearGrid();
-		currentMode = mode;
+		if (mode == null || mode.equals(this.mode)) return;
+		this.mode = mode;
 		gui.setGridButtonListener(mode);
 		gui.setFunctionButtonListener(mode);
 	}
 	
-	public Mode getMode() {
-		return currentMode;
+	public void setOn(boolean on) {
+		if (this.on == on) return;
+		if (on) {
+			switchOn();
+		} else {
+			switchOff();
+		}
+	}
+	
+	private void switchOn() {
+		try {
+			player = new MIDISoundPlayer();
+		} catch (MidiUnavailableException e) {}
+		setMode(new PerformanceMode(this, 0, 0, DEFAULT_LAYER));
+		clock = new Clock(this, player, 88);
+		new Thread(clock).start();
+		on = true;
+	}
+	
+	private void switchOff() {
+		setMode(new OffMode(this));
+		clock.off();
+		try {
+			player.stop();
+		} catch (InvalidMidiDataException e) {}
+		clock = null;
+		player = null;
+		on = false;
 	}
 }

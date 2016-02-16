@@ -74,7 +74,8 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 	 * @see simori.Exceptions.InvalidCoordinatesException, makeGridCopy(), Simori.getGui(), SimoriGui.setGrid()
 	 * @version 2.0.1
 	 */
-	public void tickerLight(byte col) throws InvalidCoordinatesException{
+	@Override
+	public void tickerLight(byte col) throws InvalidCoordinatesException {
 		
 		makeGridCopy((byte)simori.getDisplayLayer());   //copy the grid
 		
