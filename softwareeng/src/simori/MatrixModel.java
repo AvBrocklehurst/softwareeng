@@ -38,17 +38,7 @@ public class MatrixModel implements Serializable, PowerTogglable {
 		this.BPM = 88; // default BPM
 		this.loopPoint = 15;
 	}
-	
-	/**
-	 * Method to shut down data structure in event of the simori-on being turned off.
-	 * @author  Adam
-	 * @version 1.0.0
-	 */
-	public void off(){
-		layers = null;
-		BPM = 88;
-	}
-	
+
 	/**
 	 * Method to return a list of all in use layers
 	 * @author Adam
@@ -224,6 +214,20 @@ public class MatrixModel implements Serializable, PowerTogglable {
 		layerExists(laynum);
 		layers[laynum].updateButton(col, row);
 		
+	}
+
+	@Override
+	public void switchOn() {
+		this.layers = new Layer[16]; //make layers 16 long to hold all 16 layers
+		this.layers[0] = new Layer(width, height); //instatiate the first layer
+	}
+
+	@Override
+	public void switchOff() {
+		layers = null;
+		BPM = 88;
+		loopPoint = 15;
+		currentColumn = 0;
 	}
 
 }
