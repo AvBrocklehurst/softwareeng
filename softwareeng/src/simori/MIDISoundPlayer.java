@@ -132,6 +132,22 @@ public class MIDISoundPlayer implements MIDIPlayer, PowerTogglable {
 		player.stop();
 		Thread.sleep(10000);
 	}
+
+
+	@Override
+	public void switchOn() {
+		try {
+			synth.open();
+		} catch (MidiUnavailableException e) {e.printStackTrace();System.exit(1);}
+		
+	}
+
+
+	@Override
+	public void switchOff() {
+		synth.close();
+		
+	}
 	
 }
 
