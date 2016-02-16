@@ -95,16 +95,6 @@ public class Clock implements Runnable, PowerTogglable {
 				//else{currentColumn++;}
 			}
 		}
-				
-		/**
-		 * Stops the execution of the thread and the timer
-		 * @author Jurek
-		 * @version 1.0.2
-		 */
-		public void off() {
-			running = false;
-			timerTask.cancel();
-		}
 		
 		/**
 		 * Method to get and format the notes to be played in this tick from the model.
@@ -157,5 +147,16 @@ public class Clock implements Runnable, PowerTogglable {
 			}
 			return toBePlayed;
 		}
-		
+
+		@Override
+		public void switchOn() {
+			running = true;
+			new Thread(this).start();
+		}
+
+		@Override
+		public void switchOff() {
+			running = false;
+			timerTask.cancel();
+		}
 }
