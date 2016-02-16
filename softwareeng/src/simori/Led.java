@@ -2,7 +2,6 @@ package simori;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 
 /**
@@ -19,7 +18,7 @@ import java.awt.event.MouseEvent;
  * @author Matt
  * @version 1.4.1
  */
-public class Led extends Button {
+public class Led extends PressableCircle {
 	
 	//TODO Control resizing to keep width and height the same
 	
@@ -56,16 +55,6 @@ public class Led extends Button {
 			lit = on;
 			repaint(); //Redraw after any visual change
 		}
-	}
-	
-	@Override
-	public String getText() {
-		return null;
-	}
-	
-	@Override
-	protected void drawText(Graphics g) {
-		return;
 	}
 	
 	@Override

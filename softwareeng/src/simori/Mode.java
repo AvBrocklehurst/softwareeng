@@ -75,7 +75,7 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 		case OK:
 			controller.setMode(new PerformanceMode(controller));
 			break;
-		case POWER:
+		case ON:
 			controller.setOn(!controller.isOn());
 			break;
 		}

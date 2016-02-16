@@ -9,7 +9,7 @@ public enum FunctionButton {
 	R2 ("R2", "Save Configuration"),
 	R3 ("R3", "Load Configuration"),
 	R4 ("R4", "Master / Slave"),
-	POWER ("ON", "Toggle Power"),
+	ON ("ON", "Toggle Power"),
 	OK ("OK", "Confirm Changes");
 	
 	private String buttonName;
