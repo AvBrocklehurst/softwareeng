@@ -1,6 +1,6 @@
 package simori;
 
-import static simori.SimoriGuiEvents.FunctionButton.*;
+import static simori.FunctionButton.*;
 
 import simori.SimoriGuiEvents.FunctionButtonEvent;
 import simori.SimoriGuiEvents.GridButtonEvent;

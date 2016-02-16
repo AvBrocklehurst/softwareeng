@@ -1,11 +1,10 @@
 package simori;
 
 import simori.ChangerMode.Changer;
-import simori.Exceptions.InvalidCoordinatesException;
 import simori.SimoriGuiEvents.FunctionButtonEvent;
 import simori.SimoriGuiEvents.FunctionButtonListener;
 import simori.SimoriGuiEvents.GridButtonListener;
-import static simori.SimoriGuiEvents.FunctionButton;
+import simori.Exceptions.InvalidCoordinatesException;
 
 /**
  * An abstract class defining methods for general

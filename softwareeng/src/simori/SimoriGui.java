@@ -1,6 +1,6 @@
 package simori;
 
-import static simori.SimoriGuiEvents.FunctionButton.*;
+import static simori.FunctionButton.*;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -16,7 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
 import simori.Button.OnPressListener;
-import simori.SimoriGuiEvents.FunctionButton;
+import simori.FunctionButton;
 import simori.SimoriGuiEvents.FunctionButtonEvent;
 import simori.SimoriGuiEvents.FunctionButtonListener;
 import simori.SimoriGuiEvents.GridButtonEvent;
