@@ -138,6 +138,10 @@ public class MIDISoundPlayer implements MIDIPlayer, PowerTogglable {
 	public void switchOn() {
 		try {
 			synth.open();
+			reciever = synth.getReceiver();
+			message = null;
+			
+			
 		} catch (MidiUnavailableException e) {e.printStackTrace();System.exit(1);}
 		
 	}
@@ -145,6 +149,8 @@ public class MIDISoundPlayer implements MIDIPlayer, PowerTogglable {
 
 	@Override
 	public void switchOff() {
+		message = null;
+		reciever.close();
 		synth.close();
 		
 	}
