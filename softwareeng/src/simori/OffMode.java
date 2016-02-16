@@ -1,6 +1,6 @@
 package simori;
 
-import simori.SimoriGuiEvents.FunctionButton;
+import simori.FunctionButton;
 import simori.SimoriGuiEvents.FunctionButtonEvent;
 import simori.SimoriGuiEvents.GridButtonEvent;
 import simori.Exceptions.InvalidCoordinatesException;
