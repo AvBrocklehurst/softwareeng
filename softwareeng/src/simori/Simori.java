@@ -29,5 +29,11 @@ public class Simori {
 		MIDISoundPlayer player = new MIDISoundPlayer();
 		ModeController modes = new ModeController(gui, model);
 		Clock clock = new Clock(modes, model, player);
+		modes.setComponentsToPowerToggle(model, clock, player);
+	}
+	
+	public interface PowerTogglable {
+		public void switchOn();
+		public void switchOff();
 	}
 }

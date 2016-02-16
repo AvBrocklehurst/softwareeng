@@ -3,10 +3,13 @@ package simori;
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiUnavailableException;
 
+import simori.Simori.PowerTogglable;
+
 public class ModeController {
 	
 	private SimoriGui gui;
 	private MatrixModel model;
+	private PowerTogglable[] toPowerToggle;
 	
 	private Mode mode;
 	private byte displayLayer;
@@ -44,6 +47,10 @@ public class ModeController {
 		gui.setFunctionButtonListener(mode);
 	}
 	
+	public void setComponentsToPowerToggle(PowerTogglable... s) {
+		toPowerToggle = s;
+	}
+	
 	public void setOn(boolean on) {
 		if (this.on == on) return;
 		if (on) {
@@ -54,23 +61,18 @@ public class ModeController {
 	}
 	
 	private void switchOn() {
-		try {
-			player = new MIDISoundPlayer();
-		} catch (MidiUnavailableException e) {}
-		setMode(new PerformanceMode(this, 0, 0, DEFAULT_LAYER));
-		clock = new Clock(this, player, 88);
-		new Thread(clock).start();
+		for (PowerTogglable t : toPowerToggle) {
+			t.switchOn();
+		}
 		on = true;
+		setMode(new PerformanceMode(this));
 	}
 	
 	private void switchOff() {
-		setMode(new OffMode(this));
-		clock.off();
-		try {
-			player.stop();
-		} catch (InvalidMidiDataException e) {}
-		clock = null;
-		player = null;
+		for (PowerTogglable t : toPowerToggle) {
+			t.switchOff();
+		}
 		on = false;
+		setMode(new OffMode(this));
 	}
 }

@@ -7,7 +7,7 @@ import java.util.TimerTask;
 
 import javax.sound.midi.InvalidMidiDataException;
 
-import simori.Exceptions.InvalidCoordinatesException;
+import simori.Simori.PowerTogglable;
 
 	/**
 	 * Class implementing Runnable which keeps track of the current tempo and plays notes which are currently active
@@ -20,7 +20,7 @@ import simori.Exceptions.InvalidCoordinatesException;
 	//TODO fine-tune the processing so that all the notes from the next column are played
 	//TODO tempo testing, making sure its within bounds of 0<160, and in increments of 10
 
-public class Clock implements Runnable {
+public class Clock implements Runnable, PowerTogglable {
 		private boolean running = true;
 		private MatrixModel model;
 		private MIDIPlayer midi;

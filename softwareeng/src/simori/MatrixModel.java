@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import simori.Simori.PowerTogglable;
 import simori.Exceptions.InvalidCoordinatesException;
 
 /**
@@ -14,7 +15,7 @@ import simori.Exceptions.InvalidCoordinatesException;
  * @author  Adam
  * @version 1.2.0
  */
-public class MatrixModel implements Serializable{
+public class MatrixModel implements Serializable, PowerTogglable {
 	private Layer[] layers;
 	private short BPM;
 	private int height;

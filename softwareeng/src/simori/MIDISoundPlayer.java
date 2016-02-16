@@ -1,12 +1,15 @@
 package simori;
 
 import java.util.ArrayList;
+
+import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiSystem;
+import javax.sound.midi.MidiUnavailableException;
 import javax.sound.midi.Receiver;
 import javax.sound.midi.ShortMessage;
 import javax.sound.midi.Synthesizer;
-import javax.sound.midi.MidiUnavailableException;
-import javax.sound.midi.InvalidMidiDataException;
+
+import simori.Simori.PowerTogglable;
 
 /**
  * @author Josh
@@ -20,7 +23,7 @@ import javax.sound.midi.InvalidMidiDataException;
  * The amount of time it takes to do .play(Array) is ideally zero.
  * As a result there is little to no error checking in this class. All error checking is done before this method is played (whilst it is still in sync with the clock)
  */
-public class MIDISoundPlayer implements MIDIPlayer{
+public class MIDISoundPlayer implements MIDIPlayer, PowerTogglable {
 	//TODO implement in sprint 2: The percussion channel (9) doesn't have instruments,the pitch determines the instrument to be played.
 	// TODO midi goes from 1-128, we go from 0-127, will need to change!
 	
