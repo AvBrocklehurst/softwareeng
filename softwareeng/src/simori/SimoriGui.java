@@ -15,10 +15,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.Rectangle;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -50,7 +46,6 @@ public class SimoriGui extends JFrame {
 	
 	public static final Color BACKGROUND = new Color(0xFFFFFF);
 	public static final Color BORDER = new Color(0x000000);
-	public static final Dimension SIDEBUTTON = new Dimension(50, 50);
 	
 	private GridButtonListener gListener;
 	private FunctionButtonListener fListener;
