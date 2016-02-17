@@ -223,6 +223,7 @@ public class MatrixModel implements Serializable, PowerTogglable {
 	}
 
 	@Override
+	
 	public void switchOff() {
 		layers = null;
 		BPM = 88;

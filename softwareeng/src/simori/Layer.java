@@ -51,7 +51,7 @@ public class Layer implements Serializable {
 		for(int i = 0; i < width; i++) { //For each row of the grid.
 			col[i] = grid[i][column]; // Add the requested column value to the array col.
 		}
-		System.out.println(Arrays.toString(col));
+		
 		return col;
 	}
 	
