@@ -64,7 +64,7 @@ public class SimoriGui extends JFrame implements MouseMotionListener {
 	private LedPanel ledPanel;
 	private SimoriEdgeBar leftBar, rightBar;
 	private SimoriEdgeBar topBar, bottomBar;
-	private JLabel lcd;
+	private Lcd lcd;
 	
 	private int startX, startY;
 	private boolean couldDragBefore;
@@ -105,7 +105,7 @@ public class SimoriGui extends JFrame implements MouseMotionListener {
 	}
 	
 	public void setText(String text) {
-		//TODO Actually have an lcd.setText(text);
+		lcd.setText(text);
 	}
 	
 	/** Sets the listener to receive events for Leds in the grid */
@@ -176,7 +176,8 @@ public class SimoriGui extends JFrame implements MouseMotionListener {
 		leftBar = new SimoriEdgeBar(true, false, maker, L1, L2, L3, L4);
 		ledPanel = new LedPanel(rows, columns, maker);
 		rightBar = new SimoriEdgeBar(true, false, maker, R1, R2, R3, R4);
-		bottomBar = new SimoriEdgeBar(false, false, maker, OK);
+		bottomBar = new SimoriEdgeBar(false, true, maker, OK);
+		lcd = bottomBar.getLcd();
 	}
 	
 	private void addComponents() {

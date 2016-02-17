@@ -15,14 +15,14 @@ public class SimoriEdgeBar extends JPanel {
 	private Button[] buttons;
 	private Lcd lcd;
 	
-	public SimoriEdgeBar(boolean vertical, boolean lcd,
+	public SimoriEdgeBar(boolean vertical, boolean hasLcd,
 			OnPressListenerMaker maker, FunctionButton... fbs) {
 		int axis = vertical ? BoxLayout.PAGE_AXIS : BoxLayout.LINE_AXIS;
 		setOpaque(false);
 		if (fbs == null) return;
 		BoxLayout layout = new BoxLayout(this, axis);
 		setLayout(layout);
-		addComponents(vertical, lcd, maker, fbs);
+		addComponents(vertical, hasLcd, maker, fbs);
 		addComponentListener(new ComponentAdapter() {
 			@Override
 			public void componentResized(ComponentEvent e) {
@@ -31,11 +31,12 @@ public class SimoriEdgeBar extends JPanel {
 		});
 	}
 	
-	private void addComponents(boolean vertical, boolean lcd,
+	private void addComponents(boolean vertical, boolean hasLcd,
 			OnPressListenerMaker maker, FunctionButton[] fbs) {
-		if (lcd) {
-			this.lcd = new Lcd(vertical);
-			add(this.lcd);
+		if (hasLcd) {
+			add(Box.createGlue());
+			lcd = new Lcd(vertical);
+			add(lcd);
 		}
 		add(Box.createGlue());
 		addButtons(fbs, maker);
@@ -73,5 +74,10 @@ public class SimoriEdgeBar extends JPanel {
 			b.setMaximumSize(bSize);
 			b.setMinimumSize(bSize);
 		}
+		if (lcd != null) lcd.setShorterSize(ratio);
+	}
+	
+	public Lcd getLcd() {
+		return lcd;
 	}
 }

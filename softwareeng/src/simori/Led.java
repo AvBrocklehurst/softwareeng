@@ -26,8 +26,8 @@ public class Led extends PressableCircle {
 	 * ON is the illuminated colour, OFF the default
 	 * IN colours are darkened versions to represent pressed states
 	 */
-	private static final Color ON = new Color(0xFF6600);
-	private static final Color ON_IN = new Color(0xCC5200);
+	private static final Color ON = new Color(255, 176, 0);
+	private static final Color ON_IN = new Color(205, 126, 0);
 	private static final Color OFF = new Color(0xFFFFFF);
 	private static final Color OFF_IN = new Color(0xEEEEEE);
 	
