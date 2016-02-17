@@ -13,7 +13,7 @@ import simori.Simori.PowerTogglable;
 	 * Class implementing Runnable which keeps track of the current tempo and plays notes which are currently active
 	 * @author Jurek
 	 * @author Adam
-	 * @version 1.2.3
+	 * @version 1.3.1
 	 * @see run()
 	 */
 	//TODO error checking for midi.play(layers)
@@ -60,7 +60,7 @@ public class Clock implements Runnable, PowerTogglable {
 		 * the mode.
 		 * @author Jurek
 		 * @author Adam
-		 * @version 1.3.0
+		 * @version 1.3.1
 		 */
 		@Override
 		public void run() {
@@ -77,7 +77,47 @@ public class Clock implements Runnable, PowerTogglable {
 			
 			while(running){
 				List<Byte> activeLayers = model.getLayers();
-				byte [][] toBePlayed = formatNotes(activeLayers);
+				byte[][] layers = new byte[activeLayers.size()][];
+				ArrayList<Byte> usedColumns = new ArrayList<Byte>();
+				//using arrays with an array,
+				//for each generally active layer...
+				for(byte x=0; x<(byte)activeLayers.size(); x++){
+					byte notZero = 0;
+					byte[] thisLayer = new byte[19];
+					//...get its current column...
+					boolean[] layer = model.getCol(activeLayers.get(x));
+					//...add any active notes to the current inner array...
+					for(byte y=0; y<layer.length; y++){
+						if(layer[y]){
+							thisLayer[y + 3] = (byte) (67 - y);
+							notZero++;
+						} else {
+							thisLayer[y + 3] = 0;
+						}
+					}
+					//...discard unused columns and resize the inner arrays...
+					if(notZero > 0){
+						usedColumns.add(x);
+						layers[x] = new byte[notZero + 3];
+						//[Channel, Instrument, Velocity, Note, Note, Note...]
+						short instrument = model.getInstrument(activeLayers.get(x));
+						layers[x][1] = (byte) ((instrument < 128) ? instrument : instrument - 127);
+						layers[x][2] = model.getVelocity(activeLayers.get(x));
+						layers[x][0] = model.getChannel(activeLayers.get(x));
+						byte count = 3;
+						for(byte y = 0; y < thisLayer.length; y ++){
+							if(thisLayer[y] != 0){
+								layers[x][count] = thisLayer[y];
+								count++;
+							} 
+						}
+					}
+				}
+				//comment
+				byte[][] toBePlayed = new byte[usedColumns.size()][];
+				for (byte i=0; i<usedColumns.size(); i++){
+					toBePlayed[i] = layers[usedColumns.get(i)];
+				}
 						
 				
 				//wait until the beat hits...
@@ -91,68 +131,12 @@ public class Clock implements Runnable, PowerTogglable {
 				try {midi.play(toBePlayed);} catch (InvalidMidiDataException e1) {e1.printStackTrace(); System.exit(1);}
 				
 				//turn the lights on the current column
-				//modes.tickThrough(currentColumn) //TODO actually have a currentColumn again
+				modes.tickThrough(model.getCurrentColumn());
 				
-				//for(Byte activeLayer : activeLayers){
-				//	model.incrementColumn(activeLayer);
-				//}
-				//if(currentColumn == 15){currentColumn = 0;}
-				//else{currentColumn++;}
+				model.incrementColumn();
 			}
 		}
 		
-		/**
-		 * Method to get and format the notes to be played in this tick from the model.
-		 * @author Adam
-		 * @version 1.0.0
-		 * @param activeLayers  a List of Bytes containing all active layers
-		 * @return a 2D byte array with the notes to be played.
-		 */
-		private byte[][] formatNotes(List<Byte> activeLayers){
-			
-			byte[][] layers = new byte[activeLayers.size()][];
-			ArrayList<Byte> usedColumns = new ArrayList<Byte>();
-			//using arrays with an array,
-			//for each generally active layer...
-			for(byte x=0; x<(byte)activeLayers.size(); x++){
-				byte notZero = 0;
-				byte[] thisLayer = new byte[19];
-				//...get its current column...
-				boolean[] layer = model.getCol(activeLayers.get(x));
-				//...add any active notes to the current inner array...
-				for(byte y=0; y<layer.length; y++){
-					if(layer[y]){
-						thisLayer[y + 3] = (byte) (67 - y);
-						notZero++;
-					} else {
-						thisLayer[y + 3] = 0;
-					}
-				}
-				//...discard unused columns and resize the inner arrays...
-				if(notZero > 0){
-					usedColumns.add(x);
-					layers[x] = new byte[notZero + 3];
-					//[Channel, Instrument, Velocity, Note, Note, Note...]
-					short instrument = model.getInstrument(activeLayers.get(x));
-					layers[x][1] = (byte) ((instrument < 128) ? instrument : instrument - 127);
-					layers[x][2] = model.getVelocity(activeLayers.get(x));
-					layers[x][0] = model.getChannel(activeLayers.get(x));
-					byte count = 3;
-					for(byte y = 0; y < thisLayer.length; y ++){
-						if(thisLayer[y] != 0){
-							layers[x][count] = thisLayer[y];
-							count++;
-						} 
-					}
-				}
-			}
-			byte[][] toBePlayed = new byte[usedColumns.size()][];
-			for (byte i=0; i<usedColumns.size(); i++){
-				toBePlayed[i] = layers[usedColumns.get(i)];
-			}
-			return toBePlayed;
-		}
-
 		@Override
 		public void switchOn() {
 			running = true;
