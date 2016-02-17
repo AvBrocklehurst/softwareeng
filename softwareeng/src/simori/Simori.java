@@ -30,16 +30,14 @@ public class Simori {
 		ModeController modes = new ModeController(gui, model);
 		Clock clock = new Clock(modes, model, player);
 		modes.setComponentsToPowerToggle(model, clock, player);
+		gui.setVisible(true);
 	}
 	
 	
 	/**
-	 * 
 	 * @author Josh
 	 * @author Matt
-	 * 
 	 * @version 1.0.0
-	 * 
 	 * interface that tells classes that have statuses (that are not needed) to close and open
 	 */
 	public interface PowerTogglable {
@@ -48,17 +46,14 @@ public class Simori {
 		 * @author Josh
 		 * @author Matt
 		 * @version 1.0.0
-		 * 
 		 * method continues execution.
 		 */
 		public void switchOn();
-		
 		
 		/**
 		 * @author Josh
 		 * @author Matt
 		 * @version 1.0.0
-		 * 
 		 * method pauses and resets all functionality
 		 * It should not destroy any instances however
 		 */

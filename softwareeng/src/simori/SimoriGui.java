@@ -20,7 +20,6 @@ import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.WindowConstants;
 
 import simori.SimoriGuiEvents.FunctionButtonListener;
 import simori.SimoriGuiEvents.GridButtonEvent;
@@ -40,23 +39,18 @@ import simori.SimoriGuiEvents.GridButtonListener;
 public class SimoriGui extends JFrame {
 	
 	private static final String WINDOW_TITLE = "Simori-ON";
-	private static final int SIZE = 600;
-	private static final int EDGE_SIZE = 60;
 	private static final int GAP = 0; //Padding between components
-	
-	public static final Color BACKGROUND = new Color(0xFFFFFF);
-	public static final Color BORDER = new Color(0x000000);
 	
 	private GridButtonListener gListener;
 	private FunctionButtonListener fListener;
 	private Dimension simoriSize, sideBarSize, topBarSize;
 	private int rows, columns;
 	
-	protected JPanel ledPanel;
-	protected FunctionButtonBar leftBar, rightBar;
-	protected FunctionButtonBar topBar, bottomBar;
-	protected JLabel lcd;
-	protected Led[][] leds;
+	private JPanel ledPanel;
+	private FunctionButtonBar leftBar, rightBar;
+	private FunctionButtonBar topBar, bottomBar;
+	private JLabel lcd;
+	private Led[][] leds;
 	
 	/**
 	 * Creates a new GUI which will be visible immediately.
@@ -65,20 +59,16 @@ public class SimoriGui extends JFrame {
 	 * @param columns Number of LEDs in the horizontal dimension
 	 */
 	public SimoriGui(int rows, int columns) {
-		/*
-		 * The window is a JFrame arranged with BorderLayout, containing:
-		 * Led grid is a JPanel containing Leds arranged with GridLayout.
-		 * Buttons around the edges are in JPanels arranged with BoxLayout.
-		 */
 		this.rows = rows;
 		this.columns = columns;
 		setTitle(WINDOW_TITLE);
-		setLayout(new BorderLayout(GAP, GAP));
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		
+		setUndecorated(true);
+		//setOpacity(0); //TODO illegalcomponentstateexception
+		
 		addComponents();
 		sortSizes();
-		setBackground(BACKGROUND);
-		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		setVisible(true);
 	}
 	
 	private void sortSizes() {
@@ -90,6 +80,7 @@ public class SimoriGui extends JFrame {
 		bottomBar.setPreferredSize(topBarSize);
 		pack();
 		setResizable(false);
+		setLocationRelativeTo(null);
 	}
 	
 	private void calculateDimensions() {
@@ -139,17 +130,20 @@ public class SimoriGui extends JFrame {
 	
 	private void addComponents() {
 		makeComponents();
-		add(topBar, BorderLayout.PAGE_START);
-		add(leftBar, BorderLayout.LINE_START);
-		add(ledPanel, BorderLayout.CENTER);
-		add(rightBar, BorderLayout.LINE_END);
-		add(bottomBar, BorderLayout.PAGE_END);
+		JPanel panel = new SimoriPanel();
+		panel.setLayout(new BorderLayout(GAP, GAP));
+		panel.add(topBar, BorderLayout.PAGE_START);
+		panel.add(leftBar, BorderLayout.LINE_START);
+		panel.add(ledPanel, BorderLayout.CENTER);
+		panel.add(rightBar, BorderLayout.LINE_END);
+		panel.add(bottomBar, BorderLayout.PAGE_END);
+		add(panel);
 	}
 	
 	private void makeLedPanel() {
 		OnPressListenerMaker maker = new OnPressListenerMaker(this);
 		ledPanel = new JPanel(new GridLayout(rows, columns, GAP, GAP));
-		ledPanel.setSize(SIZE - 2 * EDGE_SIZE, SIZE - 2 * EDGE_SIZE);
+		//TODO ledPanel.setSize(SIZE - 2 * EDGE_SIZE, SIZE - 2 * EDGE_SIZE);
 		leds = new Led[rows][columns];
 		for (int y = 0; y < rows; y++) {
 			for (int x = 0; x < columns; x++) {
@@ -161,8 +155,8 @@ public class SimoriGui extends JFrame {
 				leds[x][y].setOnPressListener(maker.getListener(e));
 			}
 		}
-		ledPanel.setBackground(BACKGROUND);
-		ledPanel.setBorder(BorderFactory.createLineBorder(BORDER));
+		ledPanel.setBackground(new Color(0xFFFFFF)); //FIXME hardcoding
+		ledPanel.setBorder(BorderFactory.createLineBorder(new Color(0x000000)));
 	}
 	
 	/** Sets the listener to receive events for Leds in the grid */

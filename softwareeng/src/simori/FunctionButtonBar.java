@@ -16,7 +16,7 @@ public class FunctionButtonBar extends JPanel {
 	public FunctionButtonBar(boolean vertical,
 			OnPressListenerMaker maker, FunctionButton... fbs) {
 		int axis = vertical ? BoxLayout.PAGE_AXIS : BoxLayout.LINE_AXIS;
-		setBackground(SimoriGui.BACKGROUND);
+		setOpaque(false);
 		if (fbs == null) return;
 		BoxLayout layout = new BoxLayout(this, axis);
 		setLayout(layout);
