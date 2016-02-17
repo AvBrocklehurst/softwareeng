@@ -32,8 +32,37 @@ public class Simori {
 		modes.setComponentsToPowerToggle(model, clock, player);
 	}
 	
+	
+	/**
+	 * 
+	 * @author Josh
+	 * @author Matt
+	 * 
+	 * @version 1.0.0
+	 * 
+	 * interface that tells classes that have statuses (that are not needed) to close and open
+	 */
 	public interface PowerTogglable {
+		
+		/**
+		 * @author Josh
+		 * @author Matt
+		 * @version 1.0.0
+		 * 
+		 * method continues execution.
+		 */
 		public void switchOn();
+		
+		
+		/**
+		 * @author Josh
+		 * @author Matt
+		 * @version 1.0.0
+		 * 
+		 * method pauses and resets all functionality
+		 * It should not destroy any instances however
+		 */
 		public void switchOff();
 	}
+	
 }

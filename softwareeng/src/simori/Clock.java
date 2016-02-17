@@ -20,6 +20,11 @@ import simori.Simori.PowerTogglable;
 	//TODO fine-tune the processing so that all the notes from the next column are played
 	//TODO tempo testing, making sure its within bounds of 0<160, and in increments of 10
 
+
+
+//TODO JOSH implement in sprint 2: The percussion channel (9) doesn't have instruments,the pitch determines the instrument to be played.
+// TODO JOSH midi goes from 1-128, we go from 0-127, will need to change!
+
 public class Clock implements Runnable, PowerTogglable {
 		private boolean running = true;
 		private MatrixModel model;

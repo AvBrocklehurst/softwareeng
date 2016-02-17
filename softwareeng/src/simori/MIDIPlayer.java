@@ -30,17 +30,6 @@ public interface MIDIPlayer {
 	 * Method will play all notes simultaneously(or as close to simultaneous as possible).
 	 */
 	public void play(byte[][] array)  throws InvalidMidiDataException;
-
-	/*
-	/**
-	 * @author Josh
-	 * @version 1.0.0
-	 * @return void
-	 * 
-	 * Method stops all music being played.
-	 *
-	public void stop() throws InvalidMidiDataException;
-	*/
 }
 
 
