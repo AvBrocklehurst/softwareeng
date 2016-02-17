@@ -15,6 +15,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.Point;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -22,6 +24,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.io.File;
+import java.io.IOException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -48,8 +51,10 @@ public class SimoriGui extends JFrame implements MouseMotionListener {
 	private static final int GAP = 0; //Padding between components
 	private static final int EXIT_CODE = 27; //ASCII for ESC
 	private static final Color TRANSPARENT = new Color(0,0,0,0);
+	
 	private static final String ICON_PATH = "Doctor D 128px.png";
-	private static final String ICON_ALT_PATH = "../../" + ICON_PATH;
+	private static final String FONT_PATH = "cmtt12.ttf";
+	private static final String UP_UP = "../../";
 	
 	private GridButtonListener gListener;
 	private FunctionButtonListener fListener;
@@ -57,8 +62,8 @@ public class SimoriGui extends JFrame implements MouseMotionListener {
 	private int rows, columns;
 	
 	private LedPanel ledPanel;
-	private FunctionButtonBar leftBar, rightBar;
-	private FunctionButtonBar topBar, bottomBar;
+	private SimoriEdgeBar leftBar, rightBar;
+	private SimoriEdgeBar topBar, bottomBar;
 	private JLabel lcd;
 	
 	private int startX, startY;
@@ -133,7 +138,8 @@ public class SimoriGui extends JFrame implements MouseMotionListener {
 	
 	private void sortIcons() {
 		File file = new File(ICON_PATH);
-		if (!file.exists()) file = new File(ICON_ALT_PATH);
+		if (!file.exists())
+			file = new File(UP_UP + ICON_PATH);
 		ImageIcon icon = new ImageIcon(ICON_PATH);
 		setIconImage(icon.getImage());
 	}
@@ -166,11 +172,11 @@ public class SimoriGui extends JFrame implements MouseMotionListener {
 	
 	private void makeComponents() {
 		OnPressListenerMaker maker = new OnPressListenerMaker(this);
-		topBar = new FunctionButtonBar(false, maker, ON);
-		leftBar = new FunctionButtonBar(true, maker, L1, L2, L3, L4);
+		topBar = new SimoriEdgeBar(false, false, maker, ON);
+		leftBar = new SimoriEdgeBar(true, false, maker, L1, L2, L3, L4);
 		ledPanel = new LedPanel(rows, columns, maker);
-		rightBar = new FunctionButtonBar(true, maker, R1, R2, R3, R4);
-		bottomBar = new FunctionButtonBar(false, maker, OK);
+		rightBar = new SimoriEdgeBar(true, false, maker, R1, R2, R3, R4);
+		bottomBar = new SimoriEdgeBar(false, false, maker, OK);
 	}
 	
 	private void addComponents() {
@@ -211,5 +217,16 @@ public class SimoriGui extends JFrame implements MouseMotionListener {
 				|| bottomBar.contains(point)
 				|| leftBar.contains(point)
 				|| rightBar.contains(point);
+	}
+	
+	private Font makeFont() {
+		File file = new File(FONT_PATH);
+		if (!file.exists())
+			file = new File(UP_UP + FONT_PATH);
+		try {
+			return Font.createFont(Font.TRUETYPE_FONT, file);
+		} catch (FontFormatException | IOException e) {
+			return new Font(Font.SERIF, Font.PLAIN, 1);
+		}
 	}
 }

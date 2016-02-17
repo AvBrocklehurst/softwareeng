@@ -10,18 +10,19 @@ import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
-public class FunctionButtonBar extends JPanel {
+public class SimoriEdgeBar extends JPanel {
 	
 	private Button[] buttons;
+	private Lcd lcd;
 	
-	public FunctionButtonBar(boolean vertical,
+	public SimoriEdgeBar(boolean vertical, boolean lcd,
 			OnPressListenerMaker maker, FunctionButton... fbs) {
 		int axis = vertical ? BoxLayout.PAGE_AXIS : BoxLayout.LINE_AXIS;
 		setOpaque(false);
 		if (fbs == null) return;
 		BoxLayout layout = new BoxLayout(this, axis);
 		setLayout(layout);
-		addButtons(fbs, maker);
+		addComponents(vertical, lcd, maker, fbs);
 		addComponentListener(new ComponentAdapter() {
 			@Override
 			public void componentResized(ComponentEvent e) {
@@ -30,10 +31,19 @@ public class FunctionButtonBar extends JPanel {
 		});
 	}
 	
+	private void addComponents(boolean vertical, boolean lcd,
+			OnPressListenerMaker maker, FunctionButton[] fbs) {
+		if (lcd) {
+			this.lcd = new Lcd(vertical);
+			add(this.lcd);
+		}
+		add(Box.createGlue());
+		addButtons(fbs, maker);
+	}
+	
 	private void addButtons(FunctionButton[] fbs,
 			OnPressListenerMaker maker) {
 		buttons = new Button[fbs.length];
-		add(Box.createGlue());
 		add(Box.createGlue());
 		for (int i = 0; i < fbs.length; i++) {
 			if (fbs[i] == null) continue;
