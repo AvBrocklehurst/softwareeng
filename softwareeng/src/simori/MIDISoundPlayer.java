@@ -141,7 +141,7 @@ public class MIDISoundPlayer implements MIDIPlayer, PowerTogglable {
 	if(layers.size <0){throw new NothingToplayException()};
 	for (byte[] layer: layers) {
 		//if(layers.size <4){throw new MidixxxToplayException()};
-		 if(layer[0] <0 || layer[0] >15){throw newxxxx};
+		 if(layer[0]!= 0 || layer[0] != 9){throw newxxxx};
 		 if(layer[1] <0) {throw new xxx};
 		 if(layer[2] <0) {throw new xxx};
 		 for (int i = 3; i < layer.length; i++) {
