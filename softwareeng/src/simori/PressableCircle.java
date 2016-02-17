@@ -1,6 +1,7 @@
 package simori;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Shape;
 import java.awt.event.ComponentAdapter;
@@ -31,6 +32,7 @@ public class PressableCircle extends JComponent implements MouseListener {
 				resized();
 			}
 		});
+		setCursor(new Cursor(Cursor.HAND_CURSOR));
 	}
 	
 	protected void resized() {

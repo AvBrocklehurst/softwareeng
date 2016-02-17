@@ -13,8 +13,13 @@ import static simori.FunctionButton.R4;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Point;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -36,7 +41,7 @@ import simori.SimoriGuiEvents.GridButtonListener;
  * @author Matt
  * @version 2.1.3
  */
-public class SimoriGui extends JFrame {
+public class SimoriGui extends JFrame implements MouseMotionListener {
 	
 	private static final String WINDOW_TITLE = "Simori-ON";
 	private static final int GAP = 0; //Padding between components
@@ -51,6 +56,10 @@ public class SimoriGui extends JFrame {
 	private FunctionButtonBar topBar, bottomBar;
 	private JLabel lcd;
 	private Led[][] leds;
+	
+	private int startX, startY;
+	private boolean couldDragBefore;
+	private Cursor oldCursor;
 	
 	/**
 	 * Creates a new GUI which will be visible immediately.
@@ -69,6 +78,16 @@ public class SimoriGui extends JFrame {
 		
 		addComponents();
 		sortSizes();
+		
+		addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				if (!canDragFrom(e.getPoint())) System.out.println("uh no draggi");
+				startX = e.getX();
+				startY = e.getY();
+			}
+		});
+		addMouseMotionListener(this);
 	}
 	
 	private void sortSizes() {
@@ -175,5 +194,33 @@ public class SimoriGui extends JFrame {
 	
 	public FunctionButtonListener getFunctionButtonListener() {
 		return fListener;
+	}
+
+	@Override
+	public void mouseDragged(MouseEvent e) {
+		if (canDragFrom(e.getPoint())) {
+			Point l = getLocation();
+			setLocation(l.x + e.getX() - startX, l.y + e.getY() - startY);
+		}
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent e) {
+		boolean canDrag = canDragFrom(e.getPoint());
+		if (canDrag && !couldDragBefore) {
+			oldCursor = getCursor();
+			setCursor(new Cursor(Cursor.MOVE_CURSOR));
+		}
+		if (couldDragBefore && !canDrag) {
+			setCursor(oldCursor);
+		}
+		couldDragBefore = canDrag;
+	}
+	
+	private boolean canDragFrom(Point point) {
+		return topBar.contains(point)
+				|| bottomBar.contains(point)
+				|| leftBar.contains(point)
+				|| rightBar.contains(point);
 	}
 }
