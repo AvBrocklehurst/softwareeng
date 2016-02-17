@@ -42,13 +42,16 @@ public class MIDISoundPlayer implements MIDIPlayer, PowerTogglable {
 	 * 
 	 * Constructor that creates a MIDISynthesizer with a connected receiver that can send MIDI short messages to the synthesizer.
 	 */
-	public MIDISoundPlayer() throws MidiUnavailableException {
-		//TODO Error checking sprint 2: getSynth (check for null etc).
-		synth = MidiSystem.getSynthesizer();
-		synth.open();
-		reciever = synth.getReceiver();
-	}
-	
+	public MIDISoundPlayer(){
+		try {
+			synth = MidiSystem.getSynthesizer();
+			synth.open();
+			reciever = synth.getReceiver();
+			} catch (MidiUnavailableException e) {e.printStackTrace(); System.exit(1);}
+		if (synth == null){System.exit(1);}
+		if (reciever == null){System.exit(1);}
+		}
+		
 	
 	/**
 	 * @author Josh
@@ -104,19 +107,35 @@ public class MIDISoundPlayer implements MIDIPlayer, PowerTogglable {
 	
 	/**
 	 * @author Josh
-	 * @version 1.0.1
+	 * @version 1.0.1;
 	 * {@inheritDoc}
-	 * @throws InvalidMidiDataException 
 	 */
 	@Override
-	public void stop() throws InvalidMidiDataException {
-		synth.close();
-	}	
+	public void switchOn() {
+		try {
+			synth.open();
+			reciever = synth.getReceiver();
+			message = null;
+		} catch (MidiUnavailableException e) {e.printStackTrace();System.exit(1);}
+		
+	}
+
+
+	/**
+	 * @author Josh
+	 * @version 1.0.1;
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void switchOff() {
+		message = null;
+		reciever.close();
+		synth.close();	
+	}
 	
 	
 	public static void main(String[] args) throws InvalidMidiDataException, MidiUnavailableException, InterruptedException {
 		MIDISoundPlayer player = new MIDISoundPlayer();
-		
 		
 		byte[][] array; // declare an array to be used with play(array) tests.
 		final byte[] goodNote = {0,0,80,60}; // channel:0 , instrument:0 (piano), velocity:80, pitch 60 (middle c).
@@ -129,31 +148,15 @@ public class MIDISoundPlayer implements MIDIPlayer, PowerTogglable {
 		array[2] = thirdGoodNote;
 		player.play(array); 
 		Thread.sleep(1000);
-		player.stop();
-		Thread.sleep(10000);
+		player.switchOff();
+		Thread.sleep(3000);
+		player.switchOn();
+		player.play(array);
+		Thread.sleep(3000);
 	}
 
 
-	@Override
-	public void switchOn() {
-		try {
-			synth.open();
-			reciever = synth.getReceiver();
-			message = null;
-			
-			
-		} catch (MidiUnavailableException e) {e.printStackTrace();System.exit(1);}
-		
-	}
 
-
-	@Override
-	public void switchOff() {
-		message = null;
-		reciever.close();
-		synth.close();
-		
-	}
 	
 }
 

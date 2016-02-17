@@ -31,14 +31,16 @@ public interface MIDIPlayer {
 	 */
 	public void play(byte[][] array)  throws InvalidMidiDataException;
 
+	/*
 	/**
 	 * @author Josh
 	 * @version 1.0.0
 	 * @return void
 	 * 
 	 * Method stops all music being played.
-	 */
+	 *
 	public void stop() throws InvalidMidiDataException;
+	*/
 }
 
 
