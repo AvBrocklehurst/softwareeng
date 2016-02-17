@@ -8,10 +8,12 @@ import java.awt.geom.Rectangle2D;
 public class Button extends PressableCircle {
 	
 	private static final Color TEXT = new Color(0x000000);
+	private static final Font FONT = new Font(Font.SANS_SERIF, Font.PLAIN, 1);
 	
 	private String text;
 	private int space;
 	private int textX, textY;
+	private boolean resized;
 	
 	@Override
 	public void paintComponent(Graphics g) {
@@ -19,10 +21,16 @@ public class Button extends PressableCircle {
 		drawText(g);
 	}
 	
+	@Override
+	protected void resized() {
+		super.resized();
+		resized = true;
+	}
+	
 	private void drawText(Graphics g) {
-		g.setFont(new Font(Font.DIALOG, Font.PLAIN, 1));
+		g.setFont(FONT);
 		g.setColor(TEXT);
-		updateSize(g); //TODO Only if bounds has changed
+		if (resized) updateSize(g);
 		g.drawString(text, textX, textY);
 	}
 	

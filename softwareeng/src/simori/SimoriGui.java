@@ -15,6 +15,10 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Rectangle;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -37,14 +41,7 @@ import simori.SimoriGuiEvents.GridButtonListener;
  * @author Matt
  * @version 2.1.3
  */
-public class SimoriGui {
-	
-	/*
-	 * TODO Control resizing to ensure grid is always square
-	 * TODO Buttons around the edge are currently JButtons
-	 * 		but should be made to look and behave like Leds.
-	 * 		They'll be properly implemented in a later sprint.
-	 */
+public class SimoriGui extends JFrame {
 	
 	private static final String WINDOW_TITLE = "Simori-ON";
 	private static final int SIZE = 600;
@@ -53,17 +50,13 @@ public class SimoriGui {
 	
 	public static final Color BACKGROUND = new Color(0xFFFFFF);
 	public static final Color BORDER = new Color(0x000000);
-	
-	public static final Dimension SIDEBAR = new Dimension(EDGE_SIZE, SIZE - 2*EDGE_SIZE);
-	public static final Dimension TOPBAR = new Dimension(SIZE, EDGE_SIZE);
-	public static final Dimension DEFAULT = new Dimension(SIZE, SIZE);
 	public static final Dimension SIDEBUTTON = new Dimension(50, 50);
 	
 	private GridButtonListener gListener;
 	private FunctionButtonListener fListener;
+	private Dimension simoriSize, sideBarSize, topBarSize;
 	private int rows, columns;
 	
-	protected JFrame frame;
 	protected JPanel ledPanel;
 	protected FunctionButtonBar leftBar, rightBar;
 	protected FunctionButtonBar topBar, bottomBar;
@@ -84,15 +77,38 @@ public class SimoriGui {
 		 */
 		this.rows = rows;
 		this.columns = columns;
-		frame = new JFrame(WINDOW_TITLE);
-		frame.getContentPane().setPreferredSize(DEFAULT);
-		frame.pack();
-		frame.setLayout(new BorderLayout(GAP, GAP));
-		makeComponents();
+		setTitle(WINDOW_TITLE);
+		setLayout(new BorderLayout(GAP, GAP));
 		addComponents();
-		frame.setBackground(BACKGROUND);
-		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		frame.setVisible(true);
+		sortSizes();
+		setBackground(BACKGROUND);
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		setVisible(true);
+	}
+	
+	private void sortSizes() {
+		calculateDimensions();
+		getContentPane().setPreferredSize(simoriSize);
+		leftBar.setPreferredSize(sideBarSize);
+		rightBar.setPreferredSize(sideBarSize);
+		topBar.setPreferredSize(topBarSize);
+		bottomBar.setPreferredSize(topBarSize);
+		pack();
+		setResizable(false);
+	}
+	
+	private void calculateDimensions() {
+		Dimension s = getToolkit().getScreenSize();
+		s.width = s.height = Math.min(s.width, s.height);
+		simoriSize = ratioOf(0.8f, 0.8f, s);
+		sideBarSize = ratioOf(0.1f, 0.8f, simoriSize);
+		topBarSize = ratioOf(1f, 0.1f, simoriSize);
+	}
+	
+	private Dimension ratioOf(float x, float y, Dimension original) {
+		float w = (float) original.width * x;
+		float h = (float) original.height * y;
+		return new Dimension((int) w, (int) h);
 	}
 	
 	/**
@@ -117,10 +133,6 @@ public class SimoriGui {
 		lcd.setText(text);
 	}
 	
-	public void setTitle(String text) {
-		frame.setTitle(text);
-	}
-	
 	private void makeComponents() {
 		OnPressListenerMaker maker = new OnPressListenerMaker(this);
 		topBar = new FunctionButtonBar(false, maker, ON);
@@ -131,11 +143,12 @@ public class SimoriGui {
 	}
 	
 	private void addComponents() {
-		frame.add(topBar, BorderLayout.PAGE_START);
-		frame.add(leftBar, BorderLayout.LINE_START);
-		frame.add(ledPanel, BorderLayout.CENTER);
-		frame.add(rightBar, BorderLayout.LINE_END);
-		frame.add(bottomBar, BorderLayout.PAGE_END);
+		makeComponents();
+		add(topBar, BorderLayout.PAGE_START);
+		add(leftBar, BorderLayout.LINE_START);
+		add(ledPanel, BorderLayout.CENTER);
+		add(rightBar, BorderLayout.LINE_END);
+		add(bottomBar, BorderLayout.PAGE_END);
 	}
 	
 	private void makeLedPanel() {
@@ -149,7 +162,7 @@ public class SimoriGui {
 				ledPanel.add(leds[x][y]);
 				
 				//Create event object for callback in advance, with coords
-				final GridButtonEvent e = new GridButtonEvent(this, x, y);
+				final GridButtonEvent e = new GridButtonEvent(this, x, y); //TODO (0,0) bottom left rather than top left
 				leds[x][y].setOnPressListener(maker.getListener(e));
 			}
 		}

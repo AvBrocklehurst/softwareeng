@@ -3,11 +3,15 @@ package simori;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Shape;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.Ellipse2D;
 
 import javax.swing.JComponent;
+
+import simori.OnPressListenerMaker.OnPressListener;
 
 public class PressableCircle extends JComponent implements MouseListener {
 	
@@ -21,6 +25,17 @@ public class PressableCircle extends JComponent implements MouseListener {
 	
 	public PressableCircle() {
 		addMouseListener(this);
+		addComponentListener(new ComponentAdapter() {
+			@Override
+			public void componentResized(ComponentEvent e) {
+				resized();
+			}
+		});
+	}
+	
+	protected void resized() {
+		int min = Math.min(getWidth(), getHeight());
+		setSize(min, min);
 	}
 	
 	public void setOnPressListener(OnPressListenerMaker.OnPressListener l) {
