@@ -12,10 +12,11 @@ public class OnPressListenerMaker {
 		this.gui = gui;
 	}
 		
-	public OnPressListener getListener(final GridButtonEvent e) {
+	public OnPressListener getListener(final int x, final int y) {
 		return new OnPressListener() {
 			public void onPress() {
 				try {
+					final GridButtonEvent e = new GridButtonEvent(gui, x, y);
 					gui.getGridButtonListener().onGridButtonPress(e);
 				} catch (InvalidCoordinatesException ex) {
 					//TODO Add handling in case this is actually possible to trigger

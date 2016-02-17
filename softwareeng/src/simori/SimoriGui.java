@@ -15,7 +15,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
-import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -24,14 +23,12 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.io.File;
 
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import simori.SimoriGuiEvents.FunctionButtonListener;
-import simori.SimoriGuiEvents.GridButtonEvent;
 import simori.SimoriGuiEvents.GridButtonListener;
 
 /**
@@ -59,11 +56,10 @@ public class SimoriGui extends JFrame implements MouseMotionListener {
 	private Dimension simoriSize, sideBarSize, topBarSize;
 	private int rows, columns;
 	
-	private JPanel ledPanel;
+	private LedPanel ledPanel;
 	private FunctionButtonBar leftBar, rightBar;
 	private FunctionButtonBar topBar, bottomBar;
 	private JLabel lcd;
-	private Led[][] leds;
 	
 	private int startX, startY;
 	private boolean couldDragBefore;
@@ -95,6 +91,36 @@ public class SimoriGui extends JFrame implements MouseMotionListener {
 		});
 	}
 	
+	public void setGrid(boolean[][] grid) {
+		ledPanel.setGrid(grid);
+	}
+	
+	public void clearGrid() {
+		setGrid(new boolean[rows][columns]);
+	}
+	
+	public void setText(String text) {
+		//TODO Actually have an lcd.setText(text);
+	}
+	
+	/** Sets the listener to receive events for Leds in the grid */
+	public void setGridButtonListener(GridButtonListener l) {
+		gListener = l;
+	}
+	
+	/** Sets the listener to receive events for non-grid buttons */
+	public void setFunctionButtonListener(FunctionButtonListener l) {
+		fListener = l;
+	}
+	
+	public GridButtonListener getGridButtonListener() {
+		return gListener;
+	}
+	
+	public FunctionButtonListener getFunctionButtonListener() {
+		return fListener;
+	}
+	
 	private void setUpWindow() {
 		sortIcons();
 		setTitle(WINDOW_TITLE);
@@ -108,7 +134,6 @@ public class SimoriGui extends JFrame implements MouseMotionListener {
 	private void sortIcons() {
 		File file = new File(ICON_PATH);
 		if (!file.exists()) file = new File(ICON_ALT_PATH);
-		System.out.println(file.exists());
 		ImageIcon icon = new ImageIcon(ICON_PATH);
 		setIconImage(icon.getImage());
 	}
@@ -139,33 +164,11 @@ public class SimoriGui extends JFrame implements MouseMotionListener {
 		return new Dimension((int) w, (int) h);
 	}
 	
-	/**
-	 * Set the illumination of zero or more grid LEDs in a specified pattern.
-	 * @param grid Matrix of values with true in the locations to illuminate
-	 */
-	public void setGrid(boolean[][] grid) {
-		for (int y = 0; y < grid.length; y++) {
-			for (int x = 0; x < grid[y].length; x++) {
-				
-				//FIXME Unexplained transpose neccessary
-				leds[x][y].setIlluminated(grid[y][x]);
-			}
-		}
-	}
-	
-	public void clearGrid() {
-		setGrid(new boolean[rows][columns]);
-	}
-	
-	public void setText(String text) {
-		lcd.setText(text);
-	}
-	
 	private void makeComponents() {
 		OnPressListenerMaker maker = new OnPressListenerMaker(this);
 		topBar = new FunctionButtonBar(false, maker, ON);
 		leftBar = new FunctionButtonBar(true, maker, L1, L2, L3, L4);
-		makeLedPanel();
+		ledPanel = new LedPanel(rows, columns, maker);
 		rightBar = new FunctionButtonBar(true, maker, R1, R2, R3, R4);
 		bottomBar = new FunctionButtonBar(false, maker, OK);
 	}
@@ -180,43 +183,6 @@ public class SimoriGui extends JFrame implements MouseMotionListener {
 		panel.add(rightBar, BorderLayout.LINE_END);
 		panel.add(bottomBar, BorderLayout.PAGE_END);
 		add(panel);
-	}
-	
-	private void makeLedPanel() {
-		OnPressListenerMaker maker = new OnPressListenerMaker(this);
-		ledPanel = new JPanel(new GridLayout(rows, columns, GAP, GAP));
-		//TODO ledPanel.setSize(SIZE - 2 * EDGE_SIZE, SIZE - 2 * EDGE_SIZE);
-		leds = new Led[rows][columns];
-		for (int y = 0; y < rows; y++) {
-			for (int x = 0; x < columns; x++) {
-				leds[x][y] = new Led();
-				ledPanel.add(leds[x][y]);
-				
-				//Create event object for callback in advance, with coords
-				final GridButtonEvent e = new GridButtonEvent(this, x, y); //TODO (0,0) bottom left rather than top left
-				leds[x][y].setOnPressListener(maker.getListener(e));
-			}
-		}
-		ledPanel.setBackground(new Color(0xFFFFFF)); //FIXME hardcoding
-		ledPanel.setBorder(BorderFactory.createLineBorder(new Color(0x000000)));
-	}
-	
-	/** Sets the listener to receive events for Leds in the grid */
-	public void setGridButtonListener(GridButtonListener l) {
-		gListener = l;
-	}
-	
-	/** Sets the listener to receive events for non-grid buttons */
-	public void setFunctionButtonListener(FunctionButtonListener l) {
-		fListener = l;
-	}
-	
-	public GridButtonListener getGridButtonListener() {
-		return gListener;
-	}
-	
-	public FunctionButtonListener getFunctionButtonListener() {
-		return fListener;
 	}
 
 	@Override
