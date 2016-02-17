@@ -20,6 +20,7 @@ import simori.Exceptions.InvalidCoordinatesException;
 public abstract class Mode implements FunctionButtonListener, GridButtonListener {
 	
 	private ModeController controller;
+	private short instrument;
 	
 	public Mode(ModeController controller){
 		this.controller = controller;
@@ -51,11 +52,14 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 	 */
 	public void onFunctionButtonPress(FunctionButtonEvent e){
 		switch (e.getFunctionButton()) {
-		case L1 : //TODO(next sprint) mode to change voice
+		case L1 : 
+			controller.setMode(new ChangerMode(controller, makeVoiceChanger(), true, true));
 			break;
-		case L2 : //TODO(next sprint) mode to change velocity
+		case L2 : 
+			controller.setMode(new ChangerMode(controller, makeVelocityChanger(), true, true));
 			break;
-		case L3 : //TODO(next sprint) mode to loop speed
+		case L3 : 
+			controller.setMode(new ChangerMode(controller, makeSpeedChanger(), true, true));
 			break;
 		case L4 : 
 			controller.setMode(new ChangerMode(controller, makePointChanger(), true, false));
@@ -119,5 +123,82 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 				return true;
 			}
 		};
+	}
+	
+	private Changer makeVoiceChanger(){
+		return new Changer(){
+			
+			private String selectedInstrument; //TODO
+			
+			@Override
+			public String getText(int x, int y) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public boolean doThingTo(ModeController controller) {
+				instrument = coordsConverter(0,0);
+				controller.getModel().setInstrument(getDisplayLayer(), instrument); //TODO instrument based on coord press
+				return true;
+			}
+			
+		};
+	}
+	
+	private Changer makeVelocityChanger(){
+		return new Changer(){
+
+			private byte selectedVelocity;
+			
+			@Override
+			public String getText(int x, int y) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public boolean doThingTo(ModeController controller) {
+				controller.getModel().setVelocity(getDisplayLayer(), velocity); //TODO
+				return true;
+			}
+			
+		};
+	}
+	
+	private Changer makeSpeedChanger(){
+		return new Changer(){
+
+			@Override
+			public String getText(int x, int y) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public boolean doThingTo(ModeController controller) {
+				// TODO Auto-generated method stub
+				return false;
+			}
+			
+		};
+	}
+	
+	private short coordsConverter(int x, int y){
+		
+		short counter = 0;
+		
+		while(x != 0){
+			x--;
+			counter = (short) (counter + 16);
+		}
+		
+		while(y != 0){
+			y--;
+			counter = (short) (counter + 1);
+		}
+		
+		return counter;
+		
 	}
 }
