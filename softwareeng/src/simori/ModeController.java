@@ -1,6 +1,7 @@
 package simori;
 
 import simori.Simori.PowerTogglable;
+import simori.Exceptions.InvalidCoordinatesException;
 
 public class ModeController {
 	
@@ -16,6 +17,12 @@ public class ModeController {
 		this.gui = gui;
 		this.model = model;
 		setOn(false);
+	}
+	
+	public void tickThrough(byte column) {
+		try {
+			mode.tickerLight(column);
+		} catch (InvalidCoordinatesException e) {}
 	}
 	
 	public MatrixModel getModel() {
