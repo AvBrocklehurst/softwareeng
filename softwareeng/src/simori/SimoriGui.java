@@ -17,6 +17,8 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Point;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
@@ -45,6 +47,8 @@ public class SimoriGui extends JFrame implements MouseMotionListener {
 	
 	private static final String WINDOW_TITLE = "Simori-ON";
 	private static final int GAP = 0; //Padding between components
+	private static final int EXIT_CODE = 27; //ASCII for ESC
+	private static final Color TRANSPARENT = new Color(0,0,0,0);
 	
 	private GridButtonListener gListener;
 	private FunctionButtonListener fListener;
@@ -70,24 +74,30 @@ public class SimoriGui extends JFrame implements MouseMotionListener {
 	public SimoriGui(int rows, int columns) {
 		this.rows = rows;
 		this.columns = columns;
-		setTitle(WINDOW_TITLE);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		
-		setUndecorated(true);
-		//setOpacity(0); //TODO illegalcomponentstateexception
-		
-		addComponents();
-		sortSizes();
-		
+		setUpWindow();
+		addMouseMotionListener(this);
 		addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				if (!canDragFrom(e.getPoint())) System.out.println("uh no draggi");
 				startX = e.getX();
 				startY = e.getY();
 			}
 		});
-		addMouseMotionListener(this);
+		addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == EXIT_CODE) System.exit(0);
+			}
+		});
+	}
+	
+	private void setUpWindow() {
+		setTitle(WINDOW_TITLE);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setUndecorated(true);
+		setBackground(TRANSPARENT);
+		addComponents();
+		sortSizes();
 	}
 	
 	private void sortSizes() {
