@@ -20,7 +20,6 @@ import simori.Exceptions.InvalidCoordinatesException;
 public abstract class Mode implements FunctionButtonListener, GridButtonListener {
 	
 	private ModeController controller;
-	private short instrument;
 	
 	public Mode(ModeController controller){
 		this.controller = controller;
@@ -128,18 +127,18 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 	private Changer makeVoiceChanger(){
 		return new Changer(){
 			
-			private String selectedInstrument; //TODO
+			private short instrumentNumber;//TODO
 			
 			@Override
 			public String getText(int x, int y) {
-				// TODO Auto-generated method stub
-				return null;
+				InstrumentNamer in = InstrumentNamer.getInstance();
+				instrumentNumber = coordsConverter(x, y);
+				return in.getName(instrumentNumber);
 			}
 
 			@Override
 			public boolean doThingTo(ModeController controller) {
-				instrument = coordsConverter(0,0);
-				controller.getModel().setInstrument(getDisplayLayer(), instrument); //TODO instrument based on coord press
+				controller.getModel().setInstrument(getDisplayLayer(), instrumentNumber); //TODO instrument based on coord press
 				return true;
 			}
 			
@@ -149,17 +148,17 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 	private Changer makeVelocityChanger(){
 		return new Changer(){
 
-			private byte selectedVelocity;
+			private short selectedVelocity;
 			
 			@Override
 			public String getText(int x, int y) {
-				// TODO Auto-generated method stub
-				return null;
+				selectedVelocity = coordsConverter(x, y);
+				return String.valueOf(selectedVelocity);
 			}
 
 			@Override
 			public boolean doThingTo(ModeController controller) {
-				controller.getModel().setVelocity(getDisplayLayer(), velocity); //TODO
+				controller.getModel().setVelocity(getDisplayLayer(), (byte)selectedVelocity); 
 				return true;
 			}
 			
