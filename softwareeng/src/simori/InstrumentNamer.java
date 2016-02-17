@@ -2,6 +2,7 @@ package simori;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -15,7 +16,8 @@ public class InstrumentNamer {
 		map = new HashMap<Integer, String>();
 		Scanner scanner = null;
 		try {
-			scanner = new Scanner(new File("C:/Users/Josh/Documents/University/instruments.csv"));
+			String fileName = Paths.get("../").toAbsolutePath().normalize().toString()+"\\instruments.csv";
+			scanner = new Scanner(new File(fileName));
 		} catch (FileNotFoundException e) {e.printStackTrace();}
 		
 		

@@ -31,7 +31,10 @@ public class TestMIDISoundPlayer {
 	MIDISoundPlayer player; // declare a MIDISoundPlayer.
 	byte[][] array; // declare an array to be used with play(array) tests.
 	
-	final byte[] goodNote = {0,0,80,60}; // channel:0 , instrument:0 (piano), velocity:80, pitch 60 (middle c).
+	final byte[] singleNote = {0,0,80,60}; // channel:0 , instrument:0 (piano), velocity:80, pitch 60 (middle c).
+	final byte[] multiNotes = {0,0,80,60,64,67};
+	final byte[] maximum1Layer = {0,0,80,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75};
+	
 	final byte[] secondGoodNote = {0,0,80,64}; // channel:0 , instrument:0 (piano), velocity:80, pitch 64.
 	final byte[] thirdGoodNote = {0,0,80,67}; // channel:0 , instrument:0 (piano), velocity:80, pitch 67.
 	
@@ -39,6 +42,7 @@ public class TestMIDISoundPlayer {
 	final byte[] badInstrument = {0,-50,80,60}; // instrument not between 0-127.
 	final byte[] badVelcoity = {0,0,-50,60}; // velocity not between 0-127.
 	final byte[] badPitch = {0,0,80,-50}; // pitch not between 0-127.
+	
 	
 	
 	/**
@@ -93,7 +97,7 @@ public class TestMIDISoundPlayer {
 	@Test
 	public void testPlay() throws InvalidMidiDataException {
 		array = new byte[1][];
-		array[0] = goodNote;
+		array[0] = singleNote;
 		player.play(array); 
 	}
 	
@@ -109,7 +113,7 @@ public class TestMIDISoundPlayer {
 	@Test
 	public void testPlayMultiple() throws InvalidMidiDataException {
 		array = new byte[3][];
-		array[0] = goodNote;
+		array[0] = singleNote;
 		array[1] = secondGoodNote;
 		array[2] = thirdGoodNote;
 		player.play(array); 
@@ -186,9 +190,8 @@ public class TestMIDISoundPlayer {
 	@Test
 	public void testStop() throws InvalidMidiDataException {
 		array = new byte[1][];
-		array[0] = goodNote;
+		array[0] = singleNote;
 		player.play(array); 
-		player.stop();
 	}
 	
 	
