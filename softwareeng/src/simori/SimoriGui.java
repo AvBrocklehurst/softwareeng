@@ -22,8 +22,10 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
+import java.io.File;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -49,6 +51,8 @@ public class SimoriGui extends JFrame implements MouseMotionListener {
 	private static final int GAP = 0; //Padding between components
 	private static final int EXIT_CODE = 27; //ASCII for ESC
 	private static final Color TRANSPARENT = new Color(0,0,0,0);
+	private static final String ICON_PATH = "Doctor D 128px.png";
+	private static final String ICON_ALT_PATH = "../../" + ICON_PATH;
 	
 	private GridButtonListener gListener;
 	private FunctionButtonListener fListener;
@@ -92,12 +96,21 @@ public class SimoriGui extends JFrame implements MouseMotionListener {
 	}
 	
 	private void setUpWindow() {
+		sortIcons();
 		setTitle(WINDOW_TITLE);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setUndecorated(true);
 		setBackground(TRANSPARENT);
 		addComponents();
 		sortSizes();
+	}
+	
+	private void sortIcons() {
+		File file = new File(ICON_PATH);
+		if (!file.exists()) file = new File(ICON_ALT_PATH);
+		System.out.println(file.exists());
+		ImageIcon icon = new ImageIcon(ICON_PATH);
+		setIconImage(icon.getImage());
 	}
 	
 	private void sortSizes() {
