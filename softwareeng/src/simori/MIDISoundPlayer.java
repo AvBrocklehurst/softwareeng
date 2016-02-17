@@ -8,6 +8,7 @@ import javax.sound.midi.MidiUnavailableException;
 import javax.sound.midi.Receiver;
 import javax.sound.midi.ShortMessage;
 import javax.sound.midi.Synthesizer;
+import javax.swing.text.StyledEditorKit.ForegroundAction;
 
 import simori.Simori.PowerTogglable;
 
@@ -130,7 +131,38 @@ public class MIDISoundPlayer implements MIDIPlayer, PowerTogglable {
 		messageArray = null; // just in case there is something stored in the array
 		reciever.close();
 		synth.close();	
+		
+
 	}
+	
+	
+	/*
+	
+	if(layers.size <0){throw new NothingToplayException()};
+	for (byte[] layer: layers) {
+		//if(layers.size <4){throw new MidixxxToplayException()};
+		 if(layer[0] <0 || layer[0] >15){throw newxxxx};
+		 if(layer[1] <0) {throw new xxx};
+		 if(layer[2] <0) {throw new xxx};
+		 for (int i = 3; i < layer.length; i++) {
+		 if(layer[i] <0){throwxxx}; 
+		}
+		
+		
+	}
+	
+	if(instrument >127){
+	channel = 9;
+	note = instrument - 127;
+	
+	
+	
+	
+	
+	
+	*/
+	
+	
 
 }
 
