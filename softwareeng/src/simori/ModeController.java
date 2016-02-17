@@ -1,8 +1,5 @@
 package simori;
 
-import javax.sound.midi.InvalidMidiDataException;
-import javax.sound.midi.MidiUnavailableException;
-
 import simori.Simori.PowerTogglable;
 
 public class ModeController {
@@ -13,11 +10,12 @@ public class ModeController {
 	
 	private Mode mode;
 	private byte displayLayer;
-	private boolean on;
+	private boolean on = true;
 	
 	public ModeController(SimoriGui gui, MatrixModel model) {
 		this.gui = gui;
 		this.model = model;
+		setOn(false);
 	}
 	
 	public MatrixModel getModel() {
@@ -69,10 +67,11 @@ public class ModeController {
 	}
 	
 	private void switchOff() {
+		on = false;
+		setMode(new OffMode(this));
+		if (toPowerToggle == null) return;
 		for (PowerTogglable t : toPowerToggle) {
 			t.switchOff();
 		}
-		on = false;
-		setMode(new OffMode(this));
 	}
 }

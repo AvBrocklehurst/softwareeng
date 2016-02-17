@@ -66,6 +66,6 @@ public class MockSimoriGui extends SimoriGui{
 	
 	/** Exposes makeListenerWith for testing */
 	public OnPressListener makeListenerWith(GridButtonEvent e) {
-		return super.makeListenerWith(e);
+		return super.getListener(e);
 	}
 }

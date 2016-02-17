@@ -1,144 +1,69 @@
 package simori;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Rectangle;
-import java.awt.Shape;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.geom.Ellipse2D;
+import java.awt.geom.Rectangle2D;
 
-import javax.swing.JComponent;
-
-public class Button extends JComponent implements MouseListener {
+public class Button extends PressableCircle {
 	
-	private static final Color OUT = new Color(0xFFFFFF);
-	private static final Color IN = new Color(0xEEEEEE);
 	private static final Color TEXT = new Color(0x000000);
-	protected static final Color BORDER = new Color(0x000000);
 	
-	private static final Dimension DEFAULT = new Dimension(50, 50);
+	private String text;
+	private int space;
+	private int textX, textY;
 	
-	protected boolean pushed, mouseOver;
-	protected String text;
+	@Override
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		drawText(g);
+	}
 	
-	private OnPressListener listener;
-	private Shape hitbox;
+	private void drawText(Graphics g) {
+		g.setFont(new Font(Font.DIALOG, Font.PLAIN, 1));
+		g.setColor(TEXT);
+		updateSize(g); //TODO Only if bounds has changed
+		g.drawString(text, textX, textY);
+	}
 	
-	public Button(OnPressListener l, String text) {
-		this();
+	private void updateSize(Graphics g) {
+		calculateSpace();
+		resizeFont(g);
+		placeText(g);
+	}
+	
+	private void calculateSpace() {
+		double squared = Math.pow((double) getWidth(), 2d);
+		double rootHalfSquared = Math.sqrt(squared / 2d);
+		space = (int) rootHalfSquared;
+	}
+	
+	private void resizeFont(Graphics g) {
+		final String name = g.getFont().getName();
+		final int style = g.getFont().getStyle();
+		int size = g.getFont().getSize();
+		Rectangle2D b = g.getFontMetrics().getStringBounds(text, g);
+		while (b.getWidth() < space && b.getHeight() < space) {
+			g.setFont(new Font(name, style, size++));
+			b = g.getFontMetrics().getStringBounds(text, g);
+		}
+		g.setFont(g.getFont().deriveFont(--size));
+	}
+	
+	private void placeText(Graphics g) {
+		Rectangle2D textBounds = g.getFontMetrics().getStringBounds(text, g);
+		int textWidth = (int) textBounds.getWidth();
+		int textHeight = (int) textBounds.getHeight();
+		int ascent = g.getFontMetrics().getAscent();
+		textX = (getWidth() - textWidth) / 2 + 1;
+		textY = (getHeight() - textHeight) / 2 + ascent - 1;
+	}
+	
+	public void setText(String text) {
 		this.text = text;
-		listener = l; //TODO Just move this to a method in SimoriGui
-		setPreferredSize(DEFAULT);
-		setMaximumSize(DEFAULT);
-		setMinimumSize(DEFAULT);
-		setAlignmentX(CENTER_ALIGNMENT);
-	}
-	
-	public Button() {
-		addMouseListener(this);
-	}
-	
-	/**
-	 * Allows a single {@link OnPressListener} to be registered.
-	 * The listener will receive a callback when this LED is pressed.
-	 * @param l
-	 */
-	public void setOnPressListener(OnPressListener l) {
-		listener = l;
 	}
 	
 	public String getText() {
 		return text;
-	}
-	
-	protected Color getFillColour() {
-		return pushed ? IN : OUT;
-	}
-	
-	protected Color getBorderColour() {
-		return BORDER;
-	}
-	
-	@Override
-	public void paintComponent(Graphics g) {
-		g.setColor(getFillColour());
-		g.fillOval(0, 0, getSize().width - 1, getSize().height - 1);
-		drawText(g);
-	}
-	
-	@Override
-	public void paintBorder(Graphics g) {
-		g.setColor(getBorderColour());
-		g.drawOval(0, 0, getSize().width - 1, getSize().height - 1);
-	}
-	
-	protected void drawText(Graphics g) {
-		Rectangle b = getBounds();
-		g.setFont(new Font(Font.DIALOG, Font.PLAIN, 12));
-		g.setColor(TEXT);
-		g.drawString(getText(), b.x, b.y);
-	}
-	
-	/** @return true if given coordinates lie inside the LED's circular area */
-	@Override
-	public boolean contains(int x, int y) {
-		//Update hitbox shape if component is resized
-		if (hitbox == null || !hitbox.getBounds().equals(getBounds())) {
-			hitbox = new Ellipse2D.Float(0, 0, getWidth(), getHeight());
-		}
-		return hitbox.contains(x, y);
-	}
-	
-	/** Not used, as LED click behaviour is different */
-	@Override
-	public void mouseClicked(MouseEvent e) {}
-	
-	@Override
-	public void mouseEntered(MouseEvent e) {
-		mouseOver = true;
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e) {
-		mouseOver = false;
-		
-		if (pushed) {
-			pushed = false;
-			repaint(); //Redraw, no longer with 'IN' colour
-		}
-	}
-
-	@Override
-	public void mousePressed(MouseEvent e) {
-		if (mouseOver) { //Mouse button pressed inside this LED
-			pushed = true;
-			pressed();
-			repaint();
-		}
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
-		if (pushed) {
-			pushed = false;
-			repaint(); //Redraw, no longer with 'IN' colour
-		}
-		/*
-		 * FIXME Very hard to notice, but buttons won't redraw as no
-		 * 		 longer pressed if they're the last of a click and drag
-		 */
-	}
-	
-	/** Informs the registered {@link OnPressListener} of a press */
-	protected void pressed() {
-		if (listener != null) listener.onPress();
-	}
-	
-	/** Callback interface for notification upon LED press */
-	public interface OnPressListener {
-		public void onPress();
 	}
 }

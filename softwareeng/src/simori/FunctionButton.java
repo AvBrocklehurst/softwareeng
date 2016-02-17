@@ -9,16 +9,22 @@ public enum FunctionButton {
 	R2 ("R2", "Save Configuration"),
 	R3 ("R3", "Load Configuration"),
 	R4 ("R4", "Master / Slave"),
-	POWER ("ON", "Toggle Power"),
+	ON ("ON", "Toggle Power"),
 	OK ("OK", "Confirm Changes");
 	
 	private String buttonName;
+	private String toolTip;
 	
 	private FunctionButton(String name, String toolTip) {
 		this.buttonName = name;
+		this.toolTip = toolTip;
 	}
 	
 	public String buttonName() {
 		return buttonName;
+	}
+	
+	public String toolTip() {
+		return toolTip;
 	}
 }

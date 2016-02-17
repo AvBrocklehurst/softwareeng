@@ -88,9 +88,9 @@ public class Clock implements Runnable, PowerTogglable {
 				//turn the lights on the current column
 				//modes.tickThrough(currentColumn) //TODO actually have a currentColumn again
 				
-				for(Byte activeLayer : activeLayers){
-					model.incrementColumn(activeLayer);
-				}
+				//for(Byte activeLayer : activeLayers){
+				//	model.incrementColumn(activeLayer);
+				//}
 				//if(currentColumn == 15){currentColumn = 0;}
 				//else{currentColumn++;}
 			}
