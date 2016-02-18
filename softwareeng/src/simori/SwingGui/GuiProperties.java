@@ -43,8 +43,8 @@ public class GuiProperties {
 	public static final Cursor HAND_CURSOR = new Cursor(Cursor.HAND_CURSOR);
 	public static final Cursor MOVE_CURSOR = new Cursor(Cursor.MOVE_CURSOR);
 	
-	private static final String ICON_PATH = "Doctor D 128px.png";
-	private static final String FONT_PATH = "cmtt12.ttf";
+	private static final String ICON_NAME = "Doctor D 128px.png";
+	private static final String FONT_NAME = "cmtt12.ttf";
 	private static final String UP_UP = "../../";
 	
 	private static Font font;
@@ -75,21 +75,22 @@ public class GuiProperties {
 	}
 	
 	private static Font makeFont() {
-		File file = new File(FONT_PATH);
-		if (!file.exists())
-			file = new File(UP_UP + FONT_PATH);
 		try {
-			return Font.createFont(Font.TRUETYPE_FONT, file);
+			return Font.createFont(Font.TRUETYPE_FONT, findFile(FONT_NAME));
 		} catch (FontFormatException | IOException e) {
+			System.err.println("Could not get font from ttf");
 			return new Font(Font.SERIF, Font.PLAIN, 1);
 		}
 	}
 	
 	private static Image makeIcon() {
-		File file = new File(ICON_PATH);
+		return new ImageIcon(findFile(ICON_NAME).getPath()).getImage();
+	}
+	
+	private static File findFile(String name) {
+		File file = new File(name);
 		if (!file.exists())
-			file = new File(UP_UP + ICON_PATH);
-		ImageIcon icon = new ImageIcon(ICON_PATH);
-		return icon.getImage();
+			file = new File(UP_UP + name);
+		return file;
 	}
 }

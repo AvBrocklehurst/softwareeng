@@ -50,4 +50,10 @@ public class Lcd extends JLabel {
 		GuiProperties.sizeFontTo("gG", size.width, size.height, g);
 		setFont(g.getFont());
 	}
+	
+	@Override
+	public void setText(String text) {
+		if (text != null) text = " " + text;
+		super.setText(text);
+	}
 }
