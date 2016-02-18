@@ -41,6 +41,10 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 		return controller.getDisplayLayer();
 	}
 	
+	public void setInitialGrid() {
+		controller.getGui().clearGrid();
+	}
+	
 	/**
 	 * Gets the function button pressed and the source Gui and then
 	 * changes the current mode based on a specified FunctionButton.

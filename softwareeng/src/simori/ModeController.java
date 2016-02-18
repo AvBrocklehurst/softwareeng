@@ -50,6 +50,7 @@ public class ModeController {
 		this.mode = mode;
 		gui.setGridButtonListener(mode);
 		gui.setFunctionButtonListener(mode);
+		mode.setInitialGrid();
 	}
 	
 	public void setComponentsToPowerToggle(PowerTogglable... s) {

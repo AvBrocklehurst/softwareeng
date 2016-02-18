@@ -113,4 +113,9 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 	public boolean[][] getModifiedGrid(){
 		return grid;
 	}
+	
+	@Override
+	public void setInitialGrid() {
+		getGui().setGrid(grid);
+	}
 }
