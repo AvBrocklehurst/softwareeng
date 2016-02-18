@@ -56,8 +56,8 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 	public void onFunctionButtonPress(FunctionButtonEvent e){
 		switch (e.getFunctionButton()) {
 		case L1 : 
-			controller.setMode(new ChangerMode(controller, makeVoiceChanger(), true, true));
-			break;
+			controller.setMode(new ChangerMode(controller, makeVoiceChanger(), true, true)); 
+			break; //above: change mode first boolean is vertical lights, second is horizontal lights
 		case L2 : 
 			controller.setMode(new ChangerMode(controller, makeVelocityChanger(), true, true));
 			break;
@@ -90,21 +90,49 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 	
 	public void tickerLight(byte col) throws InvalidCoordinatesException {};
 	
+	/**
+	 * This implementation of the Changer interface changes the current layer
+	 * to be displayed on the simori. 
+	 * 
+	 * @author James
+	 * @return Changer
+	 * @see ChangerMode.Changer
+	 * @version 1.2.1
+	 */
 	private Changer makeLayerChanger() {
 		return new Changer() {
 			
 			private int selectedLayer;
 			
+			/**
+			 * A method which overrides the interface method in order to
+			 * display the selected layer to the LCD screen.
+			 * 
+			 * @param x
+			 * @param y
+			 * @author James
+			 * @see Changer.getText(), java.lang.String.valueOf()
+			 * @version 1.0.0
+			 */
 			@Override
 			public String getText(int x, int y) {
 				selectedLayer = y;
-				return String.valueOf(y);
+				return String.valueOf(y);   //return the selected layer as a String
 			}
 			
+			/**
+			 * A method which overrides the interface method in order to
+			 * set the current layer to the layer selected.
+			 * 
+			 * @param controller
+			 * @author James
+			 * @see Changer.doThingTo(), ModeController.setDisplayLayer()
+			 * @version 1.1.0
+			 */
 			@Override
 			public boolean doThingTo(ModeController controller) {
 				controller.setDisplayLayer((byte) selectedLayer); //TODO make x and y bytes anyway
-				return true;
+				return true; //set current layer
 			}
 		};
 	}
@@ -128,38 +156,94 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 		};
 	}
 	
+	/**
+	 * This implementation of the Changer interface changes the current instrument
+	 * used for the current layer on the simori.
+	 * 
+	 * @author James
+	 * @return Changer
+	 * @see ChangerMode.Changer
+	 * @version 1.2.1
+	 */
 	private Changer makeVoiceChanger(){
 		return new Changer(){
 			
-			private short instrumentNumber;//TODO
+			private short instrumentNumber;
 			
+			/**
+			 * A method which overrides the interface method in order to
+			 * display the selected instrument to the LCD screen.
+			 * 
+			 * @param x
+			 * @param y
+			 * @author James
+			 * @see Changer.getText(), InstrumentNamer.getInstance(), coordsConverter(), InstrumentNamer.getName()
+			 * @version 1.0.1
+			 */
 			@Override
 			public String getText(int x, int y) {
-				InstrumentNamer in = InstrumentNamer.getInstance();
-				instrumentNumber = coordsConverter(x, y);
+				InstrumentNamer in = InstrumentNamer.getInstance();  //singleton class
+				instrumentNumber = coordsConverter(x, y); //translate coordinates to short
 				return in.getName(instrumentNumber);
 			}
-
+			
+			/**
+			 * A method which overrides the interface method in order to
+			 * set the current instrument to the instrument selected.
+			 * 
+			 * @param controller
+			 * @author James
+			 * @see Changer.doThingTo(), ModeController.getModel(), MatrixModel.setInstrument(), Mode.getDisplayLayer()
+			 * @version 1.1.0
+			 */
 			@Override
 			public boolean doThingTo(ModeController controller) {
-				controller.getModel().setInstrument(getDisplayLayer(), instrumentNumber); //TODO instrument based on coord press
+				controller.getModel().setInstrument(getDisplayLayer(), instrumentNumber); 
 				return true;
 			}
 			
 		};
 	}
 	
+	/**
+	 * This implementation of the Changer interface changes the current velocity
+	 * used for the current layer on the simori.
+	 * 
+	 * @author James
+	 * @return Changer
+	 * @see ChangerMode.Changer
+	 * @version 1.0.0
+	 */
 	private Changer makeVelocityChanger(){
 		return new Changer(){
 
 			private short selectedVelocity;
 			
+			/**
+			 * A method which overrides the interface method in order to
+			 * display the selected velocity to the LCD screen.
+			 * 
+			 * @param x
+			 * @param y
+			 * @author James
+			 * @see Changer.getText(), coordsConverter(), java.lang.String.valueOf()
+			 * @version 1.0.0
+			 */
 			@Override
 			public String getText(int x, int y) {
 				selectedVelocity = coordsConverter(x, y);
 				return String.valueOf(selectedVelocity);
 			}
-
+			
+			/**
+			 * A method which overrides the interface method in order to
+			 * set the current velocity to the velocity selected.
+			 * 
+			 * @param controller
+			 * @author James
+			 * @see Changer.doThingTo(), ModeController.getModel(), MatrixModel.setVelocity(), Mode.getDisplayLayer()
+			 * @version 1.0.0
+			 */
 			@Override
 			public boolean doThingTo(ModeController controller) {
 				controller.getModel().setVelocity(getDisplayLayer(), (byte)selectedVelocity); 
@@ -169,6 +253,15 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 		};
 	}
 	
+	/**
+	 * This implementation of the Changer interface changes the current simori-wide
+	 * loop speed used.
+	 * 
+	 * @author Jurek, James
+	 * @return Changer
+	 * @see ChangerMode.Changer
+	 * @version 1.0.0
+	 */
 	private Changer makeSpeedChanger(){
 		return new Changer(){
 
@@ -187,18 +280,29 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 		};
 	}
 	
+	/**
+	 * This method, given two integer coordinates of a button press,
+	 * translates input into a short representing an instrument to be passed
+	 * into appropriate setter methods upon changing mode.
+	 * 
+	 * @param x
+	 * @param y
+	 * @author James
+	 * @return short
+	 * @version 1.1.0
+	 */
 	private short coordsConverter(int x, int y){
 		
 		short counter = 0;
 		
 		while(x != 0){
 			x--;
-			counter = (short) (counter + 16);
+			counter = (short) (counter + 16); //from moving row to row we add 16 to the short, each row is 0-15 buttons
 		}
 		
 		while(y != 0){
 			y--;
-			counter = (short) (counter + 1);
+			counter = (short) (counter + 1); //from moving column we add 1 to the short as each new button is one new instrument
 		}
 		
 		return counter;
