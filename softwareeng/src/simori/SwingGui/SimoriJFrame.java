@@ -30,9 +30,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import simori.Mode;
-import simori.SimoriGuiEvents;
-import simori.SimoriGuiEvents.FunctionButtonListener;
-import simori.SimoriGuiEvents.GridButtonListener;
+import simori.SimoriGui;
+import simori.SimoriGui.FunctionButtonListener;
+import simori.SimoriGui.GridButtonListener;
 
 /**
  * Creates the user interface for the Simori-ON.
@@ -45,7 +45,7 @@ import simori.SimoriGuiEvents.GridButtonListener;
  * @author Matt
  * @version 2.1.3
  */
-public class SimoriGui extends JFrame implements MouseMotionListener {
+public class SimoriJFrame extends JFrame implements SimoriGui, MouseMotionListener {
 	
 	private static final int EXIT_CODE = 27; //ASCII for ESC
 	
@@ -67,13 +67,7 @@ public class SimoriGui extends JFrame implements MouseMotionListener {
 	private boolean couldDragBefore;
 	private Cursor oldCursor;
 	
-	/**
-	 * Creates a new GUI which will be visible immediately.
-	 * When the frame is closed, the entire program will exit.
-	 * @param rows Number of LEDs in the vertical dimension
-	 * @param columns Number of LEDs in the horizontal dimension
-	 */
-	public SimoriGui(int rows, int columns) {
+	public SimoriJFrame(int rows, int columns) {
 		this.rows = rows;
 		this.columns = columns;
 		setUpWindow();
@@ -105,12 +99,10 @@ public class SimoriGui extends JFrame implements MouseMotionListener {
 		lcd.setText(text);
 	}
 	
-	/** Sets the listener to receive events for Leds in the grid */
 	public void setGridButtonListener(GridButtonListener l) {
 		gListener = l;
 	}
 	
-	/** Sets the listener to receive events for non-grid buttons */
 	public void setFunctionButtonListener(FunctionButtonListener l) {
 		fListener = l;
 	}

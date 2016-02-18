@@ -1,8 +1,8 @@
 package simori;
 
 import simori.FunctionButton;
-import simori.SimoriGuiEvents.FunctionButtonEvent;
-import simori.SimoriGuiEvents.GridButtonEvent;
+import simori.SimoriGui.FunctionButtonEvent;
+import simori.SimoriGui.GridButtonEvent;
 import simori.Exceptions.InvalidCoordinatesException;
 
 public class OffMode extends Mode {

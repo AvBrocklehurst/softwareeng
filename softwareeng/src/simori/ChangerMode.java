@@ -2,8 +2,8 @@ package simori;
 
 import static simori.FunctionButton.*;
 
-import simori.SimoriGuiEvents.FunctionButtonEvent;
-import simori.SimoriGuiEvents.GridButtonEvent;
+import simori.SimoriGui.FunctionButtonEvent;
+import simori.SimoriGui.GridButtonEvent;
 import simori.Exceptions.InvalidCoordinatesException;
 
 public class ChangerMode extends Mode {

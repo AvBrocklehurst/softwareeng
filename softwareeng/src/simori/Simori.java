@@ -2,7 +2,7 @@ package simori;
 
 import javax.sound.midi.MidiUnavailableException;
 
-import simori.SwingGui.SimoriGui;
+import simori.SwingGui.SimoriJFrame;
 
 /**
  * The main Simori class, runs the the whole Simori system.
@@ -27,7 +27,7 @@ public class Simori {
 	
 	public Simori() throws MidiUnavailableException {
 		MatrixModel model = new MatrixModel(GRID_WIDTH, GRID_HEIGHT);
-		SimoriGui gui = new SimoriGui(GRID_WIDTH, GRID_HEIGHT);
+		SimoriJFrame gui = new SimoriJFrame(GRID_WIDTH, GRID_HEIGHT);
 		MIDISoundPlayer player = new MIDISoundPlayer();
 		ModeController modes = new ModeController(gui, model);
 		Clock clock = new Clock(modes, model, player);

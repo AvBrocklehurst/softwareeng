@@ -1,16 +1,15 @@
 package simori.SwingGui;
 
-import simori.SimoriGuiEvents.FunctionButtonEvent;
-import simori.SimoriGuiEvents.GridButtonEvent;
 import simori.FunctionButton;
-import simori.SimoriGuiEvents;
+import simori.SimoriGui.FunctionButtonEvent;
+import simori.SimoriGui.GridButtonEvent;
 import simori.Exceptions.InvalidCoordinatesException;
 
 public class OnPressListenerMaker {
 	
-	private SimoriGui gui;
+	private SimoriJFrame gui;
 	
-	public OnPressListenerMaker(SimoriGui gui) {
+	public OnPressListenerMaker(SimoriJFrame gui) {
 		this.gui = gui;
 	}
 		

@@ -1,16 +1,30 @@
 package simori;
+
 import java.util.EventObject;
 
 import simori.Exceptions.InvalidCoordinatesException;
-import simori.SwingGui.SimoriGui;
 
-/**
- * Defines listener interfaces and event types
- * for events passed from the GUI to the Mode.
- * @author Matt
- * @version 1.1.0
- */
-public class SimoriGuiEvents {
+public interface SimoriGui {
+	
+	public void setGrid(boolean[][] grid);
+	
+	public void clearGrid();
+	
+	public void setText(String text);
+	
+	public void setGridButtonListener(GridButtonListener l);
+	
+	public void setFunctionButtonListener(FunctionButtonListener l);
+	
+	/** Listener interface for {@link GridButtonEvent} */
+	public interface GridButtonListener  {
+		public void onGridButtonPress(GridButtonEvent e) throws InvalidCoordinatesException;
+	}
+	
+	/** Listener interface for {@link FunctionButtonEvent} */
+	public interface FunctionButtonListener {
+		public void onFunctionButtonPress(FunctionButtonEvent e);
+	}
 	
 	/**
 	 * Event generated when an LED button in the grid is pressed.
@@ -83,15 +97,5 @@ public class SimoriGuiEvents {
 		public SimoriGui getSource() {
 			return src;
 		}
-	}
-	
-	/** Listener interface for {@link GridButtonEvent} */
-	public interface GridButtonListener  {
-		public void onGridButtonPress(GridButtonEvent e) throws InvalidCoordinatesException;
-	}
-	
-	/** Listener interface for {@link FunctionButtonEvent} */
-	public interface FunctionButtonListener {
-		public void onFunctionButtonPress(FunctionButtonEvent e);
 	}
 }
