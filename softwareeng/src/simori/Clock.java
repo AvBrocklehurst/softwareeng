@@ -101,6 +101,12 @@ public class Clock implements Runnable, PowerTogglable {
 						layers[x] = new byte[notZero + 3];
 						//[Channel, Instrument, Velocity, Note, Note, Note...]
 						short instrument = model.getInstrument(activeLayers.get(x));
+						
+						// TODO josh. Move these to other methods
+						//TODO josh. Sprinkle some error checking throughout this code
+						
+						
+						//TODO josh. Close but no cigar .... so so close 
 						layers[x][1] = (byte) ((instrument < 128) ? instrument : instrument - 127);
 						layers[x][2] = model.getVelocity(activeLayers.get(x));
 						layers[x][0] = model.getChannel(activeLayers.get(x));
