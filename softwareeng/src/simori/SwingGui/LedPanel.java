@@ -12,11 +12,11 @@ public class LedPanel extends JPanel {
 	public LedPanel(int rows, int columns, OnPressListenerMaker maker) {
 		setLayout(new GridLayout(rows, columns, 0, 0));
 		leds = new Led[rows][columns];
-		for (int y = 0; y < rows; y++) {
+		for (int y = rows-1; y >= 0; y--) {
 			for (int x = 0; x < columns; x++) {
 				leds[x][y] = new Led();
 				add(leds[x][y]);
-				leds[x][y].setOnPressListener(maker.getListener(x, y)); //TODO start numbering from bottom left, not top
+				leds[x][y].setOnPressListener(maker.getListener(x, y));
 			}
 		}
 		setBackground(GuiProperties.LED_PANEL_BACKGROUND);

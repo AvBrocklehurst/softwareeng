@@ -1,6 +1,7 @@
 package simori;
 
 import simori.ChangerMode.Changer;
+import simori.ChangerMode.Setting;
 import simori.SimoriGui.FunctionButtonEvent;
 import simori.SimoriGui.FunctionButtonListener;
 import simori.SimoriGui.GridButtonListener;
@@ -134,6 +135,12 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 				controller.setDisplayLayer((byte) selectedLayer); //TODO make x and y bytes anyway
 				return true; //set current layer
 			}
+
+			@Override
+			public Setting getCurrentSetting() {
+				// TODO Auto-generated method stub
+				return null;
+			}
 		};
 	}
 	
@@ -152,6 +159,12 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 			public boolean doThingTo(ModeController controller) {
 				//TODO simori.getModel().setLoop(simori.getDisplayLayer(), selectedColumn);
 				return true;
+			}
+
+			@Override
+			public Setting getCurrentSetting() {
+				// TODO Auto-generated method stub
+				return null;
 			}
 		};
 	}
@@ -201,6 +214,12 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 				controller.getModel().setInstrument(getDisplayLayer(), instrumentNumber); 
 				return true;
 			}
+
+			@Override
+			public Setting getCurrentSetting() {
+				// TODO Auto-generated method stub
+				return null;
+			}
 			
 		};
 	}
@@ -249,6 +268,12 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 				controller.getModel().setVelocity(getDisplayLayer(), (byte)selectedVelocity); 
 				return true;
 			}
+
+			@Override
+			public Setting getCurrentSetting() {
+				// TODO Auto-generated method stub
+				return null;
+			}
 			
 		};
 	}
@@ -275,6 +300,12 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 			public boolean doThingTo(ModeController controller) {
 				// TODO Auto-generated method stub
 				return false;
+			}
+
+			@Override
+			public Setting getCurrentSetting() {
+				// TODO Auto-generated method stub
+				return null;
 			}
 			
 		};
