@@ -20,16 +20,20 @@ public class ChangerMode extends Mode {
 		this.hLine = horizontalLine;
 		this.vLine = verticalLine;
 	};
+	
+	private void drawSelector(int x, int y) {
+		boolean[][] grid = new boolean[16][16]; //FIXME hardcoded 16s
+		if (vLine) addVerticalLineTo(grid, x);
+		if (hLine) addHorizontalLineTo(grid, y);
+		getGui().setGrid(grid);
+	}
 
 	@Override
 	public void onGridButtonPress(GridButtonEvent e) throws InvalidCoordinatesException {
 		String text = changer.getText(e.getX(), e.getY());
 		e.getSource().setText(text);
 		if (text == null) return;
-		boolean[][] grid = new boolean[16][16]; //FIXME hardcoded 16s
-		if (vLine) addVerticalLineTo(grid, e.getX());
-		if (hLine) addHorizontalLineTo(grid, e.getY());
-		e.getSource().setGrid(grid);
+		drawSelector(e.getX(), e.getY());
 	}
 	
 	@Override
@@ -37,7 +41,18 @@ public class ChangerMode extends Mode {
 		if (e.getFunctionButton() == OK) {
 			if (!changer.doThingTo(controller)) return;
 		}
+		getGui().setText(null);
 		super.onFunctionButtonPress(e);
+	}
+	
+	@Override
+	public void setInitialGrid() {
+		Setting current = changer.getCurrentSetting();
+		if (current == null) {
+			getGui().clearGrid();
+		} else {
+			drawSelector(current.x, current.y);
+		}
 	}
 	
 	private void addVerticalLineTo(boolean[][] grid, int x) {
@@ -55,5 +70,14 @@ public class ChangerMode extends Mode {
 	public interface Changer {
 		public String getText(int x, int y);
 		public boolean doThingTo(ModeController controller);
+		public Setting getCurrentSetting();
+	}
+	
+	public class Setting {
+		public Integer x, y;
+		public Setting(int x, int y) {
+			this.x = x;
+			this.y = y;
+		}
 	}
 }
