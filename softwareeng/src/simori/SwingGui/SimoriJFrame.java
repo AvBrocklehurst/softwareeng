@@ -14,25 +14,18 @@ import static simori.FunctionButton.R4;
 import java.awt.BorderLayout;
 import java.awt.Cursor;
 import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.FontFormatException;
 import java.awt.Point;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
-import java.io.File;
-import java.io.IOException;
 
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import simori.Mode;
 import simori.SimoriGui;
-import simori.SimoriGui.FunctionButtonListener;
-import simori.SimoriGui.GridButtonListener;
 
 /**
  * Creates the user interface for the Simori-ON.
@@ -48,10 +41,6 @@ import simori.SimoriGui.GridButtonListener;
 public class SimoriJFrame extends JFrame implements SimoriGui, MouseMotionListener {
 	
 	private static final int EXIT_CODE = 27; //ASCII for ESC
-	
-	private static final String ICON_PATH = "Doctor D 128px.png";
-	private static final String FONT_PATH = "cmtt12.ttf";
-	private static final String UP_UP = "../../";
 	
 	private GridButtonListener gListener;
 	private FunctionButtonListener fListener;
@@ -116,21 +105,13 @@ public class SimoriJFrame extends JFrame implements SimoriGui, MouseMotionListen
 	}
 	
 	private void setUpWindow() {
-		sortIcons();
+		setIconImage(GuiProperties.getIcon());
 		setTitle(GuiProperties.WINDOW_TITLE);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setUndecorated(true);
 		setBackground(GuiProperties.WINDOW_BACKGROUND);
 		addComponents();
 		sortSizes();
-	}
-	
-	private void sortIcons() {
-		File file = new File(ICON_PATH);
-		if (!file.exists())
-			file = new File(UP_UP + ICON_PATH);
-		ImageIcon icon = new ImageIcon(ICON_PATH);
-		setIconImage(icon.getImage());
 	}
 	
 	private void sortSizes() {
@@ -147,7 +128,7 @@ public class SimoriJFrame extends JFrame implements SimoriGui, MouseMotionListen
 	
 	private void calculateDimensions() {
 		Dimension s = getToolkit().getScreenSize();
-		s.width = s.height = Math.min(s.width, s.height) + 2;
+		s.width = s.height = Math.min(s.width, s.height) + 2; //FIXME hardcoded ratios!
 		simoriSize = ratioOf(0.8f, 0.8f, s);
 		sideBarSize = ratioOf(0.1f, 0.8f, simoriSize);
 		topBarSize = ratioOf(1f, 0.1f, simoriSize);
@@ -180,6 +161,13 @@ public class SimoriJFrame extends JFrame implements SimoriGui, MouseMotionListen
 		panel.add(bottomBar, BorderLayout.PAGE_END);
 		add(panel);
 	}
+	
+	private boolean canDragFrom(Point point) {
+		return topBar.contains(point)
+				|| bottomBar.contains(point)
+				|| leftBar.contains(point)
+				|| rightBar.contains(point);
+	}
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
@@ -200,23 +188,5 @@ public class SimoriJFrame extends JFrame implements SimoriGui, MouseMotionListen
 			setCursor(oldCursor);
 		}
 		couldDragBefore = canDrag;
-	}
-	
-	private boolean canDragFrom(Point point) {
-		return topBar.contains(point)
-				|| bottomBar.contains(point)
-				|| leftBar.contains(point)
-				|| rightBar.contains(point);
-	}
-	
-	private Font makeFont() {
-		File file = new File(FONT_PATH);
-		if (!file.exists())
-			file = new File(UP_UP + FONT_PATH);
-		try {
-			return Font.createFont(Font.TRUETYPE_FONT, file);
-		} catch (FontFormatException | IOException e) {
-			return new Font(Font.SERIF, Font.PLAIN, 1);
-		}
 	}
 }

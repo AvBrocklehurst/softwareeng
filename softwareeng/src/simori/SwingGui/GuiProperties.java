@@ -3,6 +3,14 @@ package simori.SwingGui;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.geom.Rectangle2D;
+import java.io.File;
+import java.io.IOException;
+
+import javax.swing.ImageIcon;
 
 public class GuiProperties {
 	
@@ -13,8 +21,10 @@ public class GuiProperties {
 	public static final Color WINDOW_BACKGROUND = new Color(0,0,0,0);
 	public static final Color SIMORI_BACKGROUND = Color.WHITE;
 	public static final Color LED_PANEL_BACKGROUND = Color.WHITE;
+	
 	public static final Color LED_BORDER = Color.BLACK;
-	public static final Color CIRCLE_BORDER = Color.BLACK;;
+	public static final Color CIRCLE_BORDER = Color.BLACK;
+	public static final Color LCD_BORDER = Color.BLACK;
 	public static final Color LED_PANEL_BORDER = Color.BLACK;
 	public static final Color SIMORI_BORDER = Color.BLACK;
 	
@@ -33,6 +43,53 @@ public class GuiProperties {
 	public static final Cursor HAND_CURSOR = new Cursor(Cursor.HAND_CURSOR);
 	public static final Cursor MOVE_CURSOR = new Cursor(Cursor.MOVE_CURSOR);
 	
-	public Font font;
-
+	private static final String ICON_PATH = "Doctor D 128px.png";
+	private static final String FONT_PATH = "cmtt12.ttf";
+	private static final String UP_UP = "../../";
+	
+	private static Font font;
+	private static Image icon;
+	
+	public static void sizeFontTo(String text, int width, int height, Graphics g) {
+		final String name = g.getFont().getName();
+		final int style = g.getFont().getStyle();
+		int size = g.getFont().getSize();
+		Rectangle2D b = g.getFontMetrics().getStringBounds(text, g);
+		while (b.getWidth() < width && b.getHeight() < height) {
+			g.setFont(new Font(name, style, size++));
+			b = g.getFontMetrics().getStringBounds(text, g);
+		}
+		g.setFont(g.getFont().deriveFont(--size));
+	}
+	
+	public static Font getFont() {
+		if (font != null) return font;
+		font = makeFont();
+		return font;
+	}
+	
+	public static Image getIcon() {
+		if (icon != null) return icon;
+		icon = makeIcon();
+		return icon;
+	}
+	
+	private static Font makeFont() {
+		File file = new File(FONT_PATH);
+		if (!file.exists())
+			file = new File(UP_UP + FONT_PATH);
+		try {
+			return Font.createFont(Font.TRUETYPE_FONT, file);
+		} catch (FontFormatException | IOException e) {
+			return new Font(Font.SERIF, Font.PLAIN, 1);
+		}
+	}
+	
+	private static Image makeIcon() {
+		File file = new File(ICON_PATH);
+		if (!file.exists())
+			file = new File(UP_UP + ICON_PATH);
+		ImageIcon icon = new ImageIcon(ICON_PATH);
+		return icon.getImage();
+	}
 }

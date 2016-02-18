@@ -1,13 +1,11 @@
 package simori.SwingGui;
 
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
 
 public class Button extends PressableCircle {
 	
 	private String text;
-	private int space;
 	private int textX, textY;
 	private boolean resized;
 	
@@ -31,27 +29,15 @@ public class Button extends PressableCircle {
 	}
 	
 	private void updateSize(Graphics g) {
-		calculateSpace();
-		resizeFont(g);
+		int space = calculateSpace();
+		GuiProperties.sizeFontTo(text, space, space, g);
 		placeText(g);
 	}
 	
-	private void calculateSpace() {
+	private int calculateSpace() {
 		double squared = Math.pow((double) getWidth(), 2d);
 		double rootHalfSquared = Math.sqrt(squared / 2d);
-		space = (int) rootHalfSquared;
-	}
-	
-	private void resizeFont(Graphics g) {
-		final String name = g.getFont().getName();
-		final int style = g.getFont().getStyle();
-		int size = g.getFont().getSize();
-		Rectangle2D b = g.getFontMetrics().getStringBounds(text, g);
-		while (b.getWidth() < space && b.getHeight() < space) {
-			g.setFont(new Font(name, style, size++));
-			b = g.getFontMetrics().getStringBounds(text, g);
-		}
-		g.setFont(g.getFont().deriveFont(--size));
+		return (int) rootHalfSquared;
 	}
 	
 	private void placeText(Graphics g) {

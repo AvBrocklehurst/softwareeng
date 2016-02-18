@@ -19,9 +19,7 @@ public class OnPressListenerMaker {
 				try {
 					final GridButtonEvent e = new GridButtonEvent(gui, x, y);
 					gui.getGridButtonListener().onGridButtonPress(e);
-				} catch (InvalidCoordinatesException ex) {
-					//TODO Add handling in case this is actually possible to trigger
-				}
+				} catch (InvalidCoordinatesException ex) {}
 			}
 		};
 	}

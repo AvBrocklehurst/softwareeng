@@ -1,8 +1,7 @@
 package simori.SwingGui;
 
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
@@ -15,9 +14,12 @@ public class Lcd extends JLabel {
 	
 	public Lcd(boolean vertical) {
 		this.vertical = vertical;
-		setFont(new Font(Font.SERIF, Font.PLAIN, 12));
-		setBorder(BorderFactory.createLineBorder(new Color(0x000000))); //FIXME hardcoded
-		addComponentListener(new ComponentAdapter() {
+		setBorder(BorderFactory.createLineBorder(GuiProperties.LCD_BORDER));
+		addComponentListener(makeResizeListener());
+	}
+	
+	private ComponentAdapter makeResizeListener() {
+		return new ComponentAdapter() {
 			@Override
 			public void componentResized(ComponentEvent e) {
 				if (vertical) {
@@ -28,9 +30,7 @@ public class Lcd extends JLabel {
 					setSize((int) width, getHeight());
 				}
 			}
-		});
-		setText("reeeeeeeeeeeeeeeeeeeeeeeeeeeealylongteststring");
-		//TODO text size
+		};
 	}
 	
 	public void setShorterSize(float shorter) {
@@ -40,5 +40,14 @@ public class Lcd extends JLabel {
 		setPreferredSize(size);
 		setMinimumSize(size);
 		setMaximumSize(size);
+		makeFontFit(size);
+	}
+	
+	private void makeFontFit(Dimension size) {
+		setFont(GuiProperties.getFont());
+		Graphics g = getComponentGraphics(getGraphics());
+		g.setFont(getFont());
+		GuiProperties.sizeFontTo("gG", size.width, size.height, g);
+		setFont(g.getFont());
 	}
 }
