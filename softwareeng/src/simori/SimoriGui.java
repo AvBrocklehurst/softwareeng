@@ -12,7 +12,6 @@ import static simori.FunctionButton.R3;
 import static simori.FunctionButton.R4;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -28,7 +27,6 @@ import java.io.IOException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import simori.SimoriGuiEvents.FunctionButtonListener;
@@ -47,10 +45,7 @@ import simori.SimoriGuiEvents.GridButtonListener;
  */
 public class SimoriGui extends JFrame implements MouseMotionListener {
 	
-	private static final String WINDOW_TITLE = "Simori-ON";
-	private static final int GAP = 0; //Padding between components
 	private static final int EXIT_CODE = 27; //ASCII for ESC
-	private static final Color TRANSPARENT = new Color(0,0,0,0);
 	
 	private static final String ICON_PATH = "Doctor D 128px.png";
 	private static final String FONT_PATH = "cmtt12.ttf";
@@ -128,10 +123,10 @@ public class SimoriGui extends JFrame implements MouseMotionListener {
 	
 	private void setUpWindow() {
 		sortIcons();
-		setTitle(WINDOW_TITLE);
+		setTitle(GuiProperties.WINDOW_TITLE);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setUndecorated(true);
-		setBackground(TRANSPARENT);
+		setBackground(GuiProperties.WINDOW_BACKGROUND);
 		addComponents();
 		sortSizes();
 	}
@@ -158,7 +153,7 @@ public class SimoriGui extends JFrame implements MouseMotionListener {
 	
 	private void calculateDimensions() {
 		Dimension s = getToolkit().getScreenSize();
-		s.width = s.height = Math.min(s.width, s.height);
+		s.width = s.height = Math.min(s.width, s.height) + 2;
 		simoriSize = ratioOf(0.8f, 0.8f, s);
 		sideBarSize = ratioOf(0.1f, 0.8f, simoriSize);
 		topBarSize = ratioOf(1f, 0.1f, simoriSize);
@@ -183,7 +178,7 @@ public class SimoriGui extends JFrame implements MouseMotionListener {
 	private void addComponents() {
 		makeComponents();
 		JPanel panel = new SimoriPanel();
-		panel.setLayout(new BorderLayout(GAP, GAP));
+		panel.setLayout(new BorderLayout(0, 0));
 		panel.add(topBar, BorderLayout.PAGE_START);
 		panel.add(leftBar, BorderLayout.LINE_START);
 		panel.add(ledPanel, BorderLayout.CENTER);

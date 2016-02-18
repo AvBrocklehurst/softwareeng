@@ -11,8 +11,6 @@ import javax.swing.JLabel;
 
 public class Lcd extends JLabel {
 	
-	private static final float RATIO = 5f;
-	
 	private final boolean vertical;
 	
 	public Lcd(boolean vertical) {
@@ -23,10 +21,10 @@ public class Lcd extends JLabel {
 			@Override
 			public void componentResized(ComponentEvent e) {
 				if (vertical) {
-					float height = (float) getWidth() * RATIO;
+					float height = (float) getWidth() * GuiProperties.LCD_EDGE_RATIO;
 					setSize(getWidth(), (int) height);
 				} else {
-					float width = (float) getHeight() * RATIO;
+					float width = (float) getHeight() * GuiProperties.LCD_EDGE_RATIO;
 					setSize((int) width, getHeight());
 				}
 			}
@@ -36,8 +34,8 @@ public class Lcd extends JLabel {
 	}
 	
 	public void setShorterSize(float shorter) {
-		float w = vertical ? shorter : shorter * RATIO;
-		float h = vertical ? shorter * RATIO : shorter;
+		float w = vertical ? shorter : shorter * GuiProperties.LCD_EDGE_RATIO;
+		float h = vertical ? shorter * GuiProperties.LCD_EDGE_RATIO : shorter;
 		Dimension size = new Dimension((int) w, (int) h);
 		setPreferredSize(size);
 		setMinimumSize(size);

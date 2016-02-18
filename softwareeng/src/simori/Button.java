@@ -1,14 +1,10 @@
 package simori;
 
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
 
 public class Button extends PressableCircle {
-	
-	private static final Color TEXT = new Color(0x000000);
-	private static final Font FONT = new Font(Font.SANS_SERIF, Font.PLAIN, 1);
 	
 	private String text;
 	private int space;
@@ -28,8 +24,8 @@ public class Button extends PressableCircle {
 	}
 	
 	private void drawText(Graphics g) {
-		g.setFont(FONT);
-		g.setColor(TEXT);
+		g.setFont(GuiProperties.FONT);
+		g.setColor(GuiProperties.BUTTON_TEXT);
 		if (resized) updateSize(g);
 		g.drawString(text, textX, textY);
 	}

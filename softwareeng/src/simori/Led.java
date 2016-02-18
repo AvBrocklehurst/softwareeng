@@ -1,8 +1,14 @@
 package simori;
 
+import static simori.GuiProperties.LED_COLOUR_OFF;
+import static simori.GuiProperties.LED_COLOUR_OFF_IN;
+import static simori.GuiProperties.LED_COLOUR_ON;
+import static simori.GuiProperties.LED_COLOUR_ON_IN;
+
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.event.MouseEvent;
+
+import simori.OnPressListenerMaker.OnPressListener;
 
 /**
  * Custom JComponent to represent illuminated LED buttons.
@@ -20,32 +26,12 @@ import java.awt.event.MouseEvent;
  */
 public class Led extends PressableCircle {
 	
-	//TODO Control resizing to keep width and height the same
-	
-	/* 
-	 * ON is the illuminated colour, OFF the default
-	 * IN colours are darkened versions to represent pressed states
-	 */
-	private static final Color ON = new Color(255, 176, 0);
-	private static final Color ON_IN = new Color(205, 126, 0);
-	private static final Color OFF = new Color(0xFFFFFF);
-	private static final Color OFF_IN = new Color(0xEEEEEE);
-	
-	private static final Dimension DEFAULT = new Dimension(30, 30);
-	
 	/*
 	 * Having mouseDown static very conveniently produces the
 	 * intentional click and drag to activate multiple LEDs behaviour.
 	 */
 	private static boolean mouseDown;
 	private boolean lit;
-	
-	public Led() {
-		super();
-		setPreferredSize(DEFAULT);
-		setMaximumSize(DEFAULT);
-		setMinimumSize(DEFAULT);
-	}
 	
 	/**
 	 * @param on Whether LED should be illuminated
@@ -59,7 +45,9 @@ public class Led extends PressableCircle {
 	
 	@Override
 	protected Color getFillColour() {
-		return lit ? (pushed ? ON_IN : ON) : (pushed ? OFF_IN : OFF);
+		return lit ?
+				(pushed ? LED_COLOUR_ON_IN : LED_COLOUR_ON) :
+				(pushed ? LED_COLOUR_OFF_IN : LED_COLOUR_OFF);
 	}
 	
 	@Override
