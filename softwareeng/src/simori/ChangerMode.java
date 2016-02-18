@@ -40,13 +40,13 @@ public class ChangerMode extends Mode {
 		super.onFunctionButtonPress(e);
 	}
 	
-	public void addVerticalLineTo(boolean[][] grid, int x) {
+	private void addVerticalLineTo(boolean[][] grid, int x) {
 		for (boolean[] row : grid) {
 			row[x] = true;
 		}
 	}
 	
-	public void addHorizontalLineTo(boolean[][] grid, int y) {
+	private void addHorizontalLineTo(boolean[][] grid, int y) {
 		for (int x = 0; x < grid[y].length; x++) {
 			grid[y][x] = true;
 		}
