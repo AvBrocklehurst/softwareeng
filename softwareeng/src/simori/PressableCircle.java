@@ -16,10 +16,6 @@ import simori.OnPressListenerMaker.OnPressListener;
 
 public class PressableCircle extends JComponent implements MouseListener {
 	
-	private static final Color OUT = new Color(0xFFFFFF);
-	private static final Color IN = new Color(0xEEEEEE);
-	protected static final Color BORDER = new Color(0x000000);
-	
 	protected boolean pushed, mouseOver;	
 	private OnPressListenerMaker.OnPressListener listener;
 	private Shape hitbox;
@@ -32,7 +28,7 @@ public class PressableCircle extends JComponent implements MouseListener {
 				resized();
 			}
 		});
-		setCursor(new Cursor(Cursor.HAND_CURSOR));
+		setCursor(GuiProperties.HAND_CURSOR);
 	}
 	
 	protected void resized() {
@@ -45,11 +41,12 @@ public class PressableCircle extends JComponent implements MouseListener {
 	}
 	
 	protected Color getFillColour() {
-		return pushed ? IN : OUT;
+		return pushed ? GuiProperties.CIRCLE_PRESSED :
+						GuiProperties.CIRCLE_NOT_PRESSED;
 	}
 	
 	protected Color getBorderColour() {
-		return BORDER;
+		return GuiProperties.CIRCLE_BORDER;
 	}
 	
 	@Override

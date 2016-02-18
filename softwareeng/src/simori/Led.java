@@ -52,7 +52,7 @@ public class Led extends PressableCircle {
 	
 	@Override
 	protected Color getBorderColour() {
-		return lit ? null : BORDER;
+		return lit ? null : GuiProperties.LED_BORDER;
 	}	
 	
 	@Override

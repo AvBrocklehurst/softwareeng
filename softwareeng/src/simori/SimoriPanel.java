@@ -1,15 +1,11 @@
 package simori;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 
 import javax.swing.JPanel;
 
 public class SimoriPanel extends JPanel {
-	
-	public static final Color BACKGROUND = new Color(0xFFFFFF);
-	public static final Color BORDER = new Color(0x000000);
 	
 	private Rectangle getRoundedBounds() {
 		Rectangle b = getBounds();
@@ -23,7 +19,7 @@ public class SimoriPanel extends JPanel {
 	
 	@Override
 	public void paintComponent(Graphics g) {
-		g.setColor(BACKGROUND);
+		g.setColor(GuiProperties.SIMORI_BACKGROUND);
 		Rectangle b = getRoundedBounds();
 		int arc = getArc();
 		g.fillRoundRect(b.x, b.y, b.width, b.height, arc, arc);
@@ -31,7 +27,7 @@ public class SimoriPanel extends JPanel {
 	
 	@Override
 	public void paintBorder(Graphics g) {
-		g.setColor(BORDER);
+		g.setColor(GuiProperties.SIMORI_BORDER);
 		Rectangle b = getRoundedBounds();
 		int arc = getArc();
 		g.drawRoundRect(b.x, b.y, b.width, b.height, arc, arc);

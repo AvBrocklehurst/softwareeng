@@ -200,7 +200,7 @@ public class SimoriGui extends JFrame implements MouseMotionListener {
 		boolean canDrag = canDragFrom(e.getPoint());
 		if (canDrag && !couldDragBefore) {
 			oldCursor = getCursor();
-			setCursor(new Cursor(Cursor.MOVE_CURSOR));
+			setCursor(GuiProperties.MOVE_CURSOR);
 		}
 		if (couldDragBefore && !canDrag) {
 			setCursor(oldCursor);
