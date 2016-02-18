@@ -14,8 +14,8 @@ import org.junit.rules.ExpectedException;
 import simori.MatrixModel;
 import simori.PerformanceMode;
 import simori.Simori;
-import simori.SimoriGui;
 import simori.Exceptions.InvalidCoordinatesException;
+import simori.SwingGui.SimoriGui;
 
 
 

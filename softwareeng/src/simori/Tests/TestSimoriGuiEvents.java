@@ -1,16 +1,16 @@
 package simori.Tests;
 
 import static org.junit.Assert.assertEquals;
-import static simori.SimoriGuiEvents.FunctionButton.OK;
+import static simori.SwingGui.SimoriGuiEvents.FunctionButton.OK;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import simori.SimoriGui;
 import simori.SimoriGuiEvents;
 import simori.SimoriGuiEvents.FunctionButtonEvent;
 import simori.SimoriGuiEvents.GridButtonEvent;
+import simori.SwingGui.SimoriGui;
 
 /**
  * Unit tests for the Event types, listener interfaces

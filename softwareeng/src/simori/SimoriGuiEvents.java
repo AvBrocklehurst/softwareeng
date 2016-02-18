@@ -2,6 +2,7 @@ package simori;
 import java.util.EventObject;
 
 import simori.Exceptions.InvalidCoordinatesException;
+import simori.SwingGui.SimoriGui;
 
 /**
  * Defines listener interfaces and event types

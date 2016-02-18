@@ -1,14 +1,14 @@
-package simori;
+package simori.SwingGui;
 
-import static simori.GuiProperties.LED_COLOUR_OFF;
-import static simori.GuiProperties.LED_COLOUR_OFF_IN;
-import static simori.GuiProperties.LED_COLOUR_ON;
-import static simori.GuiProperties.LED_COLOUR_ON_IN;
+import static simori.SwingGui.GuiProperties.LED_COLOUR_OFF;
+import static simori.SwingGui.GuiProperties.LED_COLOUR_OFF_IN;
+import static simori.SwingGui.GuiProperties.LED_COLOUR_ON;
+import static simori.SwingGui.GuiProperties.LED_COLOUR_ON_IN;
 
 import java.awt.Color;
 import java.awt.event.MouseEvent;
 
-import simori.OnPressListenerMaker.OnPressListener;
+import simori.SwingGui.OnPressListenerMaker.OnPressListener;
 
 /**
  * Custom JComponent to represent illuminated LED buttons.

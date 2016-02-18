@@ -12,8 +12,8 @@ import simori.MIDISoundPlayer;
 import simori.MatrixModel;
 import simori.PerformanceMode;
 import simori.Simori;
-import simori.SimoriGui;
 import simori.Exceptions.InvalidCoordinatesException;
+import simori.SwingGui.SimoriGui;
 
 public class TestClock {
 	Simori simori;

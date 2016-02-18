@@ -4,6 +4,7 @@ import simori.ChangerMode.Changer;
 import simori.SimoriGuiEvents.FunctionButtonEvent;
 import simori.SimoriGuiEvents.FunctionButtonListener;
 import simori.SimoriGuiEvents.GridButtonListener;
+import simori.SwingGui.SimoriGui;
 import simori.Exceptions.InvalidCoordinatesException;
 
 /**

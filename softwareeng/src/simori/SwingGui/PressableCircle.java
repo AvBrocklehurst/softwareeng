@@ -1,4 +1,4 @@
-package simori;
+package simori.SwingGui;
 
 import java.awt.Color;
 import java.awt.Cursor;
@@ -12,7 +12,7 @@ import java.awt.geom.Ellipse2D;
 
 import javax.swing.JComponent;
 
-import simori.OnPressListenerMaker.OnPressListener;
+import simori.SwingGui.OnPressListenerMaker.OnPressListener;
 
 public class PressableCircle extends JComponent implements MouseListener {
 	

@@ -1,4 +1,4 @@
-package simori;
+package simori.SwingGui;
 
 import java.awt.Font;
 import java.awt.Graphics;

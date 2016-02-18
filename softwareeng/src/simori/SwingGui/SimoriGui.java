@@ -1,4 +1,4 @@
-package simori;
+package simori.SwingGui;
 
 import static simori.FunctionButton.L1;
 import static simori.FunctionButton.L2;
@@ -29,6 +29,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import simori.Mode;
+import simori.SimoriGuiEvents;
 import simori.SimoriGuiEvents.FunctionButtonListener;
 import simori.SimoriGuiEvents.GridButtonListener;
 

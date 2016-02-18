@@ -1,7 +1,9 @@
-package simori;
+package simori.SwingGui;
 
 import simori.SimoriGuiEvents.FunctionButtonEvent;
 import simori.SimoriGuiEvents.GridButtonEvent;
+import simori.FunctionButton;
+import simori.SimoriGuiEvents;
 import simori.Exceptions.InvalidCoordinatesException;
 
 public class OnPressListenerMaker {

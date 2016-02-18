@@ -2,6 +2,7 @@ package simori;
 
 import simori.SimoriGuiEvents.GridButtonEvent;
 import simori.SimoriGuiEvents.GridButtonListener;
+import simori.SwingGui.SimoriGui;
 import simori.Exceptions.InvalidCoordinatesException;
 
 /**

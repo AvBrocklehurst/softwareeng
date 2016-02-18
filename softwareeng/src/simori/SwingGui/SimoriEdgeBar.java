@@ -1,4 +1,4 @@
-package simori;
+package simori.SwingGui;
 
 import java.awt.Dimension;
 import java.awt.event.ComponentAdapter;
@@ -8,6 +8,8 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
+
+import simori.FunctionButton;
 
 public class SimoriEdgeBar extends JPanel {
 	

@@ -1,6 +1,7 @@
 package simori;
 
 import simori.Simori.PowerTogglable;
+import simori.SwingGui.SimoriGui;
 import simori.Exceptions.InvalidCoordinatesException;
 
 public class ModeController {

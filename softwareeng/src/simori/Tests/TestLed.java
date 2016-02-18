@@ -9,10 +9,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import simori.Led;
-import simori.Led.OnPressListener;
 import simori.Mode;
 import simori.SimoriGuiEvents.GridButtonEvent;
+import simori.SwingGui.Led;
+import simori.SwingGui.Led.OnPressListener;
 import simori.Exceptions.InvalidCoordinatesException;
 
 /**

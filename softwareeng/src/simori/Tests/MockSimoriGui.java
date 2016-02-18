@@ -1,9 +1,9 @@
 package simori.Tests;
 
-import simori.Led;
-import simori.Led.OnPressListener;
-import simori.SimoriGui;
 import simori.SimoriGuiEvents.GridButtonEvent;
+import simori.SwingGui.Led;
+import simori.SwingGui.SimoriGui;
+import simori.SwingGui.Led.OnPressListener;
 
 /**
  * A SimoriGui Mock object. A Mock is needed

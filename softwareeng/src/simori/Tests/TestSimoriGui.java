@@ -6,10 +6,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import simori.Led.OnPressListener;
 import simori.Mode;
-import simori.SimoriGui;
 import simori.SimoriGuiEvents.GridButtonEvent;
+import simori.SwingGui.SimoriGui;
+import simori.SwingGui.Led.OnPressListener;
 import simori.Exceptions.InvalidCoordinatesException;
 
 /**

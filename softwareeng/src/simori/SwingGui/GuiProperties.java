@@ -1,4 +1,4 @@
-package simori;
+package simori.SwingGui;
 
 import java.awt.Color;
 import java.awt.Cursor;

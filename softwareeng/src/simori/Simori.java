@@ -2,6 +2,8 @@ package simori;
 
 import javax.sound.midi.MidiUnavailableException;
 
+import simori.SwingGui.SimoriGui;
+
 /**
  * The main Simori class, runs the the whole Simori system.
  * @author Adam

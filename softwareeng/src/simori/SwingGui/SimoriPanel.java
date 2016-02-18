@@ -1,4 +1,4 @@
-package simori;
+package simori.SwingGui;
 
 import java.awt.Graphics;
 import java.awt.Rectangle;
