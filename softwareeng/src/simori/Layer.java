@@ -19,7 +19,6 @@ public class Layer implements Serializable {
 	private byte velocity;
 	private int width;
 	private int height;
-	private byte loopPoint;
 	
 	/**
 	 * Constructor for an individual layer.
@@ -35,7 +34,6 @@ public class Layer implements Serializable {
 		this.width = width;
 		this.channel = 0;
 		this.velocity = 80;
-		this.loopPoint = 15;
 	}
 	
 	
