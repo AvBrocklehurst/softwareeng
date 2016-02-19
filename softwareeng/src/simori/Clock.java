@@ -82,7 +82,7 @@ public class Clock implements Runnable, PowerTogglable {
 					byte[] thisLayer = new byte[19];
 					//...get its current column...
 					boolean[] layer = model.getCol(activeLayers.get(x));
-					//...add any active notes to the current inner array...
+					//...add any active notes to the current inner array.. 
 					for(byte y=0; y<layer.length; y++){
 						if(layer[y]){
 							thisLayer[y + 3] = (byte) (y + 50);
@@ -107,8 +107,9 @@ public class Clock implements Runnable, PowerTogglable {
 							layers[x][0] = 0;
 						} else {
 							layers[x][0] = 9;
-							instrument = (short)(instrument - 9000);
+							instrument = (byte)(instrument - 94);
 						}
+						layers[x][1] = (byte) instrument;
 						layers[x][2] = model.getVelocity(activeLayers.get(x));
 						layers[x][0] = model.getChannel(activeLayers.get(x)); //TODO wrong!
 						byte count = 3;

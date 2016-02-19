@@ -32,7 +32,7 @@ public class ModeController {
 	public SimoriGui getGui() {
 		return gui;
 	}
-	
+	 
 	public boolean isOn() {
 		return on;
 	}
