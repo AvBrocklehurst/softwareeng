@@ -26,6 +26,7 @@ import simori.Simori.PowerTogglable;
 // TODO JOSH midi goes from 1-128, we go from 0-127, will need to change!
 //TODO KERRRY OMG SPLIT THIS UP INTO METHODS.
 
+
 public class Clock implements Runnable, PowerTogglable {
 		private boolean running = true;
 		private MatrixModel model;
