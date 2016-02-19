@@ -16,6 +16,7 @@ import simori.Exceptions.InvalidCoordinatesException;
  * implementations.
  * 
  * @author James
+ * @author Jurek
  * @version 1.1.0
  */
 public abstract class Mode implements FunctionButtonListener, GridButtonListener {
@@ -144,6 +145,14 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 		};
 	}
 	
+	/**
+	 * This implementation of the Changer interface changes the column
+	 * at which the loop restarts
+	 * 
+	 * @author Jurek
+	 * @version 1.0.0
+	 * @return Changer
+	 */
 	private Changer makePointChanger() {
 		return new Changer() {
 			
@@ -157,7 +166,7 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 			
 			@Override
 			public boolean doThingTo(ModeController controller) {
-				//TODO simori.getModel().setLoop(simori.getDisplayLayer(), selectedColumn);
+				controller.getModel().setLoop((byte)selectedColumn);
 				return true;
 			}
 
@@ -279,27 +288,33 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 	}
 	
 	/**
-	 * This implementation of the Changer interface changes the current simori-wide
-	 * loop speed used.
+	 * This implementation of the Changer interface changes the current tempo
 	 * 
-	 * @author Jurek, James
-	 * @return Changer
-	 * @see ChangerMode.Changer
+	 * @author Jurek
 	 * @version 1.0.0
+	 * @return Changer
 	 */
 	private Changer makeSpeedChanger(){
 		return new Changer(){
-
+			
+			private int selectedTempo;
+			
 			@Override
 			public String getText(int x, int y) {
-				// TODO Auto-generated method stub
-				return null;
+				if(y==0) {
+					selectedTempo = x;
+					return String.valueOf(x);
+				} else {
+					//TODO need to figure how to make it 0-160 exactly. currently it matches the picture example(what with 57 where it was)
+					selectedTempo = 15 + 16*(y-1) + x;
+					return String.valueOf(selectedTempo);
+				}
 			}
 
 			@Override
 			public boolean doThingTo(ModeController controller) {
-				// TODO Auto-generated method stub
-				return false;
+				controller.getModel().setBPM((short)selectedTempo);
+				return true;
 			}
 
 			@Override

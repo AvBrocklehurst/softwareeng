@@ -31,8 +31,9 @@ public class Clock implements Runnable, PowerTogglable {
 		private MIDIPlayer midi;
 		private Object lock;
 		private TimerTask timerTask;
-		private long period;
 		private ModeController modes;
+		private Timer timer;
+		private short bpm;
 		
 		/**
 		 * Constructor for the class
@@ -43,13 +44,11 @@ public class Clock implements Runnable, PowerTogglable {
 		 * @param bbm Beats Per Minute; used to calculate the period
 		 */
 		public Clock(ModeController modes, MatrixModel model, MIDIPlayer midi){
-			float bbm = 88;
+			bpm = 88;
 			this.model = model;
 			this.midi = midi;
 			this.modes = modes;
 			lock = new Object();
-			//converts the beats per minute into the period, i.e.: how many seconds to play the notes
-			period = (long)((1f/(bbm/60f))*1000f);
 		}
 	
 		/**
@@ -65,15 +64,7 @@ public class Clock implements Runnable, PowerTogglable {
 		@Override
 		public void run() {
 			//starts a secondary thread to keep track of the tempo
-			Timer timer = new Timer();
-			timer.scheduleAtFixedRate(timerTask = new TimerTask() {
-				  @Override
-				  public void run() {
-					  synchronized(lock){
-						  lock.notify();
-					  }	
-				  }
-				}, period, period);
+			startTimer();
 			
 			while(running){
 				List<Byte> activeLayers = model.getLayers();
@@ -89,7 +80,7 @@ public class Clock implements Runnable, PowerTogglable {
 					//...add any active notes to the current inner array...
 					for(byte y=0; y<layer.length; y++){
 						if(layer[y]){
-							thisLayer[y + 3] = (byte) (67 - y);
+							thisLayer[y + 3] = (byte) (y + 50);
 							notZero++;
 						} else {
 							thisLayer[y + 3] = 0;
@@ -105,9 +96,13 @@ public class Clock implements Runnable, PowerTogglable {
 						// TODO josh. Move these to other methods
 						//TODO josh. Sprinkle some error checking throughout this code
 						
-						
 						//TODO josh. Close but no cigar .... so so close 
-						layers[x][1] = (byte) ((instrument < 128) ? instrument : instrument - 127);
+						if(instrument < 128){
+							layers[x][0] = 0;
+						} else {
+							layers[x][0] = 9;
+							instrument = (short)(instrument - 9000);
+						}
 						layers[x][2] = model.getVelocity(activeLayers.get(x));
 						layers[x][0] = model.getChannel(activeLayers.get(x));
 						byte count = 3;
@@ -139,8 +134,32 @@ public class Clock implements Runnable, PowerTogglable {
 				//turn the lights on the current column
 				modes.tickThrough(model.getCurrentColumn());
 				
+				//advance to the next column
 				model.incrementColumn();
+				//check if tempo changed, if so restart the timer thread with the new bpm
+				if(model.getBPM()!=bpm){
+					timer.cancel();
+					bpm = model.getBPM();
+					startTimer();
+				}
 			}
+		}
+		
+		/**
+		 * Starts the timer thread that keeps track of the tempo
+		 * @version 1.0.0
+		 * @author Jurek
+		 */
+		private void startTimer(){
+			timer = new Timer();
+			timer.scheduleAtFixedRate(new TimerTask() {
+				  @Override
+				  public void run() {
+					  synchronized(lock){
+						  lock.notify();
+					  }	
+				  }
+				}, 0, (long)((1f/(bpm/60f))*1000f));
 		}
 		
 		@Override
