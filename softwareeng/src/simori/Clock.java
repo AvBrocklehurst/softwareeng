@@ -87,62 +87,7 @@ public class Clock implements Runnable, PowerTogglable {
 			startTimer();
 			
 			while(running){
-				List<Byte> activeLayers = model.getLayers();
-				byte[][] layers = new byte[activeLayers.size()][];
-				ArrayList<Byte> usedColumns = new ArrayList<Byte>();
-				//using arrays with an array,
-				//for each generally active layer... 
-				for(byte x=0; x<(byte)activeLayers.size(); x++){
-					byte notZero = 0;
-					byte[] thisLayer = new byte[19];
-					//...get its current column...
-					boolean[] layer = model.getCol(activeLayers.get(x));
-					//...add any active notes to the current inner array.. 
-					for(byte y=0; y<layer.length; y++){
-						if(layer[y]){
-							thisLayer[y + 3] = (byte) (y + 50);
-							notZero++;
-						} else {
-							thisLayer[y + 3] = 0;
-						}
-					}
-					//...discard unused columns and resize the inner arrays...
-					if(notZero > 0){
-						usedColumns.add(x);
-						layers[x] = new byte[notZero + 3];
-						//[Channel, Instrument, Velocity, Note, Note, Note...]
-						short instrument = model.getInstrument(activeLayers.get(x));
-						
-						// TODO josh. Move these to other methods
-						//TODO josh. Sprinkle some error checking throughout this code
-						//TODO josh. Error checking whilst creating or error checking before .play() is called
-						//TODO josh. Close but no cigar .... so so close 
-		//TODO josh. Error checking sprinkled throughout or all in one place???
-						if(instrument < 128){
-							layers[x][0] = 0;
-						} else {
-							layers[x][0] = 9;
-							instrument = (byte)(instrument - 94);
-						}
-						layers[x][1] = (byte) instrument;
-						layers[x][2] = model.getVelocity(activeLayers.get(x));
-						layers[x][0] = model.getChannel(activeLayers.get(x)); //TODO wrong!
-						byte count = 3;
-						for(byte y = 0; y < thisLayer.length; y ++){
-							if(thisLayer[y] != 0){
-								layers[x][count] = thisLayer[y];
-								count++;
-							} 
-						}
-					}
-				}
-				//comment
-				byte[][] toBePlayed = new byte[usedColumns.size()][];
-				for (byte i=0; i<usedColumns.size(); i++){
-					toBePlayed[i] = layers[usedColumns.get(i)];
-				}
-						
-				
+				byte[][] toBePlayed = getNotes();
 				//wait until the beat hits...
 				synchronized(lock){
 					try {
@@ -198,6 +143,65 @@ public class Clock implements Runnable, PowerTogglable {
 				}, 0, (long)((1f/(bpm/60f))*1000f));
 		}
 		
+		
+		public byte[][] getNotes(){
+			List<Byte> activeLayers = model.getLayers();
+			byte[][] layers = new byte[activeLayers.size()][];
+			ArrayList<Byte> usedColumns = new ArrayList<Byte>();
+			//using arrays with an array,
+			//for each generally active layer... 
+			for(byte x=0; x<(byte)activeLayers.size(); x++){
+				byte notZero = 0;
+				byte[] thisLayer = new byte[19];
+				//...get its current column...
+				boolean[] layer = model.getCol(activeLayers.get(x));
+				//...add any active notes to the current inner array.. 
+				for(byte y=0; y<layer.length; y++){
+					if(layer[y]){
+						thisLayer[y + 3] = (byte) (y + 50);
+						notZero++;
+					} else {
+						thisLayer[y + 3] = 0;
+					}
+				}
+				//...discard unused columns and resize the inner arrays...
+				if(notZero > 0){
+					usedColumns.add(x);
+					layers[x] = new byte[notZero + 3];
+					//[Channel, Instrument, Velocity, Note, Note, Note...]
+					short instrument = model.getInstrument(activeLayers.get(x));
+					
+					// TODO josh. Move these to other methods
+					//TODO josh. Sprinkle some error checking throughout this code
+					//TODO josh. Error checking whilst creating or error checking before .play() is called
+					//TODO josh. Close but no cigar .... so so close 
+	//TODO josh. Error checking sprinkled throughout or all in one place???
+					if(instrument < 128){
+						layers[x][0] = 0;
+					} else {
+						layers[x][0] = 9;
+						instrument = (byte)(instrument - 94);
+					}
+					layers[x][1] = (byte) instrument;
+					layers[x][2] = model.getVelocity(activeLayers.get(x));
+					layers[x][0] = model.getChannel(activeLayers.get(x)); //TODO wrong!
+					byte count = 3;
+					for(byte y = 0; y < thisLayer.length; y ++){
+						if(thisLayer[y] != 0){
+							layers[x][count] = thisLayer[y];
+							count++;
+						} 
+					}
+				}
+			}
+			//comment
+			byte[][] toBePlayed = new byte[usedColumns.size()][];
+			for (byte i=0; i<usedColumns.size(); i++){
+				toBePlayed[i] = layers[usedColumns.get(i)];
+			}
+					
+			return toBePlayed;
+		}
 		
 		
 		@Override
