@@ -1,5 +1,7 @@
 package simori;
 
+import java.io.File;
+
 import javax.sound.midi.MidiUnavailableException;
 
 import simori.SwingGui.SimoriJFrame;
@@ -33,8 +35,9 @@ public class Simori {
 		Clock clock = new Clock(modes, model, player);
 		modes.setComponentsToPowerToggle(model, clock, player);
 		gui.setVisible(true);
+		
+		System.out.println(new File(".").getAbsolutePath());
 	}
-	
 	
 	/**
 	 * @author Josh
