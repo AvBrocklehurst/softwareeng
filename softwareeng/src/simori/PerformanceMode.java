@@ -74,7 +74,7 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 		grid[5][col] = true;
 		grid[10][col] = true;   
 		grid[15][col] = true;	//positions of buttons due to the clock, forcing them to light on tick
-		getGui().setGrid(grid); //FIXME: Mode may have changed! (Without this being deconstructed yet)
+		getGui().setGrid(grid);
 	}
 	
 	/**

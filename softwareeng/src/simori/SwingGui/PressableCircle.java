@@ -110,11 +110,6 @@ public class PressableCircle extends JComponent implements MouseListener {
 			pushed = false;
 			repaint(); //Redraw, no longer with 'IN' colour
 		}
-		/*
-		 * FIXME Very hard to notice, but buttons won't redraw as no
-		 * 		 longer pressed if they're the last of a click and drag
-		 * TODO  May as well have the panel call this method on the last LED pressed when the mouse is released
-		 */
 	}
 	
 	/** Informs the registered {@link OnPressListener} of a press */

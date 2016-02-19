@@ -77,9 +77,5 @@ public class Led extends PressableCircle {
 	public void mouseReleased(MouseEvent e) {
 		mouseDown = false;
 		super.mouseReleased(e);
-		/*
-		 * FIXME Very hard to notice, but buttons won't redraw as no
-		 * 		 longer pressed if they're the last of a click and drag
-		 */
 	}
 }
