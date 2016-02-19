@@ -13,7 +13,7 @@ import simori.Simori.PowerTogglable;
 	 * Class implementing Runnable which keeps track of the current tempo and plays notes which are currently active
 	 * @author Jurek
 	 * @author Adam
-	 * @version 1.3.1
+	 * @version 1.3.2
 	 * @see run()
 	 */
 	//TODO error checking for midi.play(layers)
