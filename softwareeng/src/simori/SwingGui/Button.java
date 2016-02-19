@@ -22,7 +22,7 @@ public class Button extends PressableCircle {
 	}
 	
 	private void drawText(Graphics g) {
-		g.setFont(GuiProperties.FONT);
+		g.setFont(GuiProperties.getFont());
 		g.setColor(GuiProperties.BUTTON_TEXT);
 		if (resized) updateSize(g);
 		g.drawString(text, textX, textY);

@@ -10,6 +10,7 @@ import static simori.FunctionButton.R1;
 import static simori.FunctionButton.R2;
 import static simori.FunctionButton.R3;
 import static simori.FunctionButton.R4;
+import static simori.SwingGui.GuiProperties.SCREEN_PROPORTION;
 
 import java.awt.BorderLayout;
 import java.awt.Cursor;
@@ -128,16 +129,10 @@ public class SimoriJFrame extends JFrame implements SimoriGui, MouseMotionListen
 	
 	private void calculateDimensions() {
 		Dimension s = getToolkit().getScreenSize();
-		s.width = s.height = Math.min(s.width, s.height) + 2; //FIXME hardcoded ratios!
-		simoriSize = ratioOf(0.8f, 0.8f, s);
-		sideBarSize = ratioOf(0.1f, 0.8f, simoriSize);
-		topBarSize = ratioOf(1f, 0.1f, simoriSize);
-	}
-	
-	private Dimension ratioOf(float x, float y, Dimension original) {
-		float w = (float) original.width * x;
-		float h = (float) original.height * y;
-		return new Dimension((int) w, (int) h);
+		s.width = s.height = Math.min(s.width, s.height) + 2;
+		simoriSize = GuiProperties.ratioOf(SCREEN_PROPORTION, SCREEN_PROPORTION, s);
+		sideBarSize = GuiProperties.ratioOf(0.1f, 0.8f, simoriSize);
+		topBarSize = GuiProperties.ratioOf(1f, 0.1f, simoriSize);
 	}
 	
 	private void makeComponents() {

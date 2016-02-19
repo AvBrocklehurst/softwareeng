@@ -11,6 +11,7 @@ public class ChangerMode extends Mode {
 	private ModeController controller;
 	private Changer changer;
 	private boolean hLine, vLine;
+	private int rows, columns;
 	
 	public ChangerMode(ModeController controller, Changer changer,
 			boolean verticalLine, boolean horizontalLine) {
@@ -19,10 +20,13 @@ public class ChangerMode extends Mode {
 		this.changer = changer;
 		this.hLine = horizontalLine;
 		this.vLine = verticalLine;
+		boolean[][] grid = getModel().getGrid(getDisplayLayer());
+		rows = grid.length;
+		columns = grid[0].length;
 	};
 	
 	private void drawSelector(int x, int y) {
-		boolean[][] grid = new boolean[16][16]; //FIXME hardcoded 16s
+		boolean[][] grid = new boolean[rows][columns];
 		if (vLine) addVerticalLineTo(grid, x);
 		if (hLine) addHorizontalLineTo(grid, y);
 		getGui().setGrid(grid);
