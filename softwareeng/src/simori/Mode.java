@@ -339,15 +339,15 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 	 */
 	private short coordsConverter(int x, int y){
 		
-		short counter = 0;
-		
-		while(x != 0){
-			x--;
-			counter = (short) (counter + 16); //from moving row to row we add 16 to the short, each row is 0-15 buttons
-		}
+		short counter = 1;
 		
 		while(y != 0){
 			y--;
+			counter = (short) (counter + 16); //from moving row to row we add 16 to the short, each row is 0-15 buttons
+		}
+		
+		while(x != 0){
+			x--;
 			counter = (short) (counter + 1); //from moving column we add 1 to the short as each new button is one new instrument
 		}
 		
