@@ -45,7 +45,6 @@ import simori.Simori.PowerTogglable;
 
 
 public class Clock implements Runnable, PowerTogglable {
-		private boolean running = true; // TODO . Should be instantiated in constructor, not here
 		private MatrixModel model;
 		private MIDIPlayer midi;
 		private Object lock; //TODO WHAT IS LOCK?????? WHY DO WE GET aN ObJeCt??/
@@ -85,7 +84,7 @@ public class Clock implements Runnable, PowerTogglable {
 			//starts a secondary thread to keep track of the tempo
 			startTimer();
 			
-			while(running){
+			while(true){
 				List<Byte> activeLayers = model.getLayers();
 				byte[][] layers = new byte[activeLayers.size()][];
 				ArrayList<Byte> usedColumns = new ArrayList<Byte>();
@@ -150,7 +149,10 @@ public class Clock implements Runnable, PowerTogglable {
 				}
 				//...and send a play request to the MIDIPlayer
 				//if MIDIPlayer throws an error, print it out and stop the JVM
-				try {midi.play(toBePlayed);} catch (InvalidMidiDataException e1) {e1.printStackTrace(); System.exit(1);}
+				if(!Thread.interrupted()) {
+				try {midi.play(toBePlayed);}
+				catch (InvalidMidiDataException e1) {e1.printStackTrace(); System.exit(1);}
+				} else {break;}
 				
 				//turn the lights on the current column
 				modes.tickThrough(model.getCurrentColumn());
@@ -188,13 +190,12 @@ public class Clock implements Runnable, PowerTogglable {
 		
 		@Override
 		public void switchOn() {
-			running = true;
 			new Thread(this).start();
 		}
 
 		@Override
 		public void switchOff() {
-			running = false;
+			Thread.currentThread().interrupt();
 			timer.cancel();
 		}
 }
