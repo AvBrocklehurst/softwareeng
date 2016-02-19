@@ -119,9 +119,9 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 			 * @version 1.0.0
 			 */
 			@Override
-			public String getText(int x, int y) {
-				selectedLayer = y;
-				return String.valueOf(y);   //return the selected layer as a String
+			public String getText(Setting s) {
+				selectedLayer = s.getY();
+				return String.valueOf(s.getY());   //return the selected layer as a String
 			}
 			
 			/**
@@ -141,8 +141,7 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 
 			@Override
 			public Setting getCurrentSetting() {
-				// TODO Auto-generated method stub
-				return null;
+				return null;  //Unless spec allows drawing initial setting on entering mode
 			}
 		};
 	}
@@ -161,9 +160,9 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 			private int selectedColumn;
 			
 			@Override
-			public String getText(int x, int y) {
-				selectedColumn = x;
-				return String.valueOf(x);
+			public String getText(Setting s) {
+				selectedColumn = s.getX();
+				return String.valueOf(s.getX());
 			}
 			
 			@Override
@@ -174,8 +173,7 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 
 			@Override
 			public Setting getCurrentSetting() {
-				// TODO Auto-generated method stub
-				return null;
+				return null; //Unless spec allows drawing initial setting on entering mode
 			}
 		};
 	}
@@ -198,16 +196,15 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 			 * A method which overrides the interface method in order to
 			 * display the selected instrument to the LCD screen.
 			 * 
-			 * @param x  coordinate of the button press
-			 * @param y  coordinate of the button press
+			 * @param s  coordinates of the button press
 			 * @author James
 			 * @see Changer.getText(), InstrumentNamer.getInstance(), coordsConverter(), InstrumentNamer.getName()
 			 * @version 1.0.1
 			 */
 			@Override
-			public String getText(int x, int y) {
-				InstrumentNamer in = InstrumentNamer.getInstance();  //singleton class
-				instrumentNumber = coordsConverter(x, y); //translate coordinates to short
+			public String getText(Setting s) {
+				InstrumentNamer in = InstrumentNamer.getInstance();     //singleton class
+				instrumentNumber = coordsConverter(s.getX(), s.getY()); //translate coordinates to short
 				return in.getName(instrumentNumber);
 			}
 			
@@ -228,10 +225,8 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 
 			@Override
 			public Setting getCurrentSetting() {
-				// TODO Auto-generated method stub
-				return null;
+				return null; //Unless spec allows drawing initial setting on entering mode
 			}
-			
 		};
 	}
 	
@@ -253,15 +248,14 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 			 * A method which overrides the interface method in order to
 			 * display the selected velocity to the LCD screen.
 			 * 
-			 * @param x  x coordinate of the button press
-			 * @param y  y coordinate of the button press
+			 * @param s  coordinates of the button press
 			 * @author James
 			 * @see Changer.getText(), coordsConverter(), java.lang.String.valueOf()
 			 * @version 1.0.0
 			 */
 			@Override
-			public String getText(int x, int y) {
-				selectedVelocity = coordsConverter(x, y);
+			public String getText(Setting s) {
+				selectedVelocity = coordsConverter(s.getX(), s.getY());
 				return String.valueOf(selectedVelocity);
 			}
 			
@@ -282,10 +276,8 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 
 			@Override
 			public Setting getCurrentSetting() {
-				// TODO Auto-generated method stub
-				return null;
+				return null; //Unless spec allows drawing initial setting on entering mode
 			}
-			
 		};
 	}
 	
@@ -302,13 +294,13 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 			private int selectedTempo;
 			
 			@Override
-			public String getText(int x, int y) {
-				if(y==0) {
-					selectedTempo = x;
-					return String.valueOf(x);
+			public String getText(Setting s) {
+				if(s.getY()==0) {
+					selectedTempo = s.getX();
+					return String.valueOf(s.getX());
 				} else {
 					//TODO need to figure how to make it 0-160 exactly. currently it matches the picture example(what with 57 where it was)
-					selectedTempo = 15 + 16*(y-1) + x;
+					selectedTempo = 15 + 16*(s.getY()-1) + s.getX();
 					return String.valueOf(selectedTempo);
 				}
 			}
@@ -321,10 +313,8 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 
 			@Override
 			public Setting getCurrentSetting() {
-				// TODO Auto-generated method stub
-				return null;
+				return null; //Unless spec allows drawing initial setting on entering mode
 			}
-			
 		};
 	}
 	
