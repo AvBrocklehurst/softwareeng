@@ -8,7 +8,6 @@ import javax.sound.midi.MidiUnavailableException;
 import javax.sound.midi.Receiver;
 import javax.sound.midi.ShortMessage;
 import javax.sound.midi.Synthesizer;
-import javax.swing.text.StyledEditorKit.ForegroundAction;
 
 import simori.Simori.PowerTogglable;
 
