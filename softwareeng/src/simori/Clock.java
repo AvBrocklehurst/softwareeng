@@ -143,7 +143,10 @@ public class Clock implements Runnable, PowerTogglable {
 				}, 0, (long)((1f/(bpm/60f))*1000f));
 		}
 		
-		
+		/**
+		 * @author Adam
+		 * @return
+		 */
 		public byte[][] getNotes(){
 			List<Byte> activeLayers = model.getLayers();
 			byte[][] layers = new byte[activeLayers.size()][];
