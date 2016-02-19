@@ -113,8 +113,15 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 		return grid;
 	}
 	
+	/**
+	 * Pushes the pattern and clock position for the current layer to the GUI.
+	 * @author Matt
+	 * @version 2.0.0
+	 */
 	@Override
 	public void setInitialGrid() {
-		getGui().setGrid(grid);
+		try {
+			tickerLight(getModel().getCurrentColumn());
+		} catch (InvalidCoordinatesException e) {}
 	}
 }
