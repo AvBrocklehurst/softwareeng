@@ -22,8 +22,7 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 	 * at a loopspeed to a certain looppoint. Notes are played depending on the
 	 * layer. They are played with a certain voice and at a certain velocity.
 	 * 
-	 * @param loopspeed
-	 * @param looppoint
+	 * @param controller  The current ModeController
 	 * @author James
 	 * @version 1.2.0
 	 * @see makeGridCopy()
@@ -37,7 +36,7 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 	 * When a grid button is pressed in Performance mode, this method updates the current 
 	 * layer by inverting the true/false value at the coordinates of press in the Grid.
 	 * 
-	 * @param e (A GridButtonEvent)
+	 * @param e  The GridButtonEvent to update the simori with buttons to be lit.
 	 * @author James
 	 * @see SimoriGuiEvents$GridButtonEvent, SimoriGuiEvents.GridButtonListener, Layer.updateButton, SimoriGui.setGrid
 	 * @see GridButtonEvent.getX(), GridButtonEvent.getY(), GridButtonEvent.getSource()
@@ -60,7 +59,7 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 	 * clock. Modifies the layer with the buttons needed. Whole layer can be
 	 * obtained from getCurrentLayer().
 	 * 
-	 * @param col
+	 * @param col  The column of the buttons to invert
 	 * @author James
 	 * @throws InvalidCoordinatesException
 	 * @see simori.Exceptions.InvalidCoordinatesException, makeGridCopy(), Simori.getGui(), SimoriGui.setGrid()
@@ -83,7 +82,7 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 	 * are copied into the new grid.
 	 * 
 	 * @author James
-	 * @param layno
+	 * @param layno   The layer to copy
 	 * @version 1.1.2
 	 * @see Simori.getModel(), MatrixModel.getGrid(), System.arraycopy()
 	 */
