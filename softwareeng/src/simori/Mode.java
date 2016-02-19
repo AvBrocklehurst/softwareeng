@@ -51,6 +51,8 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 	 * Gets the function button pressed and the source Gui and then
 	 * changes the current mode based on a specified FunctionButton.
 	 * 
+	 * @param e  A FunctionButtonEvent representing the press of a function button to switch
+	 * mode or switch it on
 	 * @author James
 	 * @version 1.0.1
 	 * @see FunctionButton.getFunctionButton(), SimoriGui.getSource(), SimoriGui.setMode()
@@ -110,8 +112,8 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 			 * A method which overrides the interface method in order to
 			 * display the selected layer to the LCD screen.
 			 * 
-			 * @param x
-			 * @param y
+			 * @param x  x coordinate of a button press
+			 * @param y  y coordinate of a button press
 			 * @author James
 			 * @see Changer.getText(), java.lang.String.valueOf()
 			 * @version 1.0.0
@@ -126,7 +128,7 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 			 * A method which overrides the interface method in order to
 			 * set the current layer to the layer selected.
 			 * 
-			 * @param controller
+			 * @param controller   The current ModeController
 			 * @author James
 			 * @see Changer.doThingTo(), ModeController.setDisplayLayer()
 			 * @version 1.1.0
@@ -196,8 +198,8 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 			 * A method which overrides the interface method in order to
 			 * display the selected instrument to the LCD screen.
 			 * 
-			 * @param x
-			 * @param y
+			 * @param x  coordinate of the button press
+			 * @param y  coordinate of the button press
 			 * @author James
 			 * @see Changer.getText(), InstrumentNamer.getInstance(), coordsConverter(), InstrumentNamer.getName()
 			 * @version 1.0.1
@@ -213,7 +215,7 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 			 * A method which overrides the interface method in order to
 			 * set the current instrument to the instrument selected.
 			 * 
-			 * @param controller
+			 * @param controller  The current ModeController
 			 * @author James
 			 * @see Changer.doThingTo(), ModeController.getModel(), MatrixModel.setInstrument(), Mode.getDisplayLayer()
 			 * @version 1.1.0
@@ -251,8 +253,8 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 			 * A method which overrides the interface method in order to
 			 * display the selected velocity to the LCD screen.
 			 * 
-			 * @param x
-			 * @param y
+			 * @param x  x coordinate of the button press
+			 * @param y  y coordinate of the button press
 			 * @author James
 			 * @see Changer.getText(), coordsConverter(), java.lang.String.valueOf()
 			 * @version 1.0.0
@@ -267,7 +269,7 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 			 * A method which overrides the interface method in order to
 			 * set the current velocity to the velocity selected.
 			 * 
-			 * @param controller
+			 * @param controller  The current ModeController
 			 * @author James
 			 * @see Changer.doThingTo(), ModeController.getModel(), MatrixModel.setVelocity(), Mode.getDisplayLayer()
 			 * @version 1.0.0
@@ -331,8 +333,8 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 	 * translates input into a short representing an instrument to be passed
 	 * into appropriate setter methods upon changing mode.
 	 * 
-	 * @param x
-	 * @param y
+	 * @param x  x coordinates of the button press
+	 * @param y  y coordinates of the button press
 	 * @author James
 	 * @return short
 	 * @version 1.1.0

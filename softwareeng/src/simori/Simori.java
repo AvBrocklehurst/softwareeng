@@ -19,6 +19,18 @@ public class Simori {
 	
 	private static final int GRID_WIDTH = 16, GRID_HEIGHT = 16;
 	
+	/**
+	 * The main method to run the whole Simori system. If midi is unavailable
+	 * an exception is caught.
+	 * 
+	 * @author Adam
+	 * @author James
+	 * @author Josh
+	 * @author Jurek
+	 * @author Matt
+	 * @param args
+	 * @version 1.0.0
+	 */
 	public static void main(String[] args) {
 		try {
 			new Simori();
@@ -27,6 +39,17 @@ public class Simori {
 		}
 	}
 	
+	/**
+	 * Constructs an instance of a Simori. 
+	 * 
+	 * @author Adam
+	 * @author James
+	 * @author Josh
+	 * @author Jurek
+	 * @author Matt
+	 * @version Someone clever insert a version here!
+	 * @throws MidiUnavailableException
+	 */
 	public Simori() throws MidiUnavailableException {
 		MatrixModel model = new MatrixModel(GRID_WIDTH, GRID_HEIGHT);
 		SimoriJFrame gui = new SimoriJFrame(GRID_WIDTH, GRID_HEIGHT);
@@ -35,8 +58,6 @@ public class Simori {
 		Clock clock = new Clock(modes, model, player);
 		modes.setComponentsToPowerToggle(model, clock, player);
 		gui.setVisible(true);
-		
-		System.out.println(new File(".").getAbsolutePath());
 	}
 	
 	/**
