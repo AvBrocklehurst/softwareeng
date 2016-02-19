@@ -102,6 +102,7 @@ public class Clock implements Runnable, PowerTogglable {
 						//TODO josh. Sprinkle some error checking throughout this code
 						//TODO josh. Error checking whilst creating or error checking before .play() is called
 						//TODO josh. Close but no cigar .... so so close 
+		//TODO josh. Error checking sprinkled throughout or all in one place???
 						if(instrument < 128){
 							layers[x][0] = 0;
 						} else {
