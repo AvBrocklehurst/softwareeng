@@ -27,6 +27,9 @@ import simori.Simori.PowerTogglable;
 //TODO KERRRY OMG SPLIT THIS UP INTO METHODS.
 
 
+
+
+
 public class Clock implements Runnable, PowerTogglable {
 		private boolean running = true;
 		private MatrixModel model;
