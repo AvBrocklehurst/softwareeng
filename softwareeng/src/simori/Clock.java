@@ -144,10 +144,10 @@ public class Clock implements Runnable, PowerTogglable {
 				model.incrementColumn();
 				//check if tempo changed, if so restart the timer thread with the new bpm
 				if(model.getBPM()!=bpm){
-					timer.cancel();
 					bpm = model.getBPM();
 					startTimer();
 				}
+				System.out.println(bpm);
 			}
 		}
 		
@@ -157,6 +157,7 @@ public class Clock implements Runnable, PowerTogglable {
 		 * @author Jurek
 		 */
 		private void startTimer(){
+			try{timer.cancel();} catch(Exception e){}
 			timer = new Timer();
 			timer.scheduleAtFixedRate(new TimerTask() {
 				  @Override
@@ -168,6 +169,8 @@ public class Clock implements Runnable, PowerTogglable {
 				}, 0, (long)((1f/(bpm/60f))*1000f));
 		}
 		
+		
+		
 		@Override
 		public void switchOn() {
 			running = true;
@@ -177,6 +180,6 @@ public class Clock implements Runnable, PowerTogglable {
 		@Override
 		public void switchOff() {
 			running = false;
-			timerTask.cancel();
+			timer.cancel();
 		}
 }
