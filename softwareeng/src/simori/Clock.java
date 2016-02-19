@@ -34,7 +34,7 @@ public class Clock implements Runnable, PowerTogglable {
 		private boolean running = true; // TODO . Should be instantiated in constructor, not here
 		private MatrixModel model;
 		private MIDIPlayer midi;
-		private Object lock;
+		private Object lock; //TODO WHAT IS LOCK?????? WHY DO WE GET aN ObJeCt??/
 		private TimerTask timerTask;
 		private ModeController modes;
 		private Timer timer;
