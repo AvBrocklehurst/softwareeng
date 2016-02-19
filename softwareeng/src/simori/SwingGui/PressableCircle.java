@@ -1,7 +1,6 @@
 package simori.SwingGui;
 
 import java.awt.Color;
-import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Shape;
 import java.awt.event.ComponentAdapter;
@@ -9,6 +8,7 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.Ellipse2D;
+import java.util.ArrayList;
 
 import javax.swing.JComponent;
 
@@ -17,7 +17,7 @@ import simori.SwingGui.OnPressListenerMaker.OnPressListener;
 public class PressableCircle extends JComponent implements MouseListener {
 	
 	protected boolean pushed, mouseOver;	
-	private OnPressListenerMaker.OnPressListener listener;
+	private ArrayList<OnPressListener> listeners;
 	private Shape hitbox;
 	
 	public PressableCircle() {
@@ -29,6 +29,7 @@ public class PressableCircle extends JComponent implements MouseListener {
 			}
 		});
 		setCursor(GuiProperties.HAND_CURSOR);
+		listeners = new ArrayList<OnPressListener>();
 	}
 	
 	protected void resized() {
@@ -36,8 +37,12 @@ public class PressableCircle extends JComponent implements MouseListener {
 		setSize(min, min);
 	}
 	
-	public void setOnPressListener(OnPressListenerMaker.OnPressListener l) {
-		listener = l;
+	public void addOnPressListener(OnPressListener l) {
+		listeners.add(l);
+	}
+	
+	public boolean removeOnPressListener(OnPressListener l) {
+		return listeners.remove(l);
 	}
 	
 	protected Color getFillColour() {
@@ -108,11 +113,14 @@ public class PressableCircle extends JComponent implements MouseListener {
 		/*
 		 * FIXME Very hard to notice, but buttons won't redraw as no
 		 * 		 longer pressed if they're the last of a click and drag
+		 * TODO  May as well have the panel call this method on the last LED pressed when the mouse is released
 		 */
 	}
 	
 	/** Informs the registered {@link OnPressListener} of a press */
 	protected void pressed() {
-		if (listener != null) listener.onPress();
+		for (OnPressListener l : listeners) {
+			l.onPress(this);
+		}
 	}
 }

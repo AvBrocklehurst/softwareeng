@@ -15,7 +15,7 @@ public class OnPressListenerMaker {
 		
 	public OnPressListener getListener(final int x, final int y) {
 		return new OnPressListener() {
-			public void onPress() {
+			public void onPress(PressableCircle circle) {
 				try {
 					final GridButtonEvent e = new GridButtonEvent(gui, x, y);
 					gui.getGridButtonListener().onGridButtonPress(e);
@@ -27,7 +27,7 @@ public class OnPressListenerMaker {
 	public OnPressListener getListener(final FunctionButton btn) {
 		return new OnPressListener() {
 			@Override
-			public void onPress() {
+			public void onPress(PressableCircle circle) {
 				gui.getFunctionButtonListener().onFunctionButtonPress(
 						new FunctionButtonEvent(gui, btn));
 			}
@@ -35,6 +35,6 @@ public class OnPressListenerMaker {
 	}
 	
 	public interface OnPressListener {
-		public void onPress();
+		public void onPress(PressableCircle circle);
 	}
 }

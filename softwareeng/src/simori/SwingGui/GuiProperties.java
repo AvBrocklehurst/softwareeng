@@ -42,6 +42,7 @@ public class GuiProperties {
 	public static final Color BUTTON_TEXT = Color.BLACK;
 	public static final Color LCD_TEXT = Color.BLACK;
 	
+	public static final Cursor NORMAL_CURSOR = new Cursor(Cursor.DEFAULT_CURSOR);
 	public static final Cursor HAND_CURSOR = new Cursor(Cursor.HAND_CURSOR);
 	public static final Cursor MOVE_CURSOR = new Cursor(Cursor.MOVE_CURSOR);
 	

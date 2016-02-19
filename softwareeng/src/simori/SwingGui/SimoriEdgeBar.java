@@ -62,7 +62,7 @@ public class SimoriEdgeBar extends JPanel {
 		b.setText(fb.buttonName());
 		b.setToolTipText(fb.toolTip());
 		b.setAlignmentX(JComponent.CENTER_ALIGNMENT);
-		b.setOnPressListener(maker.getListener(fb));
+		b.addOnPressListener(maker.getListener(fb));
 		return b;
 	}
 	

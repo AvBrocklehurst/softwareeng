@@ -56,7 +56,7 @@ public class TestLed {
 				triggered = true;
 			}
 		};
-		led.setOnPressListener(testListener);
+		led.addOnPressListener(testListener);
 		triggered = false;
 	}
 	
@@ -167,7 +167,7 @@ public class TestLed {
 	 */
 	@Test
 	public void testNullListener() {
-		led.setOnPressListener(null);
+		led.addOnPressListener(null);
 		led.mouseEntered(mockEvent);
 		led.mousePressed(mockEvent);
 		assertFalse(triggered);
