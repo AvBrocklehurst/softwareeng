@@ -33,7 +33,7 @@ public class InstrumentNamer {
 		return map.get(num);
 	}
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) { 
 		System.out.println(InstrumentNamer.getInstance().getName(110));
 	}
 	

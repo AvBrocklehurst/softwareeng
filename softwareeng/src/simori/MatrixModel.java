@@ -149,6 +149,16 @@ public class MatrixModel implements Serializable, PowerTogglable {
 	}
 	
 	/**
+	 * Method to get the loopPoint of the simori.
+	 * @author Adam
+	 * @version 1.0.0
+	 * @return byte containing the loopPoint.
+	 */
+	public byte getLoopPoint(){
+		return this.loopPoint;
+	}
+	
+	/**
 	 * Method to get the th current column from a given layer.
 	 * @author Adam
 	 * @version 1.0.0
@@ -182,7 +192,19 @@ public class MatrixModel implements Serializable, PowerTogglable {
 	}
 	
 	/**
+	 * Method to set the loop point for the simori.
+	 * @author Adam.
+	 * @version 1.0.0
+	 * @param loopPoint  the byte containing the new looppoint.
+	 */
+	public void setLoopPoint(byte loopPoint){
+		this.loopPoint = loopPoint;
+	}
+	
+	/**
 	 * Method to set the instrument on a certain layer.
+	 * @author Adam.
+	 * @version 1.0.0
 	 * @param laynum      the layer to update
 	 * @param velocity    the value for velocity to be set to.
 	 */
@@ -193,6 +215,8 @@ public class MatrixModel implements Serializable, PowerTogglable {
 	
 	/**
 	 * Method to set the channel on a certain layer.
+	 * @author Adam.
+	 * @version 1.0.0
 	 * @param laynum      the layer to update
 	 * @param channel     the value for channel to be set to.
 	 */

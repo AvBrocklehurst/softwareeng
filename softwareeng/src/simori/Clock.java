@@ -76,7 +76,7 @@ public class Clock implements Runnable, PowerTogglable {
 				byte[][] layers = new byte[activeLayers.size()][];
 				ArrayList<Byte> usedColumns = new ArrayList<Byte>();
 				//using arrays with an array,
-				//for each generally active layer...
+				//for each generally active layer... 
 				for(byte x=0; x<(byte)activeLayers.size(); x++){
 					byte notZero = 0;
 					byte[] thisLayer = new byte[19];
