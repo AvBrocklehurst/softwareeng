@@ -168,7 +168,7 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 			
 			@Override
 			public boolean doThingTo(ModeController controller) {
-				controller.getModel().setLoop((byte)selectedColumn);
+				controller.getModel().setLoopPoint((byte)selectedColumn);
 				return true;
 			}
 
