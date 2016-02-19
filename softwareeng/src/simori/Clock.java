@@ -110,7 +110,7 @@ public class Clock implements Runnable, PowerTogglable {
 							instrument = (short)(instrument - 9000);
 						}
 						layers[x][2] = model.getVelocity(activeLayers.get(x));
-						layers[x][0] = model.getChannel(activeLayers.get(x));
+						layers[x][0] = model.getChannel(activeLayers.get(x)); //TODO wrong!
 						byte count = 3;
 						for(byte y = 0; y < thisLayer.length; y ++){
 							if(thisLayer[y] != 0){
