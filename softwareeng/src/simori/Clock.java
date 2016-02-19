@@ -45,6 +45,7 @@ import simori.Simori.PowerTogglable;
 
 
 public class Clock implements Runnable, PowerTogglable {
+		private boolean running;
 		private MatrixModel model;
 		private MIDIPlayer midi;
 		private Object lock; //TODO WHAT IS LOCK?????? WHY DO WE GET aN ObJeCt??/
@@ -62,6 +63,7 @@ public class Clock implements Runnable, PowerTogglable {
 		 * @param bbm Beats Per Minute; used to calculate the period
 		 */
 		public Clock(ModeController modes, MatrixModel model, MIDIPlayer midi){
+			running = true;
 			bpm = 88;
 			this.model = model;
 			this.midi = midi;
@@ -84,7 +86,7 @@ public class Clock implements Runnable, PowerTogglable {
 			//starts a secondary thread to keep track of the tempo
 			startTimer();
 			
-			while(true){
+			while(running){
 				List<Byte> activeLayers = model.getLayers();
 				byte[][] layers = new byte[activeLayers.size()][];
 				ArrayList<Byte> usedColumns = new ArrayList<Byte>();
@@ -145,14 +147,24 @@ public class Clock implements Runnable, PowerTogglable {
 				synchronized(lock){
 					try {
 						lock.wait();
-					} catch (InterruptedException e) {}
+					} catch (InterruptedException e) {
+						
+					}
 				}
 				//...and send a play request to the MIDIPlayer
 				//if MIDIPlayer throws an error, print it out and stop the JVM
-				if(!Thread.interrupted()) {
-				try {midi.play(toBePlayed);}
-				catch (InvalidMidiDataException e1) {e1.printStackTrace(); System.exit(1);}
-				} else {break;}
+				if(!Thread.interrupted() && running) {
+					try {
+						midi.play(toBePlayed);
+					}
+					catch (InvalidMidiDataException e1) {
+						e1.printStackTrace(); 
+						System.exit(1);
+						}
+				} else {
+					running = false; 
+					break;
+				}
 				
 				//turn the lights on the current column
 				modes.tickThrough(model.getCurrentColumn());
@@ -164,7 +176,7 @@ public class Clock implements Runnable, PowerTogglable {
 					bpm = model.getBPM();
 					startTimer();
 				}
-				System.out.println(bpm);
+			
 			}
 		}
 		
@@ -190,12 +202,21 @@ public class Clock implements Runnable, PowerTogglable {
 		
 		@Override
 		public void switchOn() {
+			running = true;
 			new Thread(this).start();
 		}
-
+		
+		
+		/**
+		 * @author Adam
+		 */
 		@Override
 		public void switchOff() {
+			running = false;
 			Thread.currentThread().interrupt();
+			synchronized(lock){
+				lock.notify();
+			}
 			timer.cancel();
 		}
 }

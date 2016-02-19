@@ -17,7 +17,7 @@ public class TestLayer {
 	Layer testlayer;
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		testlayer = new Layer(16, 16);
 	}
 
