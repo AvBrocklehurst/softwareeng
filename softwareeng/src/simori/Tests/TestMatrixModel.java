@@ -55,7 +55,7 @@ public class TestMatrixModel {
 	@Test
 	public void updateButtonTest() throws InvalidCoordinatesException{
 		model.updateButton((byte) 0, (byte)0, (byte)0);
-		assertEquals(true, model.getCol((byte)0, (byte)0)[0]);
+		assertEquals(true, model.getCol((byte)0)[0]);
 	}
 	
 	@Test

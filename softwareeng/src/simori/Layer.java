@@ -96,17 +96,6 @@ public class Layer implements Serializable {
 	}
 	
 	/**
-	 * Method to return the layer's loop point.
-	 * @author  Adam
-	 * @version 1.0.0
-	 * @return byte containing the value of the layers loop point 
-	 */
-	public byte getLoopPoint(){
-		return loopPoint;
-	}
-	
-	
-	/**
 	 * Method to set the instrument of that layer
 	 * @author  Adam
 	 * @version 1.0.0
