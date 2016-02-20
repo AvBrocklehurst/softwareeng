@@ -4,16 +4,35 @@ import java.util.EventObject;
 
 import simori.Exceptions.InvalidCoordinatesException;
 
+/**
+ * Interface setting out the constraints that any implementation
+ * of a graphical user interface for the Simori-ON must comply to.
+ * @author Matt
+ * @version 2.0.0
+ */
 public interface SimoriGui {
 	
+	/**
+	 * Sets the pattern of illuminated LEDs in the grid.
+	 * The on/off state of the LEDs will correspond to the locations
+	 * of true values in the given multidimensional boolean array.
+	 * @param grid The pattern to display in the LED grid
+	 */
 	public void setGrid(boolean[][] grid);
 	
+	/** Switches off all LEDs in the grid */
 	public void clearGrid();
 	
+	/**
+	 * Sets the text shown on the Simori-ON's LCD screen.
+	 * @param text String to display. May be null.
+	 */
 	public void setText(String text);
 	
+	/** Sets the listener to receive {@link GridButtonEvent}s */
 	public void setGridButtonListener(GridButtonListener l);
 	
+	/** Sets the listener to receive {@link FunctionButtonEvent}s */
 	public void setFunctionButtonListener(FunctionButtonListener l);
 	
 	/** Listener interface for {@link GridButtonEvent} */
