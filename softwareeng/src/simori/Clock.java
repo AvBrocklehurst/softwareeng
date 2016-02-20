@@ -116,19 +116,25 @@ public class Clock implements Runnable, PowerTogglable {
 				//advance to the next column
 				model.incrementColumn();
 				//check if tempo changed, if so restart the timer thread with the new bpm
-				if(model.getBPM()!=bpm){
-					timer.cancel();
-					if(model.getBPM()==0) System.out.println("BPM 0, waiting");
-					//busy waiting on bpm to becoming something else than 0
-					while(model.getBPM()==0) continue;
-					bpm = model.getBPM();
-					startTimer();
-				}
+				changeTempo();
 			}
 		}
 		
 		
 		
+		
+		
+		
+		private void changeTempo() {
+			if(model.getBPM()!=bpm){
+				timer.cancel();
+				if(model.getBPM()==0) System.out.println("BPM 0, waiting");
+				//busy waiting on bpm to becoming something else than 0
+				while(model.getBPM()==0) continue;
+				bpm = model.getBPM();
+				startTimer();
+			}
+		}
 		
 		
 		
