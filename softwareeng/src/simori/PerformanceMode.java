@@ -67,7 +67,7 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 	 */
 	@Override
 	public void tickerLight(byte col) throws InvalidCoordinatesException {
-		System.out.println(col);
+		
 		
 		makeGridCopy(getDisplayLayer());   //copy the grid
 		grid[0][col] = true;

@@ -20,12 +20,11 @@ public class ModeController {
 	}
 	
 	public void tickThrough(byte column) {
-		System.out.println(column);
-		System.out.println(mode.toString());
+
 		try {
 			mode.tickerLight(column);
 		} catch (InvalidCoordinatesException e) {
-			System.out.println("invalid");
+
 		}
 	}
 	
@@ -74,7 +73,7 @@ public class ModeController {
 		for (PowerTogglable t : toPowerToggle) {
 			t.switchOn();
 		}
-		on = true;
+		on = true;	
 		setMode(new PerformanceMode(this));
 	}
 	
