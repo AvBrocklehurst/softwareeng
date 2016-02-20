@@ -20,9 +20,13 @@ public class ModeController {
 	}
 	
 	public void tickThrough(byte column) {
+		System.out.println(column);
+		System.out.println(mode.toString());
 		try {
 			mode.tickerLight(column);
-		} catch (InvalidCoordinatesException e) {}
+		} catch (InvalidCoordinatesException e) {
+			System.out.println("invalid");
+		}
 	}
 	
 	public MatrixModel getModel() {

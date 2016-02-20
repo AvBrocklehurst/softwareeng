@@ -144,7 +144,7 @@ public class Clock implements Runnable, PowerTogglable {
 		}
 		
 		/**
-		 * @author Adam
+		 * @author Adam	
 		 * @return
 		 */
 		public byte[][] getNotes(){
