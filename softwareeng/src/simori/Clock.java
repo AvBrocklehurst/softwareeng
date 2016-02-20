@@ -97,26 +97,21 @@ public class Clock implements Runnable, PowerTogglable {
 				//TODO change so that the notes are got just before the notes are played, not at the beginning of the tick
 				//reach out for and process the notes
 				byte[][] toBePlayed = getNotes();
+				
 				//wait until the beat hits...
-				synchronized(lock){
-					try {
-						lock.wait();
-					} catch (InterruptedException e) {
-						
-					}
-				}
+				synchronized(lock){try{   lock.wait();   }catch(InterruptedException e){}}
+				
 				//...and send a play request to the MIDIPlayer...
 				//...assuming that the simori has not been turned off
 				//if MIDIPlayer throws an error, print it out and stop the JVM
-				if(running) try{System.out.println("Clock: ticking...");   midi.play(toBePlayed);   }catch(InvalidMidiDataException e1){e1.printStackTrace();System.exit(1);}
+				if(running) try{   midi.play(toBePlayed);   }catch(InvalidMidiDataException e1){e1.printStackTrace();System.exit(1);}
 				else break;
+				
 				//turn the lights on the current column
 				mode.tickThrough(model.getCurrentColumn());
 				
 				//advance to the next column
 				model.incrementColumn();
-				//check if tempo changed, if so restart the timer thread with the new bpm
-				changeTempo();
 			}
 		}
 		
@@ -124,11 +119,13 @@ public class Clock implements Runnable, PowerTogglable {
 		
 		
 		
-		
+		/**
+		 * @author Jurek
+		 * @version 1.0.0
+		 */
 		private void changeTempo() {
 			if(model.getBPM()!=bpm){
 				timer.cancel();
-				if(model.getBPM()==0) System.out.println("BPM 0, waiting");
 				//busy waiting on bpm to becoming something else than 0
 				while(model.getBPM()==0) continue;
 				bpm = model.getBPM();
@@ -152,13 +149,15 @@ public class Clock implements Runnable, PowerTogglable {
 		private void startTimer(){
 			timer = new Timer();
 			timer.scheduleAtFixedRate(new TimerTask() {
-				  @Override
-				  public void run() {
-					  synchronized(lock){
-						  lock.notify();
-					  }	
-				  }
-				}, 0, (long)((1f/(bpm/60f))*1000f));
+				@Override
+				public void run() {
+					//check if tempo changed, if so restart the timer thread with the new bpm
+					changeTempo();
+					synchronized(lock){
+						lock.notify();
+					}	
+				}
+			}, 0, (long)((1f/(bpm/60f))*1000f));
 		}
 		
 		
@@ -174,7 +173,6 @@ public class Clock implements Runnable, PowerTogglable {
 		 * @author Jurek
 		 * @author Adam
 		 * @version 1.0.1
-		 * @author Adam	
 		 * @return
 		 */
 		private byte[][] getNotes(){
@@ -245,7 +243,7 @@ public class Clock implements Runnable, PowerTogglable {
 		
 		
 		/**
-		 * @author Matt?
+		 * @author Matt
 		 * @version 1.0.0
 		 */
 		@Override
@@ -256,8 +254,9 @@ public class Clock implements Runnable, PowerTogglable {
 		
 		
 		/**
-		 * @author Matt?
+		 * @author Matt
 		 * @author Adam
+		 * @author Jurek
 		 * @version 1.0.1
 		 */
 		@Override
