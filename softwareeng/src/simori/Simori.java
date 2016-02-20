@@ -1,7 +1,5 @@
 package simori;
 
-import java.io.File;
-
 import javax.sound.midi.MidiUnavailableException;
 
 import simori.SwingGui.SimoriJFrame;
@@ -20,7 +18,7 @@ public class Simori {
 	private static final int GRID_WIDTH = 16, GRID_HEIGHT = 16;
 	
 	/**
-	 * The main method to run the whole Simori system. If midi is unavailable
+	 * The main method to run the whole Simori system. If MIDI is unavailable
 	 * an exception is caught.
 	 * 
 	 * @author Adam
@@ -29,7 +27,7 @@ public class Simori {
 	 * @author Jurek
 	 * @author Matt
 	 * @param args
-	 * @version 1.0.0
+	 * @version 3.0.0
 	 */
 	public static void main(String[] args) {
 		try {
@@ -47,7 +45,7 @@ public class Simori {
 	 * @author Josh
 	 * @author Jurek
 	 * @author Matt
-	 * @version Someone clever insert a version here!
+	 * @version 2.0.0
 	 * @throws MidiUnavailableException
 	 */
 	public Simori() throws MidiUnavailableException {
