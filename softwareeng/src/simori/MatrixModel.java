@@ -13,11 +13,12 @@ import simori.Exceptions.InvalidCoordinatesException;
  * <p> 
  *
  * @author  Adam
- * @version 1.2.0
+ * @author  Jurek
+ * @version 1.2.1
  */
 public class MatrixModel implements Serializable, PowerTogglable {
 	private Layer[] layers;
-	private short BPM;
+	private volatile short BPM;
 	private int height;
 	private int width;
 	private byte loopPoint;
@@ -110,6 +111,7 @@ public class MatrixModel implements Serializable, PowerTogglable {
 	 */
 	public void setBPM(short newBPM){
 		BPM = newBPM;
+		System.out.println("Model's BPM: " + BPM);
 	}
 	
 	/**

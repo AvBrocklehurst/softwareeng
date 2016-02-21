@@ -27,7 +27,7 @@ import simori.Simori.PowerTogglable;
 	 * Class implementing Runnable which keeps track of the current tempo and plays notes which are currently active
 	 * @author Jurek
 	 * @author Adam
-	 * @version 1.3.2
+	 * @version 1.4.0
 	 * @see run()
 	 */
 	//TODO error checking for midi.play(layers)
@@ -48,16 +48,15 @@ public class Clock implements Runnable, PowerTogglable {
 		private boolean running;
 		private MatrixModel model;
 		private MIDIPlayer midi;
-		private Object lock; //TODO WHAT IS LOCK?????? WHY DO WE GET aN ObJeCt??/
-		private TimerTask timerTask;
-		private ModeController modes;
+		private Object lock;
+		private ModeController mode;
 		private Timer timer;
 		private short bpm;
 		
 		/**
 		 * Constructor for the class
 		 * @author Jurek
-		 * @version 1.0.5
+		 * @version 1.0.6
 		 * @param model Holds the reference to the MatrixModel
 		 * @param midi Holds the reference to the MIDIPlayer
 		 * @param bbm Beats Per Minute; used to calculate the period
@@ -67,10 +66,18 @@ public class Clock implements Runnable, PowerTogglable {
 			bpm = 88;
 			this.model = model;
 			this.midi = midi;
-			this.modes = modes;
+			this.mode = modes;
 			lock = new Object();
 		}
 	
+		
+		
+		
+		
+		
+		
+		
+		
 		/**
 		 * The thread method for running the clock
 		 * First sets up a timer, before entering the proper thread loop, where it
@@ -78,76 +85,97 @@ public class Clock implements Runnable, PowerTogglable {
 		 * to the MIDIPlayer to be played. Highlights the current column on the GUI using
 		 * the mode.
 		 * @author Jurek
-		 * @author Adam
-		 * @version 1.3.1
+		 * @version 1.4.0
 		 */
 		@Override
 		public void run() {
 			//starts a secondary thread to keep track of the tempo
 			startTimer();
 			
+			//start the thread loop
 			while(running){
+				//TODO change so that the notes are got just before the notes are played, not at the beginning of the tick
+				//reach out for and process the notes
 				byte[][] toBePlayed = getNotes();
+				
 				//wait until the beat hits...
-				synchronized(lock){
-					try {
-						lock.wait();
-					} catch (InterruptedException e) {
-						
-					}
-				}
-				//...and send a play request to the MIDIPlayer
+				synchronized(lock){try{   lock.wait();   }catch(InterruptedException e){}}
+				
+				//...and send a play request to the MIDIPlayer...
+				//...assuming that the simori has not been turned off
 				//if MIDIPlayer throws an error, print it out and stop the JVM
-				if(!Thread.interrupted() && running) {
-					try {
-						midi.play(toBePlayed);
-					}
-					catch (InvalidMidiDataException e1) {
-						e1.printStackTrace(); 
-						System.exit(1);
-						}
-				} else {
-					running = false; 
-					break;
-				}
+				if(running) try{   midi.play(toBePlayed);   }catch(InvalidMidiDataException e1){e1.printStackTrace();System.exit(1);}
+				else break;
 				
 				//turn the lights on the current column
-				modes.tickThrough(model.getCurrentColumn());
+				mode.tickThrough(model.getCurrentColumn());
 				
 				//advance to the next column
 				model.incrementColumn();
-				//check if tempo changed, if so restart the timer thread with the new bpm
-				if(model.getBPM()!=bpm){
-					bpm = model.getBPM();
-					startTimer();
-				}
-			
 			}
 		}
 		
+		
+		
+		
+		
+		/**
+		 * @author Jurek
+		 * @version 1.0.0
+		 */
+		private void changeTempo() {
+			if(model.getBPM()!=bpm){
+				timer.cancel();
+				//busy waiting on bpm to becoming something else than 0
+				while(model.getBPM()==0) continue;
+				bpm = model.getBPM();
+				startTimer();
+			}
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		/**
 		 * Starts the timer thread that keeps track of the tempo
-		 * @version 1.0.0
+		 * @version 1.0.1
 		 * @author Jurek
 		 */
 		private void startTimer(){
-			try{timer.cancel();} catch(Exception e){}
 			timer = new Timer();
 			timer.scheduleAtFixedRate(new TimerTask() {
-				  @Override
-				  public void run() {
-					  synchronized(lock){
-						  lock.notify();
-					  }	
-				  }
-				}, 0, (long)((1f/(bpm/60f))*1000f));
+				@Override
+				public void run() {
+					//check if tempo changed, if so restart the timer thread with the new bpm
+					changeTempo();
+					synchronized(lock){
+						lock.notify();
+					}	
+				}
+			}, 0, (long)((1f/(bpm/60f))*1000f));
 		}
 		
+		
+		
+		
+		
+		
+		
+		
+		
 		/**
-		 * @author Adam	
+		 * 
+		 * @author Jurek
+		 * @author Adam
+		 * @version 1.0.1
 		 * @return
 		 */
-		public byte[][] getNotes(){
+		private byte[][] getNotes(){
 			List<Byte> activeLayers = model.getLayers();
 			byte[][] layers = new byte[activeLayers.size()][];
 			ArrayList<Byte> usedColumns = new ArrayList<Byte>();
@@ -178,7 +206,7 @@ public class Clock implements Runnable, PowerTogglable {
 					//TODO josh. Sprinkle some error checking throughout this code
 					//TODO josh. Error checking whilst creating or error checking before .play() is called
 					//TODO josh. Close but no cigar .... so so close 
-	//TODO josh. Error checking sprinkled throughout or all in one place???
+					//TODO josh. Error checking sprinkled throughout or all in one place???
 					if(instrument < 128){
 						layers[x][0] = 0;
 					} else {
@@ -207,6 +235,17 @@ public class Clock implements Runnable, PowerTogglable {
 		}
 		
 		
+		
+		
+		
+		
+		
+		
+		
+		/**
+		 * @author Matt
+		 * @version 1.0.0
+		 */
 		@Override
 		public void switchOn() {
 			running = true;
@@ -215,15 +254,15 @@ public class Clock implements Runnable, PowerTogglable {
 		
 		
 		/**
+		 * @author Matt
 		 * @author Adam
+		 * @author Jurek
+		 * @version 1.0.1
 		 */
 		@Override
 		public void switchOff() {
 			running = false;
-			Thread.currentThread().interrupt();
-			synchronized(lock){
-				lock.notify();
-			}
+			synchronized(lock){lock.notify();}
 			timer.cancel();
 		}
 }
