@@ -14,7 +14,7 @@ import simori.MIDISoundPlayer;
 
 /**
  * @author Josh
- * @version 1.0.0
+ * @version 2.0.1
  * {@link simori.MIDIPlayer}
  * {@link simori.MIDISoundPlayer}
  * 
