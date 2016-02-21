@@ -17,6 +17,7 @@ import org.junit.runners.Suite;
    TestMatrixModel.class,
    TestMIDISoundPlayer.class,
    TestPerformanceMode.class,
+   TestInstrumentNamer.class,
 })
 
 public class TestSuite {}  
