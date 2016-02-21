@@ -1,6 +1,6 @@
 package simori.Tests;
 
-import simori.SimoriGuiEvents.GridButtonEvent;
+import simori.SimoriGui.GridButtonEvent;
 
 /**
  * A Mock object of GridButtonEvent. A Mock is needed

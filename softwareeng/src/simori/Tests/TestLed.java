@@ -53,7 +53,7 @@ public class TestLed {
 		testListener = new OnPressListener() {
 			@Override
 			public void onPress() {
-				triggered = true;
+				triggered = true;    //i was triggered by this code
 			}
 		};
 		led.addOnPressListener(testListener);
