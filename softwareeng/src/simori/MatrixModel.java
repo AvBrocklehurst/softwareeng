@@ -111,7 +111,6 @@ public class MatrixModel implements Serializable, PowerTogglable {
 	 */
 	public void setBPM(short newBPM){
 		BPM = newBPM;
-		System.out.println("Model's BPM: " + BPM);
 	}
 	
 	/**

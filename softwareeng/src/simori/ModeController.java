@@ -85,4 +85,31 @@ public class ModeController {
 			t.switchOff();
 		}
 	}
+	
+	/*
+	 * Kerry lands
+	 * Abandon all hope ye who enter here
+	 */
+	private Object bpmLock;
+	
+	/**
+	 * Sets the bpmLock used to notify the clock about the bpm changes
+	 * @author Jurek
+	 * @version 1.0.0
+	 * @param bpmLock
+	 */
+	public void setBpmLock(Object bpmLock) {
+		this.bpmLock = bpmLock;
+	}
+	
+	/**
+	 * Notifies clock about the bpm change
+	 * @author Jurek
+	 * @version 1.0.0
+	 */
+	public void notifyClock() {
+		synchronized(bpmLock){
+			bpmLock.notify();
+		}
+	}
 }

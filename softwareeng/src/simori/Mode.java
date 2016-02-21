@@ -308,6 +308,7 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 			@Override
 			public boolean doThingTo(ModeController controller) {
 				controller.getModel().setBPM((short)selectedTempo);
+				controller.notifyClock();
 				return true;
 			}
 
