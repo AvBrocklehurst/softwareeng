@@ -1,13 +1,14 @@
 package simori;
 
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
 public class InstrumentNamer {
+	
+	private static final String CSV_NAME = "instruments.csv";
+	
 	private static Map<Integer, String> map;
 	private static InstrumentNamer instance;
 	
@@ -16,8 +17,7 @@ public class InstrumentNamer {
 		map = new HashMap<Integer, String>();
 		Scanner scanner = null;
 		try {
-			String fileName = Paths.get("../").toAbsolutePath().normalize().toString()+"\\instruments.csv";
-			scanner = new Scanner(new File(fileName));
+			scanner = new Scanner(ResourceManager.getResource(CSV_NAME));
 		} catch (FileNotFoundException e) {e.printStackTrace();}
 		
 		
@@ -33,17 +33,10 @@ public class InstrumentNamer {
 		return map.get(num);
 	}
 	
-	public static void main(String[] args) { 
-		System.out.println(InstrumentNamer.getInstance().getName(110));
-	}
-	
 	public static InstrumentNamer getInstance(){
-	if(instance == null){
-	instance = new InstrumentNamer();
+		if(instance == null){
+			instance = new InstrumentNamer();
+		}
+		return instance;
 	}
-	return instance;
-	}
-	
-
-
 }
