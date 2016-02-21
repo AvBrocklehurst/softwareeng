@@ -20,12 +20,9 @@ public class ModeController {
 	}
 	
 	public void tickThrough(byte column) {
-
 		try {
 			mode.tickerLight(column);
-		} catch (InvalidCoordinatesException e) {
-
-		}
+		} catch (InvalidCoordinatesException e) {}
 	}
 	
 	public MatrixModel getModel() {
