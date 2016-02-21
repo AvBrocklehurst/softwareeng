@@ -7,13 +7,13 @@ import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.Toolkit;
 import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.IOException;
 
 import javax.swing.ImageIcon;
-import javax.swing.JComponent;
+
+import simori.ResourceManager;
 
 public class GuiProperties {
 	
@@ -48,7 +48,6 @@ public class GuiProperties {
 	
 	private static final String ICON_NAME = "Doctor D 128px.png";
 	private static final String FONT_NAME = "cmtt12.ttf";
-	private static final String UP_UP = "../../";
 	
 	private static Font font;
 	private static Image icon;
@@ -85,21 +84,18 @@ public class GuiProperties {
 	
 	private static Font makeFont() {
 		try {
-			return Font.createFont(Font.TRUETYPE_FONT, findFile(FONT_NAME));
+			File ttf = ResourceManager.getResource(FONT_NAME);
+			return Font.createFont(Font.TRUETYPE_FONT, ttf);
 		} catch (FontFormatException | IOException e) {
-			System.err.println("Could not get font from ttf");
+			System.err.println("Could not load typeface from " + FONT_NAME);
 			return new Font(Font.SERIF, Font.PLAIN, 1);
 		}
 	}
 	
 	private static Image makeIcon() {
-		return new ImageIcon(findFile(ICON_NAME).getPath()).getImage();
-	}
-	
-	private static File findFile(String name) {
-		File file = new File(name);
-		if (!file.exists())
-			file = new File(UP_UP + name);
-		return file;
+		File icon = ResourceManager.getResource(ICON_NAME);
+		if (!icon.exists())
+			System.err.println("Could not loat icon " + ICON_NAME);
+		return new ImageIcon(icon.getAbsolutePath()).getImage();
 	}
 }
