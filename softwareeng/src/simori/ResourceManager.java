@@ -1,7 +1,6 @@
 package simori;
 
 import java.io.File;
-import java.io.IOException;
 
 /**
  * Manages locating the project's resource folder, res.
