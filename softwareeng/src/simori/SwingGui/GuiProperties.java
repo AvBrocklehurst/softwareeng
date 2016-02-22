@@ -85,6 +85,10 @@ public class GuiProperties {
 	private static Font makeFont() {
 		try {
 			File ttf = ResourceManager.getResource(FONT_NAME);
+			if (ttf == null) {
+				System.err.println("Cannot locate res folder");
+				return null;
+			}
 			return Font.createFont(Font.TRUETYPE_FONT, ttf);
 		} catch (FontFormatException | IOException e) {
 			System.err.println("Could not load typeface from " + FONT_NAME);
@@ -94,6 +98,10 @@ public class GuiProperties {
 	
 	private static Image makeIcon() {
 		File icon = ResourceManager.getResource(ICON_NAME);
+		if (icon == null) {
+			System.err.println("Cannot locate res folder");
+			return null;
+		}
 		if (!icon.exists())
 			System.err.println("Could not loat icon " + ICON_NAME);
 		return new ImageIcon(icon.getAbsolutePath()).getImage();
