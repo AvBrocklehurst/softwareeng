@@ -22,7 +22,6 @@ import simori.Exceptions.InvalidCoordinatesException;
 		 for (int i = 3; i < layer.length; i++) {
 		 if(layer[i] <0){throwxxx}; 
 		}
-		
  */
 	/**
 	 * Class implementing Runnable which keeps track of the current tempo and plays notes which are currently active
