@@ -85,7 +85,7 @@ public class Clock implements Runnable, PowerTogglable {
 			//find the maximum processing time
 			
 			
-			//starts a secondary thread to keep track of the tempo
+			//starts a secondary thread to keep track of the tempo 
 			startTimer();
 			
 			//start the thread loop
@@ -210,44 +210,35 @@ public class Clock implements Runnable, PowerTogglable {
 		}
 
 		/**
-		 * 
-		 * @author Jurek
+		 * Method to product the 2D byte array of notes for the midi player.
+		 * It takes the notes in the current column from the active layers
+		 * in the model and converts them into the correctly sized byte 
+		 * arrays that also house information such as the instrument, channel and velocity.
+		 * This method also alters the note values to make them the right pitch.
 		 * @author Adam
 		 * @version 1.0.1
-		 * @return
+		 * @return 2D byte Array containing the notes to be played and layer information.
 		 */
 		private byte[][] getNotes(){
 			List<Byte> activeLayers = model.getLayers();
-			byte[][] layers = new byte[activeLayers.size()][];
+			byte[][] layers = new byte[activeLayers.size()][]; //make the array the same size as the active layers.
 			ArrayList<Byte> usedColumns = new ArrayList<Byte>();
-			//using arrays with an array,
-			//for each generally active layer... 
-			for(byte x=0; x<(byte)activeLayers.size(); x++){
-				byte notZero = 0;
+			for(byte x=0; x<(byte)activeLayers.size(); x++){ //for each active layer.
+				byte notZero = 0; //to keep the size to make this layers byte array.
 				byte[] thisLayer = new byte[19];
-				//...get its current column...
 				boolean[] layer = model.getCol(activeLayers.get(x));
-				//...add any active notes to the current inner array.. 
 				for(byte y=0; y<layer.length; y++){
 					if(layer[y]){
-						thisLayer[y + 3] = (byte) (y + 50);
+						thisLayer[y + 3] = (byte) (y + 50); //alter the value to store the correct pitch.
 						notZero++;
 					} else {
 						thisLayer[y + 3] = 0;
 					}
 				}
-				//...discard unused columns and resize the inner arrays...
-				if(notZero > 0){
+				if(notZero > 0){ // If this layer has notes in this column.
 					usedColumns.add(x);
 					layers[x] = new byte[notZero + 3];
-					//[Channel, Instrument, Velocity, Note, Note, Note...]
 					short instrument = model.getInstrument(activeLayers.get(x));
-					
-					// TODO josh. Move these to other methods
-					//TODO josh. Sprinkle some error checking throughout this code
-					//TODO josh. Error checking whilst creating or error checking before .play() is called
-					//TODO josh. Close but no cigar .... so so close 
-					//TODO josh. Error checking sprinkled throughout or all in one place???
 					if(instrument < 128){
 						layers[x][0] = 0;
 					} else {
@@ -256,8 +247,8 @@ public class Clock implements Runnable, PowerTogglable {
 					}
 					layers[x][1] = (byte) instrument;
 					layers[x][2] = model.getVelocity(activeLayers.get(x));
-					layers[x][0] = model.getChannel(activeLayers.get(x)); //TODO wrong!
-					byte count = 3;
+					layers[x][0] = model.getChannel(activeLayers.get(x));
+					byte count = 3; //start at 3 to store the other information before it.
 					for(byte y = 0; y < thisLayer.length; y ++){
 						if(thisLayer[y] != 0){
 							layers[x][count] = thisLayer[y];
@@ -266,7 +257,7 @@ public class Clock implements Runnable, PowerTogglable {
 					}
 				}
 			}
-			//comment
+			/* resize the array to only store layers with notes in this column */
 			byte[][] toBePlayed = new byte[usedColumns.size()][];
 			for (byte i=0; i<usedColumns.size(); i++){
 				toBePlayed[i] = layers[usedColumns.get(i)];
