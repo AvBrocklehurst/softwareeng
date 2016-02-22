@@ -74,7 +74,7 @@ public class ResourceManager {
 	 * @return true there is a softwareeng folder below
 	 */
 	private static boolean isInProject() {
-		return new File(DOWN_ONE).exists()
-				|| new File(DOWN_ALT).exists();
+		return new File(workingDir, DOWN_ONE).exists()
+				|| new File(workingDir, DOWN_ALT).exists();
 	}
 }

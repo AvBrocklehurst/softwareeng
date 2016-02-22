@@ -2,6 +2,7 @@
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.After;
@@ -53,13 +54,35 @@ public class TestMatrixModel {
 	}
 	
 	@Test
-	public void updateButtonTest() throws InvalidCoordinatesException{
+	public void testUpdateButton() throws InvalidCoordinatesException{
 		model.updateButton((byte) 0, (byte)0, (byte)0);
 		assertEquals(true, model.getCol((byte)0)[0]);
 	}
 	
 	@Test
-	public void getLayersTest(){
+	public void testColumn(){
+		model.incrementColumn();
+		model.incrementColumn();
+		assertEquals(2, model.getCurrentColumn());
+	}
+	
+	@Test
+	public void testLoopPoint(){
+		model.setLoopPoint((byte) 5);
+		assertEquals(5, model.getLoopPoint());
+		
+	}
+	
+	@Test
+	public void testLoopColumn(){
+		model.setLoopPoint((byte) 1);
+		model.incrementColumn();
+		model.incrementColumn();
+		assertEquals(0,model.getCurrentColumn());
+	}
+	
+	@Test
+	public void testGetLayers(){
 		model.setChannel((byte) 1, (byte)12);
 		List<Byte> layers = model.getLayers();
 		assertEquals(0, layers.get(0).byteValue());
@@ -67,7 +90,7 @@ public class TestMatrixModel {
 	}
 	
 	@Test
-	public void gridTest() throws InvalidCoordinatesException{
+	public void testGrid() throws InvalidCoordinatesException{
 		model.updateButton((byte) 0,(byte)0, (byte)0);
 		model.updateButton((byte) 0,(byte)2, (byte)2);
 		model.updateButton((byte) 0,(byte)4, (byte)4);
@@ -84,6 +107,25 @@ public class TestMatrixModel {
 				assert(!col[x][x]);
 			}
 		}
+	}
+	
+	@Test
+	public void testSwitchOff(){
+		model.setBPM((byte)100);
+		model.setLoopPoint((byte)12);
+		assertEquals(100,model.getBPM());
+		assertEquals(12, model.getLoopPoint());
+		model.switchOff();
+		assertEquals(88,model.getBPM()); //default values
+		assertEquals(15, model.getLoopPoint());
+	}
+	
+	@Test	
+	public void testSwitchOn(){
+		model.switchOff();
+		model.switchOn();
+		List<Byte> layers = model.getLayers();
+		assertEquals(0, layers.get(0).byteValue());
 	}
 
 }

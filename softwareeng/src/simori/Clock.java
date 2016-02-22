@@ -8,6 +8,7 @@ import java.util.TimerTask;
 import javax.sound.midi.InvalidMidiDataException;
 
 import simori.Simori.PowerTogglable;
+import simori.Exceptions.InvalidCoordinatesException;
 
 //TODO HEY KERRY, HERES SOME OF THE ERROR CHECKING THAT NEEDS DOING
 //TODO HEY KERRY, SEE THE EXCEPTION PACKAGES,USE THOSE AS EXCEPTIONS
@@ -31,7 +32,6 @@ import simori.Simori.PowerTogglable;
 	 * @see run()
 	 */
 	//TODO error checking for midi.play(layers)
-	//TODO fine-tune the processing so that all the notes from the next column are played
 	//TODO tempo testing, making sure its within bounds of 0<160, and in increments of 10
 
 
@@ -46,12 +46,12 @@ import simori.Simori.PowerTogglable;
 
 public class Clock implements Runnable, PowerTogglable {
 		private boolean running;
+		private ModeController mode;
 		private MatrixModel model;
 		private MIDIPlayer midi;
 		private Object lock;
-		private ModeController mode;
+		public Object bpmLock;
 		private Timer timer;
-		private short bpm;
 		
 		/**
 		 * Constructor for the class
@@ -63,21 +63,14 @@ public class Clock implements Runnable, PowerTogglable {
 		 */
 		public Clock(ModeController modes, MatrixModel model, MIDIPlayer midi){
 			running = true;
-			bpm = 88;
+			this.mode = modes;
 			this.model = model;
 			this.midi = midi;
-			this.mode = modes;
 			lock = new Object();
+			bpmLock = new Object();
+			mode.setBpmLock(bpmLock);
 		}
-	
-		
-		
-		
-		
-		
-		
-		
-		
+
 		/**
 		 * The thread method for running the clock
 		 * First sets up a timer, before entering the proper thread loop, where it
@@ -89,23 +82,27 @@ public class Clock implements Runnable, PowerTogglable {
 		 */
 		@Override
 		public void run() {
+			//find the maximum processing time
+			
+			
 			//starts a secondary thread to keep track of the tempo
 			startTimer();
 			
 			//start the thread loop
 			while(running){
-				//TODO change so that the notes are got just before the notes are played, not at the beginning of the tick
-				//reach out for and process the notes
-				byte[][] toBePlayed = getNotes();
 				
 				//wait until the beat hits...
 				synchronized(lock){try{   lock.wait();   }catch(InterruptedException e){}}
 				
-				//...and send a play request to the MIDIPlayer...
+				//reach out for and process the notes...
 				//...assuming that the simori has not been turned off
+				if(!running) break;
+				byte[][] toBePlayed = getNotes();
+				
+				//send a play request to the MIDIPlayer
+				try{midi.play(toBePlayed);}
 				//if MIDIPlayer throws an error, print it out and stop the JVM
-				if(running) try{   midi.play(toBePlayed);   }catch(InvalidMidiDataException e1){e1.printStackTrace();System.exit(1);}
-				else break;
+				catch(InvalidMidiDataException e){e.printStackTrace();System.exit(1);}
 				
 				//turn the lights on the current column
 				mode.tickThrough(model.getCurrentColumn());
@@ -116,58 +113,102 @@ public class Clock implements Runnable, PowerTogglable {
 		}
 		
 		
-		
-		
-		
 		/**
+		 * 
 		 * @author Jurek
 		 * @version 1.0.0
+		 * @category absolutely disgusting
 		 */
-		private void changeTempo() {
-			if(model.getBPM()!=bpm){
-				timer.cancel();
-				//busy waiting on bpm to becoming something else than 0
-				while(model.getBPM()==0) continue;
-				bpm = model.getBPM();
-				startTimer();
-			}
-		}
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		/**
-		 * Starts the timer thread that keeps track of the tempo
-		 * @version 1.0.1
-		 * @author Jurek
-		 */
-		private void startTimer(){
-			timer = new Timer();
-			timer.scheduleAtFixedRate(new TimerTask() {
+		private void startTimer() {
+			new Thread(new Runnable() {
+				long startTime;
+				long maxTime;
+				
 				@Override
 				public void run() {
-					//check if tempo changed, if so restart the timer thread with the new bpm
-					changeTempo();
-					synchronized(lock){
-						lock.notify();
-					}	
+					maxTime = findMaxProcessingTime();
+					
+					//while running...
+					while(running){
+						//...update the tempo...
+						short bpm = model.getBPM();
+						changeTempo(bpm, maxTime);
+						
+						synchronized(bpmLock){
+							//...everytime the BPM is changed
+							while(bpm==model.getBPM() && running) {
+								try{bpmLock.wait();}catch(InterruptedException e){}
+							}
+						}
+						timer.cancel();
+					}
 				}
-			}, 0, (long)((1f/(bpm/60f))*1000f));
+
+				/**
+				 * @author Jurek
+				 * @version 1.0.0
+				 */
+				private void changeTempo(short bpm, long maxTime) {
+					long timePassed = System.currentTimeMillis() - startTime;
+					long period = (long)((1f/(bpm/60f))*1000f)-maxTime;
+					long timeLeft;
+					if(period <= timePassed) timeLeft = 0;
+					else timeLeft = period - timePassed;
+					startTimer(timeLeft, period);
+				}
+
+				/**
+				 * Starts the timer thread that keeps track of the tempo
+				 * @version 1.0.1
+				 * @author Jurek
+				 */
+				private void startTimer(long timeLeft, long period){
+					timer = new Timer();
+					timer.scheduleAtFixedRate(new TimerTask() {
+						@Override
+						public void run() {
+							startTime = System.currentTimeMillis();
+							synchronized(lock){
+								lock.notify();
+							}	
+						}
+					}, timeLeft, period);
+				}
+
+				/**
+				 * 
+				 * @author Jurek
+				 * @version 1.0.0
+				 */
+				private long findMaxProcessingTime() {
+					
+					//create a mock model
+					MatrixModel actualModel = model;
+					model = new MatrixModel(16, 16);
+					model.switchOn();
+					
+					//populate a single column on each layer of the mock model
+					for(byte z=0;z<16;z++){
+						for(byte y=0;z<16;z++){
+							try{model.updateButton(z, (byte)0, y);}catch(InvalidCoordinatesException e){}
+						}
+					}
+					
+					//play the mock object to determine max delay
+					long time = System.currentTimeMillis();
+					getNotes();
+					long endTime = System.currentTimeMillis();
+					long maxTime = endTime - time;
+					maxTime = (long) (Math.ceil(maxTime/10)*10);
+					
+					//revert from the mock model to the actual one
+					model = actualModel;
+					return maxTime;
+				}
+				
+			}).start();
 		}
-		
-		
-		
-		
-		
-		
-		
-		
-		
+
 		/**
 		 * 
 		 * @author Jurek
@@ -234,14 +275,6 @@ public class Clock implements Runnable, PowerTogglable {
 			return toBePlayed;
 		}
 		
-		
-		
-		
-		
-		
-		
-		
-		
 		/**
 		 * @author Matt
 		 * @version 1.0.0
@@ -263,6 +296,6 @@ public class Clock implements Runnable, PowerTogglable {
 		public void switchOff() {
 			running = false;
 			synchronized(lock){lock.notify();}
-			timer.cancel();
+			synchronized(bpmLock){bpmLock.notify();}
 		}
 }
