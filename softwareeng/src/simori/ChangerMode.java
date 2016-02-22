@@ -38,7 +38,7 @@ public class ChangerMode extends Mode {
 		boolean[][] grid = getModel().getGrid(getDisplayLayer());
 		rows = grid.length;
 		columns = grid[0].length;
-	};
+	}
 	
 	/**
 	 * Draws the horizontal and/or vertical lines applicable to this mode at
