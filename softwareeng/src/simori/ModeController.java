@@ -31,7 +31,7 @@ public class ModeController {
 	 * Creates a ModeController to accept input from the
 	 * given GUI and make changes to the given model.
 	 * An instance of ModeController is needed to instantiate
-	 * {@link Clock}, with which it also communicates.
+	 * {@link NoteProcessor}, with which it also communicates.
 	 * 
 	 * @param gui For button input and LED output
 	 * @param model To store information on the Simori-ON's state
