@@ -61,7 +61,7 @@ public abstract class PressableCircle
 	 */
 	public void addOnPressListener(OnPressListener l) {
 		listeners.add(l);
-	}
+	}  
 	
 	/**
 	 * Unregisters an {@link OnPressListener}.

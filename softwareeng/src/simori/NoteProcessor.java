@@ -141,8 +141,10 @@ public class NoteProcessor implements Runnable, PowerTogglable {
 		 * in the model and converts them into the correctly sized byte 
 		 * arrays that also house information such as the instrument, channel and velocity.
 		 * This method also alters the note values to make them the right pitch.
+		 * The method is particuallary long and complex because we decided that we want
+		 * to send a correctly fixed size byte array rather than an array list.
 		 * @author Adam
-		 * @version 1.0.1
+		 * @version 1.0.2
 		 * @return 2D byte Array containing the notes to be played and layer information.
 		 */
 		private byte[][] getNotes(){

@@ -11,7 +11,7 @@ import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-   TestClock.class,
+   TestNoteProcessor.class,
    TestLayer.class,
    TestMatrixModel.class,
    TestMIDISoundPlayer.class,

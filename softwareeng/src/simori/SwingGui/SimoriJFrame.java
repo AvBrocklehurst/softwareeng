@@ -172,7 +172,7 @@ public class SimoriJFrame extends JFrame implements SimoriGui, MouseMotionListen
 		panel.add(rightBar, BorderLayout.LINE_END);
 		panel.add(bottomBar, BorderLayout.PAGE_END);
 		add(panel);
-	}
+	}  
 	
 	/**
 	 * Constructs the {@link JPanel}s and other components

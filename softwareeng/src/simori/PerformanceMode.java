@@ -54,7 +54,7 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 		sc.setGrid(grid);       //relay the change to the gui
 	}
 	
-	/**
+	/**  
 	 * Instructs the GUI what buttons to naturally light on passing of the
 	 * clock. Modifies the layer with the buttons needed. Whole layer can be
 	 * obtained from getCurrentLayer().

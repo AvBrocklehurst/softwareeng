@@ -3,6 +3,7 @@ package simori;
 import java.util.Timer;
 import java.util.TimerTask;
 
+
 public class Clock implements Runnable {
 	private long startTime;
 	private long maxTime;

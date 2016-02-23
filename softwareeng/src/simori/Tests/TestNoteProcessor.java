@@ -10,45 +10,47 @@ import org.junit.Test;
 import simori.NoteProcessor;
 import simori.MIDISoundPlayer;
 import simori.MatrixModel;
+import simori.ModeController;
 import simori.PerformanceMode;
 import simori.Simori;
 import simori.Exceptions.InvalidCoordinatesException;
-import simori.SwingGui.SimoriGui;
+import simori.SwingGui.SimoriJFrame;
 
-public class TestClock {
-	Simori simori;
+
+/**
+ * 
+ * @author Adam
+ * @author Jurek
+ */
+public class TestNoteProcessor {
+	MatrixModel model;
 	PerformanceMode mode;
+	ModeController modes;
 	MIDISoundPlayer midi;
 	NoteProcessor clock;
+	SimoriJFrame gui;
 	Thread thread;
 	Throwable e;
 	
 	@Before
 	public void setUp() throws MidiUnavailableException, InvalidCoordinatesException {
-		simori = new Simori();
-		simori.setModel(new MatrixModel());
-		simori.setGui(new SimoriGui(16, 16));
-		mode = new PerformanceMode(simori,0,0,(byte)0);
-		simori.getGui().setMode(mode);
-		simori.getModel().updateButton((byte)0, (byte)1, (byte)5);
+		model = new MatrixModel(16,16);
+		gui = new SimoriJFrame(16, 16);
+		modes = new ModeController(gui, model);
+		mode = new PerformanceMode(modes);
+		modes.setMode(mode);
+		model.updateButton((byte)0, (byte)1, (byte)5);
 		midi = new MIDISoundPlayer();
+		clock = new NoteProcessor(modes, model, midi);
 		e = null;
-	}
-	
-	private void setUpThread() {
-		thread = new Thread(clock);
-		Thread.UncaughtExceptionHandler h = new Thread.UncaughtExceptionHandler() {
-		    public void uncaughtException(Thread t, Throwable e) {
-		        TestClock.this.e = e;
-		    }
-		};
-		thread.setUncaughtExceptionHandler(h);
 	}
 	
 	@After
 	public void tearDown() {
-		clock.off();
-		simori = null;
+		clock.switchOff();
+		model = null;
+		gui = null;
+		modes = null;
 		mode = null;
 		midi = null;
 		clock = null;
@@ -56,60 +58,61 @@ public class TestClock {
 		e = null;
 	}
 	
+	private void setUpThread() {
+		thread = new Thread(clock);  
+		Thread.UncaughtExceptionHandler h = new Thread.UncaughtExceptionHandler() {
+		    public void uncaughtException(Thread t, Throwable e) {
+		        TestNoteProcessor.this.e = e;
+		    }
+		};
+		thread.setUncaughtExceptionHandler(h);
+	}
+	
+	
+	
 	@Test
 	public void testRun() throws MidiUnavailableException {
-		clock = new NoteProcessor(simori.getModel(), midi, mode, 88);
 		setUpThread();
 		thread.start();
 		try{Thread.sleep(2000);} catch (InterruptedException e) {}
 		assertNull(e);
 	}
 	
-	@Test
+	@Test (expected=NullPointerException.class)
 	public void testRunNullModel() throws MidiUnavailableException {
-		midi = new MIDISoundPlayer();
-		clock = new NoteProcessor(null, midi, mode, 88);
+		clock = new NoteProcessor(modes, null, midi);
 		setUpThread();
 		thread.start();
 		try{Thread.sleep(2000);} catch (InterruptedException e) {}
 		assertEquals(e.getClass(), NullPointerException.class);
 	}
 	
-	@Test
+	@Test 
 	public void testRunNullMIDI() {
-		clock = new NoteProcessor(simori.getModel(), null, mode, 88);
+		clock = new NoteProcessor(modes, model, null);
 		setUpThread();
 		thread.start();
 		try{Thread.sleep(2000);} catch (InterruptedException e) {}
 		assertEquals(e.getClass(), NullPointerException.class);
 	}
 	
-	@Test
+	@Test (expected=NullPointerException.class)
 	public void testRunNullMode() throws MidiUnavailableException {
-		clock = new NoteProcessor(simori.getModel(), midi, null, 88);
+		clock = new NoteProcessor(null, model, midi);
 		setUpThread();
 		thread.start();
 		try{Thread.sleep(2000);} catch (InterruptedException e) {}
 		assertEquals(e.getClass(), NullPointerException.class);
 	}
-	
-	@Test
+	/*
+	@Test 
 	public void testRunTempoNegative() throws MidiUnavailableException {
-		clock = new NoteProcessor(simori.getModel(), midi, mode, -1);
+		model.setBPM((byte)-1);
 		setUpThread();
 		thread.start();
 		try{Thread.sleep(2000);} catch (InterruptedException e) {}
 		assertEquals(e.getClass(), IllegalArgumentException.class);
 	}
 	
-	@Test
-	public void testRunTempoZero() throws MidiUnavailableException {
-		clock = new NoteProcessor(simori.getModel(), midi, mode, 0);
-		setUpThread();
-		thread.start();
-		try{Thread.sleep(2000);} catch (InterruptedException e) {}
-		assertEquals(e.getClass(), IllegalArgumentException.class);
-	}
-
-
+	*/
 }
