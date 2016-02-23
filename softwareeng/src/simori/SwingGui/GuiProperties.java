@@ -37,6 +37,9 @@ public class GuiProperties {
 	/** Proportion of screen height/width for {@link SimoriJFrame} to fill */
 	public static final float SCREEN_PROPORTION = 0.8f;
 	
+	/** Proportion of {@link SimoriJFrame} length to round at the corners */
+	public static final float ARC_PROPORTION = 0.05f;
+	
 	/** Number of times longer the {@link Lcd} is in its long dimension */
 	public static final float LCD_EDGE_RATIO = 5f;
 	
