@@ -8,21 +8,15 @@ import static simori.SwingGui.GuiProperties.LED_COLOUR_ON_IN;
 import java.awt.Color;
 import java.awt.event.MouseEvent;
 
-import simori.SwingGui.OnPressListenerMaker.OnPressListener;
-
 /**
- * Custom JComponent to represent illuminated LED buttons.
- * Does not extend JButton or JToggleButton because
- * the desired click behaviour is different.
- * The {@link OnPressListener} is notified immediately on mouse
- * down inside the LED area, instead of on mouse button release.
- * Furthermore, if mouse down occurs inside another LED and the
- * mouse moves into the current LED, both fire their events.
- * This produces an enjoyable user experience similar
- * to running one's finger down the keys of a piano.
+ * A {@link PressableCircle} which can be illuminated.
+ * It also differs in that if mouse down occurs inside another
+ * LED and the mouse moves into the current LED, both fire
+ * their events. This produces an enjoyable user experience
+ * similar to running one's finger down the keys of a piano.
  * Illumination is toggled manually using {@link #setIlluminated}.
  * @author Matt
- * @version 1.4.1
+ * @version 3.0.3
  */
 public class Led extends PressableCircle {
 	
@@ -43,18 +37,23 @@ public class Led extends PressableCircle {
 		}
 	}
 	
+	/** {@inheritDoc} */
 	@Override
 	protected Color getFillColour() {
+		//Four possible colours, depending on illumination and press state
 		return lit ?
 				(pushed ? LED_COLOUR_ON_IN : LED_COLOUR_ON) :
 				(pushed ? LED_COLOUR_OFF_IN : LED_COLOUR_OFF);
 	}
 	
+	/** {@inheritDoc} */
 	@Override
 	protected Color getBorderColour() {
+		//No outline drawn if illuminated
 		return lit ? null : GuiProperties.LED_BORDER;
 	}	
 	
+	/** {@inheritDoc} */
 	@Override
 	public void mouseEntered(MouseEvent e) {
 		super.mouseEntered(e);
@@ -67,12 +66,14 @@ public class Led extends PressableCircle {
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void mousePressed(MouseEvent e) {
 		mouseDown = true;
 		super.mousePressed(e);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		mouseDown = false;

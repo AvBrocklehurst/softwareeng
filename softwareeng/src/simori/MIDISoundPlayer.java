@@ -12,7 +12,7 @@ import javax.sound.midi.Synthesizer;
 import simori.Simori.PowerTogglable;
 
 /**
- * @author Josh
+ * @author Josh aka the music man
  * @version 3.2.4
  * {@link simori.MIDIPlayer}
  * {@link ShortMessage}

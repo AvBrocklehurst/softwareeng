@@ -7,7 +7,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import simori.Clock;
+import simori.NoteProcessor;
 import simori.MIDISoundPlayer;
 import simori.MatrixModel;
 import simori.PerformanceMode;
@@ -19,7 +19,7 @@ public class TestClock {
 	Simori simori;
 	PerformanceMode mode;
 	MIDISoundPlayer midi;
-	Clock clock;
+	NoteProcessor clock;
 	Thread thread;
 	Throwable e;
 	
@@ -58,7 +58,7 @@ public class TestClock {
 	
 	@Test
 	public void testRun() throws MidiUnavailableException {
-		clock = new Clock(simori.getModel(), midi, mode, 88);
+		clock = new NoteProcessor(simori.getModel(), midi, mode, 88);
 		setUpThread();
 		thread.start();
 		try{Thread.sleep(2000);} catch (InterruptedException e) {}
@@ -68,7 +68,7 @@ public class TestClock {
 	@Test
 	public void testRunNullModel() throws MidiUnavailableException {
 		midi = new MIDISoundPlayer();
-		clock = new Clock(null, midi, mode, 88);
+		clock = new NoteProcessor(null, midi, mode, 88);
 		setUpThread();
 		thread.start();
 		try{Thread.sleep(2000);} catch (InterruptedException e) {}
@@ -77,7 +77,7 @@ public class TestClock {
 	
 	@Test
 	public void testRunNullMIDI() {
-		clock = new Clock(simori.getModel(), null, mode, 88);
+		clock = new NoteProcessor(simori.getModel(), null, mode, 88);
 		setUpThread();
 		thread.start();
 		try{Thread.sleep(2000);} catch (InterruptedException e) {}
@@ -86,7 +86,7 @@ public class TestClock {
 	
 	@Test
 	public void testRunNullMode() throws MidiUnavailableException {
-		clock = new Clock(simori.getModel(), midi, null, 88);
+		clock = new NoteProcessor(simori.getModel(), midi, null, 88);
 		setUpThread();
 		thread.start();
 		try{Thread.sleep(2000);} catch (InterruptedException e) {}
@@ -95,7 +95,7 @@ public class TestClock {
 	
 	@Test
 	public void testRunTempoNegative() throws MidiUnavailableException {
-		clock = new Clock(simori.getModel(), midi, mode, -1);
+		clock = new NoteProcessor(simori.getModel(), midi, mode, -1);
 		setUpThread();
 		thread.start();
 		try{Thread.sleep(2000);} catch (InterruptedException e) {}
@@ -104,7 +104,7 @@ public class TestClock {
 	
 	@Test
 	public void testRunTempoZero() throws MidiUnavailableException {
-		clock = new Clock(simori.getModel(), midi, mode, 0);
+		clock = new NoteProcessor(simori.getModel(), midi, mode, 0);
 		setUpThread();
 		thread.start();
 		try{Thread.sleep(2000);} catch (InterruptedException e) {}

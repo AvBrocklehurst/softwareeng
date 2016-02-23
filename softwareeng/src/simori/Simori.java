@@ -53,7 +53,7 @@ public class Simori {
 		SimoriJFrame gui = new SimoriJFrame(GRID_WIDTH, GRID_HEIGHT);
 		MIDISoundPlayer player = new MIDISoundPlayer();
 		ModeController modes = new ModeController(gui, model);
-		Clock clock = new Clock(modes, model, player);
+		NoteProcessor clock = new NoteProcessor(modes, model, player);
 		modes.setComponentsToPowerToggle(model, player, clock);
 		gui.setVisible(true);
 	}

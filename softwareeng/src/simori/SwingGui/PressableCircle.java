@@ -14,7 +14,19 @@ import javax.swing.JComponent;
 
 import simori.SwingGui.OnPressListenerMaker.OnPressListener;
 
-public class PressableCircle extends JComponent implements MouseListener {
+/**
+ * Custom JComponent implementing the common behaviour of LEDs
+ * and circular buttons which can be pressed. Does not extend
+ * {@link JButton} or {@link JToggleButton} because the desired
+ * click behaviour is different. The {@link OnPressListener}s
+ * are notified immediately on mouse down inside the circular
+ * area, instead of on mouse button release. Features the hand
+ * cursor to indicate that it can be clicked on.
+ * @author Matt
+ * @version 1.6.3
+ */
+public abstract class PressableCircle
+		extends JComponent implements MouseListener {
 	
 	protected boolean pushed, mouseOver;	
 	private ArrayList<OnPressListener> listeners;
@@ -32,34 +44,53 @@ public class PressableCircle extends JComponent implements MouseListener {
 		listeners = new ArrayList<OnPressListener>();
 	}
 	
+	/**
+	 * Called when the circle is resized.
+	 * Enforces the circular shape by equating width and height.
+	 * Protected so that subclasses can add further resizing behaviour.
+	 */
 	protected void resized() {
 		int min = Math.min(getWidth(), getHeight());
 		setSize(min, min);
 	}
 	
+	/**
+	 * {@link OnPressListener}s receive a callback when the circle is pressed.
+	 * See {@link PressableCircle} for the definition of a press.
+	 * @param l A listener to register
+	 */
 	public void addOnPressListener(OnPressListener l) {
 		listeners.add(l);
 	}
 	
+	/**
+	 * Unregisters an {@link OnPressListener}.
+	 * @param l the listener to remove
+	 * @return true if the listener was removed
+	 */
 	public boolean removeOnPressListener(OnPressListener l) {
 		return listeners.remove(l);
 	}
 	
+	/** @return Colour to fill the circular area */
 	protected Color getFillColour() {
 		return pushed ? GuiProperties.CIRCLE_PRESSED :
 						GuiProperties.CIRCLE_NOT_PRESSED;
 	}
 	
+	/** @return Colour to draw the outline of the circle */
 	protected Color getBorderColour() {
 		return GuiProperties.CIRCLE_BORDER;
 	}
 	
+	/** Fills the circular area using the {@link Graphics} provided */
 	@Override
 	public void paintComponent(Graphics g) {
 		g.setColor(getFillColour());
 		g.fillOval(0, 0, getSize().width - 1, getSize().height - 1);
 	}
 	
+	/** Draws the circular outline using the {@link Graphics} provided */
 	@Override
 	public void paintBorder(Graphics g) {
 		g.setColor(getBorderColour());
@@ -76,15 +107,17 @@ public class PressableCircle extends JComponent implements MouseListener {
 		return hitbox.contains(x, y);
 	}
 	
-	/** Not used, as LED click behaviour is different */
+	/** Not used, as click behaviour is different */
 	@Override
 	public void mouseClicked(MouseEvent e) {}
 	
+	/** {@inheritDoc} */
 	@Override
 	public void mouseEntered(MouseEvent e) {
 		mouseOver = true;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void mouseExited(MouseEvent e) {
 		mouseOver = false;
@@ -95,6 +128,7 @@ public class PressableCircle extends JComponent implements MouseListener {
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void mousePressed(MouseEvent e) {
 		if (mouseOver) { //Mouse button pressed inside this LED
@@ -104,6 +138,7 @@ public class PressableCircle extends JComponent implements MouseListener {
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		if (pushed) {
@@ -112,7 +147,7 @@ public class PressableCircle extends JComponent implements MouseListener {
 		}
 	}
 	
-	/** Informs the registered {@link OnPressListener} of a press */
+	/** Informs the registered {@link OnPressListener}s of a press */
 	protected void pressed() {
 		for (OnPressListener l : listeners) {
 			l.onPress(this);
