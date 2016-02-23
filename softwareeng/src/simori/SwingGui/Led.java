@@ -8,21 +8,15 @@ import static simori.SwingGui.GuiProperties.LED_COLOUR_ON_IN;
 import java.awt.Color;
 import java.awt.event.MouseEvent;
 
-import simori.SwingGui.OnPressListenerMaker.OnPressListener;
-
 /**
- * Custom JComponent to represent illuminated LED buttons.
- * Does not extend JButton or JToggleButton because
- * the desired click behaviour is different.
- * The {@link OnPressListener} is notified immediately on mouse
- * down inside the LED area, instead of on mouse button release.
- * Furthermore, if mouse down occurs inside another LED and the
- * mouse moves into the current LED, both fire their events.
- * This produces an enjoyable user experience similar
- * to running one's finger down the keys of a piano.
+ * A {@link PressableCircle} which can be illuminated.
+ * It also differs in that if mouse down occurs inside another
+ * LED and the mouse moves into the current LED, both fire
+ * their events. This produces an enjoyable user experience
+ * similar to running one's finger down the keys of a piano.
  * Illumination is toggled manually using {@link #setIlluminated}.
  * @author Matt
- * @version 1.4.1
+ * @version 2.2.3
  */
 public class Led extends PressableCircle {
 	

@@ -14,7 +14,18 @@ import javax.swing.JComponent;
 
 import simori.SwingGui.OnPressListenerMaker.OnPressListener;
 
-public class PressableCircle extends JComponent implements MouseListener {
+/**
+ * Custom JComponent implementing the common behaviour of LEDs
+ * and circular buttons which can be pressed. Does not extend
+ * {@link JButton} or {@link JToggleButton} because the desired
+ * click behaviour is different. The {@link OnPressListener} is
+ * notified immediately on mouse down inside the circular area,
+ * instead of on mouse button release.
+ * @author Matt
+ * @version 1.6.3
+ */
+public abstract class PressableCircle
+		extends JComponent implements MouseListener {
 	
 	protected boolean pushed, mouseOver;	
 	private ArrayList<OnPressListener> listeners;
