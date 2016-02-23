@@ -16,7 +16,7 @@ import java.awt.event.MouseEvent;
  * similar to running one's finger down the keys of a piano.
  * Illumination is toggled manually using {@link #setIlluminated}.
  * @author Matt
- * @version 2.2.3
+ * @version 3.0.3
  */
 public class Led extends PressableCircle {
 	
@@ -37,18 +37,23 @@ public class Led extends PressableCircle {
 		}
 	}
 	
+	/** {@inheritDoc} */
 	@Override
 	protected Color getFillColour() {
+		//Four possible colours, depending on illumination and press state
 		return lit ?
 				(pushed ? LED_COLOUR_ON_IN : LED_COLOUR_ON) :
 				(pushed ? LED_COLOUR_OFF_IN : LED_COLOUR_OFF);
 	}
 	
+	/** {@inheritDoc} */
 	@Override
 	protected Color getBorderColour() {
+		//No outline drawn if illuminated
 		return lit ? null : GuiProperties.LED_BORDER;
 	}	
 	
+	/** {@inheritDoc} */
 	@Override
 	public void mouseEntered(MouseEvent e) {
 		super.mouseEntered(e);
@@ -61,12 +66,14 @@ public class Led extends PressableCircle {
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void mousePressed(MouseEvent e) {
 		mouseDown = true;
 		super.mousePressed(e);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		mouseDown = false;
