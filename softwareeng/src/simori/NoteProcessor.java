@@ -167,10 +167,11 @@ public class NoteProcessor implements Runnable, PowerTogglable {
 					usedColumns.add(x);
 					layers[x] = new byte[notZero + 3];
 					short instrument = model.getInstrument(activeLayers.get(x));
-					if(instrument < 128){
+					if(instrument < 128){ // insturment isn't in normal set
 						layers[x][0] = 0;
 					} else {
-						layers[x][0] = 9;
+						layers[x][0] = 9; //make the chanel 9 (percussion) 
+						/* Subtract 94 from number to get percussion insturment value */
 						instrument = (byte)(instrument - 94);
 					}
 					layers[x][1] = (byte) instrument;
