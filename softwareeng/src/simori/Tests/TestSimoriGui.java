@@ -34,7 +34,7 @@ public class TestSimoriGui {
 			{O,O,O,O,O,O,O,O,O,O,O,O,O,O,O,O},
 			{O,O,O,O,O,O,O,O,O,O,O,O,O,O,O,O},
 			{O,O,O,O,O,O,O,O,O,O,O,O,O,O,O,O},
-			{O,O,O,O,O,O,O,O,O,O,O,O,O,O,O,O},
+			{O,O,O,O,O,O,O,O,O,O,O,O,O,O,O,O}, 
 			{O,O,O,O,O,O,O,O,O,O,O,O,O,O,O,O},
 			{O,O,O,O,O,O,O,O,O,O,O,O,O,O,O,O},
 			{O,O,O,O,O,O,O,O,O,O,O,O,O,O,O,O},

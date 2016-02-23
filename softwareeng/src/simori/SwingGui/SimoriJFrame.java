@@ -61,7 +61,7 @@ public class SimoriJFrame extends JFrame implements SimoriGui, MouseMotionListen
 		this.rows = rows;
 		this.columns = columns;
 		setUpWindow();
-		addMouseMotionListener(this);
+		addMouseMotionListener(this);  
 		addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
