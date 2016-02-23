@@ -10,20 +10,41 @@ import javax.swing.JPanel;
 
 import simori.SwingGui.OnPressListenerMaker.OnPressListener;
 
+/**
+ * JPanel which manages a grid of {@link Led}s.
+ * @author Matt
+ * @version 2.0.0
+ */
 public class LedPanel extends JPanel implements OnPressListener {
 	
 	private Led[][] leds;
 	private PressableCircle lastPressed;
 	
+	/**
+	 * Creates a panel of {@link #Led}s, in a grid
+	 * of the specified size, with listeners generated
+	 * by the given {@link OnPressListenerMaker}.
+	 * @param rows Number of rows of LEDs
+	 * @param columns Number of columns of LEDs
+	 * @param maker To generate listeners for the LEDs
+	 */
 	public LedPanel(int rows, int columns, OnPressListenerMaker maker) {
 		addLeds(rows, columns, maker);
 		setBackground(GuiProperties.LED_PANEL_BACKGROUND);
-		setBorder(BorderFactory.createLineBorder(GuiProperties.LED_PANEL_BORDER));
+		setBorder(BorderFactory.createLineBorder(
+				GuiProperties.LED_PANEL_BORDER));
 		setCursor(GuiProperties.NORMAL_CURSOR);
-		getToolkit().addAWTEventListener(makeGlobalMouseReleaseListener()
-				, AWTEvent.MOUSE_EVENT_MASK);
+		getToolkit().addAWTEventListener(
+				makeGlobalMouseReleaseListener(),
+				AWTEvent.MOUSE_EVENT_MASK);
 	}
 	
+	/**
+	 * Sets the pattern of illuminated LEDs in the grid.
+	 * The on/off state of the LEDs will correspond to the locations
+	 * of true values in the given multidimensional boolean array.
+	 * @param grid The pattern to display in the LED grid
+	 */
 	public void setGrid(boolean[][] grid) {
 		for (int y = 0; y < grid.length; y++) {
 			for (int x = 0; x < grid[y].length; x++) {
@@ -32,9 +53,19 @@ public class LedPanel extends JPanel implements OnPressListener {
 		}
 	}
 	
+	/**
+	 * Adds the required {@link Led}s to the frame,
+	 * using {@link GridLayout}, and sets their listeners.
+	 * @param rows Number of LEDs in the horizontal dimension
+	 * @param columns Number of LEDs in the vertical dimension
+	 * @param maker Source of listeners to set
+	 */
 	private void addLeds(int rows, int columns, OnPressListenerMaker maker) {
 		setLayout(new GridLayout(rows, columns, 0, 0));
 		leds = new Led[rows][columns];
+		
+		/* y is decremented each time, because LEDs are added from the
+		   top left corner but should be numbered from the bottom left */
 		for (int y = rows-1; y >= 0; y--) {
 			for (int x = 0; x < columns; x++) {
 				Led led = new Led();
@@ -46,11 +77,27 @@ public class LedPanel extends JPanel implements OnPressListener {
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void onPress(PressableCircle circle) {
-		lastPressed = circle;
+		lastPressed = circle; //Hold reference to last LED pressed
 	}
 
+	/**
+	 * Creates an {@link AWTEventListener} which responds to mouse
+	 * release events anywhere in the window by forwarding them to
+	 * the most recently pressed {@link #Led}.
+	 * This is a fix for a subtle bug in the click-and-drag multiple
+	 * LED pressing feature. The final LED in a sequence would not
+	 * redraw itself in its non-pressed colour when the mouse was
+	 * released inside it, until the mouse left its area. This was
+	 * because its MouseListener was not notified of mouse release
+	 * events for which the corresponding press event did not occur
+	 * inside the LED's area.
+	 * To solve this problem, a single listener global to the window
+	 * is used to capture all mouse released events and manually
+	 * notify the relevant LED, which will be the last one pressed.
+	 */
 	private AWTEventListener makeGlobalMouseReleaseListener() {
 		return new AWTEventListener() {
 			@Override
