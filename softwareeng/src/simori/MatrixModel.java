@@ -13,7 +13,6 @@ import simori.Exceptions.InvalidCoordinatesException;
  * <p> 
  *
  * @author  Adam
- * @author  Jurek
  * @version 1.2.1
  */
 public class MatrixModel implements Serializable, PowerTogglable {
