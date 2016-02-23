@@ -23,14 +23,14 @@ import simori.SwingGui.SimoriJFrame;
  * @author Jurek
  */
 public class TestNoteProcessor {
-	MatrixModel model;
-	PerformanceMode mode;
-	ModeController modes;
-	MIDISoundPlayer midi;
-	NoteProcessor clock;
-	SimoriJFrame gui;
-	Thread thread;
-	Throwable e;
+	private MatrixModel model;
+	private PerformanceMode mode;
+	private ModeController modes;
+	private MIDISoundPlayer midi;
+	private NoteProcessor clock;
+	private SimoriJFrame gui;
+	private Thread thread;
+	private Throwable e;
 	
 	@Before
 	public void setUp() throws MidiUnavailableException, InvalidCoordinatesException {
