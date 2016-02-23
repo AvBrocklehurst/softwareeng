@@ -43,6 +43,9 @@ public class GuiProperties {
 	/** Proportion of {@link SimoriJFrame} length to round at the corners */
 	public static final float ARC_PROPORTION = 0.05f;
 	
+	/** Proportion of {@link SimoriEdgeBar}'s space for components to fill */
+	public static final float MARGIN_PROPORTION = 5f / 6f;
+	
 	/** Number of times longer the {@link Lcd} is in its long dimension */
 	public static final float LCD_EDGE_RATIO = 5f;
 	
