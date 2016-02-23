@@ -12,12 +12,18 @@ import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-   TestClock.class,
-   TestLayer.class,
-   TestMatrixModel.class,
-   TestMIDISoundPlayer.class,
-   TestPerformanceMode.class,
-   TestInstrumentNamer.class,
+	TestChangerMode.class,
+	TestClock.class,
+	TestInstrumentNamer.class,
+	TestLayer.class,
+	TestLed.class,
+	TestMatrixModel.class,
+	TestMIDISoundPlayer.class,
+	TestPerformanceMode.class,
+	TestSimori.class,
+	TestSimoriGui.class,
+	TestSimoriGuiEvents.class
+
 })
 
 public class TestSuite {}  
