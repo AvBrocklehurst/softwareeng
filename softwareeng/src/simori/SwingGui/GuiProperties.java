@@ -28,6 +28,9 @@ import simori.ResourceManager;
  */
 public class GuiProperties {
 	
+	/** Key code for the key to close the Simori-ON */
+	public static final int EXIT_KEY = 27;
+	
 	/**
 	 * The {@link SimoriJFrame} is an undecorated window,
 	 * but this title is still used by the operating system.
