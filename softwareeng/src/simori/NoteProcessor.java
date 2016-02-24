@@ -150,6 +150,7 @@ public class NoteProcessor implements Runnable, PowerTogglable {
 					usedColumns.add(x);
 					layers[x] = new byte[notZero + 3];
 					short instrument = model.getInstrument(activeLayers.get(x));
+				
 					if(instrument < 128){ // insturment isn't in normal set
 						layers[x][0] = 0;
 					} else {
@@ -159,7 +160,7 @@ public class NoteProcessor implements Runnable, PowerTogglable {
 					}
 					layers[x][1] = (byte) instrument;
 					layers[x][2] = model.getVelocity(activeLayers.get(x));
-					layers[x][0] = model.getChannel(activeLayers.get(x));
+					
 					byte count = 3; //start at 3 to store the other information before it.
 					for(byte y = 0; y < thisLayer.length; y ++){
 						if(thisLayer[y] != 0){
