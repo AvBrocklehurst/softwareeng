@@ -124,9 +124,11 @@ public class NoteProcessor implements Runnable, PowerTogglable {
 		 * in the model and converts them into the correctly sized byte 
 		 * arrays that also house information such as the instrument, channel and velocity.
 		 * This method also alters the note values to make them the right pitch.
+		 * The method is particuallary long and complex because we decided that we want
+		 * to send a correctly fixed size byte array rather than an array list.
 		 * @author Adam
 		 * @author Jurek
-		 * @version 1.0.1
+		 * @version 1.0.2
 		 * @return 2D byte Array containing the notes to be played and layer information.
 		 */
 		private byte[][] getNotes(){
@@ -149,10 +151,11 @@ public class NoteProcessor implements Runnable, PowerTogglable {
 					usedColumns.add(x);
 					layers[x] = new byte[notZero + 3];
 					short instrument = model.getInstrument(activeLayers.get(x));
-					if(instrument < 128){
+					if(instrument < 128){ // insturment isn't in normal set
 						layers[x][0] = 0;
 					} else {
-						layers[x][0] = 9;
+						layers[x][0] = 9; //make the chanel 9 (percussion) 
+						/* Subtract 94 from number to get percussion insturment value */
 						instrument = (byte)(instrument - 94);
 					}
 					layers[x][1] = (byte) instrument;

@@ -1,31 +1,27 @@
 package simori.Tests;
 
 import static org.junit.Assert.assertEquals;
+import static simori.FunctionButton.OK;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import simori.Mode;
-import simori.SimoriGuiEvents.GridButtonEvent;
-import simori.SwingGui.SimoriGui;
-import simori.SwingGui.Led.OnPressListener;
-import simori.Exceptions.InvalidCoordinatesException;
+import simori.SimoriGui;
+import simori.SimoriGui.FunctionButtonEvent;
+import simori.SimoriGui.GridButtonEvent;
+import simori.SwingGui.SimoriJFrame;
 
 /**
- * Unit tests for SimoriGui class.
- * Since its function is to display a user interface,
- * many of its methods are better suited to white
- * box testing than batch unit testing.
+ * Unit tests for the Event types and listener
+ * interfaces defined in SimoriGui.java
  * @author Matt
- * @version 1.0.0
+ * @version 2.0.0
  */
 public class TestSimoriGui {
 	
-	SimoriGui gui;
-	MockSimoriGui mockGui;
-	GridButtonEvent receivedEvent;
-	
+	SimoriGui mockGui;
+
 	private static final boolean O = false;
 	private static final boolean[][] prettyGrid = {
 			{O,O,O,O,O,O,O,O,O,O,O,O,O,O,O,O},
@@ -34,7 +30,7 @@ public class TestSimoriGui {
 			{O,O,O,O,O,O,O,O,O,O,O,O,O,O,O,O},
 			{O,O,O,O,O,O,O,O,O,O,O,O,O,O,O,O},
 			{O,O,O,O,O,O,O,O,O,O,O,O,O,O,O,O},
-			{O,O,O,O,O,O,O,O,O,O,O,O,O,O,O,O},
+			{O,O,O,O,O,O,O,O,O,O,O,O,O,O,O,O}, 
 			{O,O,O,O,O,O,O,O,O,O,O,O,O,O,O,O},
 			{O,O,O,O,O,O,O,O,O,O,O,O,O,O,O,O},
 			{O,O,O,O,O,O,O,O,O,O,O,O,O,O,O,O},
@@ -44,63 +40,47 @@ public class TestSimoriGui {
 			{O,O,O,O,O,O,O,O,O,O,O,O,O,O,O,O},
 			{O,O,O,O,O,O,O,O,O,O,O,O,O,O,O,O},
 			{O,O,O,O,O,O,O,O,O,O,O,O,O,O,O,O}};
-	
-	/**
-	 * Concrete implementation of Mode for mock objects.
-	 * Records the last {@link GridButtonEvent} it received.
-	 */
-	private class MockMode extends Mode {
-		@Override
-		public void onGridButtonPress(GridButtonEvent e)
-				throws InvalidCoordinatesException {
-			receivedEvent = e;
-		}
-	}
-	
-	/** Instantiates mock objects and test subjects */
+
+	/** Instantiates mock GUI */
 	@Before
 	public void setUp() {
-		gui = new SimoriGui(16, 16);
-		mockGui = new MockSimoriGui(16, 16);
-		receivedEvent = null;
+		mockGui = new SimoriJFrame(16, 16);
 	}
 	
-	/** Tests that the Simori's mode can be changed */
+	/** Tests the getX of GridButtonEvent */
 	@Test
-	public void testSetMode() {
-		gui.setMode(new MockMode());
-		//TODO Implement this test once we have more modes
+	public void testGetX() {
+		assertEquals(1, new GridButtonEvent(mockGui, 1, 0).getX());
 	}
 	
-	/**
-	 * Tests the listeners made by the makeListenerWith
-	 * helper method to ensure that when triggered they
-	 * report the correct GridButtonEvent to the Mode.
-	 */
+	/** Tests the getY of GridButtonEvent */
 	@Test
-	public void testMakeListenerWith() {
-		mockGui.setMode(new MockMode());
-		GridButtonEvent e = new GridButtonEvent(mockGui, 0, 0);
-		OnPressListener l = mockGui.makeListenerWith(e);
-		l.onPress();
-		assertEquals(e, receivedEvent);
-	}
-
-	/**
-	 * This covers a few of methods relating to visuals.
-	 * I can't verify their results with assertions,
-	 * but I can make sure they don't produce uncaught exceptions.
-	 */
-	@Test
-	public void cannotTestProperly() {
-		gui.setGrid(prettyGrid);
-		mockGui.makeEdgeButtons();
+	public void testGetY() {
+		assertEquals(1, new GridButtonEvent(mockGui, 0, 1).getY());
 	}
 	
-	/** Resets mock objects and test subjects */
+	/** Tests the getSource of GridButtonEvent */
+	@Test
+	public void testGetGridSource() {
+		assertEquals(mockGui, new GridButtonEvent(mockGui, 0, 0).getSource());
+	}
+	
+	/** Tests the getFunctionButton of FunctionButtonEvent */
+	@Test
+	public void testGetFunctionButton() {
+		FunctionButtonEvent e = new FunctionButtonEvent(mockGui, OK);
+		assertEquals(OK, e.getFunctionButton());
+	}
+	
+	/** Tests the getSource of FunctionButtonEvent */
+	@Test
+	public void testGetFunctionSource() {
+		assertEquals(mockGui, new FunctionButtonEvent(mockGui, OK).getSource());
+	}
+	
+	/** Resets the mock GUI */
 	@After
 	public void tearDown() {
-		gui = mockGui = null;
-		receivedEvent = null;
+		mockGui = null;
 	}
 }

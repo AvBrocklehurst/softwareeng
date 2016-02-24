@@ -28,6 +28,9 @@ import simori.ResourceManager;
  */
 public class GuiProperties {
 	
+	/** Key code for the key to close the Simori-ON */
+	public static final int EXIT_KEY = 27;
+	
 	/**
 	 * The {@link SimoriJFrame} is an undecorated window,
 	 * but this title is still used by the operating system.
@@ -36,6 +39,12 @@ public class GuiProperties {
 	
 	/** Proportion of screen height/width for {@link SimoriJFrame} to fill */
 	public static final float SCREEN_PROPORTION = 0.8f;
+	
+	/** Proportion of {@link SimoriJFrame} length to round at the corners */
+	public static final float ARC_PROPORTION = 0.05f;
+	
+	/** Proportion of {@link SimoriEdgeBar}'s space for components to fill */
+	public static final float MARGIN_PROPORTION = 5f / 6f;
 	
 	/** Number of times longer the {@link Lcd} is in its long dimension */
 	public static final float LCD_EDGE_RATIO = 5f;

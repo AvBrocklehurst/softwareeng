@@ -60,7 +60,7 @@ public class Simori {
 	
 	/**
 	 * @author Josh
-	 * @author Matt
+	 * @author Matt  
 	 * @version 1.0.0
 	 * interface that tells classes that have statuses (that are not needed) to close and open
 	 */

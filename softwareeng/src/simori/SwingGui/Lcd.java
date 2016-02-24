@@ -26,7 +26,7 @@ public class Lcd extends JLabel {
 	 * @param vertical false to create a horizontal LCD screen
 	 */
 	public Lcd(boolean vertical) {
-		this.vertical = vertical;												//TODO Vertical JLabel?
+		this.vertical = vertical;
 		setBorder(BorderFactory.createLineBorder(GuiProperties.LCD_BORDER));
 		addComponentListener(makeResizeListener());
 	}
