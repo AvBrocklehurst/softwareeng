@@ -165,7 +165,7 @@ public class NoteProcessor implements Runnable, PowerTogglable {
 						if(thisLayer[y] != 0){
 							layers[x][count] = thisLayer[y];
 							count++;
-						} 
+						}
 					}
 				}
 			}
@@ -186,6 +186,7 @@ public class NoteProcessor implements Runnable, PowerTogglable {
 		@Override
 		public void switchOn() {
 			running = true;
+			clock.setRunning(running);
 			new Thread(this).start();
 		}
 		
@@ -200,6 +201,7 @@ public class NoteProcessor implements Runnable, PowerTogglable {
 		@Override
 		public void switchOff() {
 			running = false;
+			clock.setRunning(running);
 			synchronized(lock){lock.notify();}
 			synchronized(bpmLock){bpmLock.notify();}
 		}
