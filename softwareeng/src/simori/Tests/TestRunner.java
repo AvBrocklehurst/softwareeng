@@ -9,6 +9,7 @@ import org.junit.runner.notification.Failure;
 
 /**
  * @author Josh
+ * @author Matt
  * @version 1.0.1
  * class that is able to run the test suite with meaningful output
  */

@@ -211,7 +211,10 @@ public class GuiProperties {
 				return null;
 			}
 			return Font.createFont(Font.TRUETYPE_FONT, ttf);
-		} catch (Exception e) {
+		} catch (IOException e) {
+			System.err.println("Could not load typeface from " + FONT_NAME);
+			return new Font(Font.SERIF, Font.PLAIN, 1);
+		} catch (FontFormatException e) {
 			System.err.println("Could not load typeface from " + FONT_NAME);
 			return new Font(Font.SERIF, Font.PLAIN, 1);
 		}
