@@ -31,6 +31,7 @@ public class Simori {
 	 */
 	public static void main(String[] args) {
 		try {
+			InstrumentNamer.getInstance();
 			new Simori();
 		} catch (MidiUnavailableException e) {
 			e.printStackTrace();
