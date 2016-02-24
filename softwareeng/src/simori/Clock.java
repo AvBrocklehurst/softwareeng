@@ -38,8 +38,11 @@ public class Clock implements Runnable {
 				while(bpm==model.getBPM() && running) {
 					try{bpmLock.wait();}catch(InterruptedException e){}
 				}
+				timer.cancel();
+				while(model.getBPM()==0){
+					try{bpmLock.wait();}catch(InterruptedException e){}
+				}
 			}
-			timer.cancel();
 		}
 	}
 
@@ -82,5 +85,15 @@ public class Clock implements Runnable {
 				}	
 			}
 		}, timeLeft, period);
+	}
+	
+	/**
+	 * Sets the local running variable
+	 * @author Jurek
+	 * @version 1.0.0
+	 * @param running
+	 */
+	public void setRunning(boolean running) {
+		this.running = running;
 	}
 }

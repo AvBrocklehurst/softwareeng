@@ -19,12 +19,11 @@ import simori.SwingGui.SimoriJFrame;
 
 /**
  * 
- * @author Adam
  * @author Jurek
+ * @author Adam
  */
 public class TestNoteProcessor {
 	private MatrixModel model;
-	private PerformanceMode mode;
 	private ModeController modes;
 	private MIDISoundPlayer midi;
 	private NoteProcessor clock;
@@ -37,11 +36,9 @@ public class TestNoteProcessor {
 		model = new MatrixModel(16,16);
 		gui = new SimoriJFrame(16, 16);
 		modes = new ModeController(gui, model);
-		mode = new PerformanceMode(modes);
-		modes.setMode(mode);
+		modes.setMode(new PerformanceMode(modes));
 		model.updateButton((byte)0, (byte)1, (byte)5);
 		midi = new MIDISoundPlayer();
-		clock = new NoteProcessor(modes, model, midi);
 		e = null;
 	}
 	
@@ -51,7 +48,6 @@ public class TestNoteProcessor {
 		model = null;
 		gui = null;
 		modes = null;
-		mode = null;
 		midi = null;
 		clock = null;
 		thread = null;
@@ -72,9 +68,11 @@ public class TestNoteProcessor {
 	
 	@Test
 	public void testRun() throws MidiUnavailableException {
+		clock = new NoteProcessor(modes, model, midi);
 		setUpThread();
 		thread.start();
 		try{Thread.sleep(2000);} catch (InterruptedException e) {}
+		
 		assertNull(e);
 	}
 	
@@ -84,6 +82,7 @@ public class TestNoteProcessor {
 		setUpThread();
 		thread.start();
 		try{Thread.sleep(2000);} catch (InterruptedException e) {}
+		
 		assertEquals(e.getClass(), NullPointerException.class);
 	}
 	
@@ -93,17 +92,39 @@ public class TestNoteProcessor {
 		setUpThread();
 		thread.start();
 		try{Thread.sleep(2000);} catch (InterruptedException e) {}
+		
 		assertEquals(e.getClass(), NullPointerException.class);
 	}
 	
 	@Test (expected=NullPointerException.class)
 	public void testRunNullMode() throws MidiUnavailableException {
-		clock = new NoteProcessor(null, model, midi);
+		new NoteProcessor(null, model, midi);
+	}
+
+//	@Test 
+//	public void testRunWrongMIDI() {
+//		clock = new NoteProcessor(modes, model, midi);
+//		setUpThread();
+//		thread.start();
+//		try{Thread.sleep(2000);} catch (InterruptedException e) {}
+//		
+//		assertNull(e);
+//	}
+	
+	@Test
+	public void testRunDimensions() throws MidiUnavailableException {
+		model = new MatrixModel(2,2);
+		modes = new ModeController(new SimoriJFrame(2, 2), model);
+		clock = new NoteProcessor(modes, model, midi);
+		modes.setMode(new PerformanceMode(modes));
 		setUpThread();
 		thread.start();
 		try{Thread.sleep(2000);} catch (InterruptedException e) {}
-		assertEquals(e.getClass(), NullPointerException.class);
+		
+		assertNull(e);
 	}
+		
+	
 	/*
 	@Test 
 	public void testRunTempoNegative() throws MidiUnavailableException {
