@@ -45,7 +45,8 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 	}
 	
 	public void setInitialGrid() {
-		controller.getGui().clearGrid();
+		getGui().clearGrid();
+		getGui().setText(null);
 	}
 	
 	/**

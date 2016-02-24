@@ -106,7 +106,9 @@ public class ChangerMode extends Mode {
 		Setting current = changer.getCurrentSetting();
 		if (current == null) {
 			getGui().clearGrid();
+			getGui().setText(null);
 		} else {
+			getGui().setText(changer.getText(current));
 			drawSelector(current.x, current.y);
 		}
 	}
