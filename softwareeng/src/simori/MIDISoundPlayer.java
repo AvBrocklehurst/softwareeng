@@ -2,6 +2,7 @@ package simori;
 
 import java.util.ArrayList;
 
+import javax.sound.midi.Instrument;
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiSystem;
 import javax.sound.midi.MidiUnavailableException;
@@ -131,16 +132,6 @@ public class MIDISoundPlayer implements MIDIPlayer, PowerTogglable {
 		reciever.close();
 		synth.close();	
 	}
-	
-	public static void main(String[] args) throws InvalidMidiDataException, InterruptedException {
-		byte[][] toPlay = {
-				{9,0,80,39,40,41}
-		};
-		MIDISoundPlayer player = new MIDISoundPlayer();
-		player.play(toPlay);
-		Thread.sleep(1000);
-		
-	}
-	
+
 }
 
