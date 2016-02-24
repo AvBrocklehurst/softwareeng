@@ -1,15 +1,11 @@
 package simori.Tests;
 
 import static org.junit.Assert.assertEquals;
-import static org.hamcrest.CoreMatchers.startsWith;
+
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.FixMethodOrder;
 import org.junit.Test;
-import org.junit.runners.MethodSorters;
-import org.junit.Rule;
-import org.junit.rules.ExpectedException;
 
 import simori.MIDISoundPlayer;
 import simori.MatrixModel;
@@ -31,7 +27,7 @@ import simori.SwingGui.SimoriJFrame;
  * @see simori.PerformanceMode
  *
  */
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+
 public class TestPerformanceMode {
 	
 	MatrixModel model;
@@ -39,8 +35,7 @@ public class TestPerformanceMode {
 	ModeController modes;
 	PerformanceMode pm;
 	
-	@Rule
-	public ExpectedException thrown = ExpectedException.none();
+	
 	
 	@Before
 	public void setUp(){

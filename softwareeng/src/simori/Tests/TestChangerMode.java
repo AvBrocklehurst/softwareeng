@@ -5,9 +5,8 @@ import static simori.FunctionButton.*;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
+
 
 import simori.ChangerMode;
 import simori.ChangerMode.Changer;
@@ -67,10 +66,7 @@ public class TestChangerMode {
 		};
 	}
 	
-	@Rule
-	public ExpectedException thrown = ExpectedException.none();
-	
-	
+
 	@Before 
 	public void setUp(){
 		gui = new SimoriJFrame(16,16);

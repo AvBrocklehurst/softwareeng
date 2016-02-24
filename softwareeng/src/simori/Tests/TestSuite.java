@@ -17,7 +17,10 @@ import org.junit.runners.Suite;
    TestMIDISoundPlayer.class,
    TestPerformanceMode.class,
    TestInstrumentNamer.class,
-   TestSimoriGui.class
+   TestSimoriGui.class,
+   TestChangerMode.class,
+   TestSimori.class
+   
 })
 
 public class TestSuite {}
