@@ -164,15 +164,13 @@ public class NoteProcessor implements Runnable, PowerTogglable {
 					}
 					
 					layers[x][2] = model.getVelocity(activeLayers.get(x));
-					System.out.println(layers[x][0]);
-					System.out.println(layers[x][1]);
-					System.out.println(layers[x][2]);
+					
 					byte count = 3; //start at 3 to store the other information before it.
 					for(byte y = 0; y < thisLayer.length; y ++){
 						if(thisLayer[y] != 0){
 							if(layers[x][0] == 9){
 								layers[x][count] = (byte) instrument;
-								System.out.println(instrument);
+								
 							} else {
 								layers[x][count] = thisLayer[y];
 							}
