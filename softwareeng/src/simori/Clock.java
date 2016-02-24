@@ -3,6 +3,12 @@ package simori;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * Class implementing Runnable which keeps track of the timing. It handles when the note processor
+ * should process data, and also any bpm/tempo changes.
+ * @author Jurek
+ * @version 1.0.1
+ */
 public class Clock implements Runnable {
 	private long startTime;
 	private long maxTime;
@@ -38,8 +44,13 @@ public class Clock implements Runnable {
 	}
 
 	/**
+	 * Changes the current bpm, by restarting the timer with the new tempo.
+	 * If the amount of time passed on the current tick is greater or equal to the new
+	 * period, then the timer is started immediately, otherwise the difference is calculated
+	 * and used as the initial delay of the timer.
 	 * @author Jurek
 	 * @version 1.0.0
+	 * @param bpm The new bpm
 	 */
 	private void changeTempo(short bpm, long maxTime) {
 		long timePassed = System.currentTimeMillis() - startTime;
@@ -54,6 +65,8 @@ public class Clock implements Runnable {
 	 * Starts the timer thread that keeps track of the tempo
 	 * @version 1.0.1
 	 * @author Jurek
+	 * @param timeLeft Variable that tracks how much of an initial delay there should be before the timer starts
+	 * @param period How often the timer should notify the note processor to process data
 	 */
 	private void startTimer(long timeLeft, long period){
 		timer = new Timer();

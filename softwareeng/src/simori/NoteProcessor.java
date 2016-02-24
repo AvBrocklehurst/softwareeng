@@ -6,39 +6,18 @@ import javax.sound.midi.InvalidMidiDataException;
 import simori.Simori.PowerTogglable;
 import simori.Exceptions.InvalidCoordinatesException;
 
-//TODO HEY KERRY, HERES SOME OF THE ERROR CHECKING THAT NEEDS DOING
-//TODO HEY KERRY, SEE THE EXCEPTION PACKAGES,USE THOSE AS EXCEPTIONS
-/*
- * 	if(layers.size <0){throw new NothingToplayException()};
-	for (byte[] layer: layers) {
-		//if(layers.size <4){throw new MidixxxToplayException()};
-		 if(layer[0]!= 0 || layer[0] != 9){throw newxxxx};
-		 if(layer[1] <0) {throw new xxx};
-		 if(layer[2] <0) {throw new xxx};
-		 for (int i = 3; i < layer.length; i++) {
-		 if(layer[i] <0){throwxxx}; 
-		}
- */
-	/**
-	 * Class implementing Runnable which keeps track of the current tempo and plays notes which are currently active
-	 * @author Jurek
-	 * @author Adam
-	 * @version 1.4.0
-	 * @see run()
-	 */
 	//TODO error checking for midi.play(layers)
 	//TODO tempo testing, making sure its within bounds of 0<160, and in increments of 10
-
-
-
-//TODO JOSH implement in sprint 2: The percussion channel (9) doesn't have instruments,the pitch determines the instrument to be played.
-// TODO JOSH midi goes from 1-128, we go from 0-127, will need to change!
-//TODO KERRRY OMG SPLIT THIS UP INTO METHODS.
-
-
-
-
-
+	//TODO JOSH implement in sprint 2: The percussion channel (9) doesn't have instruments,the pitch determines the instrument to be played.
+	// TODO JOSH midi goes from 1-128, we go from 0-127, will need to change!
+	/**
+	 * Class implementing Runnable and PowerTogglable which keeps track
+	 * of the current tempo and plays notes which are currently active
+	 * @author Jurek
+	 * @author Adam
+	 * @version 1.5.0
+	 * @see run()
+	 */
 public class NoteProcessor implements Runnable, PowerTogglable {
 		private volatile boolean running;
 		private ModeController mode;
@@ -68,13 +47,14 @@ public class NoteProcessor implements Runnable, PowerTogglable {
 		}
 
 		/**
-		 * The thread method for running the clock
-		 * First sets up a timer, before entering the proper thread loop, where it
+		 * The thread method for running the note processor
+		 * First sets up the clock, before entering the proper thread loop, where it
 		 * continuously takes data from the model, processes it and sends it across
 		 * to the MIDIPlayer to be played. Highlights the current column on the GUI using
 		 * the mode.
+		 * The thread waits through the majority of a tick before processing data.
 		 * @author Jurek
-		 * @version 1.4.0
+		 * @version 1.5.0
 		 */
 		@Override
 		public void run() {
@@ -105,9 +85,12 @@ public class NoteProcessor implements Runnable, PowerTogglable {
 		}
 		
 		/**
-		 * 
+		 * Finds the maximum note processing time. The method achieves this by
+		 * creating a mock MatrixModel and population a single column from each
+		 * layer before attempting to process them all.
 		 * @author Jurek
 		 * @version 1.0.0
+		 * @return long returns the maximum processing time in milliseconds, rounded up
 		 */
 		private long findMaxProcessingTime() {
 			
@@ -142,6 +125,7 @@ public class NoteProcessor implements Runnable, PowerTogglable {
 		 * arrays that also house information such as the instrument, channel and velocity.
 		 * This method also alters the note values to make them the right pitch.
 		 * @author Adam
+		 * @author Jurek
 		 * @version 1.0.1
 		 * @return 2D byte Array containing the notes to be played and layer information.
 		 */
@@ -193,15 +177,7 @@ public class NoteProcessor implements Runnable, PowerTogglable {
 		}
 		
 		/**
-		 * @author Jurek
-		 * @version 1.0.0
-		 * @return
-		 */
-		public boolean getRunning() {
-			return running;
-		}
-		
-		/**
+		 * Switches the note processor, and subsequently its clock, on
 		 * @author Matt
 		 * @version 1.0.0
 		 */
@@ -213,6 +189,7 @@ public class NoteProcessor implements Runnable, PowerTogglable {
 		
 		
 		/**
+		 * Switches the note processor, and subsequently its clock, off
 		 * @author Matt
 		 * @author Adam
 		 * @author Jurek
