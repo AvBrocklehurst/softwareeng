@@ -29,7 +29,7 @@ public class Layer implements Serializable {
 	 */
 	public Layer(int width, int height) {
 		this.grid = new boolean[width][height]; //Initialise the grid as a 16x16 2 dimensional array.
-		this.instrument = 0; //Set a default instrument.
+		this.instrument = 1; //Set a default instrument.
 		this.height = height;
 		this.width = width;
 		this.channel = 0;
