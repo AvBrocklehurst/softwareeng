@@ -190,7 +190,7 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 	private Changer makeVoiceChanger(){
 		return new Changer(){
 			
-			private short instrumentNumber;
+			private Short instrumentNumber;
 			
 			/**
 			 * A method which overrides the interface method in order to
@@ -205,7 +205,8 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 			public String getText(Setting s) {
 				InstrumentNamer in = InstrumentNamer.getInstance();     //singleton class
 				instrumentNumber = coordsConverter(s.getX(), s.getY()); //translate coordinates to short
-				return in.getName(instrumentNumber);
+				instrumentNumber = (instrumentNumber.shortValue() > 189 ? null : instrumentNumber);
+				return (instrumentNumber == null ? null : in.getName(instrumentNumber));
 			}
 			
 			/**
@@ -242,7 +243,7 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 	private Changer makeVelocityChanger(){
 		return new Changer(){
 
-			private short selectedVelocity;
+			private Short selectedVelocity;
 			
 			/**
 			 * A method which overrides the interface method in order to
@@ -255,8 +256,9 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 			 */
 			@Override
 			public String getText(Setting s) {
-				selectedVelocity = coordsConverter(s.getX(), s.getY());
-				return String.valueOf(selectedVelocity);
+				short cords = coordsConverter(s.getX(), s.getY());
+				selectedVelocity = (cords > 127 ? null : cords);
+				return (selectedVelocity == null ? null : String.valueOf(selectedVelocity));
 			}
 			
 			/**
@@ -270,7 +272,10 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 			 */
 			@Override
 			public boolean doThingTo(ModeController controller) {
-				controller.getModel().setVelocity(getDisplayLayer(), (byte)selectedVelocity); 
+				if(selectedVelocity == null){
+					return false;
+				}
+				controller.getModel().setVelocity(getDisplayLayer(), selectedVelocity.byteValue()); 
 				return true;
 			}
 
@@ -291,22 +296,25 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 	private Changer makeSpeedChanger(){
 		return new Changer(){
 			
-			private int selectedTempo;
+			private Short selectedTempo;
 			
 			@Override
 			public String getText(Setting s) {
 				if(s.getY()==0) {
-					selectedTempo = s.getX();
+					selectedTempo = (short) s.getX();
 					return String.valueOf(s.getX());
 				} else {
-					//TODO need to figure how to make it 0-160 exactly. currently it matches the picture example(what with 57 where it was)
-					selectedTempo = 15 + 16*(s.getY()-1) + s.getX();
-					return String.valueOf(selectedTempo);
+					selectedTempo = (short) (15 + 16*(s.getY()-1) + s.getX());
+					selectedTempo = (selectedTempo.shortValue() < (short)161 ? selectedTempo : null);
+					return (selectedTempo == null ? null : String.valueOf(selectedTempo));
 				}
 			}
 
 			@Override
 			public boolean doThingTo(ModeController controller) {
+				if(selectedTempo == null){
+					return false;
+				}
 				controller.getModel().setBPM((short)selectedTempo);
 				controller.notifyClock();
 				return true;
