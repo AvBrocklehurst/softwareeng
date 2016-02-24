@@ -53,7 +53,7 @@ public class TestInstrumentNamer {
 	public void testGetInstanceTwice() {
 		instrumentNamer = InstrumentNamer.getInstance();
 		instrumentNamer = InstrumentNamer.getInstance();
-		assertNotNull(instrumentNamer);
+		assertNotNull(instrumentNamer);  
 	}
 	
 	/**

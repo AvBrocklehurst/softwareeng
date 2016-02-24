@@ -127,7 +127,6 @@ public class NoteProcessor implements Runnable, PowerTogglable {
 		 * The method is particuallary long and complex because we decided that we want
 		 * to send a correctly fixed size byte array rather than an array list.
 		 * @author Adam
-		 * @author Jurek
 		 * @version 1.0.2
 		 * @return 2D byte Array containing the notes to be played and layer information.
 		 */

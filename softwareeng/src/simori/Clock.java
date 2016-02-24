@@ -56,8 +56,11 @@ public class Clock implements Runnable {
 		long timePassed = System.currentTimeMillis() - startTime;
 		long period = (long)((1f/(bpm/60f))*1000f)-maxTime;
 		long timeLeft;
-		if(period <= timePassed) timeLeft = 0;
-		else timeLeft = period - timePassed;
+		if(period <= timePassed) {
+			timeLeft = 0;
+		} else {
+			timeLeft = period - timePassed;
+		}
 		startTimer(timeLeft, period);
 	}
 
