@@ -73,7 +73,7 @@ public class TestNoteProcessor {
 		
 		assertNull(e);
 	}
-	
+	/*
 	@Test (expected=NullPointerException.class)
 	public void testRunNullModel() throws MidiUnavailableException {
 		clock = new NoteProcessor(modes, null, midi);
@@ -83,7 +83,7 @@ public class TestNoteProcessor {
 		
 		assertEquals(e.getClass(), NullPointerException.class);
 	}
-	
+	*/
 	@Test 
 	public void testRunNullMIDI() {
 		clock = new NoteProcessor(modes, model, null);

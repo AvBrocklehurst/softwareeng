@@ -17,6 +17,7 @@ import simori.Exceptions.InvalidCoordinatesException;
  * 
  * @author James
  * @author Jurek
+ * @author Adam
  * @version 1.1.0
  */
 public abstract class Mode implements FunctionButtonListener, GridButtonListener {
@@ -183,6 +184,7 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 	 * used for the current layer on the simori.
 	 * 
 	 * @author James
+	 * @author Adam
 	 * @return Changer
 	 * @see ChangerMode.Changer
 	 * @version 1.2.1
@@ -236,6 +238,7 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 	 * used for the current layer on the simori.
 	 * 
 	 * @author James
+	 * @author Adam
 	 * @return Changer
 	 * @see ChangerMode.Changer
 	 * @version 1.0.0
@@ -290,6 +293,7 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 	 * This implementation of the Changer interface changes the current tempo
 	 * 
 	 * @author Jurek
+	 * @author Adam
 	 * @version 1.0.0
 	 * @return Changer
 	 */

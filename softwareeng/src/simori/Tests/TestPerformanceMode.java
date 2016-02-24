@@ -30,11 +30,11 @@ import simori.SwingGui.SimoriJFrame;
 
 public class TestPerformanceMode {
 	
-	MatrixModel model;
-	SimoriJFrame gui;
-	ModeController modes;
-	PerformanceMode pm;
-	
+	private MatrixModel model;
+	private SimoriJFrame gui;
+	private ModeController modes;
+	private PerformanceMode pm;
+	private GridButtonEvent testgb;
 	
 	
 	@Before
@@ -67,13 +67,13 @@ public class TestPerformanceMode {
 	
 	@Test
 	public void test_onGridButtonPress_false() throws InvalidCoordinatesException{
-		
-		testpm.onGridButtonPress(mockgb); //invert to true
-		testpm.onGridButtonPress(mockgb); //invert to false
-		boolean changedgridcoords = testpm.getModifiedGrid()[2][3];
+		testgb = new GridButtonEvent(gui, 5, 5);
+		pm.onGridButtonPress(testgb); //invert to true
+		pm.onGridButtonPress(testgb); //invert to false
+		boolean changedgridcoords = pm.getModifiedGrid()[2][3];
 		assertEquals("The grid button was not inverted back to false!", false, changedgridcoords);
 	}
-	
+	/*
 	@Test
 	public void test_onGridButtonPress_notInverted() throws InvalidCoordinatesException{
 		
