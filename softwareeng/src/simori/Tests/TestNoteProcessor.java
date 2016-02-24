@@ -39,6 +39,7 @@ public class TestNoteProcessor {
 		modes.setMode(new PerformanceMode(modes));
 		model.updateButton((byte)0, (byte)1, (byte)5);
 		midi = new MIDISoundPlayer();
+		clock = new NoteProcessor(modes, model, midi);
 		e = null;
 	}
 	
@@ -64,11 +65,8 @@ public class TestNoteProcessor {
 		thread.setUncaughtExceptionHandler(h);
 	}
 	
-	
-	
 	@Test
 	public void testRun() throws MidiUnavailableException {
-		clock = new NoteProcessor(modes, model, midi);
 		setUpThread();
 		thread.start();
 		try{Thread.sleep(2000);} catch (InterruptedException e) {}
@@ -101,29 +99,75 @@ public class TestNoteProcessor {
 		new NoteProcessor(null, model, midi);
 	}
 
-//	@Test 
-//	public void testRunWrongMIDI() {
-//		clock = new NoteProcessor(modes, model, midi);
-//		setUpThread();
-//		thread.start();
-//		try{Thread.sleep(2000);} catch (InterruptedException e) {}
-//		
-//		assertNull(e);
-//	}
-	
 	@Test
-	public void testRunDimensions() throws MidiUnavailableException {
-		model = new MatrixModel(2,2);
-		modes = new ModeController(new SimoriJFrame(2, 2), model);
-		clock = new NoteProcessor(modes, model, midi);
-		modes.setMode(new PerformanceMode(modes));
+	public void testRunZeroBpm() throws MidiUnavailableException {
 		setUpThread();
 		thread.start();
-		try{Thread.sleep(2000);} catch (InterruptedException e) {}
+		try{Thread.sleep(1000);} catch (InterruptedException e) {}
+		model.setBPM((short) 0);
+		modes.notifyClock();
+		try{Thread.sleep(1000);} catch (InterruptedException e) {}
 		
 		assertNull(e);
 	}
+
+	@Test
+	public void testRunLesserBpm() throws MidiUnavailableException {
+		setUpThread();
+		thread.start();
+		try{Thread.sleep(1000);} catch (InterruptedException e) {}
+		model.setBPM((short) 1);
+		modes.notifyClock();
+		try{Thread.sleep(1000);} catch (InterruptedException e) {}
 		
+		assertNull(e);
+	}
+
+	@Test
+	public void testRunOn() throws MidiUnavailableException {
+		setUpThread();
+		thread.start();
+		try{Thread.sleep(2000);} catch (InterruptedException e) {}
+		clock.switchOff();
+		clock.switchOn();
+		
+		assertNull(e);
+	}
+
+	@Test
+	public void testRunPercussion() throws MidiUnavailableException, InvalidCoordinatesException {
+		setUpThread();
+		thread.start();
+		try{Thread.sleep(1000);} catch (InterruptedException e) {}
+		model.setInstrument((byte)0, (short)200);
+		model.setBPM((short) 160);
+		modes.notifyClock();
+		for(int i=0; i<16; i++) {
+			model.updateButton((byte)0, (byte)i, (byte)4);
+		}
+		try{Thread.sleep(1000);} catch (InterruptedException e) {}
+		
+		assertNull(e);
+	}
+
+	@Test
+	public void testRunWrongInstrument() throws MidiUnavailableException, InvalidCoordinatesException {
+		setUpThread();
+		thread.start();
+		try{Thread.sleep(1000);} catch (InterruptedException e) {}
+		model.setInstrument((byte)0, (short)200);
+		model.setBPM((short) 160);
+		modes.notifyClock();
+		for(int i=0; i<16; i++) {
+			model.updateButton((byte)0, (byte)i, (byte)4);
+		}
+		try{Thread.sleep(1000);} catch (InterruptedException e) {}
+		
+		assertNull(e);
+	}
+	
+	
+	
 	
 	/*
 	@Test 
