@@ -87,6 +87,7 @@ public class TestMIDISoundPlayer {
 	 */
 	@After
 	public void tearDown(){
+		player.switchOff();
 		player = null; //remove player.
 		array = null; // remove array.
 		}

@@ -132,5 +132,15 @@ public class MIDISoundPlayer implements MIDIPlayer, PowerTogglable {
 		synth.close();	
 	}
 	
+	public static void main(String[] args) throws InvalidMidiDataException, InterruptedException {
+		byte[][] toPlay = {
+				{9,0,80,39,40,41}
+		};
+		MIDISoundPlayer player = new MIDISoundPlayer();
+		player.play(toPlay);
+		Thread.sleep(1000);
+		
+	}
+	
 }
 
