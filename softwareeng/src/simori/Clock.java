@@ -7,6 +7,7 @@ import java.util.TimerTask;
  * Class implementing Runnable which keeps track of the timing. It handles when the note processor
  * should process data, and also any bpm/tempo changes.
  * @author Jurek
+ * @author Adam
  * @version 1.0.1
  */
 public class Clock implements Runnable {
@@ -17,6 +18,7 @@ public class Clock implements Runnable {
 	private MatrixModel model;
 	private Object bpmLock;
 	private Object lock;
+	private short bpm;
 	
 	Clock(long maxTime, boolean running, MatrixModel model, Object bpmLock, Object lock) {
 		this.maxTime = maxTime;
@@ -24,18 +26,19 @@ public class Clock implements Runnable {
 		this.model = model;
 		this.bpmLock = bpmLock;
 		this.lock = lock;
+		this.bpm = model.getBPM();
 	}
 	
 	@Override
 	public void run() {//while running...
 		while(running){
 			//...update the tempo...
-			short bpm = model.getBPM();
+			short bpmCheck = bpm; //store the bpm at the start of the loop.
 			changeTempo(bpm, maxTime);
 			
 			synchronized(bpmLock){
 				//...everytime the BPM is changed
-				while(bpm==model.getBPM() && running) {
+				while(bpm==bpmCheck && running) {
 					try{bpmLock.wait();}catch(InterruptedException e){}
 				}
 				timer.cancel();
@@ -95,5 +98,19 @@ public class Clock implements Runnable {
 	 */
 	public void setRunning(boolean running) {
 		this.running = running;
+	}
+	
+	/**
+	 * Method that gets called by parent observer when the bpm is changed.
+	 * It sets the bpm for the clock to follow and forces it out of the loop
+	 * so that it can update the bpm immediatly. 
+	 * @author Adam
+	 * @param newBPM  the bpm to change the clock too.
+	 */
+	public void updateBPM(short newBPM){
+		bpm = newBPM;
+		synchronized(bpmLock){
+			bpmLock.notify();
+		}
 	}
 }

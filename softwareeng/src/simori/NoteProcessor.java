@@ -2,6 +2,9 @@ package simori;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
+
 import javax.sound.midi.InvalidMidiDataException;
 import simori.Simori.PowerTogglable;
 import simori.Exceptions.InvalidCoordinatesException;
@@ -18,7 +21,7 @@ import simori.Exceptions.InvalidCoordinatesException;
 	 * @version 1.5.0
 	 * @see run()
 	 */
-public class NoteProcessor implements Runnable, PowerTogglable {
+public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 		private volatile boolean running;
 		private ModeController mode;
 		private MatrixModel model;
@@ -42,7 +45,6 @@ public class NoteProcessor implements Runnable, PowerTogglable {
 			this.midi = midi;
 			lock = new Object();
 			bpmLock = new Object();
-			mode.setBpmLock(bpmLock);
 			clock = new Clock(findMaxProcessingTime(), running, model, bpmLock, lock);
 		}
 
@@ -215,5 +217,10 @@ public class NoteProcessor implements Runnable, PowerTogglable {
 			clock.setRunning(running);
 			synchronized(lock){lock.notify();}
 			synchronized(bpmLock){bpmLock.notify();}
+		}
+
+		@Override
+		public void update(Observable model, Object bpm) {
+			clock.updateBPM((short) bpm);	
 		}
 }

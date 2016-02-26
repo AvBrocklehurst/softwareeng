@@ -3,6 +3,7 @@ package simori;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 
 import simori.Simori.PowerTogglable;
 import simori.Exceptions.InvalidCoordinatesException;
@@ -15,7 +16,7 @@ import simori.Exceptions.InvalidCoordinatesException;
  * @author  Adam
  * @version 1.2.1
  */
-public class MatrixModel implements Serializable, PowerTogglable {
+public class MatrixModel extends Observable implements Serializable, PowerTogglable {
 	private Layer[] layers;
 	private volatile short BPM;
 	private int height;
@@ -109,7 +110,9 @@ public class MatrixModel implements Serializable, PowerTogglable {
 	 * @param newBPM  byte with the value to set the bpm too.
 	 */
 	public void setBPM(short newBPM){
-		BPM = newBPM;
+		BPM = newBPM; 
+		setChanged(); //change the state of observable to changed.
+	    notifyObservers(newBPM); //notify all observers.
 	}
 	
 	/**

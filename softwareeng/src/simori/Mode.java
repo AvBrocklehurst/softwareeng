@@ -321,7 +321,6 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 					return false;
 				}
 				controller.getModel().setBPM((short)selectedTempo);
-				controller.notifyClock();
 				return true;
 			}
 

@@ -1,5 +1,7 @@
 package simori;
 
+import java.util.Observer;
+
 import javax.sound.midi.MidiUnavailableException;
 
 import simori.SwingGui.SimoriJFrame;
@@ -55,6 +57,7 @@ public class Simori {
 		MIDISoundPlayer player = new MIDISoundPlayer();
 		ModeController modes = new ModeController(gui, model);
 		NoteProcessor clock = new NoteProcessor(modes, model, player);
+		model.addObserver(clock);
 		modes.setComponentsToPowerToggle(model, player, clock);
 		gui.setVisible(true);
 	}
