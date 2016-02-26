@@ -121,20 +121,21 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 		}
 		
 		/**
-		 * Method to product the 2D byte array of notes for the midi player.
+		 * Method to produce the 2D byte array of notes for the midi player.
 		 * It takes the notes in the current column from the active layers
 		 * in the model and converts them into the correctly sized byte 
-		 * arrays that also house information such as the instrument, channel and velocity.
+		 * arrays (via the convert layer method) that also house information such as the instrument, channel and velocity.
 		 * This method also alters the note values to make them the right pitch.
 		 * The method is particuallary long and complex because we decided that we want
 		 * to send a correctly fixed size byte array rather than an array list.
 		 * @author Adam
-		 * @version 1.0.2
+		 * @version 1.1.0
 		 * @return 2D byte Array containing the notes to be played and layer information.
 		 */
 		private byte[][] getNotes(){
 			List<Byte> activeLayers = model.getLayers();
-			byte[][] layers = new byte[activeLayers.size()][]; //make the array the same size as the active layers.
+			/* make the array the same size as the active layers. */
+			byte[][] layers = new byte[activeLayers.size()][]; 
 			ArrayList<Byte> usedColumns = new ArrayList<Byte>();
 			for(byte x=0; x<(byte)activeLayers.size(); x++){ //for each active layer.
 				byte notZero = 0; //to keep the size to make this layers byte array.
@@ -142,7 +143,8 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 				boolean[] layer = model.getCol(activeLayers.get(x));
 				for(byte y=0; y<layer.length; y++){
 					if(layer[y]){
-						thisLayer[y + 3] = (byte) (y + 50); //alter the value to store the correct pitch.
+						/*alter the value to store the correct pitch. */
+						thisLayer[y + 3] = (byte) (y + 50);
 						notZero++;
 					} else {
 						thisLayer[y + 3] = 0;
@@ -150,36 +152,7 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 				}
 				if(notZero > 0){ // If this layer has notes in this column.
 					usedColumns.add(x);
-					layers[x] = new byte[notZero + 3];
-					short instrument = model.getInstrument(activeLayers.get(x));
-				
-					if(instrument < 128){ // insturment isn't in normal set
-						layers[x][0] = 0;
-					} else {
-						layers[x][0] = 9; //make the chanel 9 (percussion) 
-						/* Subtract 94 from number to get percussion insturment value */
-						instrument = (byte)(instrument - 94);
-					}
-					layers[x][1] = (byte) instrument;
-					if(layers[x][0] == 9){
-						layers[x][1] = 0;
-					}
-					
-					layers[x][2] = model.getVelocity(activeLayers.get(x));
-					
-					byte count = 3; //start at 3 to store the other information before it.
-					for(byte y = 0; y < thisLayer.length; y ++){
-						if(thisLayer[y] != 0){
-							if(layers[x][0] == 9){
-								layers[x][count] = (byte) instrument;
-								
-							} else {
-								layers[x][count] = thisLayer[y];
-							}
-							
-							count++;
-						}
-					}
+					layers[x] = convertLayer(activeLayers.get(x), (byte)(notZero+3), thisLayer);
 				}
 			}
 			/* resize the array to only store layers with notes in this column */
@@ -191,6 +164,48 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 			return toBePlayed;
 		}
 		
+		/**
+		 * This method takes the given layer and converts it into
+		 * a correctly sized byte array with the correct pitch values,
+		 * instrument, channel and velocity.
+		 * @author Adam
+		 * @verion 1.0.0
+		 * @param layerNumber  the number of the current layer
+		 * @param len          the length of the layer
+		 * @param thisLayer    the contents of the layer
+		 * @return byte array containing the notes, instrument, channel and pitch.
+		 */
+		private byte[] convertLayer(byte layerNumber,byte len, byte[] thisLayer) {
+			short instrument = model.getInstrument(layerNumber);
+			byte[] layer = new byte[len];
+			if(instrument < 128){ // insturment isn't in normal set
+				layer[0] = 0;
+			} else {
+				layer[0] = 9; //make the chanel 9 (percussion) 
+				/* Subtract 94 from number to get percussion insturment value */
+				instrument = (byte)(instrument - 94);
+			}
+			layer[1] = (byte) instrument;
+			if(layer[0] == 9){
+				layer[1] = 0; //if the channel is 9 make isntrument 0
+			}
+			
+			layer[2] = model.getVelocity(layerNumber);
+			
+			byte count = 3; //start at 3 to store the other information before it.
+			for(byte y = 0; y < thisLayer.length; y ++){
+				if(thisLayer[y] != 0){ //if pitch isn't zero
+					if(layer[0] == 9){
+						layer[count] = (byte) instrument;		
+					} else {
+						layer[count] = thisLayer[y];
+					}
+					count++;
+				}
+			}
+			return layer;
+		}
+
 		/**
 		 * Switches the note processor, and subsequently its clock, on
 		 * @author Matt
