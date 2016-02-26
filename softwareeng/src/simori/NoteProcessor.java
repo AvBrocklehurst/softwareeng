@@ -18,7 +18,7 @@ import simori.Exceptions.InvalidCoordinatesException;
 	 * of the current tempo and plays notes which are currently active
 	 * @author Jurek
 	 * @author Adam
-	 * @version 1.5.0
+	 * @version 1.6.0
 	 * @see run()
 	 */
 public class NoteProcessor implements Runnable, PowerTogglable, Observer {

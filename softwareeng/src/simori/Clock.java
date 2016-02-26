@@ -8,7 +8,7 @@ import java.util.TimerTask;
  * should process data, and also any bpm/tempo changes.
  * @author Jurek
  * @author Adam
- * @version 1.0.1
+ * @version 1.1.0
  */
 public class Clock implements Runnable {
 	private long startTime;
@@ -106,6 +106,7 @@ public class Clock implements Runnable {
 	 * so that it can update the bpm immediatly. 
 	 * @author Adam
 	 * @param newBPM  the bpm to change the clock too.
+	 * @version 1.0.0
 	 */
 	public void updateBPM(short newBPM){
 		bpm = newBPM;

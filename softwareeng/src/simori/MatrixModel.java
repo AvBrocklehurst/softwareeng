@@ -14,7 +14,7 @@ import simori.Exceptions.InvalidCoordinatesException;
  * <p> 
  *
  * @author  Adam
- * @version 1.2.1
+ * @version 1.3.0
  */
 public class MatrixModel extends Observable implements Serializable, PowerTogglable {
 	private Layer[] layers;
@@ -104,9 +104,10 @@ public class MatrixModel extends Observable implements Serializable, PowerToggla
 	}
 	
 	/**
-	 * Method to update the BPM.
+	 * Method to update the BPM. It also updates the observable status
+	 * and notifies observers to read it.
 	 * @author Adam
-	 * @version 1.0.0
+	 * @version 1.1.0
 	 * @param newBPM  byte with the value to set the bpm too.
 	 */
 	public void setBPM(short newBPM){
