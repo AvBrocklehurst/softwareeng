@@ -42,7 +42,7 @@ public class Clock implements Runnable {
 					try{bpmLock.wait();}catch(InterruptedException e){}
 				}
 				timer.cancel();
-				while(model.getBPM()==0){
+				while(bpm==0){
 					try{bpmLock.wait();}catch(InterruptedException e){}
 				}
 			}
