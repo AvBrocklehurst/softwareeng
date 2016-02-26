@@ -183,7 +183,7 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 			} else {
 				layer[0] = 9; //make the chanel 9 (percussion) 
 				/* Subtract 94 from number to get percussion insturment value */
-				instrument = (byte)(instrument - 94);
+				instrument = (short) (instrument - 94);
 			}
 			layer[1] = (byte) instrument;
 			if(layer[0] == 9){
@@ -196,7 +196,7 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 			for(byte y = 0; y < thisLayer.length; y ++){
 				if(thisLayer[y] != 0){ //if pitch isn't zero
 					if(layer[0] == 9){
-						layer[count] = (byte) instrument;		
+						layer[count] = layer[1];		
 					} else {
 						layer[count] = thisLayer[y];
 					}
