@@ -201,6 +201,7 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 			 * 
 			 * @param s  coordinates of the button press
 			 * @author James
+			 * @author Adam
 			 * @see Changer.getText(), InstrumentNamer.getInstance(), coordsConverter(), InstrumentNamer.getName()
 			 * @version 1.0.1
 			 */
@@ -218,6 +219,7 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 			 * 
 			 * @param controller  The current ModeController
 			 * @author James
+			 * @author Adam
 			 * @see Changer.doThingTo(), ModeController.getModel(), MatrixModel.setInstrument(), Mode.getDisplayLayer()
 			 * @version 1.1.0
 			 */
@@ -255,6 +257,7 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 			 * 
 			 * @param s  coordinates of the button press
 			 * @author James
+			 * @author Adam
 			 * @see Changer.getText(), coordsConverter(), java.lang.String.valueOf()
 			 * @version 1.0.0
 			 */
@@ -271,6 +274,7 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 			 * 
 			 * @param controller  The current ModeController
 			 * @author James
+			 * @author Adam
 			 * @see Changer.doThingTo(), ModeController.getModel(), MatrixModel.setVelocity(), Mode.getDisplayLayer()
 			 * @version 1.0.0
 			 */
@@ -303,6 +307,10 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 			
 			private Short selectedTempo;
 			
+			/**
+			 * @author Jurek
+			 * @author Adam
+			 */
 			@Override
 			public String getText(Setting s) {
 				if(s.getY()==0) {
@@ -314,7 +322,11 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 					return (selectedTempo == null ? null : String.valueOf(selectedTempo));
 				}
 			}
-
+			
+			/**
+			 * @author Jurek
+			 * @author Adam
+			 */
 			@Override
 			public boolean doThingTo(ModeController controller) {
 				if(selectedTempo == null){
