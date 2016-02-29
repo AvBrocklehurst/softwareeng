@@ -105,7 +105,6 @@ public class TestNoteProcessor {
 		thread.start();
 		try{Thread.sleep(1000);} catch (InterruptedException e) {}
 		model.setBPM((short) 0);
-		modes.notifyClock();
 		try{Thread.sleep(1000);} catch (InterruptedException e) {}
 		
 		assertNull(e);
@@ -117,7 +116,6 @@ public class TestNoteProcessor {
 		thread.start();
 		try{Thread.sleep(1000);} catch (InterruptedException e) {}
 		model.setBPM((short) 1);
-		modes.notifyClock();
 		try{Thread.sleep(1000);} catch (InterruptedException e) {}
 		
 		assertNull(e);
@@ -141,7 +139,6 @@ public class TestNoteProcessor {
 		try{Thread.sleep(1000);} catch (InterruptedException e) {}
 		model.setInstrument((byte)0, (short)200);
 		model.setBPM((short) 160);
-		modes.notifyClock();
 		for(int i=0; i<16; i++) {
 			model.updateButton((byte)0, (byte)i, (byte)4);
 		}
@@ -157,7 +154,6 @@ public class TestNoteProcessor {
 		try{Thread.sleep(1000);} catch (InterruptedException e) {}
 		model.setInstrument((byte)0, (short)200);
 		model.setBPM((short) 160);
-		modes.notifyClock();
 		for(int i=0; i<16; i++) {
 			model.updateButton((byte)0, (byte)i, (byte)4);
 		}
