@@ -233,9 +233,12 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 			synchronized(lock){lock.notify();}
 			synchronized(bpmLock){bpmLock.notify();}
 		}
-
+		
+		/**
+		 * @author Adam
+		 */
 		@Override
-		public void update(Observable model, Object bpm) {
-			clock.updateBPM((short) bpm);	
+		public void update(Observable a, Object b) {
+			clock.updateBPM(model.getBPM());	
 		}
 }
