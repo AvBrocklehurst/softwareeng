@@ -80,7 +80,7 @@ public class MIDISoundPlayer2 implements MIDIPlayer, PowerTogglable {
 
 		for(int i = 0; i<array.length; i++){
 			
-			message = new ShortMessage(); // for some reason constructor does not work in blue room, so setMessage has to be used instead
+			message  = new ShortMessage(); // for some reason constructor does not work in blue room, so setMessage has to be used instead
 			message.setMessage(ShortMessage.PROGRAM_CHANGE, array[i][0], array[i][1], 0); // for the given layer set the channel and instrument, the zero is arbitrary (but is needed for correct number of bytes to be sent).
 			noteOnArray[currentPositionInArray] = message; // add MIDI message to array of all MIDI messages.
 			noteOffArray[currentPositionInArray] = message;
@@ -177,9 +177,9 @@ public class MIDISoundPlayer2 implements MIDIPlayer, PowerTogglable {
 		MIDISoundPlayer2 josh = new MIDISoundPlayer2();
 		byte[][] test = {{0,7,80,60,64,67},{0,110,80,60,64,67}};
 		josh.play(test);
-		Thread.sleep(1000);
+		Thread.sleep(100);
 		josh.stopPlay();
-		Thread.sleep(1000);
+		Thread.sleep(100000);
 	}
 }
 
