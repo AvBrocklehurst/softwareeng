@@ -2,7 +2,6 @@ package simori;
 
 import java.util.ArrayList;
 
-import javax.sound.midi.Instrument;
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiSystem;
 import javax.sound.midi.MidiUnavailableException;
@@ -100,6 +99,17 @@ public class MIDISoundPlayer implements MIDIPlayer, PowerTogglable {
 		messageArray = new ArrayList<ShortMessage>(); 
 		readArray(array); // take the array and turn it into MIDI messages.
 		playArray(); //play all the MIDI messages.
+	}
+	
+	
+	/**
+	 * @author Josh
+	 * @version 1.0.1
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void stopPlay() throws InvalidMidiDataException {
+		
 	}
 	
 	
