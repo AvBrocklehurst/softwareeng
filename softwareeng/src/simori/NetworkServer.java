@@ -12,49 +12,16 @@ import java.net.Socket;
 
 
 public class NetworkServer {
-	public static void main(String[] args) throws IOException {
-        ServerSocket serverSocket = null;
-        System.out.println("Starting");
-        
-      //  try {
-            serverSocket = new ServerSocket(20160);
-        //} catch (IOException ex) {
-          //  System.out.println("Can't setup server on this port number. ");
-        //}
+	 public final static int PORT = 20160;
 
-        Socket socket = null;
-        InputStream in = null;
-        OutputStream out = null;
+	  public static void main( String[] argv )
+	    throws IOException {
+	    ServerSocket ss = new ServerSocket( PORT );
 
-        try {
-            socket = serverSocket.accept();
-        } catch (IOException ex) {
-            System.out.println("Can't accept client connection. ");
-        }
-
-        try {
-            in = socket.getInputStream();
-        } catch (IOException ex) {
-            System.out.println("Can't get socket input stream. ");
-        }
-
-        try {
-            out = new FileOutputStream("C:\\Recovery2.txt");
-        } catch (FileNotFoundException ex) {
-            System.out.println("File not found. ");
-        }
-
-        byte[] bytes = new byte[16*1024];
-
-        int count;
-        while ((count = in.read(bytes)) > 0) {
-        	System.out.println("writitng");
-            out.write(bytes, 0, count);
-        }
-
-        out.close();
-        in.close();
-        socket.close();
-        serverSocket.close();
-    }
+	    while ( true ) {
+	      Socket s = ss.accept();
+	      Thread t = new Thread( new Worker( s ) );
+	      t.start();
+	    }
+	  }
 }
