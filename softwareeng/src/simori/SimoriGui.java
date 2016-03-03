@@ -8,7 +8,7 @@ import simori.Exceptions.InvalidCoordinatesException;
  * Interface setting out the constraints that any implementation
  * of a graphical user interface for the Simori-ON must comply to.
  * @author Matt
- * @version 2.0.0
+ * @version 2.1.2
  */
 public interface SimoriGui {
 	
@@ -116,5 +116,27 @@ public interface SimoriGui {
 		public SimoriGui getSource() {
 			return src;
 		}
+	}
+	
+	/**
+	 * Specifies the positions of characters on the imagined keyboard
+	 * for when the Simori-ON's grid of buttons is used to enter text.
+	 * @author Matt
+	 * @version 1.0.3
+	 */
+	public interface KeyboardMapping {
+		
+		/** @return the width of the button grid this keyboard is for */
+		public byte getRows();
+		
+		/** @return the height of the button grid this keyboard is for */
+		public byte getColumns();
+		
+		/**
+		 * @param x Horizontal coordinate of a button in the grid
+		 * @param y Vertical coordinate of a button in the grid
+		 * @return The letter on the button at these coordinates
+		 */
+		public char getLetterOn(byte x, byte y);
 	}
 }
