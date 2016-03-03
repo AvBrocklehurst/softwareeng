@@ -9,7 +9,7 @@ import simori.Exceptions.InvalidCoordinatesException;
  * Change Voice Mode and Change Velocity Mode. Specific functionality
  * is customised by providing a {@link #Changer} implementation.
  * @author Matt
- * @version 2.6.0
+ * @version 2.7.2
  */
 public class ChangerMode extends Mode {
 	
@@ -46,10 +46,10 @@ public class ChangerMode extends Mode {
 	 * @param x The column in which to draw a vertical line, if applicable
 	 * @param y The row in which to draw a horizontal line, if applicable
 	 */
-	private void drawSelector(int x, int y) {
+	private void drawSelector(Byte x, Byte y) {
 		boolean[][] grid = new boolean[rows][columns];
-		if (vLine) addVerticalLineTo(grid, x);
-		if (hLine) addHorizontalLineTo(grid, y);
+		if (vLine && x != null) addVerticalLineTo(grid, x);
+		if (hLine && y != null) addHorizontalLineTo(grid, y);
 		getGui().setGrid(grid);
 	}
 	
@@ -61,11 +61,11 @@ public class ChangerMode extends Mode {
 	 */
 	@Override
 	public void onGridButtonPress(GridButtonEvent e) throws InvalidCoordinatesException {
-		Setting setting = new Setting(e.getX(), e.getY());
+		Setting setting = new Setting((byte) e.getX(), (byte) e.getY());
 		String text = changer.getText(setting);
 		e.getSource().setText(text);
 		if (text == null) return;
-		drawSelector(e.getX(), e.getY());
+		drawSelector((byte) e.getX(), (byte) e.getY());
 	}
 	
 	/**
@@ -181,33 +181,23 @@ public class ChangerMode extends Mode {
 	 * Encapsulates the x and y coordinates of a pressed grid button.
 	 * Represents the proposed setting the user has entered.
 	 * @author Matt
-	 * @version 2.0.0
+	 * @version 3.0.0
 	 */
-	public class Setting {
+	public static class Setting {
 		
 		/** x coordinate corresponding to proposed setting */
-		public Integer x;
+		public Byte x;
 		
 		/** y coordinate corresponding to proposed setting */
-		public Integer y;
+		public Byte y;
 		
 		/** Leaves x and y null */
 		public Setting() {}
 		
 		/** Convenience constructor for setting x and y */
-		public Setting(Integer x, Integer y) {
+		public Setting(Byte x, Byte y) {
 			this.x = x;
 			this.y = y;
-		}
-		
-		/** @return x coordinate as a byte */
-		public byte getX() {
-			return x.byteValue();
-		}
-		
-		/** @return y coordinate as a byte */
-		public byte getY() {
-			return y.byteValue();
 		}
 	}
 }

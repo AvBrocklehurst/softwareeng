@@ -117,7 +117,7 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 	private Changer makeLayerChanger() {
 		return new Changer() {
 			
-			private int selectedLayer;
+			private byte selectedLayer;
 			
 			/**
 			 * A method which overrides the interface method in order to
@@ -131,8 +131,8 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 			 */
 			@Override
 			public String getText(Setting s) {
-				selectedLayer = s.getY();
-				return String.valueOf(s.getY());   //return the selected layer as a String
+				selectedLayer = s.y;
+				return String.valueOf(s.y);   //return the selected layer as a String
 			}
 			
 			/**
@@ -146,13 +146,13 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 			 */
 			@Override
 			public boolean doThingTo(ModeController controller) {
-				controller.setDisplayLayer((byte) selectedLayer); //TODO make x and y bytes anyway
+				controller.setDisplayLayer(selectedLayer);
 				return true; //set current layer
 			}
 
 			@Override
 			public Setting getCurrentSetting() {
-				return null;  //Unless spec allows drawing initial setting on entering mode
+				return new Setting(null, controller.getDisplayLayer());
 			}
 		};
 	}
@@ -172,8 +172,8 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 			
 			@Override
 			public String getText(Setting s) {
-				selectedColumn = s.getX();
-				return String.valueOf(s.getX());
+				selectedColumn = s.x;
+				return String.valueOf(s.x);
 			}
 			
 			@Override
@@ -184,7 +184,7 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 
 			@Override
 			public Setting getCurrentSetting() {
-				return null; //Unless spec allows drawing initial setting on entering mode
+				return new Setting(controller.getModel().getLoopPoint(), null);
 			}
 		};
 	}
@@ -199,8 +199,8 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 	 * @see ChangerMode.Changer
 	 * @version 1.2.1
 	 */
-	private Changer makeVoiceChanger(){
-		return new Changer(){
+	private Changer makeVoiceChanger() {
+		return new Changer() {
 			
 			private Short instrumentNumber;
 			
@@ -217,7 +217,7 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 			@Override
 			public String getText(Setting s) {
 				InstrumentNamer in = InstrumentNamer.getInstance();     //singleton class
-				instrumentNumber = coordsConverter(s.getX(), s.getY()); //translate coordinates to short
+				instrumentNumber = coordsConverter(s.x, s.y); //translate coordinates to short
 				instrumentNumber = (instrumentNumber.shortValue() > 189 ? null : instrumentNumber);
 				return (instrumentNumber == null ? null : in.getName(instrumentNumber));
 			}
@@ -240,7 +240,9 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 
 			@Override
 			public Setting getCurrentSetting() {
-				return null; //Unless spec allows drawing initial setting on entering mode
+				//TODO inverse coordsconvert instrumentNumber back into an (x, y) location
+				//return new Setting(x, y);
+				return null;
 			}
 		};
 	}
@@ -272,7 +274,7 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 			 */
 			@Override
 			public String getText(Setting s) {
-				short cords = coordsConverter(s.getX(), s.getY());
+				short cords = coordsConverter(s.x, s.y);
 				selectedVelocity = (cords > 127 ? null : cords);
 				return (selectedVelocity == null ? null : String.valueOf(selectedVelocity));
 			}
@@ -298,7 +300,7 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 
 			@Override
 			public Setting getCurrentSetting() {
-				return null; //Unless spec allows drawing initial setting on entering mode
+				return null; //TODO convert back into (x, y) for initial display
 			}
 		};
 	}
@@ -322,11 +324,11 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 			 */
 			@Override
 			public String getText(Setting s) {
-				if(s.getY()==0) {
-					selectedTempo = (short) s.getX();
-					return String.valueOf(s.getX());
+				if(s.y==0) {
+					selectedTempo = (short) s.x;
+					return String.valueOf(s.x);
 				} else {
-					selectedTempo = (short) (15 + 16*(s.getY()-1) + s.getX());
+					selectedTempo = (short) (15 + 16*(s.y-1) + s.x);
 					selectedTempo = (selectedTempo.shortValue() < (short)161 ? selectedTempo : null);
 					return (selectedTempo == null ? null : String.valueOf(selectedTempo));
 				}
@@ -347,7 +349,7 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 
 			@Override
 			public Setting getCurrentSetting() {
-				return null; //Unless spec allows drawing initial setting on entering mode
+				return null; //TODO convert back into coords for initial display
 			}
 		};
 	}
@@ -359,7 +361,7 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 				
 			@Override
 			public String getText(Setting s) {
-				short coords = coordsConverter(s.getX(), s.getY());
+				short coords = coordsConverter(s.x, s.y);
 				
 				if(coords <= 73){
 					char letter = symbols[coords-1];
@@ -405,7 +407,7 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 
 			@Override
 			public String getText(Setting s) {
-				short coords = coordsConverter(s.getX(), s.getY());
+				short coords = coordsConverter(s.x, s.y);
 				
 				if(coords <= 73){
 					char letter = symbols[coords-1];
