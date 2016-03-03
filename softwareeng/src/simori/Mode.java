@@ -22,8 +22,8 @@ import simori.Exceptions.InvalidCoordinatesException;
  */
 public abstract class Mode implements FunctionButtonListener, GridButtonListener {
 	
-	private ModeController controller;
-	private char[] symbols = {
+	private ModeController controller;     //current mode controller
+	private char[] symbols = {       //the set of possible symbols available to a user for Save and Load mode, remember unix is case sensitive!
 			'A','B','C','D','E','F','G','H','I','J','K','L','M','N',
 			'O','P','Q','R','S','T','U','V','W','X','Y','Z','a','b',
 			'c','d','e','f','g','h','i','j','k','l','m','n','o','p',
@@ -92,7 +92,7 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 			controller.setMode(new ChangerMode(controller, loadConfig(), true, true));
 			break;
 		case R4 :
-			//TODO(next sprint) mode to Master/Slave mode
+			controller.setMode(new ChangerMode(controller, masterSlave(), false, false));
 			break;
 		case OK:
 			controller.setMode(new PerformanceMode(controller));
@@ -117,7 +117,7 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 	private Changer makeLayerChanger() {
 		return new Changer() {
 			
-			private byte selectedLayer;
+			private byte selectedLayer;    //the layer to change to
 			
 			/**
 			 * A method which overrides the interface method in order to
@@ -168,7 +168,7 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 	private Changer makePointChanger() {
 		return new Changer() {
 			
-			private int selectedColumn;
+			private int selectedColumn;   //the column to loop to
 			
 			@Override
 			public String getText(Setting s) {
@@ -202,7 +202,7 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 	private Changer makeVoiceChanger() {
 		return new Changer() {
 			
-			private Short instrumentNumber;
+			private Short instrumentNumber;  //the instrument to change to
 			
 			/**
 			 * A method which overrides the interface method in order to
@@ -260,7 +260,7 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 	private Changer makeVelocityChanger(){
 		return new Changer(){
 
-			private Short selectedVelocity;
+			private Short selectedVelocity;   //the velocity to change to
 			
 			/**
 			 * A method which overrides the interface method in order to
@@ -316,7 +316,7 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 	private Changer makeSpeedChanger(){
 		return new Changer(){
 			
-			private Short selectedTempo;
+			private Short selectedTempo;   //the speed of the ticker in BPM
 			
 			/**
 			 * @author Jurek
@@ -354,26 +354,37 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 		};
 	}
 	
+	/**
+	 * This implementation of the Changer interface allows a user to input
+	 * unix and windows compatible symbols and letters in order to produce
+	 * a filename to save the current simori configuration to.
+	 * 
+	 * @author James
+	 * @version 1.0.0
+	 * @see Changer.getText(), Changer.doThingTo(), Changer.getCurrentSetting(), coordsConverter(), 
+	 * SaveAndLoad.save(), ModeController.getModel(), java.lang.String.substring()
+	 * @return Changer
+	 */
 	private Changer saveConfig(){
 		return new Changer(){
 
-			private String letters = "";
+			private String letters = "";  //String to display
 				
 			@Override
 			public String getText(Setting s) {
-				short coords = coordsConverter(s.x, s.y);
+				short coords = coordsConverter(s.x, s.y);    //get coordinates
 				
 				if(coords <= 73){
 					char letter = symbols[coords-1];
-					letters += letter;
+					letters += letter;    //in the bounds of the available characters, add char to display String on press
 				}
 				
 				else if(coords == 241){
-					letters = letters.substring(0, letters.length()-1);
+					letters = letters.substring(0, letters.length()-1); //top left backspace
 				}
 				
 				else{
-					letters += "";
+					letters += "";  //other unused buttons do nothing
 				}
 				
 				return letters;
@@ -385,7 +396,7 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 					return false;
 				}
 				
-				letters += ".song";
+				letters += ".song";   //add the .song extension
 				SaveAndLoad.save(controller.getModel(), letters);
 				return true;
 			}
@@ -400,10 +411,21 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 		
 	}
 	
+	/**
+	 * This implementation of the Changer interface allows a user to input
+	 * unix and windows compatible symbols and letters in order to produce
+	 * a filename to load a simori configuration from.
+	 * 
+	 * @author James
+	 * @version 1.0.0
+	 * @see Changer.getText(), Changer.doThingTo(), Changer.getCurrentSetting(), coordsConverter(), 
+	 * SaveAndLoad.save(), ModeController.getModel(), java.lang.String.substring()
+	 * @return Changer
+	 */
 	private Changer loadConfig(){
 		return new Changer(){
 			
-			private String letters = "";
+			private String letters = "";   //string to display
 
 			@Override
 			public String getText(Setting s) {
@@ -432,8 +454,42 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 				}
 				
 				letters += ".song";
-				SaveAndLoad.load(controller.getModel(), letters);
+				SaveAndLoad.load(controller.getModel(), letters);    //load the .song file
 				return true;
+			}
+
+			@Override
+			public Setting getCurrentSetting() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+			
+		};
+	}
+	
+	/**
+	 * This implementation of the Changer interface allows the simori
+	 * to probe on port 20160 to find other Dr D inventions over a network.
+	 * The first to respond receives the masters configuration and the master
+	 * continues to performance mode.
+	 * 
+	 * @author James
+	 * @version 1.0.0
+	 * @see Changer.getText(), Changer.doThingTo(), Changer.getCurrentSetting()
+	 * @return Changer
+	 */
+	private Changer masterSlave(){
+		return new Changer(){
+
+			@Override
+			public String getText(Setting s) {
+				return "Dr D";
+			}
+
+			@Override
+			public boolean doThingTo(ModeController controller) {
+				// TODO Auto-generated method stub
+				return false;
 			}
 
 			@Override
@@ -458,7 +514,7 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 	 */
 	private short coordsConverter(int x, int y){
 		
-		short counter = 1;
+		short counter = 1;  //the short eventually output when incremented
 		while(y != 0){
 			y--;
 			counter = (short) (counter + 16); //from moving row to row we add 16 to the short, each row is 0-15 buttons

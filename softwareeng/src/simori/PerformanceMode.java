@@ -15,7 +15,7 @@ import simori.Exceptions.InvalidCoordinatesException;
 
 public class PerformanceMode extends Mode implements GridButtonListener {
 	
-	private boolean[][] grid;
+	private boolean[][] grid;  //grid for button operations
 
 	/**
 	 * Constructor for Performance Mode. In performance mode the ticker loops
@@ -117,14 +117,15 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 	/**
 	 * Pushes the pattern and clock position for the current layer to the GUI.
 	 * @author Matt
+	 * @author James (end of line comments)
 	 * @version 2.0.0
 	 */
 	@Override
 	public void setInitialGrid() {
-		short instr = getModel().getInstrument(getDisplayLayer());
+		short instr = getModel().getInstrument(getDisplayLayer());  //initial instrument
 		getGui().setText(InstrumentNamer.getInstance().getName(instr));
 		try {
-			tickerLight(getModel().getCurrentColumn());
+			tickerLight(getModel().getCurrentColumn());  //start the ticker
 		} catch (InvalidCoordinatesException e) {}
 	}
 }
