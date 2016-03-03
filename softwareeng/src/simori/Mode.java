@@ -23,6 +23,15 @@ import simori.Exceptions.InvalidCoordinatesException;
 public abstract class Mode implements FunctionButtonListener, GridButtonListener {
 	
 	private ModeController controller;
+	private char[] symbols = {
+			'A','B','C','D','E','F','G','H','I','J','K','L','M','N',
+			'O','P','Q','R','S','T','U','V','W','X','Y','Z','a','b',
+			'c','d','e','f','g','h','i','j','k','l','m','n','o','p',
+			'q','r','s','t','u','v','w','x','y','z','_','-','+','=',
+			'!','£','$','%','^','(',')','{','}','[',']',';','@','#',
+			'~','.', ','
+		};
+	
 	
 	public Mode(ModeController controller){
 		this.controller = controller;
@@ -77,10 +86,10 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 			controller.setMode(new ChangerMode(controller, makeLayerChanger(), false, true));
 			break;
 		case R2 :
-			//TODO(next sprint) mode to save configuration mode
+			controller.setMode(new ChangerMode(controller, saveConfig(), true, true));
 			break;
 		case R3 :
-			//TODO(next sprint) mode to load configuration mode
+			controller.setMode(new ChangerMode(controller, loadConfig(), true, true));
 			break;
 		case R4 :
 			//TODO(next sprint) mode to Master/Slave mode
@@ -343,6 +352,97 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 		};
 	}
 	
+	private Changer saveConfig(){
+		return new Changer(){
+
+			private String letters = "";
+				
+			@Override
+			public String getText(Setting s) {
+				short coords = coordsConverter(s.getX(), s.getY());
+				
+				if(coords <= 73){
+					char letter = symbols[coords-1];
+					letters += letter;
+				}
+				
+				else if(coords == 241){
+					letters = letters.substring(0, letters.length()-1);
+				}
+				
+				else{
+					letters += "";
+				}
+				
+				return letters;
+			}
+
+			@Override
+			public boolean doThingTo(ModeController controller) {
+				if(letters == null){
+					return false;
+				}
+				
+				letters += ".song";
+				SaveAndLoad.save(controller.getModel(), letters);
+				return true;
+			}
+
+			@Override
+			public Setting getCurrentSetting() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+			
+		};
+		
+	}
+	
+	private Changer loadConfig(){
+		return new Changer(){
+			
+			private String letters = "";
+
+			@Override
+			public String getText(Setting s) {
+				short coords = coordsConverter(s.getX(), s.getY());
+				
+				if(coords <= 73){
+					char letter = symbols[coords-1];
+					letters += letter;
+				}
+				
+				else if(coords == 241){
+					letters = letters.substring(0, letters.length()-1);
+				}
+				
+				else{
+					letters += "";
+				}
+				
+				return letters;
+			}
+
+			@Override
+			public boolean doThingTo(ModeController controller) {
+				if(letters == null){
+					return false;
+				}
+				
+				letters += ".song";
+				SaveAndLoad.load(controller.getModel(), letters);
+				return true;
+			}
+
+			@Override
+			public Setting getCurrentSetting() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+			
+		};
+	}
+	
 	/**
 	 * This method, given two integer coordinates of a button press,
 	 * translates input into a short representing an instrument to be passed
@@ -357,7 +457,6 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 	private short coordsConverter(int x, int y){
 		
 		short counter = 1;
-		
 		while(y != 0){
 			y--;
 			counter = (short) (counter + 16); //from moving row to row we add 16 to the short, each row is 0-15 buttons
@@ -371,4 +470,7 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 		return counter;
 		
 	}
+	
+	
+	
 }
