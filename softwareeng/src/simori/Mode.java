@@ -6,6 +6,7 @@ import simori.SimoriGui.FunctionButtonEvent;
 import simori.SimoriGui.FunctionButtonListener;
 import simori.SimoriGui.GridButtonListener;
 import simori.Exceptions.InvalidCoordinatesException;
+import simori.Exceptions.KeyboardException;
 
 /**
  * An abstract class defining methods for general
@@ -368,16 +369,15 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 	private Changer saveConfig(){
 		return new Changer(){
 
+			private QwertyKeyboard keyboard;
 			private String letters = "";  //String to display
 				
 			@Override
 			public String getText(Setting s) {
 				short coords = coordsConverter(s.x, s.y);    //get coordinates
 				
-				if(coords <= 73){
-					char letter = symbols[coords-1];
-					letters += letter;    //in the bounds of the available characters, add char to display String on press
-				}
+				Character letter = keyboard.getLetterOn(s.x, s.y);
+				if (letter != null) letters += letter;
 				
 				else if(coords == 241){
 					letters = letters.substring(0, letters.length()-1); //top left backspace
@@ -398,12 +398,16 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 				
 				letters += ".song";   //add the .song extension
 				SaveAndLoad.save(controller.getModel(), letters);
+				getGui().setKeyboard(null);
 				return true;
 			}
 
 			@Override
 			public Setting getCurrentSetting() {
-				// TODO Auto-generated method stub
+				try {
+					keyboard = new QwertyKeyboard((byte) 16, (byte) 16);
+				} catch (KeyboardException e) {}
+				getGui().setKeyboard(keyboard);
 				return null;
 			}
 			
@@ -425,18 +429,17 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 	private Changer loadConfig(){
 		return new Changer(){
 			
+			private QwertyKeyboard keyboard;
 			private String letters = "";   //string to display
 
 			@Override
 			public String getText(Setting s) {
 				short coords = coordsConverter(s.x, s.y);
 				
-				if(coords <= 73){
-					char letter = symbols[coords-1];
-					letters += letter;
-				}
+				Character letter = keyboard.getLetterOn(s.x, s.y);
+				if (letter != null) letters += letter;
 				
-				else if(coords == 241){
+				if(coords == 241){
 					letters = letters.substring(0, letters.length()-1);
 				}
 				
@@ -455,12 +458,16 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 				
 				letters += ".song";
 				SaveAndLoad.load(controller.getModel(), letters);    //load the .song file
+				getGui().setKeyboard(null);
 				return true;
 			}
 
 			@Override
 			public Setting getCurrentSetting() {
-				// TODO Auto-generated method stub
+				try {
+					keyboard = new QwertyKeyboard((byte) 16, (byte) 16);
+				} catch (KeyboardException e) {}
+				getGui().setKeyboard(keyboard);
 				return null;
 			}
 			

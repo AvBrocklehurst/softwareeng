@@ -23,6 +23,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -51,7 +52,7 @@ import simori.SimoriGui;
  * @see GuiProperties
  * @see simori.ModeController
  * @author Matt
- * @version 2.3.5
+ * @version 2.3.6
  */
 public class SimoriJFrame extends JFrame implements SimoriGui, MouseMotionListener {
 	
@@ -147,15 +148,18 @@ public class SimoriJFrame extends JFrame implements SimoriGui, MouseMotionListen
 		return fListener;
 	}
 	
-	//TODO javadoc
+	/** {@inheritDoc} */
+	@Override
 	public boolean setKeyboard(KeyboardMapping map) {
 		if (map == null) {
 			simoriPanel.remove(keyboard);
 			simoriPanel.add(ledPanel, BorderLayout.CENTER);
-		} else {
+			ledPanel.repaint();
+		} else { //TODO maybe they can both be added, and one just hidden?
 			if (!makeKeyboard(map)) return false;
 			simoriPanel.remove(ledPanel);
 			simoriPanel.add(keyboard, BorderLayout.CENTER);
+			keyboard.repaint();
 		}
 		return true;
 	}
@@ -164,6 +168,8 @@ public class SimoriJFrame extends JFrame implements SimoriGui, MouseMotionListen
 	private boolean makeKeyboard(KeyboardMapping map) {
 		if (map.getRows() != rows || map.getColumns() != columns) return false;
 		keyboard = new JPanel(new GridLayout(rows, columns, 0, 0));
+		keyboard.setBackground(GuiProperties.LED_PANEL_BACKGROUND);
+		keyboard.setBorder(BorderFactory.createLineBorder(GuiProperties.LED_PANEL_BORDER));
 		OnPressListenerMaker maker = new OnPressListenerMaker(this);
 		keys = new Button[rows][columns];
 		
@@ -174,7 +180,8 @@ public class SimoriJFrame extends JFrame implements SimoriGui, MouseMotionListen
 				Button btn = new Button();
 				keyboard.add(btn);
 				btn.addOnPressListener(maker.getListener(x, y));
-				btn.setText(String.valueOf(map.getLetterOn(x, y)));
+				Character letter = map.getLetterOn(x, y);
+				btn.setText(letter == null ? "" : letter.toString());
 				keys[x][y] = btn;
 			}
 		}

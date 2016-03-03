@@ -7,7 +7,7 @@ import java.awt.geom.Rectangle2D;
  * A {@link PressableCircle} with text.
  * The string is drawn on one line, scaled to fit.
  * @author Matt
- * @version 1.4.3
+ * @version 1.4.5
  */
 public class Button extends PressableCircle {
 	
@@ -81,11 +81,12 @@ public class Button extends PressableCircle {
 	}
 	
 	/**
-	 * Sets the short string to be drawn
-	 * inside the button on a single line.
+	 * Sets the short string to be drawn inside the button on a single line.
+	 * Causes the button to redraw itself with the new string.
 	 */
 	public void setText(String text) {
 		this.text = text;
+		repaint();
 	}
 	
 	/** @return The text displayed on this button */
