@@ -135,15 +135,17 @@ public class MIDISoundPlayer implements MIDIPlayer, PowerTogglable {
 	
 	/**
 	 * @author Josh
-	 * @version 1.0.1
+	 * @author Jurek
+	 * @version 1.0.2
 	 * @throws InvalidMidiDataException 
 	 * {@inheritDoc}
 	 */
 	@Override
 	public void stopPlay() throws InvalidMidiDataException {
-		for (ShortMessage message : noteOffArray) { // for every message in the MIDI message arrayList:
+		try{ //needs a try for when no notes have been played since then there is no noteOffArray
+			for (ShortMessage message : noteOffArray) { // for every message in the MIDI message arrayList:
 			reciever.send(message, TIMESTAMP); // send that MIDI message to the synthesiser.
-		}
+		}}catch(Exception e){}
 	}
 	
 	
