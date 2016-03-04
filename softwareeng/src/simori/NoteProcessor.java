@@ -74,9 +74,12 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 				byte[][] toBePlayed = getNotes();
 				
 				//send a play request to the MIDIPlayer
-				try{midi.play(toBePlayed);}
+				if(toBePlayed!=null) {try{
+					midi.stopPlay(); //TODO BROKEN
+					midi.play(toBePlayed);
 				//if MIDIPlayer throws an error, print it out and stop the JVM
-				catch(InvalidMidiDataException e){e.printStackTrace();System.exit(1);}
+				}catch(InvalidMidiDataException e){e.printStackTrace();System.exit(1);}
+				}
 				
 				//turn the lights on the current column
 				mode.tickThrough(model.getCurrentColumn());
@@ -153,6 +156,7 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 				if(notZero > 0){ // If this layer has notes in this column.
 					usedColumns.add(x);
 					layers[x] = convertLayer(activeLayers.get(x), (byte)(notZero+3), thisLayer);
+					if(layers[x]==null) return null;
 				}
 			}
 			/* resize the array to only store layers with notes in this column */
@@ -169,7 +173,8 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 		 * a correctly sized byte array with the correct pitch values,
 		 * instrument, channel and velocity.
 		 * @author Adam
-		 * @verion 1.0.0
+		 * @author Jurek
+		 * @verion 1.0.1
 		 * @param layerNumber  the number of the current layer
 		 * @param len          the length of the layer
 		 * @param thisLayer    the contents of the layer
@@ -177,6 +182,10 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 		 */
 		private byte[] convertLayer(byte layerNumber,byte len, byte[] thisLayer) {
 			short instrument = model.getInstrument(layerNumber);
+			if(instrument<0||instrument>175) {
+				System.out.println("Error:incorrect instrument received from the model!");
+				return null;
+			}
 			byte[] layer = new byte[len];
 			if(instrument < 128){ // insturment isn't in normal set
 				layer[0] = 0;
@@ -191,6 +200,11 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 			}
 			
 			layer[2] = model.getVelocity(layerNumber);
+			//check if velocity is within 0-127 range
+			if(layer[2]>127||layer[2]<0) {
+				System.out.println("Error:incorrect velocity received from the model!");
+				return null; 
+			}
 			
 			byte count = 3; //start at 3 to store the other information before it.
 			for(byte y = 0; y < thisLayer.length; y ++){
