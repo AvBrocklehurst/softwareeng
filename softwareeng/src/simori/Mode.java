@@ -1,5 +1,7 @@
 package simori;
 
+import java.net.UnknownHostException;
+
 import simori.ChangerMode.Changer;
 import simori.ChangerMode.Setting;
 import simori.SimoriGui.FunctionButtonEvent;
@@ -459,8 +461,12 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 
 			@Override
 			public boolean doThingTo(ModeController controller) {
-				// TODO Auto-generated method stub
-				return false;
+				try {
+					new NetworkMaster(controller.getPort(), controller.getModel()).findSlave();
+				} catch (UnknownHostException e) {
+					e.printStackTrace();
+				}
+				return true;
 			}
 
 			@Override

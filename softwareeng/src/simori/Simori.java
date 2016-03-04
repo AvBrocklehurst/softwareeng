@@ -61,7 +61,7 @@ public class Simori {
 		QwertyKeyboard keyboard = new QwertyKeyboard(GRID_WIDTH, GRID_HEIGHT);
 		SimoriJFrame gui = new SimoriJFrame(keyboard);
 		MIDISoundPlayer player = new MIDISoundPlayer();
-		ModeController modes = new ModeController(gui, model);
+		ModeController modes = new ModeController(gui, model, PORT);
 		NoteProcessor clock = new NoteProcessor(modes, model, player);
 		NetworkSlave slave = new NetworkSlave(PORT, model);
 		model.addObserver(clock);
