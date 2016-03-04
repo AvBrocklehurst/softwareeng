@@ -9,9 +9,11 @@ import simori.Simori.PowerTogglable;
 public class NetworkSlave implements Runnable, PowerTogglable{
 	 private int port = 20160;
 	 private ServerSocket serverSocket;
+	 private MatrixModel model;
 	 
-	 public NetworkSlave(int port){
+	 public NetworkSlave(int port, MatrixModel model){
 		 this.port = port;
+		 this.model = model;
 	 }
 
 	@Override
@@ -20,7 +22,7 @@ public class NetworkSlave implements Runnable, PowerTogglable{
 			serverSocket = new ServerSocket(port);
 			while(true && !Thread.currentThread().isInterrupted()){
 				Socket s = serverSocket.accept();
-				Thread t = new Thread( new NetworkObjectReader(s) );
+				Thread t = new Thread( new NetworkObjectReader(s, model) );
 				t.start();
 			}
 			serverSocket.close();

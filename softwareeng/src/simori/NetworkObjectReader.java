@@ -7,11 +7,11 @@ import java.net.Socket;
 
 public class NetworkObjectReader implements Runnable {
   private Socket s;
+  private MatrixModel model;
 
-
-  public NetworkObjectReader( Socket s ) {
+  public NetworkObjectReader( Socket s, MatrixModel model ) {
     this.s = s;
-
+    this.model = model;
   }
 
   public void run() {
@@ -22,7 +22,7 @@ public class NetworkObjectReader implements Runnable {
 		out = new ObjectInputStream(in);
 	
 		try {
-			MatrixModel temp = (MatrixModel) out.readObject();
+			model.convertModel((MatrixModel) out.readObject());
 			
 		} catch (ClassNotFoundException e1) {
 			System.err.println("Class sent wasn't a MatrixModel");

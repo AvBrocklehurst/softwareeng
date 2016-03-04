@@ -19,6 +19,7 @@ import simori.SwingGui.SimoriJFrame;
 public class Simori {
 	
 	private static final byte GRID_WIDTH = 16, GRID_HEIGHT = 16;
+	private static final int PORT = 20160;
 	
 	/**
 	 * The main method to run the whole Simori system. If MIDI is unavailable
@@ -62,8 +63,9 @@ public class Simori {
 		MIDISoundPlayer player = new MIDISoundPlayer();
 		ModeController modes = new ModeController(gui, model);
 		NoteProcessor clock = new NoteProcessor(modes, model, player);
+		NetworkSlave slave = new NetworkSlave(PORT, model);
 		model.addObserver(clock);
-		modes.setComponentsToPowerToggle(model, player, clock);
+		modes.setComponentsToPowerToggle(model, player, clock, slave);
 		gui.setVisible(true);
 	}
 	
