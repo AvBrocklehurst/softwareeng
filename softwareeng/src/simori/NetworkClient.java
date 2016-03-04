@@ -40,16 +40,16 @@ public class NetworkClient {
 	  
 	  private static void iterateOverIPRange(String ip) {
 		  outerloop:
-		    for(int j = 0; j < 256; j++){
+		    for(int j = 92; j < 256; j++){
 		    	for(int i = 0; i < 256; i++){
 			    	System.out.println("scanning " + ip + j + "." + i);
 			        try {
 			        	Socket socket = new Socket();
 			            socket.connect(new InetSocketAddress(ip + j + "." + i, PORT), 50);
 			            socket.close();
-			            break outerloop;
-			        	// Socket s = new Socket( ip + j + "." + i, PORT );
-			            /*
+			            
+			        	Socket s = new Socket( ip + j + "." + i, PORT );
+			            
 			        	 InputStream  in   =  s.getInputStream();
 				     	    java.io.OutputStream out  =  s.getOutputStream();
 		
@@ -69,7 +69,8 @@ public class NetworkClient {
 				     	      System.out.write( c );
 				     	    }
 		
-				     	    s.close(); */
+				     	    s.close(); 
+				     	    break outerloop;
 			        } catch (Exception e){
 			        	System.out.println("nope");
 			        }
