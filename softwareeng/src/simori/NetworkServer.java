@@ -15,12 +15,12 @@ public class NetworkServer {
 	 public final static int PORT = 20160;
 
 	  public static void main( String[] argv ) throws IOException {
-		  ServerSocket serverSocket = null;
-
-		  	    while ( true ) {
-		  	      Socket s = serverSocket.accept();
-		  	      Thread t = new Thread( new Worker(serverSocket,s ) );
-		  	      t.start();
-		  	    }
-		  	  }
-	  }
+		  ServerSocket serverSocket = new ServerSocket(PORT);
+		  while(true){
+			  System.out.println("opening socket");
+	  	      Socket s = serverSocket.accept();
+			  Thread t = new Thread( new Worker(serverSocket, s) );
+			  t.start();
+		  }
+	 }
+}
