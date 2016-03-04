@@ -16,26 +16,26 @@ public class Worker implements Runnable {
   }
 
   public void run() {
-    try {
-      InputStream  in   =  s.getInputStream();
-      OutputStream out  =  s.getOutputStream();
+	   try {
+		      InputStream  in   =  s.getInputStream();
+		      OutputStream out  =  s.getOutputStream();
 
-      BufferedReader reader =
-	new BufferedReader( new InputStreamReader( in ) ); 
-      PrintWriter    writer =
-        new PrintWriter( out );
+		      BufferedReader reader =
+			new BufferedReader( new InputStreamReader( in ) ); 
+		      PrintWriter    writer =
+		        new PrintWriter( out );
 
-      String content = reader.readLine() + "\n";
+		      String content = reader.readLine() + "\n";
 
-      writer.print( "HTTP/1.1 200 OK\r\n" );
-      writer.print( "Content-Type: text/plain\r\n" );
-      writer.print( "Content-Length: " + content.length() + "\r\n" );
-      writer.print( "\r\n" );
-      writer.print( content );
-      writer.flush();
-      s.close();
-    } catch ( IOException e ) {
-      System.out.println( e );
-    }
+		      writer.print( "HTTP/1.1 200 OK\r\n" );
+		      writer.print( "Content-Type: text/plain\r\n" );
+		      writer.print( "Content-Length: " + content.length() + "\r\n" );
+		      writer.print( "\r\n" );
+		      writer.print( content );
+		      writer.flush();
+		      s.close();
+		    } catch ( IOException e ) {
+		      System.out.println( e );
+		    }  
   }
 }

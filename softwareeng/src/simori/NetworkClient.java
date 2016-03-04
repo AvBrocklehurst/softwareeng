@@ -40,7 +40,7 @@ public class NetworkClient {
 	  
 	  private static void iterateOverIPRange(String ip) {
 		  outerloop:
-		    for(int j = 92; j < 256; j++){
+		    for(int j = 93; j < 256; j++){
 		    	for(int i = 0; i < 256; i++){
 			    	System.out.println("scanning " + ip + j + "." + i);
 			        try {
@@ -50,26 +50,26 @@ public class NetworkClient {
 			            
 			        	Socket s = new Socket( ip + j + "." + i, PORT );
 			            
-			        	 InputStream  in   =  s.getInputStream();
-				     	    java.io.OutputStream out  =  s.getOutputStream();
-		
-				     	    BufferedReader reader =
-				     	      new BufferedReader( new InputStreamReader( in ) );
-				     	    PrintWriter writer =
-				     	      new PrintWriter( out );
-		
-				     	    writer.print( "GET / HTTP/1.1\r\n" );
-				     	    writer.print( "Host : " + getIP() + "\r\n" );
-				     	    writer.print( "Content-Length : 0\r\n" );
-				     	    writer.print( "\r\n" );
-				     	    writer.flush();
-		
-				     	    int c;
-				     	    while ( ( c = reader.read() ) != -1 ) {
-				     	      System.out.write( c );
-				     	    }
-		
-				     	    s.close(); 
+			        	InputStream  in   =  s.getInputStream();
+			            java.io.OutputStream out  =  s.getOutputStream();
+
+			            BufferedReader reader =
+			              new BufferedReader( new InputStreamReader( in ) );
+			            PrintWriter writer =
+			              new PrintWriter( out );
+
+			            writer.print( "GET / HTTP/1.1\r\n" );
+			            writer.print( "Host : " + ip + j + "." + i + "\r\n" );
+			            writer.print( "Content-Length : 0\r\n" );
+			            writer.print( "\r\n" );
+			            writer.flush();
+
+			            int c;
+			            while ( ( c = reader.read() ) != -1 ) {
+			              System.out.write( c );
+			            }
+
+			            s.close();
 				     	    break outerloop;
 			        } catch (Exception e){
 			        	System.out.println("nope");
