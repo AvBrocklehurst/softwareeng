@@ -174,7 +174,7 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 		 * instrument, channel and velocity.
 		 * @author Adam
 		 * @author Jurek
-		 * @verion 1.0.1
+		 * @verion 1.0.2
 		 * @param layerNumber  the number of the current layer
 		 * @param len          the length of the layer
 		 * @param thisLayer    the contents of the layer
@@ -183,8 +183,8 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 		private byte[] convertLayer(byte layerNumber,byte len, byte[] thisLayer) {
 			short instrument = model.getInstrument(layerNumber);
 			if(instrument<0||instrument>175) {
-				System.out.println("Error:incorrect instrument received from the model!");
-				return null;
+				System.out.println("Error:received instrument id " + instrument + ", needs to be 0-175");
+				System.exit(1);
 			}
 			byte[] layer = new byte[len];
 			if(instrument < 128){ // insturment isn't in normal set
@@ -202,8 +202,8 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 			layer[2] = model.getVelocity(layerNumber);
 			//check if velocity is within 0-127 range
 			if(layer[2]>127||layer[2]<0) {
-				System.out.println("Error:incorrect velocity received from the model!");
-				return null; 
+				System.out.println("Error:received " + layer[2] + " velocity, needs to be 0-127");
+				System.exit(1);
 			}
 			
 			byte count = 3; //start at 3 to store the other information before it.

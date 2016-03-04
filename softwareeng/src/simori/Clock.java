@@ -107,13 +107,13 @@ public class Clock implements Runnable {
 	 * @author Adam
 	 * @author Jurek
 	 * @param newBPM  the bpm to change the clock too.
-	 * @version 1.0.1
+	 * @version 1.0.2
 	 */
 	public void updateBPM(short newBPM){
 		//check if bpm within 0-160 range
 		if(newBPM<0||newBPM>160) {
-			System.out.println("Error:Incorrect BPM received, unchanged");
-			return;
+			System.out.println("Error:Received " + newBPM + "BPM, needs to be 0-160");
+			System.exit(1);
 		}
 		bpm = newBPM;
 		synchronized(bpmLock){
