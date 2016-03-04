@@ -46,31 +46,21 @@ public class NetworkClient {
 			        try {
 			        	Socket socket = new Socket();
 			            socket.connect(new InetSocketAddress(ip + j + "." + i, PORT), 50);
-			            socket.close();
-			            
-			        	Socket s = new Socket( ip + j + "." + i, PORT );
-			            
-			        	InputStream  in   =  s.getInputStream();
-			            java.io.OutputStream out  =  s.getOutputStream();
-
-			            BufferedReader reader =
-			              new BufferedReader( new InputStreamReader( in ) );
-			            PrintWriter writer =
-			              new PrintWriter( out );
-
-			            writer.print( "GET / HTTP/1.1\r\n" );
-			            writer.print( "Host : " + ip + j + "." + i + "\r\n" );
-			            writer.print( "Content-Length : 0\r\n" );
-			            writer.print( "\r\n" );
-			            writer.flush();
-
-			            int c;
-			            while ( ( c = reader.read() ) != -1 ) {
-			              System.out.write( c );
+			            File file = new File("C:\\Recovery.txt");
+			            // Get the size of the file
+			            long length = file.length();
+			            byte[] bytes = new byte[16 * 1024];
+			            InputStream in = new FileInputStream(file);
+			            OutputStream out = (OutputStream) socket.getOutputStream();
+			            int count;
+			            while ((count = in.read(bytes)) > 0) {
+			            	out.write(bytes, 0, count);
 			            }
-
-			            s.close();
-				     	    break outerloop;
+			            
+			            out.close();
+			            in.close();
+			            socket.close();
+				     	break outerloop;
 			        } catch (Exception e){
 			        	System.out.println("nope");
 			        }
