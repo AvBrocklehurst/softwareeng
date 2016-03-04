@@ -53,21 +53,10 @@ public class SaveAndLoad {
 	        ObjectInputStream oos = new ObjectInputStream(fos);
 	        MatrixModel tempModel = (MatrixModel)oos.readObject();
 	        oos.close();
-	        convertModel(model,tempModel);
+	        model.convertModel(tempModel);
 		} catch (Exception ex){
 	        System.out.println(("Exception thrown during test: " + ex.toString()));
 	    }
-	}
-	
-	
-	/**
-	 * Method that copies the fields of the temp model into the 
-	 * already stored model.
-	 * @param model      The normal model to override.
-	 * @param tempModel  The temp model to read from.
-	 */
-	private static void convertModel(MatrixModel model, MatrixModel tempModel){
-		//TODO copy each field and layer from temp model to model.
 	}
 	
 	/**
