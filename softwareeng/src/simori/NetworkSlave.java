@@ -19,9 +19,12 @@ public class NetworkSlave implements Runnable, PowerTogglable{
 	@Override
 	public void run() {
 		try{
+			
 			serverSocket = new ServerSocket(port);
+			System.out.println("Server Socket Made");
 			while(true && !Thread.currentThread().isInterrupted()){
 				Socket s = serverSocket.accept();
+				System.out.println("Socket Accepted");
 				Thread t = new Thread( new NetworkObjectReader(s, model) );
 				t.start();
 			}
@@ -33,12 +36,13 @@ public class NetworkSlave implements Runnable, PowerTogglable{
 
 	@Override
 	public void switchOn() {
+		System.out.println("Starting");
 		new Thread(this).start();
 	}
 
 	@Override
 	public void switchOff() {
-		this.notify();	
+		Thread.currentThread().interrupt();
 	}
 	
 }

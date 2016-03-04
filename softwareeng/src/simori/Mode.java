@@ -442,11 +442,11 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 	
 	/**
 	 * This implementation of the Changer interface allows the simori
-	 * to probe on port 20160 to find other Dr D inventions over a network.
+	 * to probe on port 20160 to find other Simori-ons over a network.
 	 * The first to respond receives the masters configuration and the master
 	 * continues to performance mode.
 	 * 
-	 * @author James
+	 * @author Adam
 	 * @version 1.0.0
 	 * @see Changer.getText(), Changer.doThingTo(), Changer.getCurrentSetting()
 	 * @return Changer
@@ -456,22 +456,22 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 
 			@Override
 			public String getText(Setting s) {
-				return "Dr D";
+				return "Searching...";
 			}
 
 			@Override
 			public boolean doThingTo(ModeController controller) {
-				try {
-					new NetworkMaster(controller.getPort(), controller.getModel()).findSlave();
-				} catch (UnknownHostException e) {
-					e.printStackTrace();
-				}
+				
 				return true;
 			}
 
 			@Override
 			public Setting getCurrentSetting() {
-				// TODO Auto-generated method stub
+				try {
+					new NetworkMaster(controller.getPort(), controller.getModel()).findSlave();
+				} catch (UnknownHostException e) {
+					e.printStackTrace();
+				}
 				return null;
 			}
 			
