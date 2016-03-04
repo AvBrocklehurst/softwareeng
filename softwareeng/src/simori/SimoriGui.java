@@ -30,16 +30,20 @@ public interface SimoriGui {
 	public void setText(String text);
 	
 	/**
-	 * Draws letters on the buttons in the grid, so that has the appearance of
-	 * a keyboard. The given {@link KeyboardMapping} is used to determine what
-	 * letter to draw on each button. The dimensions of the keyboard layout
-	 * specified by the mapping must match those of the grid, or the characters
-	 * will not be added and false will be returned. Passing a null
-	 * KeyboardMapping will result in the LED grid being displayed instead.
-	 * @param mapping to specify the character to show on each button, or null
-	 * @return true if the keyboard was displayed
+	 * Sets whether to display letters on the grid of buttons,
+	 * giving it the appearance of a keyboard. Button presses
+	 * are reported with {@link GridButtonEvent}s as usual.
+	 * The letter represented by a button can be determined
+	 * using the {@link KeyboardMapping}. Passing false will remove
+	 * the letters. Buttons do not illuminate in keyboard mode.
+	 * @see #getKeyboardMapping
+	 * @param shown true to show a keyboard, false to show LEDs.
+	 * @return For converting pressed button coordinates to letters
 	 */
-	public boolean setKeyboard(KeyboardMapping mapping);
+	public void setKeyboardShown(boolean shown);
+	
+	/** @return The mapping from grid button coordinates to character */
+	public KeyboardMapping getKeyboardMapping();
 	
 	/** Sets the listener to receive {@link GridButtonEvent}s */
 	public void setGridButtonListener(GridButtonListener l);

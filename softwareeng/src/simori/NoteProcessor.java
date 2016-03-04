@@ -56,11 +56,12 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 		 * the mode.
 		 * The thread waits through the majority of a tick before processing data.
 		 * @author Jurek
-		 * @version 1.5.0
+		 * @version 1.5.2
 		 */
 		@Override
 		public void run() {
 			new Thread(clock).start();
+			byte[][] toBePlayed = null;
 			
 			//start the thread loop
 			while(running){
@@ -71,15 +72,15 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 				//reach out for and process the notes...
 				//...assuming that the simori has not been turned off
 				if(!running) break;
-				byte[][] toBePlayed = getNotes();
+				try{toBePlayed = getNotes();}
+				catch(IllegalArgumentException e) {e.printStackTrace();System.exit(1);}
 				
 				//send a play request to the MIDIPlayer
-				if(toBePlayed!=null) {try{
-					midi.stopPlay(); //TODO BROKEN
+				try{
+					midi.stopPlay();
 					midi.play(toBePlayed);
 				//if MIDIPlayer throws an error, print it out and stop the JVM
 				}catch(InvalidMidiDataException e){e.printStackTrace();System.exit(1);}
-				}
 				
 				//turn the lights on the current column
 				mode.tickThrough(model.getCurrentColumn());
@@ -132,10 +133,11 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 		 * The method is particuallary long and complex because we decided that we want
 		 * to send a correctly fixed size byte array rather than an array list.
 		 * @author Adam
-		 * @version 1.1.0
+		 * @author Jurek
+		 * @version 1.1.2
 		 * @return 2D byte Array containing the notes to be played and layer information.
 		 */
-		private byte[][] getNotes(){
+		private byte[][] getNotes() throws IllegalArgumentException{
 			List<Byte> activeLayers = model.getLayers();
 			/* make the array the same size as the active layers. */
 			byte[][] layers = new byte[activeLayers.size()][]; 
@@ -156,7 +158,6 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 				if(notZero > 0){ // If this layer has notes in this column.
 					usedColumns.add(x);
 					layers[x] = convertLayer(activeLayers.get(x), (byte)(notZero+3), thisLayer);
-					if(layers[x]==null) return null;
 				}
 			}
 			/* resize the array to only store layers with notes in this column */
@@ -174,18 +175,15 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 		 * instrument, channel and velocity.
 		 * @author Adam
 		 * @author Jurek
-		 * @verion 1.0.1
+		 * @verion 1.0.2
 		 * @param layerNumber  the number of the current layer
 		 * @param len          the length of the layer
 		 * @param thisLayer    the contents of the layer
 		 * @return byte array containing the notes, instrument, channel and pitch.
 		 */
-		private byte[] convertLayer(byte layerNumber,byte len, byte[] thisLayer) {
+		private byte[] convertLayer(byte layerNumber,byte len, byte[] thisLayer) throws IllegalArgumentException {
 			short instrument = model.getInstrument(layerNumber);
-			if(instrument<0||instrument>175) {
-				System.out.println("Error:incorrect instrument received from the model!");
-				return null;
-			}
+			if(instrument<0||instrument>175) throw new IllegalArgumentException("Incorrect instrument ID:" + instrument + "; acceptable 0-175");
 			byte[] layer = new byte[len];
 			if(instrument < 128){ // insturment isn't in normal set
 				layer[0] = 0;
@@ -201,10 +199,7 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 			
 			layer[2] = model.getVelocity(layerNumber);
 			//check if velocity is within 0-127 range
-			if(layer[2]>127||layer[2]<0) {
-				System.out.println("Error:incorrect velocity received from the model!");
-				return null; 
-			}
+			if(layer[2]>127||layer[2]<0) throw new IllegalArgumentException("Incorrect velocity:" + layer[2] + "; acceptable 0-127");
 			
 			byte count = 3; //start at 3 to store the other information before it.
 			for(byte y = 0; y < thisLayer.length; y ++){
