@@ -112,7 +112,7 @@ public class Clock implements Runnable {
 	public void updateBPM(short newBPM){
 		//check if bpm within 0-160 range
 		if(newBPM<0||newBPM>160) {
-			System.out.println("Error:Received " + newBPM + "BPM, needs to be 0-160");
+			System.out.println("Incorrect BPM:" + newBPM + "; acceptable 0-160");
 			System.exit(1);
 		}
 		bpm = newBPM;
