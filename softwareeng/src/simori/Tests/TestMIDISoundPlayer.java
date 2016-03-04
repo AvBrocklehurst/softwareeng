@@ -326,4 +326,87 @@ public class TestMIDISoundPlayer {
 		player.play(maximumLayersAndNotes); 
 	}
 	
+	
+	/**
+	 * @author Josh 
+	 * @version 1.0.0
+	 * @throws InvalidMidiDataException 
+	 * 
+	 * ArbitarySoundTest
+	 * Test the stop play method with a usual input
+	 */
+	@Test
+	public void testStopPlay() throws InvalidMidiDataException {
+		array = new byte[1][];
+		array[0] = singleNote;
+		player.play(array); 
+		player.stopPlay();
+	}
+	
+	
+	/**
+	 * @author Josh 
+	 * @version 1.0.0
+	 * @throws InvalidMidiDataException 
+	 * 
+	 * ArbitarySoundTest
+	 * Test the stop play method with multiple inputs
+	 */
+	@Test
+	public void testStopPlayMultiple() throws InvalidMidiDataException {
+		array = new byte[1][];
+		array[0] = multiNotes;
+		player.play(array); 
+		player.stopPlay();
+	}
+	
+	
+	/**
+	 * @author Josh 
+	 * @version 1.0.0
+	 * @throws InvalidMidiDataException 
+	 * 
+	 * ArbitarySoundTest
+	 * Test the stop play method with multiple layers
+	 */
+	@Test
+	public void testStopPlayMultipleLayers() throws InvalidMidiDataException {
+		array = new byte[3][];
+		array[0] = singleNote;
+		array[1] = multiNotes;
+		array[2] = maximum1Layer;
+		player.play(array); 
+		player.stopPlay();
+	}
+	
+	
+	/**
+	 * @author Josh
+	 * @version 1.0.0
+	 * @throws InvalidMidiDataException 
+	 * 
+	 * ArbitarySoundTest
+	 * The ultimate test! 16 layers, 16 notes, each of a different instrument, each with a different velocity.
+	 * Does it stop all the notes?
+	 */
+	@Test(timeout = 100) // dont want it to take too long to play all the notes simultaneously, otherwise it will go out of sync!
+	public void testStopPlayMaximumLayersAndNotes() throws InvalidMidiDataException {
+		player.play(maximumLayersAndNotes); 
+		player.stopPlay();
+	}
+	
+	/**
+	 * @author Josh 
+	 * @version 1.0.0
+	 * @throws InvalidMidiDataException 
+	 * 
+	 * 
+	 * Test that stop doesnt work if there is nothing has been played
+	 */
+	@Test(expected = NullPointerException.class)
+	public void testStopPlayNothingToStop() throws InvalidMidiDataException {
+		array = new byte[1][];
+		array[0] = multiNotes;
+		player.stopPlay();
+	}
 }

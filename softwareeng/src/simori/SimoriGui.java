@@ -8,7 +8,7 @@ import simori.Exceptions.InvalidCoordinatesException;
  * Interface setting out the constraints that any implementation
  * of a graphical user interface for the Simori-ON must comply to.
  * @author Matt
- * @version 2.0.0
+ * @version 2.1.4
  */
 public interface SimoriGui {
 	
@@ -29,6 +29,18 @@ public interface SimoriGui {
 	 */
 	public void setText(String text);
 	
+	/**
+	 * Draws letters on the buttons in the grid, so that has the appearance of
+	 * a keyboard. The given {@link KeyboardMapping} is used to determine what
+	 * letter to draw on each button. The dimensions of the keyboard layout
+	 * specified by the mapping must match those of the grid, or the characters
+	 * will not be added and false will be returned. Passing a null
+	 * KeyboardMapping will result in the LED grid being displayed instead.
+	 * @param mapping to specify the character to show on each button, or null
+	 * @return true if the keyboard was displayed
+	 */
+	public boolean setKeyboard(KeyboardMapping mapping);
+	
 	/** Sets the listener to receive {@link GridButtonEvent}s */
 	public void setGridButtonListener(GridButtonListener l);
 	
@@ -37,7 +49,8 @@ public interface SimoriGui {
 	
 	/** Listener interface for {@link GridButtonEvent} */
 	public interface GridButtonListener  {
-		public void onGridButtonPress(GridButtonEvent e) throws InvalidCoordinatesException;
+		public void onGridButtonPress(GridButtonEvent e)
+				throws InvalidCoordinatesException;
 	}
 	
 	/** Listener interface for {@link FunctionButtonEvent} */
@@ -116,5 +129,27 @@ public interface SimoriGui {
 		public SimoriGui getSource() {
 			return src;
 		}
+	}
+	
+	/**
+	 * Specifies the positions of characters on the imagined keyboard
+	 * for when the Simori-ON's grid of buttons is used to enter text.
+	 * @author Matt
+	 * @version 1.0.3
+	 */
+	public interface KeyboardMapping {
+		
+		/** @return the width of the button grid this keyboard is for */
+		public byte getRows();
+		
+		/** @return the height of the button grid this keyboard is for */
+		public byte getColumns();
+		
+		/**
+		 * @param x Horizontal coordinate of a button in the grid
+		 * @param y Vertical coordinate of a button in the grid
+		 * @return The letter on the button at these coordinates
+		 */
+		public Character getLetterOn(byte x, byte y);
 	}
 }

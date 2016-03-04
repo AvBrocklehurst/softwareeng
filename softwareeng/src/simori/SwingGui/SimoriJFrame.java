@@ -15,6 +15,7 @@ import static simori.SwingGui.GuiProperties.SCREEN_PROPORTION;
 import java.awt.BorderLayout;
 import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -22,6 +23,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -50,7 +52,7 @@ import simori.SimoriGui;
  * @see GuiProperties
  * @see simori.ModeController
  * @author Matt
- * @version 2.1.3
+ * @version 2.3.6
  */
 public class SimoriJFrame extends JFrame implements SimoriGui, MouseMotionListener {
 	
@@ -63,6 +65,7 @@ public class SimoriJFrame extends JFrame implements SimoriGui, MouseMotionListen
 	private int rows, columns;
 	
 	//Components
+	private SimoriPanel simoriPanel;
 	private LedPanel ledPanel;
 	private SimoriEdgeBar leftBar, rightBar;
 	private SimoriEdgeBar topBar, bottomBar;
@@ -72,6 +75,10 @@ public class SimoriJFrame extends JFrame implements SimoriGui, MouseMotionListen
 	private int startX, startY;
 	private boolean couldDragBefore;
 	private Cursor oldCursor;
+	
+	//For keyboard
+	private JPanel keyboard;
+	private Button[][] keys;
 	
 	/**
 	 * Creates a visual representation of a Simori-ON
@@ -141,6 +148,46 @@ public class SimoriJFrame extends JFrame implements SimoriGui, MouseMotionListen
 		return fListener;
 	}
 	
+	/** {@inheritDoc} */
+	@Override
+	public boolean setKeyboard(KeyboardMapping map) {
+		if (map == null) {
+			simoriPanel.remove(keyboard);
+			simoriPanel.add(ledPanel, BorderLayout.CENTER);
+			ledPanel.repaint();
+		} else { //TODO maybe they can both be added, and one just hidden?
+			if (!makeKeyboard(map)) return false;
+			simoriPanel.remove(ledPanel);
+			simoriPanel.add(keyboard, BorderLayout.CENTER);
+			keyboard.repaint();
+		}
+		return true;
+	}
+	
+	//TODO javadoc
+	private boolean makeKeyboard(KeyboardMapping map) {
+		if (map.getRows() != rows || map.getColumns() != columns) return false;
+		keyboard = new JPanel(new GridLayout(rows, columns, 0, 0));
+		keyboard.setBackground(GuiProperties.LED_PANEL_BACKGROUND);
+		keyboard.setBorder(BorderFactory.createLineBorder(GuiProperties.LED_PANEL_BORDER));
+		OnPressListenerMaker maker = new OnPressListenerMaker(this);
+		keys = new Button[rows][columns];
+		
+		/* y is decremented each time, because Buttons are added from the
+		   top left corner but should be numbered from the bottom left */
+		for (byte y = (byte) (rows - 1); y >= 0; y--) {
+			for (byte x = 0; x < columns; x++) {
+				Button btn = new Button();
+				keyboard.add(btn);
+				btn.addOnPressListener(maker.getListener(x, y));
+				Character letter = map.getLetterOn(x, y);
+				btn.setText(letter == null ? "" : letter.toString());
+				keys[x][y] = btn;
+			}
+		}
+		return true;
+	}
+	
 	/**
 	 * Sets the desired properties of the {@link JFrame}.
 	 * These include the window icon, title, close operation
@@ -164,14 +211,14 @@ public class SimoriJFrame extends JFrame implements SimoriGui, MouseMotionListen
 	 */
 	private void addComponents() {
 		makeComponents();
-		JPanel panel = new SimoriPanel();
-		panel.setLayout(new BorderLayout(0, 0));
-		panel.add(topBar, BorderLayout.PAGE_START);
-		panel.add(leftBar, BorderLayout.LINE_START);
-		panel.add(ledPanel, BorderLayout.CENTER);
-		panel.add(rightBar, BorderLayout.LINE_END);
-		panel.add(bottomBar, BorderLayout.PAGE_END);
-		add(panel);
+		simoriPanel = new SimoriPanel(); //TODO Maybe do the following in SimoriPanel?
+		simoriPanel.setLayout(new BorderLayout(0, 0));
+		simoriPanel.add(topBar, BorderLayout.PAGE_START);
+		simoriPanel.add(leftBar, BorderLayout.LINE_START);
+		simoriPanel.add(ledPanel, BorderLayout.CENTER);
+		simoriPanel.add(rightBar, BorderLayout.LINE_END);
+		simoriPanel.add(bottomBar, BorderLayout.PAGE_END);
+		add(simoriPanel);
 	}  
 	
 	/**

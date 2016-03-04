@@ -23,7 +23,7 @@ import simori.SwingGui.OnPressListenerMaker.OnPressListener;
  * area, instead of on mouse button release. Features the hand
  * cursor to indicate that it can be clicked on.
  * @author Matt
- * @version 1.6.3
+ * @version 1.6.4
  */
 public abstract class PressableCircle
 		extends JComponent implements MouseListener {
@@ -52,6 +52,7 @@ public abstract class PressableCircle
 	protected void resized() {
 		int min = Math.min(getWidth(), getHeight());
 		setSize(min, min);
+		repaint();
 	}
 	
 	/**
