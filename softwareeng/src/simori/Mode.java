@@ -25,15 +25,6 @@ import simori.Exceptions.KeyboardException;
 public abstract class Mode implements FunctionButtonListener, GridButtonListener {
 	
 	private ModeController controller;     //current mode controller
-	private char[] symbols = {       //the set of possible symbols available to a user for Save and Load mode, remember unix is case sensitive!
-			'A','B','C','D','E','F','G','H','I','J','K','L','M','N',
-			'O','P','Q','R','S','T','U','V','W','X','Y','Z','a','b',
-			'c','d','e','f','g','h','i','j','k','l','m','n','o','p',
-			'q','r','s','t','u','v','w','x','y','z','_','-','+','=',
-			'!','£','$','%','^','(',')','{','}','[',']',';','@','#',
-			'~','.', ','
-		};
-	
 	
 	public Mode(ModeController controller){
 		this.controller = controller;
@@ -375,19 +366,7 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 				
 			@Override
 			public String getText(Setting s) {
-				short coords = coordsConverter(s.x, s.y);    //get coordinates
-				
-				Character letter = keyboard.getLetterOn(s.x, s.y);
-				if (letter != null) letters += letter;
-				
-				else if(coords == 241){
-					letters = letters.substring(0, letters.length()-1); //top left backspace
-				}
-				
-				else{
-					letters += "";  //other unused buttons do nothing
-				}
-				
+				letters = addLetter(keyboard.getLetterOn(s.x, s.y), letters);
 				return letters;
 			}
 
@@ -433,19 +412,7 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 
 			@Override
 			public String getText(Setting s) {
-				short coords = coordsConverter(s.x, s.y);
-				
-				Character letter = keyboard.getLetterOn(s.x, s.y);
-				if (letter != null) letters += letter;
-				
-				if(coords == 241){
-					letters = letters.substring(0, letters.length()-1);
-				}
-				
-				else{
-					letters += "";
-				}
-				
+				letters = addLetter(keyboard.getLetterOn(s.x, s.y), letters);
 				return letters;
 			}
 
@@ -533,6 +500,20 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 		
 	}
 	
-	
-	
+	/**
+	 * Appends the given Character to the given String.
+	 * If it is null, the String is not changed.
+	 * If it is a backspace character, a character is removed.
+	 * @author Matt
+	 * @author James
+	 */
+	private String addLetter(Character letter, String letters) {
+		if (letter == null) return letters;
+		if (letter == '\b') {
+			if (letters.length() == 0) return letters;
+			return letters.substring(0, letters.length()-1);
+		} else {
+			return letters + letter;
+		}
+	}
 }
