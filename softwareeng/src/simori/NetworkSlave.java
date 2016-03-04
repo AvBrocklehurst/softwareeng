@@ -33,7 +33,7 @@ public class NetworkSlave implements Runnable, PowerTogglable{
 
 	@Override
 	public void switchOn() {
-		this.run();
+		new Thread(this).start();
 	}
 
 	@Override
