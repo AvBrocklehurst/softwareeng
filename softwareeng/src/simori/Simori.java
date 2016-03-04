@@ -4,6 +4,7 @@ import java.util.Observer;
 
 import javax.sound.midi.MidiUnavailableException;
 
+import simori.Exceptions.KeyboardException;
 import simori.SwingGui.SimoriJFrame;
 
 /**
@@ -17,7 +18,7 @@ import simori.SwingGui.SimoriJFrame;
  */
 public class Simori {
 	
-	private static final int GRID_WIDTH = 16, GRID_HEIGHT = 16;
+	private static final byte GRID_WIDTH = 16, GRID_HEIGHT = 16;
 	
 	/**
 	 * The main method to run the whole Simori system. If MIDI is unavailable
@@ -37,6 +38,8 @@ public class Simori {
 			new Simori();
 		} catch (MidiUnavailableException e) {
 			e.printStackTrace();
+		} catch (KeyboardException e) {
+			e.printStackTrace();
 		}
 	}
 	
@@ -48,12 +51,14 @@ public class Simori {
 	 * @author Josh
 	 * @author Jurek
 	 * @author Matt
-	 * @version 2.0.0
-	 * @throws MidiUnavailableException
+	 * @version 2.1.0
+	 * @throws MidiUnavailableException If this system does not have MIDI
+	 * @throws KeyboardException If the grid does not fit a QWERTY keyboard
 	 */
-	public Simori() throws MidiUnavailableException {
+	public Simori() throws MidiUnavailableException, KeyboardException {
 		MatrixModel model = new MatrixModel(GRID_WIDTH, GRID_HEIGHT);
-		SimoriJFrame gui = new SimoriJFrame(GRID_WIDTH, GRID_HEIGHT);
+		QwertyKeyboard keyboard = new QwertyKeyboard(GRID_WIDTH, GRID_HEIGHT);
+		SimoriJFrame gui = new SimoriJFrame(keyboard);
 		MIDISoundPlayer player = new MIDISoundPlayer();
 		ModeController modes = new ModeController(gui, model);
 		NoteProcessor clock = new NoteProcessor(modes, model, player);
