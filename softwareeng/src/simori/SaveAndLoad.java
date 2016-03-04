@@ -1,7 +1,9 @@
 package simori;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
@@ -14,6 +16,10 @@ import java.io.ObjectOutputStream;
  */
 public class SaveAndLoad {
 	
+	private static final String HOME = System.getProperty("user.home");
+	private static final String DOCUMENTS = "Documents";
+	private static final String SAVES = "Simori-ON Songs";
+	
 	/**
 	 * Static method to save the contents of the model to a given file.
 	 * @author Adam
@@ -23,7 +29,8 @@ public class SaveAndLoad {
 	 */
 	public static void save(MatrixModel model, String filename){
 		try {
-	        FileOutputStream fos = new FileOutputStream(filename);
+			File file = getLocationFor(filename);
+	        FileOutputStream fos = new FileOutputStream(file);
 	        ObjectOutputStream oos = new ObjectOutputStream(fos);
 	        oos.writeObject(model);
 	        oos.close();
@@ -41,7 +48,8 @@ public class SaveAndLoad {
 	 */
 	public static void load(MatrixModel model, String filename){
 		try {
-	        FileInputStream fos = new FileInputStream(filename);
+			File file = getLocationFor(filename);
+	        FileInputStream fos = new FileInputStream(file);
 	        ObjectInputStream oos = new ObjectInputStream(fos);
 	        MatrixModel tempModel = (MatrixModel)oos.readObject();
 	        oos.close();
@@ -62,4 +70,20 @@ public class SaveAndLoad {
 		//TODO copy each field and layer from temp model to model.
 	}
 	
+	/**
+	 * Returns a file with the given name, located in a Simori-ON songs folder
+	 * under their Documents folder. If they do not have a Documents folder in
+	 * their home directory, the saves folder is created there instead.
+	 * @author Matt
+	 * @param fileName The name of the .song file, including extension
+	 * @return The file, ready to be written to
+	 */
+	private static File getLocationFor(String fileName) {
+		File home, documents, saves;
+		home = new File(HOME); //User will definitely have a home directory
+		documents = new File(home, DOCUMENTS); //May contain Documents
+		saves = new File(documents.exists() ? documents : home, SAVES);
+		if (!saves.exists()) saves.mkdir(); //Create folder for Simori-ON songs
+		return new File(saves, fileName);
+	}
 }
