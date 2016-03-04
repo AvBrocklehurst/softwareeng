@@ -6,9 +6,9 @@ import simori.Exceptions.KeyboardException;
 public class QwertyKeyboard implements KeyboardMapping { //TODO somehow define backspace
 	
 	private static final String[] ROWS =
-		{"1234567890", "QWERTYUIOP", "ASDFGHJKL",
-		 "ZXCVBNM", "qwertyuiop", "asdfghjkl",
-		 "zxcvbnm", "_-+=!£$%^()", " {}[];@#~.,"};
+		{"1234567890", "QWERTYUIOP", "ASDFGHJKL\b",
+		 "ZXCVBNM\b\b", "qwertyuiop", "asdfghjkl\b",
+		 "zxcvbnm\b\b", "_-+=!£$%^()", " {}[];@#~.,"};
 	
 	private Character[][] keys;
 	private byte rows, columns;

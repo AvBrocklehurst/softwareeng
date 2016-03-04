@@ -53,7 +53,10 @@ public class GridPanel extends JPanel {
 				keyboard.add(btn);
 				btn.addOnPressListener(maker.getListener(x, y));
 				Character letter = map.getLetterOn(x, y);
-				btn.setText(letter == null ? "" : letter.toString());
+				if (letter == null) continue; //TODO grey out the button
+				String text = letter.toString();
+				if (letter == '\b') text = "<-";
+				btn.setText(text);
 			}
 		}
 	}
