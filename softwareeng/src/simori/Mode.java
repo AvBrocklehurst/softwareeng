@@ -381,7 +381,14 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 				if (letter != null) letters += letter;
 				
 				else if(coords == 241){
-					letters = letters.substring(0, letters.length()-1); //top left backspace
+					if(letters.length() > 0){
+						letters = letters.substring(0, letters.length()-1); //top left backspace
+					}
+					
+					else{   //if trying to backspace an empty string
+						return letters;
+					}
+					
 				}
 				
 				else{
@@ -439,7 +446,13 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 				if (letter != null) letters += letter;
 				
 				if(coords == 241){
-					letters = letters.substring(0, letters.length()-1);
+					if(letters.length() > 0){
+						letters = letters.substring(0, letters.length()-1); //top left backspace
+					}
+					
+					else{   //if trying to backspace an empty string
+						return letters;
+					}
 				}
 				
 				else{
