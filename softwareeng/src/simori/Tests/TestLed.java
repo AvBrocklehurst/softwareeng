@@ -2,15 +2,18 @@ package simori.Tests;
 
 import static org.junit.Assert.assertEquals;
 
-
-
 import java.awt.event.MouseEvent;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import simori.SwingGui.GuiProperties;
 import simori.SwingGui.Led;
+import static simori.SwingGui.GuiProperties.LED_COLOUR_OFF;
+import static simori.SwingGui.GuiProperties.LED_COLOUR_OFF_IN;
+import static simori.SwingGui.GuiProperties.LED_COLOUR_ON;
+import static simori.SwingGui.GuiProperties.LED_COLOUR_ON_IN;
 
 /**
  * The class that tests Led.java. 
@@ -42,8 +45,19 @@ public class TestLed {
 	}
 	
 	@Test 
-	public void test_getFillColour(){
-		
+	public void test_getFillColour_litFalse(){
+		assertEquals("The fill colour should be a non illuminated led", LED_COLOUR_OFF, testled.getFillColour());
+	}
+	
+	@Test
+	public void test_getFillColour_litTrue(){
+		testled.setIlluminated(true);
+		assertEquals("The fill colour should be an illuminated led", LED_COLOUR_ON, testled.getFillColour());
+	}
+	
+	@Test
+	public void test_getBorderColour(){
+		assertEquals("The border colour was not returned correctly", GuiProperties.LED_BORDER, testled.getBorderColour());
 	}
 	
 	@Test 

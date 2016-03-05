@@ -2,11 +2,17 @@ package simori.Tests;
 
 import simori.SwingGui.Led;
 
-import static simori.SwingGui.GuiProperties.LED_COLOUR_OFF;
-import static simori.SwingGui.GuiProperties.LED_COLOUR_OFF_IN;
-import static simori.SwingGui.GuiProperties.LED_COLOUR_ON;
-import static simori.SwingGui.GuiProperties.LED_COLOUR_ON_IN;
+import java.awt.Color;
 
+/**
+ * A MockObject to allow access to Led methods and
+ * attributes
+ * 
+ * @author James
+ * @version 1.0.0
+ * @see Led.java
+ *
+ */
 public class MockLed extends Led{
 	
 	public boolean getIlluminated(){
@@ -23,6 +29,16 @@ public class MockLed extends Led{
 	
 	public void setMouseDown(){
 		mouseDown = true;
+	}
+	
+	@Override
+	public Color getFillColour(){
+		return super.getFillColour();
+	}
+	
+	@Override
+	public Color getBorderColour(){
+		return super.getBorderColour();
 	}
 
 }
