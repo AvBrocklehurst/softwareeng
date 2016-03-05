@@ -243,6 +243,20 @@ public class MatrixModel extends Observable implements Serializable, PowerToggla
 		layers[laynum].updateButton(col, row);
 		
 	}
+	
+	/**
+	 * Method to copy the values from the loaded in 
+	 * model into the currently reference one.
+	 * @version 1.0.0
+	 * @author Adam
+	 * @param temp  The temporary model to copy the contents from.
+	 */
+	public void convertModel(MatrixModel temp){
+		this.layers = temp.layers;
+		this.BPM = temp.BPM;
+		this.loopPoint = temp.loopPoint;		
+		this.currentColumn = 0;
+	}
 
 	@Override
 	public void switchOn() {

@@ -22,6 +22,7 @@ public class ModeController {
 	private SimoriGui gui;
 	private MatrixModel model;
 	private PowerTogglable[] toPowerToggle;
+	private int port;
 	
 	private Mode mode;
 	private byte displayLayer;
@@ -36,9 +37,10 @@ public class ModeController {
 	 * @param gui For button input and LED output
 	 * @param model To store information on the Simori-ON's state
 	 */
-	public ModeController(SimoriGui gui, MatrixModel model) {
+	public ModeController(SimoriGui gui, MatrixModel model, int port) {
 		this.gui = gui;
 		this.model = model;
+		this.port = port;
 		setOn(false); //Starting state is off
 	}
 	
@@ -66,6 +68,16 @@ public class ModeController {
 	/** @return false if the Simori-ON is in {@link OffMode} */
 	public boolean isOn() {
 		return on;
+	}
+	
+	
+	/**
+	 * Method to return the port to use.
+	 * @author Adam
+	 * @return  int containing the current port.
+	 */
+	public int getPort(){
+		return port;
 	}
 	
 	/**

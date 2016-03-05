@@ -1,5 +1,7 @@
 package simori;
 
+import java.net.UnknownHostException;
+
 import simori.ChangerMode.Changer;
 import simori.ChangerMode.Setting;
 import simori.SimoriGui.FunctionButtonEvent;
@@ -25,15 +27,6 @@ import simori.Exceptions.KeyboardException;
 public abstract class Mode implements FunctionButtonListener, GridButtonListener {
 	
 	private ModeController controller;     //current mode controller
-	private char[] symbols = {       //the set of possible symbols available to a user for Save and Load mode, remember unix is case sensitive!
-			'A','B','C','D','E','F','G','H','I','J','K','L','M','N',
-			'O','P','Q','R','S','T','U','V','W','X','Y','Z','a','b',
-			'c','d','e','f','g','h','i','j','k','l','m','n','o','p',
-			'q','r','s','t','u','v','w','x','y','z','_','-','+','=',
-			'!','£','$','%','^','(',')','{','}','[',']',';','@','#',
-			'~','.', ','
-		};
-	
 	
 	public Mode(ModeController controller){
 		this.controller = controller;
@@ -394,7 +387,8 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 				else{
 					letters += "";  //other unused buttons do nothing
 				}
-				
+
+				letters = addLetter(keyboard.getLetterOn(s.x, s.y), letters);
 				return letters;
 			}
 
@@ -459,6 +453,7 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 					letters += "";
 				}
 				
+				letters = addLetter(keyboard.getLetterOn(s.x, s.y), letters);
 				return letters;
 			}
 
@@ -486,11 +481,11 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 	
 	/**
 	 * This implementation of the Changer interface allows the simori
-	 * to probe on port 20160 to find other Dr D inventions over a network.
+	 * to probe on port 20160 to find other Simori-ons over a network.
 	 * The first to respond receives the masters configuration and the master
 	 * continues to performance mode.
 	 * 
-	 * @author James
+	 * @author Adam
 	 * @version 1.0.0
 	 * @see Changer.getText(), Changer.doThingTo(), Changer.getCurrentSetting()
 	 * @return Changer
@@ -500,18 +495,22 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 
 			@Override
 			public String getText(Setting s) {
-				return "Dr D";
+				return "Searching...";
 			}
 
 			@Override
 			public boolean doThingTo(ModeController controller) {
-				// TODO Auto-generated method stub
-				return false;
+				
+				return true;
 			}
 
 			@Override
 			public Setting getCurrentSetting() {
-				// TODO Auto-generated method stub
+				try {
+					new NetworkMaster(controller.getPort(), controller.getModel()).findSlave();
+				} catch (UnknownHostException e) {
+					e.printStackTrace();
+				}
 				return null;
 			}
 			
@@ -546,6 +545,20 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 		
 	}
 	
-	
-	
+	/**
+	 * Appends the given Character to the given String.
+	 * If it is null, the String is not changed.
+	 * If it is a backspace character, a character is removed.
+	 * @author Matt
+	 * @author James
+	 */
+	private String addLetter(Character letter, String letters) {
+		if (letter == null) return letters;
+		if (letter == '\b') {
+			if (letters.length() == 0) return letters;
+			return letters.substring(0, letters.length()-1);
+		} else {
+			return letters + letter;
+		}
+	}
 }
