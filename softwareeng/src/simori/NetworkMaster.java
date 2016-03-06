@@ -13,7 +13,7 @@ import java.net.UnknownHostException;
  * @author Adam
  * @author Matt
  */
-public class NetworkMaster {
+public class NetworkMaster implements Runnable{
 	private int port;
 	private String ip;
 	private MatrixModel model;
@@ -71,5 +71,10 @@ public class NetworkMaster {
 		for(int j = 0; j < 256; j++){
 			closestRangeIP(ip + j + '.');
 		} 
+	}
+
+	@Override
+	public void run() {
+		findSlave();
 	}
 }
