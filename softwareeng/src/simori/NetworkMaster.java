@@ -28,6 +28,7 @@ public class NetworkMaster {
 	}
 	
 	public void findSlave(){
+		System.out.println("here");
 		String cloesestRangeIP =  ip.substring(0, ip.indexOf('.',
 				ip.indexOf('.',ip.indexOf('.')+1)+1) + 1);
 		String thisRangeIP = cloesestRangeIP.substring
@@ -39,10 +40,14 @@ public class NetworkMaster {
 	}
 	
 	private boolean closestRangeIP(String ip){
+		
 		for(int i = 0; i < 256; i++){
 	        try {
-	        	checkSocket(ip + i);
-	            return true;
+	        	if(!this.ip.equals(ip + i)){
+	        		checkSocket(ip + i);
+	        	    return true;
+	        	}
+	        	
 	        } catch (IOException e){
 	        	
 	        }
