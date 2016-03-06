@@ -5,15 +5,35 @@ import java.io.ObjectInputStream;
 import java.io.IOException;
 import java.net.Socket;
 
+
+/**
+ * Class to handle the reading in of an object 
+ * that is passed via a network socket.
+ * @author Adam
+ *
+ */
 public class NetworkObjectReader implements Runnable {
   private Socket s;
   private MatrixModel model;
-
+  
+  
+  /**
+   * Constructor for the NewtworkObjectReader
+   * @param s      The accpeting socket.
+   * @param model  The model to override.
+   * @author Adam
+   */
   public NetworkObjectReader( Socket s, MatrixModel model ) {
     this.s = s;
     this.model = model;
   }
 
+  /**
+   * The run method reads in the object from the input stream
+   * and converts it into the MarixModel
+   * @author Adam
+   */
+  @Override 
   public void run() {
 	InputStream in = null;
 	ObjectInputStream out = null;

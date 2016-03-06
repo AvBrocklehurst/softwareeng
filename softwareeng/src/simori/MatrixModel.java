@@ -29,7 +29,7 @@ public class MatrixModel extends Observable implements Serializable, PowerToggla
 	 * Constctuctor that takes no arguments.
 	 * It initalizes the Layer list and creates the first one.
 	 * @author  Adam
-	 * @version 1.0.0
+	 * @version 1.0.1
 	 */
 	public MatrixModel(int width, int height){
 		this.width = width;
@@ -38,6 +38,7 @@ public class MatrixModel extends Observable implements Serializable, PowerToggla
 		this.layers[0] = new Layer(width, height); //instatiate the first layer
 		this.BPM = 88; // default BPM
 		this.loopPoint = 15;
+		this.currentColumn = 0;
 	}
 
 	/**
