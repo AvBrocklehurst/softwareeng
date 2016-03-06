@@ -7,6 +7,16 @@ import simori.ChangerMode.Setting;
 import simori.Exceptions.InvalidCoordinatesException;
 import simori.SimoriGui.KeyboardMapping;
 
+/**
+ * The ChangerModeFactory provides a centralised method which defines which mode to
+ * change to on press of a Function button. The methods which facilitate the change and
+ * send data to the lcd are also included.
+ * 
+ *@author James
+ *
+ *@version 1.0.0
+ */
+
 public class ChangerModeFactory {
 	
 	public static Changer getChanger(FunctionButton fb, ModeController controller){
