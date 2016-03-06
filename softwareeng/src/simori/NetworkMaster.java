@@ -40,6 +40,7 @@ public class NetworkMaster implements Runnable{
 		
 		for(int i = 0; i < 256; i++){
 	        try {
+	        	System.out.println(ip + i);
 	        	if(!this.ip.equals(ip + i)){
 	        		checkSocket(ip + i);
 	        	    return true;
@@ -54,7 +55,7 @@ public class NetworkMaster implements Runnable{
 	
 	private void checkSocket(String ip) throws IOException{
 		Socket socket = new Socket();
-        socket.connect(new InetSocketAddress(ip, port), 200);
+        socket.connect(new InetSocketAddress(ip, port), 100);
         OutputStream out = (OutputStream) socket.getOutputStream();
         ObjectOutputStream serializer = new ObjectOutputStream(out);
         serializer.writeObject(model);
@@ -75,6 +76,7 @@ public class NetworkMaster implements Runnable{
 
 	@Override
 	public void run() {
+		System.out.println(Thread.currentThread());
 		findSlave();
 	}
 }

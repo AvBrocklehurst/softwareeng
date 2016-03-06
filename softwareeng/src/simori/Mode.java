@@ -506,8 +506,9 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 
 			@Override
 			public Setting getCurrentSetting() {
+				System.out.println("why am I running?");
 				try {
-					new NetworkMaster(controller.getPort(), controller.getModel()).run();
+					new Thread(new NetworkMaster(controller.getPort(), controller.getModel())).start();
 				} catch (UnknownHostException e) {
 					e.printStackTrace();
 				}
