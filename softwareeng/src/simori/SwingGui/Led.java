@@ -24,8 +24,8 @@ public class Led extends PressableCircle {
 	 * Having mouseDown static very conveniently produces the
 	 * intentional click and drag to activate multiple LEDs behaviour.
 	 */
-	private static boolean mouseDown;
-	private boolean lit;
+	protected static boolean mouseDown;
+	protected boolean lit;
 	
 	/**
 	 * @param on Whether LED should be illuminated

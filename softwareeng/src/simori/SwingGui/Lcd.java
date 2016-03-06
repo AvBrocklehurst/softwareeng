@@ -32,6 +32,43 @@ public class Lcd extends JLabel {
 	}
 	
 	/**
+	 * A way of setting the LCD screen's size by specifying
+	 * only the length in the screen's shorter dimension.
+	 * The length in the other dimension is set automatically.
+	 * If the LCD is horizontal, shorter will be its required height.
+	 * @param shorter The desired size in the shortest dimension
+	 */
+	public void setShorterSize(float shorter) {
+		float w = vertical ? shorter : shorter * GuiProperties.LCD_EDGE_RATIO;
+		float h = vertical ? shorter * GuiProperties.LCD_EDGE_RATIO : shorter;
+		Dimension size = new Dimension((int) w, (int) h);
+		setPreferredSize(size);
+		setMinimumSize(size);
+		setMaximumSize(size);
+		makeFontFit(size, "Gg"); //One tall and one hanging character
+	}
+	
+	/** {@inheritDoc} */
+	@Override
+	public void setText(String text) {
+		//Add a leading space to pad text away from left edge
+		if (text != null) {
+			if (text != getText()) makeFontFit(getSize(), text);
+			text = " " + text;
+		}
+		super.setText(text);
+	}
+	
+	/** {@inheritDoc} */
+	@Override
+	public String getText() {
+		//Remove the leading space added by setText
+		String text = super.getText();
+		if (text != null && text.length() > 0) text = text.substring(1);
+		return text;
+	}
+	
+	/**
 	 * Creates a ComponentListener which listens
 	 * for resizing events and responds by enforcing
 	 * that the LCD is {@link GuiProperties#LCD_EDGE_RATIO}
@@ -56,50 +93,15 @@ public class Lcd extends JLabel {
 	}
 	
 	/**
-	 * A way of setting the LCD screen's size by specifying
-	 * only the length in the screen's shorter dimension.
-	 * The length in the other dimension is set automatically.
-	 * If the LCD is horizontal, shorter will be its required height.
-	 * @param shorter The desired size in the shortest dimension
-	 */
-	public void setShorterSize(float shorter) {
-		float w = vertical ? shorter : shorter * GuiProperties.LCD_EDGE_RATIO;
-		float h = vertical ? shorter * GuiProperties.LCD_EDGE_RATIO : shorter;
-		Dimension size = new Dimension((int) w, (int) h);
-		setPreferredSize(size);
-		setMinimumSize(size);
-		setMaximumSize(size);
-		makeFontFit(size);
-	}
-	
-	/**
 	 * Retrieves the desired font from {@link #GuiProperties}
 	 * and resizes it to fit a test string.
 	 * @param size The width and height of the LCD screen
 	 */
-	private void makeFontFit(Dimension size) {
-		final String test = "gG"; //With tall letter and hanging letter
+	private void makeFontFit(Dimension size, String text) {
 		setFont(GuiProperties.getFont());
 		Graphics g = getComponentGraphics(getGraphics());
 		g.setFont(getFont());
-		GuiProperties.sizeFontTo(test, size.width, size.height, g);
+		GuiProperties.sizeFontTo(text, size.width, size.height, g);
 		setFont(g.getFont());
-	}
-	
-	/** {@inheritDoc} */
-	@Override
-	public void setText(String text) {
-		//Add a leading space to pad text away from left edge
-		if (text != null) text = " " + text;
-		super.setText(text);
-	}
-	
-	/** {@inheritDoc} */
-	@Override
-	public String getText() {
-		//Remove the leading space added by setText
-		String text = super.getText();
-		if (text != null) text = text.substring(1);
-		return text;
 	}
 }

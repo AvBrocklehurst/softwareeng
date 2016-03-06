@@ -21,8 +21,8 @@ import simori.SwingGui.SimoriJFrame;
 
 /**
  * The class for testing Performance Mode - unfinished.
- * @author Adam
  * @author James
+ * @author Adam
  * @version 1.1.0
  * @see simori.PerformanceMode
  *

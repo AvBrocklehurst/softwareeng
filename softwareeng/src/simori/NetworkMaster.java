@@ -1,9 +1,6 @@
 package simori;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Inet4Address;
@@ -47,7 +44,7 @@ public class NetworkMaster {
 	        		checkSocket(ip + i);
 	        	    return true;
 	        	}
-	        	
+
 	        } catch (IOException e){
 	        	
 	        }
@@ -62,7 +59,7 @@ public class NetworkMaster {
         ObjectOutputStream serializer = new ObjectOutputStream(out);
         serializer.writeObject(model);
         serializer.close();
-        out.close(); //was probably closed automatically when serializer was closed anyway
+        out.close();
         socket.close();
 	}
 	
