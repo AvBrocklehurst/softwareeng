@@ -1,6 +1,5 @@
 package simori;
 
-import simori.ChangerMode.Changer;
 import simori.SimoriGui.FunctionButtonEvent;
 import simori.SimoriGui.FunctionButtonListener;
 import simori.SimoriGui.GridButtonListener;
@@ -47,6 +46,8 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 		getGui().setText(null);
 	}
 	
+	public void tickerLight(byte col) throws InvalidCoordinatesException {}
+	
 	/**
 	 * Gets the function button pressed and the source Gui and then
 	 * changes the current mode based on a specified FunctionButton.
@@ -58,22 +59,16 @@ public abstract class Mode implements FunctionButtonListener, GridButtonListener
 	 * @see FunctionButton.getFunctionButton(), SimoriGui.getSource(), SimoriGui.setMode()
 	 */
 	public void onFunctionButtonPress(FunctionButtonEvent e){
-		switch (e.getFunctionButton()) {
+		FunctionButton fb = e.getFunctionButton();
+		switch (fb) {
 		case OK:
 			controller.setMode(new PerformanceMode(controller));
 			break;
 		case ON:
 			controller.setOn(!controller.isOn());
 			break;
-			
 		default:
-			Changer c = ChangerModeFactory.getChanger(e.getFunctionButton(), controller);
-			controller.setMode(new ChangerMode(controller, c, false, false));
+			controller.setMode(ChangerModeFactory.getChanger(fb, controller));
 		}
-		
 	}
-	
-	public void tickerLight(byte col) throws InvalidCoordinatesException {};
-	
-	
 }

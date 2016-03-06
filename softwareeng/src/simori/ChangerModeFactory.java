@@ -4,7 +4,6 @@ import java.net.UnknownHostException;
 
 import simori.ChangerMode.Changer;
 import simori.ChangerMode.Setting;
-import simori.Exceptions.InvalidCoordinatesException;
 import simori.SimoriGui.KeyboardMapping;
 
 /**
@@ -19,32 +18,27 @@ import simori.SimoriGui.KeyboardMapping;
 
 public class ChangerModeFactory {
 	
-	public static Changer getChanger(FunctionButton fb, ModeController controller){
-		
-		switch(fb){
-	
+	public static ChangerMode getChanger(FunctionButton fb, ModeController controller){
+		switch(fb) {
 		case L1 : 
-			return makeVoiceChanger(controller);
+			return new ChangerMode(controller, makeVoiceChanger(controller), true, true);
 		case L2 : 
-			return makeVelocityChanger(controller);
+			return new ChangerMode(controller, makeVelocityChanger(controller), true, true);
 		case L3 : 
-			return makeSpeedChanger(controller);
+			return new ChangerMode(controller, makeSpeedChanger(controller), true, true);
 		case L4 : 
-			return makePointChanger(controller);
+			return new ChangerMode(controller, makePointChanger(controller), true, false);
 		case R1 :
-			return makeLayerChanger(controller);
+			return new ChangerMode(controller, makeLayerChanger(controller), false, true);
 		case R2 :
-			return saveConfig(controller);
+			return new ChangerMode(controller, saveConfig(controller), false, false);
 		case R3 :
-			return loadConfig(controller);
+			return new ChangerMode(controller, loadConfig(controller), false, false);
 		case R4 :
-			return masterSlave(controller);
-		
+			return new ChangerMode(controller, masterSlave(controller), false, false);
 		default: 
 			return null;
-			
 		}
-		
 	}
 	
 	/**
@@ -176,6 +170,7 @@ public class ChangerModeFactory {
 			 */
 			@Override
 			public boolean doThingTo(ModeController controller) {
+				if (instrumentNumber == null) return false;
 				controller.getModel().setInstrument(controller.getDisplayLayer(), instrumentNumber); 
 				return true;
 			}
@@ -315,26 +310,6 @@ public class ChangerModeFactory {
 				
 			@Override
 			public String getText(Setting s) {
-				short coords = coordsConverter(s.x, s.y);    //get coordinates
-				
-				Character letter = keyboard.getLetterOn(s.x, s.y);
-				if (letter != null) letters += letter;
-				
-				else if(coords == 241){
-					if(letters.length() > 0){
-						letters = letters.substring(0, letters.length()-1); //top left backspace
-					}
-					
-					else{   //if trying to backspace an empty string
-						return letters;
-					}
-					
-				}
-				
-				else{
-					letters += "";  //other unused buttons do nothing
-				}
-
 				letters = addLetter(keyboard.getLetterOn(s.x, s.y), letters);
 				return letters;
 			}
@@ -357,9 +332,7 @@ public class ChangerModeFactory {
 				keyboard = controller.getGui().getKeyboardMapping();
 				return null;
 			}
-			
 		};
-		
 	}
 	
 	/**
@@ -381,25 +354,6 @@ public class ChangerModeFactory {
 
 			@Override
 			public String getText(Setting s) {
-				short coords = coordsConverter(s.x, s.y);
-				
-				Character letter = keyboard.getLetterOn(s.x, s.y);
-				if (letter != null) letters += letter;
-				
-				if(coords == 241){
-					if(letters.length() > 0){
-						letters = letters.substring(0, letters.length()-1); //top left backspace
-					}
-					
-					else{   //if trying to backspace an empty string
-						return letters;
-					}
-				}
-				
-				else{
-					letters += "";
-				}
-				
 				letters = addLetter(keyboard.getLetterOn(s.x, s.y), letters);
 				return letters;
 			}
@@ -409,7 +363,6 @@ public class ChangerModeFactory {
 				if(letters == null){
 					return false;
 				}
-				
 				letters += ".song";
 				SaveAndLoad.load(controller.getModel(), letters);    //load the .song file
 				controller.getGui().setKeyboardShown(false);
@@ -422,7 +375,6 @@ public class ChangerModeFactory {
 				keyboard = controller.getGui().getKeyboardMapping();
 				return null;
 			}
-			
 		};
 	}
 	
@@ -447,7 +399,6 @@ public class ChangerModeFactory {
 
 			@Override
 			public boolean doThingTo(ModeController controller) {
-				
 				return true;
 			}
 
@@ -461,7 +412,6 @@ public class ChangerModeFactory {
 				}
 				return null;
 			}
-			
 		};
 	}
 	
@@ -477,20 +427,16 @@ public class ChangerModeFactory {
 	 * @version 1.1.0
 	 */
 	private static short coordsConverter(int x, int y){
-		
 		short counter = 1;  //the short eventually output when incremented
 		while(y != 0){
 			y--;
 			counter = (short) (counter + 16); //from moving row to row we add 16 to the short, each row is 0-15 buttons
 		}
-		
 		while(x != 0){
 			x--;
 			counter = (short) (counter + 1); //from moving column we add 1 to the short as each new button is one new instrument
 		}
-		
 		return counter;
-		
 	}
 	
 	/**
@@ -510,5 +456,3 @@ public class ChangerModeFactory {
 		}
 	}
 }
-	
-
