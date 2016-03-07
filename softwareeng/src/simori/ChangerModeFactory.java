@@ -52,7 +52,7 @@ public class ChangerModeFactory {
 	 * @see ChangerMode.Changer
 	 * @version 1.2.1
 	 */
-	private static Changer makeLayerChanger(ModeController controller) {
+	private static Changer makeLayerChanger(final ModeController controller) {
 		return new Changer() {
 			
 			private byte selectedLayer;    //the layer to change to
@@ -103,7 +103,7 @@ public class ChangerModeFactory {
 	 * @version 1.0.0
 	 * @return Changer
 	 */
-	private static Changer makePointChanger(ModeController controller) {
+	private static Changer makePointChanger(final ModeController controller) {
 		return new Changer() {
 			
 			private int selectedColumn;   //the column to loop to
@@ -304,7 +304,7 @@ public class ChangerModeFactory {
 	 * SaveAndLoad.save(), ModeController.getModel(), java.lang.String.substring()
 	 * @return Changer
 	 */
-	private static Changer saveConfig(ModeController controller){
+	private static Changer saveConfig(final ModeController controller){
 		return new TextEntry(controller) {
 			@Override
 			protected boolean useText(String text) {
@@ -326,7 +326,7 @@ public class ChangerModeFactory {
 	 * SaveAndLoad.save(), ModeController.getModel(), java.lang.String.substring()
 	 * @return Changer
 	 */
-	private static Changer loadConfig(ModeController controller){
+	private static Changer loadConfig(final ModeController controller){
 		return new TextEntry(controller) {
 			@Override
 			protected boolean useText(String text) {
@@ -356,7 +356,7 @@ public class ChangerModeFactory {
 	 * @see Changer.getText(), Changer.doThingTo(), Changer.getCurrentSetting()
 	 * @return Changer
 	 */
-	private static Changer masterSlave(ModeController controller){
+	private static Changer masterSlave(final ModeController controller){
 		return new Changer(){
 
 			@Override
