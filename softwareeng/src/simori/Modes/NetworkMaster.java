@@ -130,7 +130,7 @@ public class NetworkMaster implements Runnable{
 	
 	/**
 	 * This implementation of the Changer interface allows the simori
-	 * to probe on port 20160 to find other Simori-ons over a network.
+	 * to probe on a given port to find other Simori-ons over a network.
 	 * The first to respond receives the masters configuration and the master
 	 * continues to performance mode.
 	 * 
