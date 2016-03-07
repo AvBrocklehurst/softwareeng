@@ -18,6 +18,7 @@ import org.junit.runners.Suite;
    TestMIDISoundPlayer.class,
    TestPerformanceMode.class,
    TestInstrumentNamer.class,
+   TestSaveAndLoad.class,
    TestSimoriGui.class  
 })
 
