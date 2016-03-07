@@ -317,4 +317,21 @@ public class ChangerModeFactory {
 		}
 		return counter;
 	}
+	
+	private static int convertBack(short s){
+		
+		int x = 0;
+		int y = 0;
+		
+		while(s != 0){
+			if(s < 16){
+				break;
+			}
+			
+			s = (short) (s - 16);
+			y++;
+		}
+		
+		return x;
+	}
 }
