@@ -14,7 +14,10 @@ import static simori.FunctionButton.R4;
 import simori.FunctionButton;
 import simori.Exceptions.KeyboardException;
 import simori.Modes.QwertyKeyboard;
+import simori.SwingGui.Button;
 import simori.SwingGui.GridPanel;
+import simori.SwingGui.Led;
+import simori.SwingGui.LedPanel;
 import simori.SwingGui.OnPressListenerMaker;
 import simori.SwingGui.SimoriEdgeBar;
 import simori.SwingGui.SimoriJFrame;
@@ -36,24 +39,36 @@ public class MockSimoriJFrame extends SimoriJFrame {
 		super(mapping);
 	}
 	
-	public SimoriPanel getSimoriPanel() {
-		return simoriPanel;
+	public MockSimoriPanel getSimoriPanel() {
+		return (MockSimoriPanel) simoriPanel;
 	}
 	
-	public SimoriEdgeBar getTopBar() {
+	public MockSimoriEdgeBar getTopBar() {
 		return ((MockSimoriPanel) simoriPanel).getTopBar();
 	}
 	
-	public SimoriEdgeBar getLeftBar() {
+	public MockSimoriEdgeBar getLeftBar() {
 		return ((MockSimoriPanel) simoriPanel).getLeftBar();
 	}
 	
-	public SimoriEdgeBar getRightBar() {
+	public MockSimoriEdgeBar getRightBar() {
 		return ((MockSimoriPanel) simoriPanel).getRightBar();
 	}
 	
-	public SimoriEdgeBar getBottomBar() {
+	public MockSimoriEdgeBar getBottomBar() {
 		return ((MockSimoriPanel) simoriPanel).getBottomBar();
+	}
+	
+	public MockGridPanel getGridPanel() {
+		return getSimoriPanel().getGridPanel();
+	}
+	
+	public MockLedPanel getLedPanel() {
+		return getSimoriPanel().getGridPanel().getLedPanel();
+	}
+	
+	public Led getLed(byte row, byte column) {
+		return getSimoriPanel().getGridPanel().getLedPanel().getLed(row, column);
 	}
 	
 	public class MockSimoriPanel extends SimoriPanel {
@@ -100,12 +115,36 @@ public class MockSimoriJFrame extends SimoriJFrame {
 				OnPressListenerMaker maker, FunctionButton... fbs) {
 			super(vertical, hasLcd, maker, fbs);
 		}
+		
+		public Button[] getButtons() {
+			return buttons;
+		}
 	}
 	
 	public class MockGridPanel extends GridPanel {
 
 		public MockGridPanel(KeyboardMapping map, OnPressListenerMaker maker) {
 			super(map, maker);
+		}
+		
+		@Override
+		protected LedPanel makeLedPanel(KeyboardMapping map, OnPressListenerMaker maker) {
+			return new MockLedPanel(map.getRows(), map.getColumns(), maker);
+		}
+		
+		public MockLedPanel getLedPanel() {
+			return (MockLedPanel) ledPanel;
+		}
+	}
+	
+	public class MockLedPanel extends LedPanel {
+
+		public MockLedPanel(int rows, int columns, OnPressListenerMaker maker) {
+			super(rows, columns, maker);
+		}
+		
+		public Led getLed(byte row, byte column) {
+			return leds[column][row];
 		}
 	}
 }
