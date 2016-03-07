@@ -162,9 +162,15 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 					layers[x] = convertLayer(activeLayers.get(x), (byte)(notZero+3), thisLayer);
 				}
 			}
-
 			/* resize the array to only store layers with notes in this column */
-			return resizeLayers(usedColumns, layers);
+			byte[][] toBePlayed = new byte[usedColumns.size()][];
+			for (byte i=0; i<usedColumns.size(); i++){
+				toBePlayed[i] = layers[usedColumns.get(i)];
+			}
+			
+			return toBePlayed;
+			///* resize the array to only store layers with notes in this column */
+			//return resizeLayers(usedColumns, layers);
 		}
 
 		private byte[][] resizeLayers(ArrayList<Byte> usedColumns, byte[][] layers){
