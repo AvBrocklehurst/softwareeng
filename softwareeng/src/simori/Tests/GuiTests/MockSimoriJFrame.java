@@ -21,6 +21,7 @@ import simori.SwingGui.GridPanel;
 import simori.SwingGui.Led;
 import simori.SwingGui.LedPanel;
 import simori.SwingGui.OnPressListenerMaker;
+import simori.SwingGui.PressableCircle;
 import simori.SwingGui.SimoriEdgeBar;
 import simori.SwingGui.SimoriJFrame;
 import simori.SwingGui.SimoriPanel;
@@ -150,8 +151,12 @@ public class MockSimoriJFrame extends SimoriJFrame {
 			super(rows, columns, maker);
 		}
 		
-		public Led getLed(byte row, byte column) {
+		public MockLed getLed(byte row, byte column) {
 			return (MockLed) leds[column][row];
+		}
+		
+		public PressableCircle getLastPressed(){
+			return lastPressed;
 		}
 	}
 	
