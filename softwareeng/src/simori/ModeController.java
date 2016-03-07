@@ -2,6 +2,9 @@ package simori;
 
 import simori.Simori.PowerTogglable;
 import simori.Exceptions.InvalidCoordinatesException;
+import simori.Modes.Mode;
+import simori.Modes.OffMode;
+import simori.Modes.PerformanceMode;
 
 /**
  * Manages the current {@link Mode} of the Simori-ON.

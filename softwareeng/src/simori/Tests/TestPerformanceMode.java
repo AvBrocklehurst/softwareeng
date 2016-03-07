@@ -10,11 +10,10 @@ import org.junit.Test;
 import simori.MIDISoundPlayer;
 import simori.MatrixModel;
 import simori.ModeController;
-import simori.PerformanceMode;
 import simori.Simori;
 import simori.SimoriGui.GridButtonEvent;
 import simori.Exceptions.InvalidCoordinatesException;
-
+import simori.Modes.PerformanceMode;
 import simori.SwingGui.SimoriJFrame;
 
 
@@ -24,7 +23,7 @@ import simori.SwingGui.SimoriJFrame;
  * @author James
  * @author Adam
  * @version 1.1.0
- * @see simori.PerformanceMode
+ * @see simori.Modes.PerformanceMode
  *
  */
 

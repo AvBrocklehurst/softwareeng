@@ -1,6 +1,7 @@
-package simori;
+package simori.Modes;
 
 import simori.SimoriGui.KeyboardMapping;
+import simori.SimoriGui;
 import simori.Exceptions.KeyboardException;
 
 public class QwertyKeyboard implements KeyboardMapping {

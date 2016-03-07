@@ -1,7 +1,9 @@
-package simori;
+package simori.Modes;
 
-import simori.ChangerMode.Changer;
-import simori.ChangerMode.Setting;
+import simori.ModeController;
+import simori.SimoriGui;
+import simori.Modes.ChangerMode.Changer;
+import simori.Modes.ChangerMode.Setting;
 import simori.SimoriGui.KeyboardMapping;
 
 public abstract class TextEntry implements Changer {

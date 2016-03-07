@@ -11,11 +11,11 @@ import simori.NoteProcessor;
 import simori.MIDISoundPlayer;
 import simori.MatrixModel;
 import simori.ModeController;
-import simori.PerformanceMode;
-import simori.QwertyKeyboard;
 import simori.Simori;
 import simori.Exceptions.InvalidCoordinatesException;
 import simori.Exceptions.KeyboardException;
+import simori.Modes.PerformanceMode;
+import simori.Modes.QwertyKeyboard;
 import simori.SwingGui.SimoriJFrame;
 
 

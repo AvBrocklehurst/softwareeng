@@ -13,8 +13,8 @@ import java.awt.event.MouseMotionListener;
 
 import javax.swing.JFrame;
 
-import simori.Mode;
 import simori.SimoriGui;
+import simori.Modes.Mode;
 
 /**
  * Creates the user interface for the Simori-ON.

@@ -1,7 +1,10 @@
-package simori;
+package simori.Modes;
 
 import simori.SimoriGui.GridButtonEvent;
 import simori.SimoriGui.GridButtonListener;
+import simori.InstrumentNamer;
+import simori.ModeController;
+import simori.SimoriGui;
 import simori.Exceptions.InvalidCoordinatesException;
 
 /**

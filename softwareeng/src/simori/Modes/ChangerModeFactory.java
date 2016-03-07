@@ -1,9 +1,12 @@
-package simori;
+package simori.Modes;
 
 import java.net.UnknownHostException;
 
-import simori.ChangerMode.Changer;
-import simori.ChangerMode.Setting;
+import simori.FunctionButton;
+import simori.InstrumentNamer;
+import simori.ModeController;
+import simori.Modes.ChangerMode.Changer;
+import simori.Modes.ChangerMode.Setting;
 
 /**
  * The ChangerModeFactory provides a centralised method which defines which mode to
