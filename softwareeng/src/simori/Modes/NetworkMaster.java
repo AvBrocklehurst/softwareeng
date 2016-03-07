@@ -115,7 +115,7 @@ public class NetworkMaster implements Runnable{
 	 * @throws UnknownHostException 
 	 * @throws IOException 
 	 */
-	private static String getIP() throws UnknownHostException, IOException {
+	private String getIP() throws UnknownHostException, IOException {
 		Socket s;
 		String betterIP;
 		try {
@@ -137,7 +137,14 @@ public class NetworkMaster implements Runnable{
 		return betterIP;
 	}
 	
-	private static String routeIP() throws IOException {
+	/**
+	 * Method to exec traceroute and pass what it returns
+	 * to the ipv4 function.
+	 * @author Adam
+	 * @return The IP address of the users router.
+	 * @throws IOException
+	 */
+	private String routeIP() throws IOException {
 		 Process traceRt;
 	        if(os.contains("win")) traceRt = Runtime.getRuntime().exec("tracert " + "www.google.com");
 	        else traceRt = Runtime.getRuntime().exec("traceroute " + "www.google.com");
@@ -152,7 +159,11 @@ public class NetworkMaster implements Runnable{
         return gateway;
     }
 	
-	
+	/**
+	 * Method to find the 2nd ip address in a string.
+	 * @param search  The string to search for an ip in.
+	 * @return An ipv4 address.
+	 */
 	private static String ipv4(String search){
 		String IPADDRESS_PATTERN =  
 				"(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.)" +
@@ -198,7 +209,7 @@ public class NetworkMaster implements Runnable{
 	 * @see Changer.getText(), Changer.doThingTo(), Changer.getCurrentSetting()
 	 * @return Changer
 	 */
-	protected static Changer masterSlave(final ModeController controller){
+	protected Changer masterSlave(final ModeController controller){
 		return new Changer(){
 
 			@Override
