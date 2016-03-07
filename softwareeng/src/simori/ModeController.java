@@ -53,7 +53,6 @@ public class ModeController {
 	 * @param column x coordinate at which to draw clock hand
 	 */
 	public void tickThrough(byte column) {
-		System.out.println(column);
 		try {
 			mode.tickerLight(column);
 		} catch (InvalidCoordinatesException e) {}

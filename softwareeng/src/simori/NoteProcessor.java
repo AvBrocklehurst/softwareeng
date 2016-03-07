@@ -1,6 +1,7 @@
 package simori;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -79,8 +80,8 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 				//send a play request to the MIDIPlayer
 				try{
 					if(played) {midi.stopPlay(); played = false;}
-					if(toBePlayed!=null) {midi.play(toBePlayed); played = true;}
-					else {played = false;}
+					if(toBePlayed.length!=0) {midi.play(toBePlayed); played = true;}
+					else played = false;
 				//if MIDIPlayer throws an error, print it out and stop the JVM
 				}catch(InvalidMidiDataException e){e.printStackTrace();System.exit(1);}
 				
@@ -136,7 +137,7 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 		 * to send a correctly fixed size byte array rather than an array list.
 		 * @author Adam
 		 * @author Jurek
-		 * @version 1.1.2
+		 * @version 1.1.3
 		 * @return 2D byte Array containing the notes to be played and layer information.
 		 */
 		private byte[][] getNotes() throws IllegalArgumentException{
@@ -162,24 +163,26 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 					layers[x] = convertLayer(activeLayers.get(x), (byte)(notZero+3), thisLayer);
 				}
 			}
+			//return toBePlayed;
 			/* resize the array to only store layers with notes in this column */
-			byte[][] toBePlayed = new byte[usedColumns.size()][];
-			for (byte i=0; i<usedColumns.size(); i++){
-				toBePlayed[i] = layers[usedColumns.get(i)];
-			}
-			
-			return toBePlayed;
-			///* resize the array to only store layers with notes in this column */
-			//return resizeLayers(usedColumns, layers);
+			return resizeLayers(usedColumns, layers);
 		}
 
+		/**
+		 * 
+		 * @author Jurek
+		 * @version 1.0.0
+		 * @param usedColumns
+		 * @param layers
+		 * @return
+		 */
 		private byte[][] resizeLayers(ArrayList<Byte> usedColumns, byte[][] layers){
 			byte[][] toBePlayed = new byte[usedColumns.size()][];
 			for (byte i=0; i<usedColumns.size(); i++){
 				toBePlayed[i] = layers[usedColumns.get(i)];
 			}
 			
-			return layers;
+			return toBePlayed;
 		}
 		
 		/**
@@ -188,31 +191,16 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 		 * instrument, channel and velocity.
 		 * @author Adam
 		 * @author Jurek
-		 * @verion 1.0.2
+		 * @verion 1.0.3
 		 * @param layerNumber  the number of the current layer
 		 * @param len          the length of the layer
 		 * @param thisLayer    the contents of the layer
 		 * @return byte array containing the notes, instrument, channel and pitch.
 		 */
 		private byte[] convertLayer(byte layerNumber,byte len, byte[] thisLayer) throws IllegalArgumentException {
-			short instrument = model.getInstrument(layerNumber);
-			if(instrument<0||instrument>175) throw new IllegalArgumentException("Incorrect instrument ID:" + instrument + "; acceptable 0-175");
-			byte[] layer = new byte[len];
+			byte[] layer = setInstrument(layerNumber, len);
 			
-			//INSTRUMENT
-			if(instrument < 128){ // insturment isn't in normal set
-				layer[0] = 0;
-			} else {
-				layer[0] = 9; //make the chanel 9 (percussion) 
-				/* Subtract 94 from number to get percussion insturment value */
-				instrument = (short) (instrument - 94);
-			}
-			layer[1] = (byte) instrument;
-			if(layer[0] == 9){
-				layer[1] = 0; //if the channel is 9 make isntrument 0
-			}
-			
-			//VELOCITY
+			//sets the velocity TODO consider refactoring
 			layer[2] = model.getVelocity(layerNumber);
 			//check if velocity is within 0-127 range
 			if(layer[2]>127||layer[2]<0) throw new IllegalArgumentException("Incorrect velocity:" + layer[2] + "; acceptable 0-127");
@@ -230,7 +218,35 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 			}
 			return layer;
 		}
-
+		
+		/**
+		 * 
+		 * @author Jurek
+		 * @version 1.0.0
+		 * @param layerNumber
+		 * @param layerLength
+		 * @return
+		 */
+		private byte[] setInstrument(byte layerNumber, byte layerLength) {
+			short instrument = model.getInstrument(layerNumber);
+			if(instrument<0||instrument>175) 
+				throw new IllegalArgumentException("Incorrect instrument ID:" + instrument + "; acceptable 0-175");
+			byte[] layer = new byte[layerLength];
+			if(instrument < 128){ // insturment isn't in normal set
+				layer[0] = 0;
+			} else {
+				layer[0] = 9; //make the chanel 9 (percussion) 
+				/* Subtract 94 from number to get percussion insturment value */
+				instrument = (short) (instrument - 94);
+			}
+			layer[1] = (byte) instrument;
+			if(layer[0] == 9){
+				layer[1] = 0; //if the channel is 9 make isntrument 0
+			}
+			
+			return layer;
+		}
+		
 		/**
 		 * Switches the note processor, and subsequently its clock, on
 		 * @author Matt
