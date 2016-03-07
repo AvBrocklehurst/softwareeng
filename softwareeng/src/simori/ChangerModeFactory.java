@@ -4,7 +4,6 @@ import java.net.UnknownHostException;
 
 import simori.ChangerMode.Changer;
 import simori.ChangerMode.Setting;
-import simori.SimoriGui.KeyboardMapping;
 
 /**
  * The ChangerModeFactory provides a centralised method which defines which mode to
@@ -17,6 +16,8 @@ import simori.SimoriGui.KeyboardMapping;
  */
 
 public class ChangerModeFactory {
+	
+	private static final String SONG_EXTENSION = ".song";
 	
 	public static ChangerMode getChanger(FunctionButton fb, ModeController controller){
 		switch(fb) {
@@ -303,34 +304,12 @@ public class ChangerModeFactory {
 	 * @return Changer
 	 */
 	private static Changer saveConfig(ModeController controller){
-		return new Changer(){
-
-			private KeyboardMapping keyboard;
-			private String letters = "";  //String to display
-				
+		return new TextEntry(controller) {
 			@Override
-			public String getText(Setting s) {
-				letters = addLetter(keyboard.getLetterOn(s.x, s.y), letters);
-				return letters;
-			}
-
-			@Override
-			public boolean doThingTo(ModeController controller) {
-				if(letters == null){
-					return false;
-				}
-				
-				letters += ".song";   //add the .song extension
-				SaveAndLoad.save(controller.getModel(), letters);
-				controller.getGui().setKeyboardShown(false);
+			protected boolean useText(String text) {
+				text += SONG_EXTENSION;   //add the .song extension
+				SaveAndLoad.save(controller.getModel(), text);
 				return true;
-			}
-
-			@Override
-			public Setting getCurrentSetting() {
-				controller.getGui().setKeyboardShown(true);
-				keyboard = controller.getGui().getKeyboardMapping();
-				return null;
 			}
 		};
 	}
@@ -347,33 +326,12 @@ public class ChangerModeFactory {
 	 * @return Changer
 	 */
 	private static Changer loadConfig(ModeController controller){
-		return new Changer(){
-			
-			private KeyboardMapping keyboard;
-			private String letters = "";   //string to display
-
+		return new TextEntry(controller) {
 			@Override
-			public String getText(Setting s) {
-				letters = addLetter(keyboard.getLetterOn(s.x, s.y), letters);
-				return letters;
-			}
-
-			@Override
-			public boolean doThingTo(ModeController controller) {
-				if(letters == null){
-					return false;
-				}
-				letters += ".song";
-				SaveAndLoad.load(controller.getModel(), letters);    //load the .song file
-				controller.getGui().setKeyboardShown(false);
+			protected boolean useText(String text) {
+				text += SONG_EXTENSION;
+				SaveAndLoad.load(controller.getModel(), text);    //load the .song file
 				return true;
-			}
-
-			@Override
-			public Setting getCurrentSetting() {
-				controller.getGui().setKeyboardShown(true);
-				keyboard = controller.getGui().getKeyboardMapping();
-				return null;
 			}
 		};
 	}
@@ -437,22 +395,5 @@ public class ChangerModeFactory {
 			counter = (short) (counter + 1); //from moving column we add 1 to the short as each new button is one new instrument
 		}
 		return counter;
-	}
-	
-	/**
-	 * Appends the given Character to the given String.
-	 * If it is null, the String is not changed.
-	 * If it is a backspace character, a character is removed.
-	 * @author Matt
-	 * @author James
-	 */
-	private static String addLetter(Character letter, String letters) {
-		if (letter == null) return letters;
-		if (letter == '\b') {
-			if (letters.length() == 0) return letters;
-			return letters.substring(0, letters.length()-1);
-		} else {
-			return letters + letter;
-		}
 	}
 }
