@@ -11,6 +11,8 @@ import static simori.FunctionButton.R2;
 import static simori.FunctionButton.R3;
 import static simori.FunctionButton.R4;
 
+import java.awt.Color;
+
 import simori.FunctionButton;
 import simori.Exceptions.KeyboardException;
 import simori.Modes.QwertyKeyboard;
@@ -71,7 +73,7 @@ public class MockSimoriJFrame extends SimoriJFrame {
 		return getSimoriPanel().getGridPanel().getLedPanel().getLed(row, column);
 	}
 	
-	public class MockSimoriPanel extends SimoriPanel {
+	public static class MockSimoriPanel extends SimoriPanel {
 
 		public MockSimoriPanel(KeyboardMapping map,
 				OnPressListenerMaker maker) {
@@ -109,7 +111,7 @@ public class MockSimoriJFrame extends SimoriJFrame {
 		}
 	}
 	
-	public class MockSimoriEdgeBar extends SimoriEdgeBar {
+	public static class MockSimoriEdgeBar extends SimoriEdgeBar {
 
 		public MockSimoriEdgeBar(boolean vertical, boolean hasLcd,
 				OnPressListenerMaker maker, FunctionButton... fbs) {
@@ -121,7 +123,7 @@ public class MockSimoriJFrame extends SimoriJFrame {
 		}
 	}
 	
-	public class MockGridPanel extends GridPanel {
+	public static class MockGridPanel extends GridPanel {
 
 		public MockGridPanel(KeyboardMapping map, OnPressListenerMaker maker) {
 			super(map, maker);
@@ -137,14 +139,57 @@ public class MockSimoriJFrame extends SimoriJFrame {
 		}
 	}
 	
-	public class MockLedPanel extends LedPanel {
+	public static class MockLedPanel extends LedPanel {
+		
+		@Override
+		protected Led makeLed() {
+			return new MockLed();
+		}
 
 		public MockLedPanel(int rows, int columns, OnPressListenerMaker maker) {
 			super(rows, columns, maker);
 		}
 		
 		public Led getLed(byte row, byte column) {
-			return leds[column][row];
+			return (MockLed) leds[column][row];
+		}
+	}
+	
+	/**
+	 * A MockObject to allow access to Led methods and
+	 * attributes
+	 * 
+	 * @author James
+	 * @version 1.0.0
+	 * @see Led.java
+	 *
+	 */
+	public static class MockLed extends Led{
+		
+		public boolean getIlluminated(){
+			return lit;
+		}
+		
+		public boolean getMouseDown(){
+			return mouseDown;
+		}
+		
+		public boolean getPushed(){
+			return pushed;
+		}
+		
+		public void setMouseDown(){
+			mouseDown = true;
+		}
+		
+		@Override
+		public Color getFillColour(){
+			return super.getFillColour();
+		}
+		
+		@Override
+		public Color getBorderColour(){
+			return super.getBorderColour(); 
 		}
 	}
 }
