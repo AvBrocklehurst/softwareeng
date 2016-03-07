@@ -10,6 +10,7 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 import simori.FunctionButton;
+import simori.Simori.PowerTogglable;
 
 /**
  * {@link JPanel} representation of one of the Simori-ON's margins
@@ -20,7 +21,7 @@ import simori.FunctionButton;
  * @author Matt
  * @version 2.8.5
  */
-public class SimoriEdgeBar extends JPanel {
+public class SimoriEdgeBar extends JPanel implements PowerTogglable {
 	
 	private Button[] buttons;
 	private Lcd lcd;
@@ -48,6 +49,22 @@ public class SimoriEdgeBar extends JPanel {
 				updateSize();
 			}
 		});
+	}
+	
+	/** {@inheritDoc} */
+	@Override
+	public void switchOn() {
+		for (Button b : buttons) {
+			b.setEnabled(true);
+		}
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public void switchOff() {
+		for (Button b : buttons) {
+			b.setEnabled(false);
+		}
 	}
 	
 	/**

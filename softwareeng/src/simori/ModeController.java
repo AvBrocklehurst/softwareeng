@@ -44,7 +44,6 @@ public class ModeController {
 		this.gui = gui;
 		this.model = model;
 		this.port = port;
-		setOn(false); //Starting state is off
 	}
 	
 	/**
@@ -165,5 +164,4 @@ public class ModeController {
 			t.switchOff();
 		}
 	}
-	
 }

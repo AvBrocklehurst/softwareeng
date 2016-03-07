@@ -2,7 +2,6 @@ package simori.Modes;
 
 import simori.FunctionButton;
 import simori.ModeController;
-import simori.SimoriGui;
 import simori.SimoriGui.FunctionButtonEvent;
 import simori.SimoriGui.GridButtonEvent;
 import simori.Exceptions.InvalidCoordinatesException;
@@ -28,13 +27,7 @@ public class OffMode extends Mode {
 	@Override
 	public void onFunctionButtonPress(FunctionButtonEvent e) {
 		if (e.getFunctionButton() == FunctionButton.ON) {
-			//TODO set GUI to non-greyed mode
 			getModeController().setOn(true);
 		}
-	}
-	
-	@Override
-	public void setInitialGrid() {
-		//TODO grey the gui
 	}
 }
