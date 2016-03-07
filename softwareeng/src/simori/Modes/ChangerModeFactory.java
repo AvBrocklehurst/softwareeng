@@ -179,8 +179,7 @@ public class ChangerModeFactory {
 
 			@Override
 			public Setting getCurrentSetting() {
-				//TODO inverse coordsconvert instrumentNumber back into an (x, y) location
-				//return new Setting(x, y);
+				//return new Setting(convertBack(instrumentNumber)[0], convertBack(instrumentNumber)[1]);
 				return null;
 			}
 		};
@@ -239,7 +238,8 @@ public class ChangerModeFactory {
 
 			@Override
 			public Setting getCurrentSetting() {
-				return null; //TODO convert back into (x, y) for initial display
+				//return new Setting(convertBack(selectedVelocity)[0], convertBack(selectedVelocity)[1]);
+				return null;
 			}
 		};
 	}
@@ -318,10 +318,13 @@ public class ChangerModeFactory {
 		return counter;
 	}
 	
-	private static int convertBack(short s){
+	private static byte[] convertBack(short s){
 		
-		int x = 0;
-		int y = 0;
+		byte x = 0;
+		byte y = 0;
+		byte[] arr = {x, y};
+		
+		s--;
 		
 		while(s != 0){
 			if(s < 16){
@@ -332,6 +335,11 @@ public class ChangerModeFactory {
 			y++;
 		}
 		
-		return x;
+		while(s != 0){
+			s = (short) (s - 1);
+			x++;
+		}
+		
+		return arr;
 	}
 }
