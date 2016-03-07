@@ -70,7 +70,6 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 				
 				//wait until the beat hits...
 				synchronized(lock){try{   lock.wait();   }catch(InterruptedException e){}}
-				
 				//reach out for and process the notes...
 				//...assuming that the simori has not been turned off
 				if(!running) break;

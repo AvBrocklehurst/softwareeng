@@ -24,7 +24,6 @@ public class Simori {
 	/**
 	 * The main method to run the whole Simori system. If MIDI is unavailable
 	 * an exception is caught.
-	 * 
 	 * @author Adam
 	 * @author James
 	 * @author Josh

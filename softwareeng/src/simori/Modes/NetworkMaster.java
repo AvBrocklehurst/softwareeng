@@ -147,8 +147,11 @@ public class NetworkMaster implements Runnable{
 		/* choose command based on windows or unix */
 		String trace = (os.contains("win") ? "tracert" : "traceroute");
 		/* execute command */
-	    traceRt = Runtime.getRuntime().exec(trace + " www.google.com");
-        BufferedReader output = new BufferedReader(new InputStreamReader(traceRt.getInputStream()));
+
+		ProcessBuilder pb = new ProcessBuilder(trace, "www.google.com");
+		Process p = pb.start();
+		
+        BufferedReader output = new BufferedReader(new InputStreamReader(p.getInputStream()));
         String content = output.readLine();
         String line;
         while((line = output.readLine()) != null){
