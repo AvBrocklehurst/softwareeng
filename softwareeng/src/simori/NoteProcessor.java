@@ -205,6 +205,7 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 			//check if velocity is within 0-127 range
 			if(layer[2]>127||layer[2]<0) throw new IllegalArgumentException("Incorrect velocity:" + layer[2] + "; acceptable 0-127");
 			
+			//sets the pitch information
 			byte count = 3; //start at 3 to store the other information before it.
 			for(byte y = 0; y < thisLayer.length; y ++){
 				if(thisLayer[y] != 0){ //if pitch isn't zero
