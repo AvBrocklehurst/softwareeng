@@ -9,7 +9,6 @@ import java.net.Inet4Address;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -43,7 +42,6 @@ public class NetworkMaster implements Runnable{
 	 */
 	public NetworkMaster(int port, MatrixModel model) throws IOException{
 		this.port = port;
-		this.ip = getIP();
 		this.model = model;
 	}
 	
@@ -143,11 +141,11 @@ public class NetworkMaster implements Runnable{
 	 * @throws IOException
 	 */
 	private String routeIP() throws IOException {
-		Process traceRt;
 		/* choose command based on windows or unix */
 		String trace = (os.contains("win") ? "tracert" : "traceroute");
 		/* execute command */
-
+		
+		System.out.println("Execcing on " + Thread.currentThread().getName());
 		ProcessBuilder pb = new ProcessBuilder(trace, "www.google.com");
 		Process p = pb.start();
 		
@@ -199,6 +197,16 @@ public class NetworkMaster implements Runnable{
 
 	@Override
 	public void run() {
+		System.out.println("running on " + Thread.currentThread().getName());
+		try {
+			this.ip = getIP();
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		findSlave();
 	}
 	
@@ -229,7 +237,9 @@ public class NetworkMaster implements Runnable{
 			@Override
 			public Setting getCurrentSetting() {
 				try {
-					new Thread(new NetworkMaster(controller.getPort(), controller.getModel())).start();
+					Thread wtf = new Thread(new NetworkMaster(controller.getPort(), controller.getModel()));
+					wtf.setName("Definitely not awt event queue");
+					wtf.start();
 				} catch (UnknownHostException e) {
 					e.printStackTrace();
 				} catch (IOException e) {

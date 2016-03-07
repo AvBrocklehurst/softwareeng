@@ -10,6 +10,8 @@ import org.junit.Test;
 import simori.SimoriGui;
 import simori.SimoriGui.FunctionButtonEvent;
 import simori.SimoriGui.GridButtonEvent;
+import simori.Exceptions.KeyboardException;
+import simori.Modes.QwertyKeyboard;
 import simori.SwingGui.SimoriJFrame;
 
 /**
@@ -43,8 +45,8 @@ public class TestSimoriGui {
 
 	/** Instantiates mock GUI */
 	@Before
-	public void setUp() {
-		mockGui = new SimoriJFrame(16, 16);
+	public void setUp() throws KeyboardException {
+		mockGui = new SimoriJFrame(new QwertyKeyboard((byte) 16, (byte) 16));
 	}
 	
 	/** Tests the getX of GridButtonEvent */

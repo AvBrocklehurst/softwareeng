@@ -8,14 +8,6 @@ import org.junit.Test;
 
 public class TestGuiProperties {
 
-	@Before
-	public void setUp() throws Exception {
-	}
-
-	@After
-	public void tearDown() throws Exception {
-	}
-
 	@Test
 	public void testRatioOf() {
 		fail("Not yet implemented");
