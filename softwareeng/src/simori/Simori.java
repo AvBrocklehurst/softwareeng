@@ -34,15 +34,23 @@ public class Simori {
 	 * @version 3.0.0
 	 */
 	public static void main(String[] args) {
-		try {
-			InstrumentNamer.getInstance();
-			new Simori();
-		} catch (MidiUnavailableException e) {
-			e.printStackTrace();
-		} catch (KeyboardException e) {
-			e.printStackTrace();
-		}
+		InstrumentNamer.getInstance();
+		new Thread(new Runnable(){ 
+			@Override
+			public void run() {
+				try {
+					new Simori();
+				} catch (MidiUnavailableException e) {
+					e.printStackTrace();
+				} catch (KeyboardException e) {
+					e.printStackTrace();
+				}
+				
+			}
+		} 
+		).start();
 	}
+	
 	
 	/**
 	 * Constructs an instance of a Simori. 

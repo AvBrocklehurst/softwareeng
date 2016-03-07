@@ -119,21 +119,19 @@ public class NetworkMaster implements Runnable{
 		Socket s;
 		String betterIP;
 		try {
+			/* Check if local address is on the 192.168.0 range */
 			s = new Socket();
-			s.connect(new InetSocketAddress("192.168.0.1", 80), 500);
+			s.connect(new InetSocketAddress("192.167.0.1", 80), 500);
 			betterIP = s.getLocalAddress().getHostAddress();
 			s.close();
-		} catch (UnknownHostException e){
-			if((betterIP = routeIP()).equals("0.0.0.0")){
-				betterIP  = Inet4Address.getLocalHost().getHostAddress();
-			}
 		} catch (IOException e) {
+			/* Else try trace route for ip */
 			if((betterIP = routeIP()).equals("0.0.0.0")){
+				System.out.println("here fast");
+				/* Else set address to unreliable local address */
 				betterIP  = Inet4Address.getLocalHost().getHostAddress();
 			}
 		}
-		
-		System.out.println(betterIP);
 		return betterIP;
 	}
 	
@@ -145,40 +143,43 @@ public class NetworkMaster implements Runnable{
 	 * @throws IOException
 	 */
 	private String routeIP() throws IOException {
-		 Process traceRt;
-	        if(os.contains("win")) traceRt = Runtime.getRuntime().exec("tracert " + "www.google.com");
-	        else traceRt = Runtime.getRuntime().exec("traceroute " + "www.google.com");
-	    
+		Process traceRt;
+		/* choose command based on windows or unix */
+		String trace = (os.contains("win") ? "tracert" : "traceroute");
+		/* execute command */
+	    traceRt = Runtime.getRuntime().exec(trace + " www.google.com");
         BufferedReader output = new BufferedReader(new InputStreamReader(traceRt.getInputStream()));
-        String thisLine = output.readLine();
+        String content = output.readLine();
         String line;
         while((line = output.readLine()) != null){
-        	thisLine += line;
+        	content += line; //add each line content
         }
-        String gateway= ipv4(thisLine);
+        String gateway= ipv4(content);
         return gateway;
     }
 	
 	/**
 	 * Method to find the 2nd ip address in a string.
+	 * @author Adam.
 	 * @param search  The string to search for an ip in.
 	 * @return An ipv4 address.
 	 */
 	private static String ipv4(String search){
+		/* Regex to match an IP Address */
 		String IPADDRESS_PATTERN =  
 				"(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.)" +
 				"{3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)";
+		
 		Pattern pattern = Pattern.compile(IPADDRESS_PATTERN);
+		
+		/* Check input string against regex */
 		Matcher matcher = pattern.matcher(search);
-		if (matcher.find()) {
-			if (matcher.find()) {
-				return matcher.group();
-			} else {
-		    	return "0.0.0.0";
-		    }
-		} else {
-			return "0.0.0.0";
+		if (matcher.find()) { //If one match
+			if (matcher.find()) { //If two matches
+				return matcher.group(); //return the 2nd IP.
+			} 
 		}
+		return "0.0.0.0";
 	}
 	
 	/**
@@ -209,7 +210,7 @@ public class NetworkMaster implements Runnable{
 	 * @see Changer.getText(), Changer.doThingTo(), Changer.getCurrentSetting()
 	 * @return Changer
 	 */
-	protected Changer masterSlave(final ModeController controller){
+	protected static Changer masterSlave(final ModeController controller){
 		return new Changer(){
 
 			@Override
@@ -224,7 +225,6 @@ public class NetworkMaster implements Runnable{
 
 			@Override
 			public Setting getCurrentSetting() {
-				System.out.println("why am I running?");
 				try {
 					new Thread(new NetworkMaster(controller.getPort(), controller.getModel())).start();
 				} catch (UnknownHostException e) {
