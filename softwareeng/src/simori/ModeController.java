@@ -27,9 +27,9 @@ public class ModeController {
 	private PowerTogglable[] toPowerToggle;
 	private int port;
 	
-	private Mode mode;
+	protected Mode mode;
 	private byte displayLayer;
-	private boolean on = true;
+	protected boolean on = true;
 	
 	/**
 	 * Creates a ModeController to accept input from the

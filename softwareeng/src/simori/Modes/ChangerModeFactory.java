@@ -20,13 +20,10 @@ import simori.Modes.ChangerMode.Setting;
 
 public class ChangerModeFactory {
 	
-	private static final String SONG_EXTENSION = ".song";
-	private static final String SONG_NOT_FOUND = "Couldn't find song!";
-	
 	public static ChangerMode getChanger(FunctionButton fb, ModeController controller){
 		switch(fb) {
 		case L1 : 
-			return new ChangerMode(controller, makeVoiceChanger(controller), true, true);
+			return new ChangerMode(controller, makeVoiceChanger(controller), true, true); //appropriate mode
 		case L2 : 
 			return new ChangerMode(controller, makeVelocityChanger(controller), true, true);
 		case L3 : 
@@ -36,11 +33,11 @@ public class ChangerModeFactory {
 		case R1 :
 			return new ChangerMode(controller, makeLayerChanger(controller), false, true);
 		case R2 :
-			return new ChangerMode(controller, saveConfig(controller), false, false);
+			return new ChangerMode(controller, SaveAndLoad.saveConfig(controller), false, false);
 		case R3 :
-			return new ChangerMode(controller, loadConfig(controller), false, false);
+			return new ChangerMode(controller, SaveAndLoad.loadConfig(controller), false, false);
 		case R4 :
-			return new ChangerMode(controller, masterSlave(controller), false, false);
+			return new ChangerMode(controller, NetworkMaster.masterSlave(controller), false, false);
 		default: 
 			return null;
 		}
@@ -296,94 +293,6 @@ public class ChangerModeFactory {
 		};
 	}
 	
-	/**
-	 * This implementation of the Changer interface allows a user to input
-	 * unix and windows compatible symbols and letters in order to produce
-	 * a filename to save the current simori configuration to.
-	 * 
-	 * @author James
-	 * @version 1.0.0
-	 * @see Changer.getText(), Changer.doThingTo(), Changer.getCurrentSetting(), coordsConverter(), 
-	 * SaveAndLoad.save(), ModeController.getModel(), java.lang.String.substring()
-	 * @return Changer
-	 */
-	private static Changer saveConfig(final ModeController controller){
-		return new TextEntry(controller) {
-			@Override
-			protected boolean useText(String text) {
-				text += SONG_EXTENSION;   //add the .song extension
-				SaveAndLoad.save(controller.getModel(), text);
-				return true;
-			}
-		};
-	}
-	
-	/**
-	 * This implementation of the Changer interface allows a user to input
-	 * unix and windows compatible symbols and letters in order to produce
-	 * a filename to load a simori configuration from.
-	 * 
-	 * @author James
-	 * @version 1.0.0
-	 * @see Changer.getText(), Changer.doThingTo(), Changer.getCurrentSetting(), coordsConverter(), 
-	 * SaveAndLoad.save(), ModeController.getModel(), java.lang.String.substring()
-	 * @return Changer
-	 */
-	private static Changer loadConfig(final ModeController controller){
-		return new TextEntry(controller) {
-			@Override
-			protected boolean useText(String text) {
-				text += SONG_EXTENSION;
-				if (SaveAndLoad.load(controller.getModel(), text)) {
-					return true;
-				} else {
-					if (controller.getGui().getText().equals(SONG_NOT_FOUND)) {
-						return true;
-					} else {
-						controller.getGui().setText(SONG_NOT_FOUND);
-						return false;
-					}
-				}
-			}
-		};
-	}
-	
-	/**
-	 * This implementation of the Changer interface allows the simori
-	 * to probe on port 20160 to find other Simori-ons over a network.
-	 * The first to respond receives the masters configuration and the master
-	 * continues to performance mode.
-	 * 
-	 * @author Adam
-	 * @version 1.0.0
-	 * @see Changer.getText(), Changer.doThingTo(), Changer.getCurrentSetting()
-	 * @return Changer
-	 */
-	private static Changer masterSlave(final ModeController controller){
-		return new Changer(){
-
-			@Override
-			public String getText(Setting s) {
-				return "Searching...";
-			}
-
-			@Override
-			public boolean doThingTo(ModeController controller) {
-				return true;
-			}
-
-			@Override
-			public Setting getCurrentSetting() {
-				System.out.println("why am I running?");
-				try {
-					new Thread(new NetworkMaster(controller.getPort(), controller.getModel())).start();
-				} catch (UnknownHostException e) {
-					e.printStackTrace();
-				}
-				return null;
-			}
-		};
-	}
 	
 	/**
 	 * This method, given two integer coordinates of a button press,

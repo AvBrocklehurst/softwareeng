@@ -9,6 +9,9 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 import simori.MatrixModel;
+import simori.ModeController;
+import simori.Modes.ChangerMode.Changer;
+import simori.Modes.ChangerMode.Setting;
 
 /**
  * Class to act as the master in the master slave mode.
@@ -22,7 +25,7 @@ public class NetworkMaster implements Runnable{
 	private int port;
 	private String ip;
 	private MatrixModel model;
-	
+
 	
 	
 	/**
@@ -123,5 +126,42 @@ public class NetworkMaster implements Runnable{
 	@Override
 	public void run() {
 		findSlave();
+	}
+	
+	/**
+	 * This implementation of the Changer interface allows the simori
+	 * to probe on port 20160 to find other Simori-ons over a network.
+	 * The first to respond receives the masters configuration and the master
+	 * continues to performance mode.
+	 * 
+	 * @author Adam
+	 * @version 1.0.0
+	 * @see Changer.getText(), Changer.doThingTo(), Changer.getCurrentSetting()
+	 * @return Changer
+	 */
+	protected static Changer masterSlave(final ModeController controller){
+		return new Changer(){
+
+			@Override
+			public String getText(Setting s) {
+				return "Searching...";
+			}
+
+			@Override
+			public boolean doThingTo(ModeController controller) {
+				return true;
+			}
+
+			@Override
+			public Setting getCurrentSetting() {
+				System.out.println("why am I running?");
+				try {
+					new Thread(new NetworkMaster(controller.getPort(), controller.getModel())).start();
+				} catch (UnknownHostException e) {
+					e.printStackTrace();
+				}
+				return null;
+			}
+		};
 	}
 }
