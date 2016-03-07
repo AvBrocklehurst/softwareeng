@@ -5,6 +5,8 @@ import java.util.Observer;
 import javax.sound.midi.MidiUnavailableException;
 
 import simori.Exceptions.KeyboardException;
+import simori.Modes.NetworkSlave;
+import simori.Modes.QwertyKeyboard;
 import simori.SwingGui.SimoriJFrame;
 
 /**

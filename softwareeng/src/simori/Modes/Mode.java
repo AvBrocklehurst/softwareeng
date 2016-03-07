@@ -1,8 +1,12 @@
-package simori;
+package simori.Modes;
 
 import simori.SimoriGui.FunctionButtonEvent;
 import simori.SimoriGui.FunctionButtonListener;
 import simori.SimoriGui.GridButtonListener;
+import simori.FunctionButton;
+import simori.MatrixModel;
+import simori.ModeController;
+import simori.SimoriGui;
 import simori.Exceptions.InvalidCoordinatesException;
 
 /**

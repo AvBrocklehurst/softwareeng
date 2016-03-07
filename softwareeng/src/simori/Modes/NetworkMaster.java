@@ -1,4 +1,4 @@
-package simori;
+package simori.Modes;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -7,6 +7,8 @@ import java.net.Inet4Address;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+
+import simori.MatrixModel;
 
 /**
  * Class to act as the master in the master slave mode.

@@ -10,8 +10,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import simori.QwertyKeyboard;
 import simori.Exceptions.KeyboardException;
+import simori.Modes.QwertyKeyboard;
 import simori.SwingGui.OnPressListenerMaker;
 import simori.SwingGui.OnPressListenerMaker.OnPressListener;
 import simori.SwingGui.SimoriJFrame;
