@@ -105,6 +105,7 @@ public class SaveAndLoad {
 		return new TextEntry(controller) {
 			@Override
 			protected boolean useText(String text) {
+				if (text.length() == 0) return true;
 				text += SONG_EXTENSION;   //add the .song extension
 				SaveAndLoad.save(controller.getModel(), text);
 				return true;
@@ -127,6 +128,7 @@ public class SaveAndLoad {
 		return new TextEntry(controller) {
 			@Override
 			protected boolean useText(String text) {
+				if (text.length() == 0) return true;
 				text += SONG_EXTENSION;
 				if (SaveAndLoad.load(controller.getModel(), text)) {
 					return true;

@@ -175,7 +175,7 @@ public class GuiProperties {
 		}
 		
 		//Decrease size to just fit, and set as g's new font
-		g.setFont(new Font(name, style, size--));
+		g.setFont(new Font(name, style, --size));
 	}
 	
 	/**
