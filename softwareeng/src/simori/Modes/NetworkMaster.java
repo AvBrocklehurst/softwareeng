@@ -1,12 +1,17 @@
 package simori.Modes;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Inet4Address;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.StringTokenizer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import simori.MatrixModel;
 import simori.ModeController;
@@ -25,6 +30,7 @@ public class NetworkMaster implements Runnable{
 	private int port;
 	private String ip;
 	private MatrixModel model;
+	private final static String os = System.getProperty("os.name").toLowerCase();
 
 	
 	
@@ -69,11 +75,9 @@ public class NetworkMaster implements Runnable{
 	private boolean closestRangeIP(String ip){
 		for(int i = 0; i < 256; i++){
 	        try {
-	        	System.out.println(ip + i);
 	        	/* If it's not my ip */
 	        	if(!this.ip.equals(ip + i)){
 	        		checkSocket(ip + i);
-	        		System.out.println("here");
 	        	    return true;
 	        	}
 	        } catch (IOException e){
@@ -107,19 +111,67 @@ public class NetworkMaster implements Runnable{
 	/**
 	 * Method to return the systems local IP address.
 	 * @author Adam
-	 * @return  A string containing the current systems local IP.
+	 * @return  A string containing the current systems local IP. 
+	 * @throws UnknownHostException 
 	 * @throws IOException 
 	 */
-	private static String getIP() throws IOException{
-		Socket s = new Socket("192.168.0.1", 80);
-		String betterIP = s.getLocalAddress().getHostAddress();
-		s.close();
+	private static String getIP() throws UnknownHostException, IOException {
+		Socket s;
+		String betterIP;
+		try {
+			s = new Socket();
+			s.connect(new InetSocketAddress("192.168.0.1", 80), 500);
+			betterIP = s.getLocalAddress().getHostAddress();
+			s.close();
+		} catch (UnknownHostException e){
+			if((betterIP = routeIP()).equals("0.0.0.0")){
+				betterIP  = Inet4Address.getLocalHost().getHostAddress();
+			}
+		} catch (IOException e) {
+			if((betterIP = routeIP()).equals("0.0.0.0")){
+				betterIP  = Inet4Address.getLocalHost().getHostAddress();
+			}
+		}
+		
+		System.out.println(betterIP);
 		return betterIP;
 	}
-	 
+	
+	private static String routeIP() throws IOException {
+		 Process traceRt;
+	        if(os.contains("win")) traceRt = Runtime.getRuntime().exec("tracert " + "www.google.com");
+	        else traceRt = Runtime.getRuntime().exec("traceroute " + "www.google.com");
+	    
+        BufferedReader output = new BufferedReader(new InputStreamReader(traceRt.getInputStream()));
+        String thisLine = output.readLine();
+        String line;
+        while((line = output.readLine()) != null){
+        	thisLine += line;
+        }
+        String gateway= ipv4(thisLine);
+        return gateway;
+    }
+	
+	
+	private static String ipv4(String search){
+		String IPADDRESS_PATTERN =  
+				"(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.)" +
+				"{3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)";
+		Pattern pattern = Pattern.compile(IPADDRESS_PATTERN);
+		Matcher matcher = pattern.matcher(search);
+		if (matcher.find()) {
+			if (matcher.find()) {
+				return matcher.group();
+			} else {
+		    	return "0.0.0.0";
+		    }
+		} else {
+			return "0.0.0.0";
+		}
+	}
 	
 	/**
-	 * Method to itterate over an ip address.
+	 * Method to itterate over an ip address.Z
 	 * @author Adam
 	 * @param ip  The first 2 sections of an ip to loop through.
 	 */
