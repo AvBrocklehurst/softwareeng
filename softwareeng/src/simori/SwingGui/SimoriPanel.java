@@ -29,9 +29,9 @@ import simori.SimoriGui.KeyboardMapping;
  */
 public class SimoriPanel extends JPanel implements PowerTogglable {
 	
-	private GridPanel centrePanel;
-	private SimoriEdgeBar leftBar, rightBar;
-	private SimoriEdgeBar topBar, bottomBar;
+	protected GridPanel centrePanel;
+	protected SimoriEdgeBar leftBar, rightBar;
+	protected SimoriEdgeBar topBar, bottomBar;
 	
 	public SimoriPanel(KeyboardMapping map, OnPressListenerMaker maker) {
 		makeComponents(map, maker);
