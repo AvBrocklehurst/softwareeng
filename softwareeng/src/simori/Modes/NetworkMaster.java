@@ -73,6 +73,7 @@ public class NetworkMaster implements Runnable{
 	        	/* If it's not my ip */
 	        	if(!this.ip.equals(ip + i)){
 	        		checkSocket(ip + i);
+	        		System.out.println("here");
 	        	    return true;
 	        	}
 	        } catch (IOException e){
@@ -93,7 +94,7 @@ public class NetworkMaster implements Runnable{
 	private void checkSocket(String ip) throws IOException{
 		Socket socket = new Socket();
 		/* attempt socket connection with 100ms timeout */
-        socket.connect(new InetSocketAddress(ip, port), 100);
+        socket.connect(new InetSocketAddress(ip, port), 200);
         OutputStream out = (OutputStream) socket.getOutputStream();
         ObjectOutputStream serializer = new ObjectOutputStream(out);
         /* Serialize and write the model to the output stream */
