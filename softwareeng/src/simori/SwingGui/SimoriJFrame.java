@@ -54,10 +54,10 @@ public class SimoriJFrame extends JFrame implements SimoriGui, MouseMotionListen
 	//Size and layout information
 	private Dimension simoriSize;
 	private int rows, columns;
-	private KeyboardMapping mapping;
+	protected KeyboardMapping mapping;
 	
 	//Components
-	private SimoriPanel simoriPanel;
+	protected SimoriPanel simoriPanel;
 	private Lcd lcd;
 	
 	/**
@@ -115,6 +115,18 @@ public class SimoriJFrame extends JFrame implements SimoriGui, MouseMotionListen
 	
 	/** {@inheritDoc} */
 	@Override
+	public void switchOn() {
+		simoriPanel.switchOn();
+	}
+	
+	/** {@inheritDoc} */
+	@Override
+	public void switchOff() {
+		simoriPanel.switchOff();
+	}
+	
+	/** {@inheritDoc} */
+	@Override
 	public void setGridButtonListener(GridButtonListener l) {
 		gListener = l;
 	}
@@ -159,10 +171,14 @@ public class SimoriJFrame extends JFrame implements SimoriGui, MouseMotionListen
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setUndecorated(true); //Remove operating system's bar from the top
 		setBackground(GuiProperties.WINDOW_BACKGROUND);
+		addSimoriPanel();
+		sortSizes();
+	}
+	
+	protected void addSimoriPanel() {
 		simoriPanel = new SimoriPanel(mapping, new OnPressListenerMaker(this));
 		lcd = simoriPanel.getLcd();
 		add(simoriPanel);
-		sortSizes();
 	}
 	
 	//TODO rewrite and recomment, and change top javadoc to reflect

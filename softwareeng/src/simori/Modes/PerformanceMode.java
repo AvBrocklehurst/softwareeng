@@ -121,14 +121,15 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 	 * Pushes the pattern and clock position for the current layer to the GUI.
 	 * @author Matt
 	 * @author James (end of line comments)
-	 * @version 2.0.0
+	 * @author Jurek (the minorest of edits, re: getting the tick to appear on the first column)
+	 * @version 2.0.1
 	 */
 	@Override
 	public void setInitialGrid() {
 		short instr = getModel().getInstrument(getDisplayLayer());  //initial instrument
 		getGui().setText(InstrumentNamer.getInstance().getName(instr));
-//		try {
-//			tickerLight(getModel().getCurrentColumn());  //start the ticker
-//		} catch (InvalidCoordinatesException e) {}
+		try {
+			tickerLight((byte) (getModel().getCurrentColumn()-1));
+		} catch (InvalidCoordinatesException e) {}
 	}
 }

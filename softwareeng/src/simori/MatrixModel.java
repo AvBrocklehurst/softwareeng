@@ -171,7 +171,6 @@ public class MatrixModel extends Observable implements Serializable, PowerToggla
 	 * @return byte containing the layers velocity
 	 */
 	public byte getCurrentColumn(){
-		System.out.println("model:" + currentColumn);
 		return currentColumn;
 	}
 	

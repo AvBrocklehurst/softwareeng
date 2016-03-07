@@ -1,7 +1,5 @@
 package simori;
 
-import java.util.Observer;
-
 import javax.sound.midi.MidiUnavailableException;
 
 import simori.Exceptions.KeyboardException;
@@ -67,7 +65,8 @@ public class Simori {
 		NoteProcessor clock = new NoteProcessor(modes, model, player);
 		NetworkSlave slave = new NetworkSlave(PORT, model);
 		model.addObserver(clock);
-		modes.setComponentsToPowerToggle(model, player, clock, slave);
+		modes.setComponentsToPowerToggle(model, player, clock, slave, gui);
+		modes.setOn(false);
 		gui.setVisible(true);
 	}
 	
