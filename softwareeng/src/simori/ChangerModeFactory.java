@@ -371,7 +371,6 @@ public class ChangerModeFactory {
 
 			@Override
 			public Setting getCurrentSetting() {
-				System.out.println("why am I running?");
 				try {
 					new Thread(new NetworkMaster(controller.getPort(), controller.getModel())).start();
 				} catch (UnknownHostException e) {
