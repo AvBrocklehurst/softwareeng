@@ -191,7 +191,7 @@ public class TestNoteProcessor {
 		setUpThread();
 		thread.start();
 		try{Thread.sleep(1000);} catch (InterruptedException e) {}
-		model.setInstrument((byte)0, (short)200);
+		model.setInstrument((byte)0, (short)175);
 		model.setBPM((short) 160);
 		for(int i=0; i<16; i++) {
 			model.updateButton((byte)0, (byte)i, (byte)4);

@@ -129,7 +129,7 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 		short instr = getModel().getInstrument(getDisplayLayer());  //initial instrument
 		getGui().setText(InstrumentNamer.getInstance().getName(instr));
 		try {
-			tickerLight((byte) (getModel().getCurrentColumn()-1));
+			tickerLight((byte) (getModel().getCurrentColumn()));
 		} catch (InvalidCoordinatesException e) {}
 	}
 }
