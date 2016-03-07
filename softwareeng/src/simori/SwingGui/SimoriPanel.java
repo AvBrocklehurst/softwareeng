@@ -19,6 +19,7 @@ import java.awt.Rectangle;
 
 import javax.swing.JPanel;
 
+import simori.Simori.PowerTogglable;
 import simori.SimoriGui.KeyboardMapping;
 
 /**
@@ -26,7 +27,7 @@ import simori.SimoriGui.KeyboardMapping;
  * @author Matt
  * @version 1.0.0 //TODO massive javadoc overhaul
  */
-public class SimoriPanel extends JPanel {
+public class SimoriPanel extends JPanel implements PowerTogglable {
 	
 	private GridPanel centrePanel;
 	private SimoriEdgeBar leftBar, rightBar;
@@ -70,6 +71,24 @@ public class SimoriPanel extends JPanel {
 				|| bottomBar.contains(point)
 				|| leftBar.contains(point)
 				|| rightBar.contains(point);
+	}
+	
+	/** {@inheritDoc} */
+	@Override
+	public void switchOn() {
+		centrePanel.switchOn();
+		leftBar.switchOn();
+		rightBar.switchOn();
+		bottomBar.switchOn();
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public void switchOff() {
+		centrePanel.switchOff();
+		leftBar.switchOff();
+		rightBar.switchOff();
+		bottomBar.switchOff();
 	}
 	
 	private void makeComponents(KeyboardMapping map,

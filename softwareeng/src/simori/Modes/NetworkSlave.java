@@ -63,7 +63,7 @@ public class NetworkSlave implements Runnable, PowerTogglable{
 	@Override
 	public void switchOff() {
 		try {
-			serverSocket.close();
+			if (serverSocket != null) serverSocket.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
