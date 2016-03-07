@@ -1,7 +1,20 @@
 package simori.Tests.GuiTests;
 
+import static simori.FunctionButton.L1;
+import static simori.FunctionButton.L2;
+import static simori.FunctionButton.L3;
+import static simori.FunctionButton.L4;
+import static simori.FunctionButton.OK;
+import static simori.FunctionButton.ON;
+import static simori.FunctionButton.R1;
+import static simori.FunctionButton.R2;
+import static simori.FunctionButton.R3;
+import static simori.FunctionButton.R4;
+
+import simori.FunctionButton;
 import simori.Exceptions.KeyboardException;
 import simori.Modes.QwertyKeyboard;
+import simori.SwingGui.GridPanel;
 import simori.SwingGui.OnPressListenerMaker;
 import simori.SwingGui.SimoriEdgeBar;
 import simori.SwingGui.SimoriJFrame;
@@ -31,26 +44,68 @@ public class MockSimoriJFrame extends SimoriJFrame {
 		return ((MockSimoriPanel) simoriPanel).getTopBar();
 	}
 	
+	public SimoriEdgeBar getLeftBar() {
+		return ((MockSimoriPanel) simoriPanel).getLeftBar();
+	}
+	
+	public SimoriEdgeBar getRightBar() {
+		return ((MockSimoriPanel) simoriPanel).getRightBar();
+	}
+	
+	public SimoriEdgeBar getBottomBar() {
+		return ((MockSimoriPanel) simoriPanel).getBottomBar();
+	}
+	
 	public class MockSimoriPanel extends SimoriPanel {
 
-		public MockSimoriPanel(KeyboardMapping map, OnPressListenerMaker maker) {
+		public MockSimoriPanel(KeyboardMapping map,
+				OnPressListenerMaker maker) {
 			super(map, maker);
 		}
 		
-		public SimoriEdgeBar getTopBar() {
-			return topBar;
+		@Override
+		protected void makeComponents(KeyboardMapping map,
+				OnPressListenerMaker maker) {
+			centrePanel = new MockGridPanel(map, maker);
+			topBar = new MockSimoriEdgeBar(false, false, maker, ON);
+			leftBar = new MockSimoriEdgeBar(true, false, maker, L1, L2, L3, L4);
+			rightBar = new MockSimoriEdgeBar(true, false, maker, R1, R2, R3, R4);
+			bottomBar = new MockSimoriEdgeBar(false, true, maker, OK);
 		}
 		
-		public SimoriEdgeBar getLeftBar() {
-			return leftBar;
+		public MockSimoriEdgeBar getTopBar() {
+			return (MockSimoriEdgeBar) topBar;
 		}
 		
-		public SimoriEdgeBar getRightBar() {
-			return rightBar;
+		public MockSimoriEdgeBar getLeftBar() {
+			return (MockSimoriEdgeBar) leftBar;
 		}
 		
-		public SimoriEdgeBar getBottomBar() {
-			return bottomBar;
+		public MockSimoriEdgeBar getRightBar() {
+			return (MockSimoriEdgeBar) rightBar;
+		}
+		
+		public MockSimoriEdgeBar getBottomBar() {
+			return (MockSimoriEdgeBar) bottomBar;
+		}
+		
+		public MockGridPanel getGridPanel() {
+			return (MockGridPanel) centrePanel;
+		}
+	}
+	
+	public class MockSimoriEdgeBar extends SimoriEdgeBar {
+
+		public MockSimoriEdgeBar(boolean vertical, boolean hasLcd,
+				OnPressListenerMaker maker, FunctionButton... fbs) {
+			super(vertical, hasLcd, maker, fbs);
+		}
+	}
+	
+	public class MockGridPanel extends GridPanel {
+
+		public MockGridPanel(KeyboardMapping map, OnPressListenerMaker maker) {
+			super(map, maker);
 		}
 	}
 }
