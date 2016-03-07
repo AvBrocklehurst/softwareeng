@@ -62,6 +62,7 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 		public void run() {
 			new Thread(clock).start();
 			byte[][] toBePlayed = null;
+			boolean played = false;
 			
 			//start the thread loop
 			while(running){
@@ -77,15 +78,15 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 				
 				//send a play request to the MIDIPlayer
 				try{
-					
-					midi.play(toBePlayed);
-					midi.stopPlay();
+					if(played) {midi.stopPlay(); played = false;}
+					if(toBePlayed!=null) {midi.play(toBePlayed); played = true;}
+					else {played = false;}
 				//if MIDIPlayer throws an error, print it out and stop the JVM
 				}catch(InvalidMidiDataException e){e.printStackTrace();System.exit(1);}
 				
 				//turn the lights on the current column
 				mode.tickThrough(model.getCurrentColumn());
-				
+
 				//advance to the next column
 				model.incrementColumn();
 			}
@@ -161,13 +162,18 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 					layers[x] = convertLayer(activeLayers.get(x), (byte)(notZero+3), thisLayer);
 				}
 			}
+
 			/* resize the array to only store layers with notes in this column */
+			return resizeLayers(usedColumns, layers);
+		}
+
+		private byte[][] resizeLayers(ArrayList<Byte> usedColumns, byte[][] layers){
 			byte[][] toBePlayed = new byte[usedColumns.size()][];
 			for (byte i=0; i<usedColumns.size(); i++){
 				toBePlayed[i] = layers[usedColumns.get(i)];
 			}
 			
-			return toBePlayed;
+			return layers;
 		}
 		
 		/**
@@ -186,6 +192,8 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 			short instrument = model.getInstrument(layerNumber);
 			if(instrument<0||instrument>175) throw new IllegalArgumentException("Incorrect instrument ID:" + instrument + "; acceptable 0-175");
 			byte[] layer = new byte[len];
+			
+			//INSTRUMENT
 			if(instrument < 128){ // insturment isn't in normal set
 				layer[0] = 0;
 			} else {
@@ -198,6 +206,7 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 				layer[1] = 0; //if the channel is 9 make isntrument 0
 			}
 			
+			//VELOCITY
 			layer[2] = model.getVelocity(layerNumber);
 			//check if velocity is within 0-127 range
 			if(layer[2]>127||layer[2]<0) throw new IllegalArgumentException("Incorrect velocity:" + layer[2] + "; acceptable 0-127");

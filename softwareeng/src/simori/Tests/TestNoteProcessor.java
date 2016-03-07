@@ -12,8 +12,10 @@ import simori.MIDISoundPlayer;
 import simori.MatrixModel;
 import simori.ModeController;
 import simori.PerformanceMode;
+import simori.QwertyKeyboard;
 import simori.Simori;
 import simori.Exceptions.InvalidCoordinatesException;
+import simori.Exceptions.KeyboardException;
 import simori.SwingGui.SimoriJFrame;
 
 
@@ -32,10 +34,10 @@ public class TestNoteProcessor {
 	private Throwable e;
 	
 	@Before
-	public void setUp() throws MidiUnavailableException, InvalidCoordinatesException {
+	public void setUp() throws MidiUnavailableException, InvalidCoordinatesException, KeyboardException {
 		model = new MatrixModel(16,16);
-		gui = new SimoriJFrame(16, 16);
-		modes = new ModeController(gui, model);
+		gui = new SimoriJFrame(new QwertyKeyboard((byte)16, (byte)16));
+		modes = new ModeController(gui, model, 0);
 		modes.setMode(new PerformanceMode(modes));
 		model.updateButton((byte)0, (byte)1, (byte)5);
 		midi = new MIDISoundPlayer();
@@ -73,6 +75,7 @@ public class TestNoteProcessor {
 		
 		assertNull(e);
 	}
+	
 	/*
 	@Test (expected=NullPointerException.class)
 	public void testRunNullModel() throws MidiUnavailableException {
@@ -84,6 +87,7 @@ public class TestNoteProcessor {
 		assertEquals(e.getClass(), NullPointerException.class);
 	}
 	*/
+	
 	@Test 
 	public void testRunNullMIDI() {
 		clock = new NoteProcessor(modes, model, null);
@@ -110,14 +114,25 @@ public class TestNoteProcessor {
 		assertNull(e);
 	}
 
+	/**
+	 * This test tests that a BPM change is immediate, as opposed to
+	 * waiting for the tick make over
+	 * It does this by confirming that the columns have changed after a second,
+	 * as opposed to after the 60 seconds it would take under the BPM of 1
+	 * @throws MidiUnavailableException
+	 */
 	@Test
-	public void testRunLesserBpm() throws MidiUnavailableException {
+	public void testRunLowerBpm() throws MidiUnavailableException {
 		setUpThread();
 		thread.start();
 		try{Thread.sleep(1000);} catch (InterruptedException e) {}
 		model.setBPM((short) 1);
+		byte column = model.getCurrentColumn();
+		try{Thread.sleep(1000);} catch (InterruptedException e) {}
+		model.setBPM((short) 120);
 		try{Thread.sleep(1000);} catch (InterruptedException e) {}
 		
+		assertNotEquals(column, model.getCurrentColumn());
 		assertNull(e);
 	}
 
@@ -146,7 +161,7 @@ public class TestNoteProcessor {
 		
 		assertNull(e);
 	}
-
+	
 	@Test
 	public void testRunWrongInstrument() throws MidiUnavailableException, InvalidCoordinatesException {
 		setUpThread();
@@ -162,6 +177,85 @@ public class TestNoteProcessor {
 		assertNull(e);
 	}
 	
+	@Test
+	public void testRunBoundaryInstrument() throws InvalidCoordinatesException {
+		setUpThread();
+		thread.start();
+		try{Thread.sleep(1000);} catch (InterruptedException e) {}
+		
+		//lower-bound
+		model.setInstrument((byte)0, (short)0);
+		for(int i=0; i<16; i++) {
+			model.updateButton((byte)0, (byte)i, (byte)4);
+		}
+		try{Thread.sleep(1000);} catch (InterruptedException e) {}
+		
+		//upper-bound
+		model.setInstrument((byte)0, (short)127);
+		for(int i=0; i<16; i++) {
+			model.updateButton((byte)0, (byte)i, (byte)4);
+		}
+		assertNull(e);
+	}
+
+	@Test
+	public void testRunBoundaryVelocity() throws InvalidCoordinatesException {
+		setUpThread();
+		thread.start();
+		try{Thread.sleep(1000);} catch (InterruptedException e) {}
+		
+		//lower-bound
+		model.setVelocity((byte)0, (byte)0);
+		for(int i=0; i<16; i++) {
+			model.updateButton((byte)0, (byte)i, (byte)4);
+		}
+		try{Thread.sleep(1000);} catch (InterruptedException e) {}
+		
+		//upper-bound
+		model.setVelocity((byte)0, (byte)127);
+		for(int i=0; i<16; i++) {
+			model.updateButton((byte)0, (byte)i, (byte)4);
+		}
+		try{Thread.sleep(1000);} catch (InterruptedException e) {}
+		
+		assertNull(e);
+	}
+
+	@Test
+	public void testRunBoundaryPitch() throws InvalidCoordinatesException {
+		setUpThread();
+		thread.start();
+		try{Thread.sleep(1000);} catch (InterruptedException e) {}
+		
+		for(int i=0; i<16; i++) {
+			model.updateButton((byte)0, (byte)i, (byte)0);
+			model.updateButton((byte)0, (byte)i, (byte)15);
+		}
+		try{Thread.sleep(1000);} catch (InterruptedException e) {}
+
+		assertNull(e);
+	}
+
+	@Test
+	public void testRunExtreme() throws InvalidCoordinatesException {
+		setUpThread();
+		thread.start();
+		try{Thread.sleep(1000);} catch (InterruptedException e) {}
+		
+		//populate the entire simori
+		for(int laynum=0; laynum<16; laynum++) {
+			for(int col=0; col<16; col++){
+				for(int row=0; row<16; row++){
+					model.updateButton((byte)laynum, (byte)col, (byte)row);
+				}
+			}
+		}
+		try{Thread.sleep(1000);} catch (InterruptedException e) {}
+		//change velocity, instrument
+		
+
+		assertNull(e);
+	}
 	
 	
 	
