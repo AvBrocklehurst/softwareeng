@@ -2,18 +2,17 @@ package simori.Tests;
 
 import static org.junit.Assert.assertEquals;
 
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import simori.MIDISoundPlayer;
 import simori.MatrixModel;
 import simori.ModeController;
-import simori.Simori;
 import simori.SimoriGui.GridButtonEvent;
 import simori.Exceptions.InvalidCoordinatesException;
+import simori.Exceptions.KeyboardException;
 import simori.Modes.PerformanceMode;
+import simori.Modes.QwertyKeyboard;
 import simori.SwingGui.SimoriJFrame;
 
 
@@ -21,7 +20,6 @@ import simori.SwingGui.SimoriJFrame;
 /**
  * The class for testing Performance Mode - unfinished.
  * @author James
- * @author Adam
  * @version 1.1.0
  * @see simori.Modes.PerformanceMode
  *
@@ -29,36 +27,38 @@ import simori.SwingGui.SimoriJFrame;
 
 public class TestPerformanceMode {
 	
-	private MatrixModel model;
-	private SimoriJFrame gui;
-	private ModeController modes;
-	private PerformanceMode pm;
+	private MatrixModel testmodel;
+	private SimoriJFrame testgui;
+	private ModeController testcontroller;
+	private PerformanceMode testpm;
 	private GridButtonEvent testgb;
+	private QwertyKeyboard keyboard;
 	
 	
 	@Before
-	public void setUp(){
-		
-		MatrixModel model = new MatrixModel(16, 16);
-		SimoriJFrame gui = new SimoriJFrame(16, 16);
-		ModeController modes = new ModeController(gui, model);
-		modes.setMode(new PerformanceMode(modes));
-		pm = new PerformanceMode(modes);
+	public void setUp() throws KeyboardException{
+		keyboard = new QwertyKeyboard((byte)16,(byte)16);
+		testmodel = new MatrixModel(16, 16);
+		testgui = new SimoriJFrame(keyboard);
+		testcontroller = new ModeController(testgui, testmodel, 0);
+		testcontroller.setMode(new PerformanceMode(testcontroller));
+		testpm = new PerformanceMode(testcontroller);
+		testgb = new GridButtonEvent(testgui, 5, 5);
 	}
 	
 	@After
 	public void tearDown(){
-		model = null;
-		gui = null;
-		modes = null;
-		
+		keyboard = null;
+		testmodel = null;
+		testgui = null;
+		testcontroller = null;
+		testpm = null;
 	}
-	/*
+	
 	@Test
 	public void testOnGridButtonPress() throws InvalidCoordinatesException{
-		pm.onGridButtonPres);
-		gui.butt
-		boolean changedgridcoords = pm.getModifiedGrid()[2][3];
+		testpm.onGridButtonPress(testgb);
+		boolean changedgridcoords = testpm.getModifiedGrid()[5][5];
 		assertEquals("The grid button was not inverted!", true, changedgridcoords);
 		
 		
@@ -66,37 +66,29 @@ public class TestPerformanceMode {
 	
 	@Test
 	public void test_onGridButtonPress_false() throws InvalidCoordinatesException{
-		testgb = new GridButtonEvent(gui, 5, 5);
-		pm.onGridButtonPress(testgb); //invert to true
-		pm.onGridButtonPress(testgb); //invert to false
-		boolean changedgridcoords = pm.getModifiedGrid()[2][3];
+		testpm.onGridButtonPress(testgb); //invert to true
+		testpm.onGridButtonPress(testgb); //invert to false
+		boolean changedgridcoords = testpm.getModifiedGrid()[5][5];
 		assertEquals("The grid button was not inverted back to false!", false, changedgridcoords);
 	}
-	/*
-	@Test
-	public void test_onGridButtonPress_notInverted() throws InvalidCoordinatesException{
-		
-		testpm.onGridButtonPress(mockgb);
-		boolean changedgridcoords = testpm.getModifiedGrid()[5][6];
-		assertEquals("The grid button should not be inverted!", false, changedgridcoords);
-		
-	}
-	*/
+	
+	
 	@Test
 	public void test_tickerLight() throws InvalidCoordinatesException{
 		
-		pm.tickerLight((byte)0); 
-		boolean tickeredgridcoords = pm.getModifiedGrid()[5][0];
+		testpm.tickerLight((byte)0); 
+		boolean tickeredgridcoords = testpm.getModifiedGrid()[5][0];
 		assertEquals("The values are grid index grid[5][0] were not set to true by the ticker", true, tickeredgridcoords);
 	}
 	
 	@Test
 	public void test_makeGridCopy(){
-		boolean[][] initialgrid = pm.getModifiedGrid();
-		assertEquals("The grid was not copied correctly!", false, initialgrid[2][3]);
-		pm.makeGridCopy((byte)0);
-		boolean[][] finalgrid = pm.getModifiedGrid();
-		assertEquals("The grid was not copied correctly!", false, finalgrid[2][3]);
+		boolean[][] initialgrid = testpm.getModifiedGrid();
+		testpm.makeGridCopy((byte)0);
+		boolean[][] finalgrid = testpm.getModifiedGrid();
+		assertEquals("The grid was not copied correctly!", false, finalgrid[5][5]);
 		
 	} 
+	
+	
 }
