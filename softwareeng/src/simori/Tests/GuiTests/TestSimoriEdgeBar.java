@@ -6,6 +6,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import simori.SwingGui.OnPressListenerMaker;
+import simori.SwingGui.SimoriEdgeBar;
+
 public class TestSimoriEdgeBar {
 
 	@Before
@@ -18,7 +21,8 @@ public class TestSimoriEdgeBar {
 
 	@Test
 	public void test() {
-		fail("Not yet implemented");
+		//OnPressListenerMaker maker = new OnPressListenerMaker(gui);
+		//SimoriEdgeBar test = new SimoriEdgeBar(true, true, true, true);
 	}
 
 }
