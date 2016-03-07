@@ -122,7 +122,7 @@ public class MIDISoundPlayer implements MIDIPlayer, PowerTogglable {
 	
 	/**
 	 * @author Josh
-	 * @version 1.0.5;
+	 * @version 1.0.5
 	 * @throws InvalidMidiDataException 
 	 * {@inheritDoc}
 	 */
@@ -149,7 +149,7 @@ public class MIDISoundPlayer implements MIDIPlayer, PowerTogglable {
 	
 	/**
 	 * @author Josh
-	 * @version 1.0.1;
+	 * @version 1.0.1
 	 * {@inheritDoc}
 	 */
 	@Override
@@ -166,7 +166,7 @@ public class MIDISoundPlayer implements MIDIPlayer, PowerTogglable {
 	
 	/**
 	 * @author Josh
-	 * @version 1.0.1;
+	 * @version 1.0.1
 	 * {@inheritDoc}
 	 */
 	@Override

@@ -1,4 +1,4 @@
-package simori.Tests;
+package simori.Tests.GuiTests;
 
 import simori.SwingGui.Led;
 
@@ -38,7 +38,7 @@ public class MockLed extends Led{
 	
 	@Override
 	public Color getBorderColour(){
-		return super.getBorderColour();
+		return super.getBorderColour(); 
 	}
 
 }

@@ -8,7 +8,7 @@ import simori.Exceptions.InvalidCoordinatesException;
  * Interface setting out the constraints that any implementation
  * of a graphical user interface for the Simori-ON must comply to.
  * @author Matt
- * @version 2.1.4
+ * @version 2.1.5
  */
 public interface SimoriGui {
 	
@@ -28,6 +28,9 @@ public interface SimoriGui {
 	 * @param text String to display. May be null.
 	 */
 	public void setText(String text);
+	
+	/** @return The text displayed on the LCD screen, or null */
+	public String getText();
 	
 	/**
 	 * Sets whether to display letters on the grid of buttons,

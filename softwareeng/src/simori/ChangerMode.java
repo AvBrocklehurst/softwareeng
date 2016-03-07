@@ -63,8 +63,8 @@ public class ChangerMode extends Mode {
 	public void onGridButtonPress(GridButtonEvent e) throws InvalidCoordinatesException {
 		Setting setting = new Setting((byte) e.getX(), (byte) e.getY());
 		String text = changer.getText(setting);
-		e.getSource().setText(text);
 		if (text == null) return;
+		e.getSource().setText(text);
 		drawSelector((byte) e.getX(), (byte) e.getY());
 	}
 	

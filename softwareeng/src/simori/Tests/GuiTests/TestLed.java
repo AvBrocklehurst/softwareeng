@@ -1,4 +1,4 @@
-package simori.Tests;
+package simori.Tests.GuiTests;
 
 import static org.junit.Assert.assertEquals;
 

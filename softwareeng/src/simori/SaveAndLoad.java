@@ -3,6 +3,7 @@ package simori;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
@@ -40,22 +41,29 @@ public class SaveAndLoad {
 	
 	
 	/**
-	 * Static method to load a model into the simori-on.
+	 * Static method to load a model into the Simori-ON.
 	 * @author Adam
-	 * @param model     Model to replce.
+	 * @author Matt
+	 * @param model     Model to replace.
 	 * @param filename  Filename of where to load the saved model from.
 	 */
-	public static void load(MatrixModel model, String filename){
+	public static boolean load(MatrixModel model, String filename){
 		try {
 			File file = getLocationFor(filename);
+			if (!file.exists()) return false;
 	        FileInputStream fos = new FileInputStream(file);
 	        ObjectInputStream oos = new ObjectInputStream(fos);
 	        MatrixModel tempModel = (MatrixModel)oos.readObject();
 	        oos.close();
 	        model.convertModel(tempModel);
-		} catch (Exception ex){
-	        System.out.println(("Exception thrown during test: " + ex.toString()));
-	    }
+	        return true;
+		} catch (IOException e){
+			e.printStackTrace();
+			return false;
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 	
 	/**

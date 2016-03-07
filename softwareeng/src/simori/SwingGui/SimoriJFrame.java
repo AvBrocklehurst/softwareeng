@@ -38,7 +38,7 @@ import simori.SimoriGui;
  * @see GuiProperties
  * @see simori.ModeController
  * @author Matt
- * @version 2.3.6
+ * @version 2.3.7
  */
 public class SimoriJFrame extends JFrame implements SimoriGui, MouseMotionListener {
 	
@@ -105,6 +105,12 @@ public class SimoriJFrame extends JFrame implements SimoriGui, MouseMotionListen
 	@Override
 	public void setText(String text) {
 		lcd.setText(text);
+	}
+	
+	/** {@inheritDoc} */
+	@Override
+	public String getText() {
+		return lcd.getText();
 	}
 	
 	/** {@inheritDoc} */

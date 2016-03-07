@@ -52,9 +52,9 @@ public class Lcd extends JLabel {
 	@Override
 	public void setText(String text) {
 		//Add a leading space to pad text away from left edge
-		if (text != null) {
-			if (text != getText()) makeFontFit(getSize(), text);
+		if (text != null && !text.equals("")) {
 			text = " " + text;
+			if (text != getText()) makeFontFit(getSize(), text + " ");
 		}
 		super.setText(text);
 	}

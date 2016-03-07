@@ -75,6 +75,7 @@ public abstract class PressableCircle
 	
 	/** @return Colour to fill the circular area */
 	protected Color getFillColour() {
+		if (!isEnabled()) return GuiProperties.CIRCLE_DISABLED;
 		return pushed ? GuiProperties.CIRCLE_PRESSED :
 						GuiProperties.CIRCLE_NOT_PRESSED;
 	}
