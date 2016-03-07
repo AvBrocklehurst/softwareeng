@@ -18,6 +18,7 @@ import simori.ChangerMode.Setting;
 public class ChangerModeFactory {
 	
 	private static final String SONG_EXTENSION = ".song";
+	private static final String SONG_NOT_FOUND = "Couldn't find song!";
 	
 	public static ChangerMode getChanger(FunctionButton fb, ModeController controller){
 		switch(fb) {
@@ -330,8 +331,16 @@ public class ChangerModeFactory {
 			@Override
 			protected boolean useText(String text) {
 				text += SONG_EXTENSION;
-				SaveAndLoad.load(controller.getModel(), text);    //load the .song file
-				return true;
+				if (SaveAndLoad.load(controller.getModel(), text)) {
+					return true;
+				} else {
+					if (controller.getGui().getText().equals(SONG_NOT_FOUND)) {
+						return true;
+					} else {
+						controller.getGui().setText(SONG_NOT_FOUND);
+						return false;
+					}
+				}
 			}
 		};
 	}
