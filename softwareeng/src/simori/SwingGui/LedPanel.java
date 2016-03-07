@@ -17,7 +17,7 @@ import simori.SwingGui.OnPressListenerMaker.OnPressListener;
  */
 public class LedPanel extends JPanel implements OnPressListener {
 	
-	private Led[][] leds;
+	protected Led[][] leds;
 	private PressableCircle lastPressed;
 	
 	/**

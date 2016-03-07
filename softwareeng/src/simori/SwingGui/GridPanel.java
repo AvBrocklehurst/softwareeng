@@ -17,13 +17,13 @@ public class GridPanel extends JPanel implements PowerTogglable {
 	private static final String KEYBOARD = "Keyboard";
 	
 	private CardLayout layout;
-	private LedPanel ledPanel;
+	protected LedPanel ledPanel;
 	private JPanel keyboard;
 	private JPanel greyed;
 	
 	public GridPanel(KeyboardMapping map, OnPressListenerMaker maker) {
+		ledPanel = makeLedPanel(map, maker);
 		keyboard = makeKeyboard(map, maker);
-		ledPanel = new LedPanel(map.getRows(), map.getColumns(), maker);
 		greyed = makeKeyboard(getGreyMap(map), maker);
 		layout = new CardLayout(0, 0);
 		setLayout(layout);
@@ -31,6 +31,10 @@ public class GridPanel extends JPanel implements PowerTogglable {
 		add(greyed, GREYED);
 		add(ledPanel, LEDS);
 		setKeyboardShown(false);
+	}
+	
+	protected LedPanel makeLedPanel(KeyboardMapping map, OnPressListenerMaker maker) {
+		return new LedPanel(map.getRows(), map.getColumns(), maker);
 	}
 	
 	public void setKeyboardShown(boolean shown) {

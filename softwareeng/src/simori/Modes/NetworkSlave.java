@@ -43,9 +43,12 @@ public class NetworkSlave implements Runnable, PowerTogglable{
 	 */
 	public void run() {
 		try{
+			System.out.println("listening");
 			serverSocket = new ServerSocket(port); //open the server socket.
 			while(true && !Thread.currentThread().isInterrupted()){
+				
 				Socket s = serverSocket.accept(); //accept connection and spawn new socket.
+				System.out.println("Accepted");
 				Thread t = new Thread( new NetworkObjectReader(s, model) );
 				t.start();
 			}

@@ -30,11 +30,12 @@ public class NetworkMaster implements Runnable{
 	
 	/**
 	 * Constructor for the Network Master Class.
+	 * @author adam
 	 * @param port   The port to search on.
 	 * @param model  The model to export.
-	 * @throws UnknownHostException
+	 * @throws IOException 
 	 */
-	public NetworkMaster(int port, MatrixModel model) throws UnknownHostException{
+	public NetworkMaster(int port, MatrixModel model) throws IOException{
 		this.port = port;
 		this.ip = getIP();
 		this.model = model;
@@ -42,6 +43,7 @@ public class NetworkMaster implements Runnable{
 	
 	/**
 	 * Find slave generates the ip ranges to search in for another simori on.
+	 * @author adam
 	 */
 	public void findSlave(){
 		/* generate y range (xxx.xxx.xxx.yyy) */
@@ -67,9 +69,11 @@ public class NetworkMaster implements Runnable{
 	private boolean closestRangeIP(String ip){
 		for(int i = 0; i < 256; i++){
 	        try {
+	        	System.out.println(ip + i);
 	        	/* If it's not my ip */
 	        	if(!this.ip.equals(ip + i)){
 	        		checkSocket(ip + i);
+	        		System.out.println("here");
 	        	    return true;
 	        	}
 	        } catch (IOException e){
@@ -90,7 +94,7 @@ public class NetworkMaster implements Runnable{
 	private void checkSocket(String ip) throws IOException{
 		Socket socket = new Socket();
 		/* attempt socket connection with 100ms timeout */
-        socket.connect(new InetSocketAddress(ip, port), 100);
+        socket.connect(new InetSocketAddress(ip, port), 200);
         OutputStream out = (OutputStream) socket.getOutputStream();
         ObjectOutputStream serializer = new ObjectOutputStream(out);
         /* Serialize and write the model to the output stream */
@@ -104,10 +108,13 @@ public class NetworkMaster implements Runnable{
 	 * Method to return the systems local IP address.
 	 * @author Adam
 	 * @return  A string containing the current systems local IP.
-	 * @throws UnknownHostException
+	 * @throws IOException 
 	 */
-	private static String getIP() throws UnknownHostException{
-		return Inet4Address.getLocalHost().getHostAddress();
+	private static String getIP() throws IOException{
+		Socket s = new Socket("192.168.0.1", 80);
+		String betterIP = s.getLocalAddress().getHostAddress();
+		s.close();
+		return betterIP;
 	}
 	 
 	
@@ -130,7 +137,7 @@ public class NetworkMaster implements Runnable{
 	
 	/**
 	 * This implementation of the Changer interface allows the simori
-	 * to probe on port 20160 to find other Simori-ons over a network.
+	 * to probe on a given port to find other Simori-ons over a network.
 	 * The first to respond receives the masters configuration and the master
 	 * continues to performance mode.
 	 * 
@@ -158,6 +165,9 @@ public class NetworkMaster implements Runnable{
 				try {
 					new Thread(new NetworkMaster(controller.getPort(), controller.getModel())).start();
 				} catch (UnknownHostException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				return null;

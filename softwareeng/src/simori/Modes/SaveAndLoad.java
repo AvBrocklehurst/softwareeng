@@ -16,6 +16,7 @@ import simori.Modes.ChangerMode.Changer;
  * Class for the saving and loading of the model.
  * @version 1.0.0
  * @author Adam
+ * @author Matt
  * @author James
  */
 public class SaveAndLoad {

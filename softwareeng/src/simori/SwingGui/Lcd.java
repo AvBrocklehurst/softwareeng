@@ -12,7 +12,7 @@ import javax.swing.JLabel;
  * A JLabel with its appearance modified to represent
  * the Simori-ON's LCD screen. It sets its own text
  * size and manages its aspect ratio when resized.
- * It is flexible enough to use vertically, creating a
+  * It is flexible enough to use vertically, creating a
  * 'sideways' vertical LCD screen taller than it is high.
  * @author Matt
  * @version 1.2.0

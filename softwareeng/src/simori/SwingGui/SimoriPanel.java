@@ -91,7 +91,7 @@ public class SimoriPanel extends JPanel implements PowerTogglable {
 		bottomBar.switchOff();
 	}
 	
-	private void makeComponents(KeyboardMapping map,
+	protected void makeComponents(KeyboardMapping map,
 								OnPressListenerMaker maker) {
 		centrePanel = new GridPanel(map, maker);
 		topBar = new SimoriEdgeBar(false, false, maker, ON);
