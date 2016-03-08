@@ -2,7 +2,6 @@ package simori.Tests.GuiTests;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -18,11 +17,19 @@ import java.io.IOException;
 import javax.swing.JFrame;
 
 import org.junit.After;
+import org.junit.Before;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 
 import simori.ResourceManager;
 import simori.SwingGui.GuiProperties;
 
+/**
+ * Tests {@link GuiProperties} to 98.7% coverage.
+ * @author Matt
+ */
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestGuiProperties {
 	
 	private static final String FONT = MockProperties.getFontName();
@@ -30,10 +37,20 @@ public class TestGuiProperties {
 	private static final Font BACKUP = MockProperties.getBackupFont();
 	
 	private File fileName, notFileName;
+	private boolean overwritten;
+	
+	@Before
+	public void setUp() {
+		GuiProperties.clearCache();
+		fileName = notFileName = null;
+		overwritten = false;
+	}
 	
 	@After
 	public void tearDown() {
+		if (notFileName != null) fixFile();
 		GuiProperties.clearCache();
+		fileName = notFileName = null;
 	}
 	
 	@Test
@@ -101,92 +118,77 @@ public class TestGuiProperties {
 	@Test
 	public void testFontNoResFolder() throws IOException {
 		File inRes = ResourceManager.getResource("thing");
-		breakFile(inRes.getParentFile(), false, true);
+		breakFile(inRes.getParentFile(), false);
+		GuiProperties.clearCache();
 		Font font = GuiProperties.getFont();
-		fixFile(false);
 		assertEquals(BACKUP, font);
 	}
 	
 	@Test
-	public void testAaFontNotFound() throws IOException {
-		breakFile(ResourceManager.getResource(FONT), false, true);
+	public void testFontNotFound() throws IOException {
+		breakFile(ResourceManager.getResource(FONT), false);
+		GuiProperties.clearCache();
 		Font font = GuiProperties.getFont();
-		fixFile(false);
 		assertEquals(BACKUP, font);
-	}
-	
-	@Test
-	public void testFontResFolder() {
-		System.out.println("about to name");
-		String name = GuiProperties.getFont().getFontName();
-		System.out.println("name");
-		assertTrue(FONT.contains(name));
 	}
 	
 	@Test
 	public void testFontFileBroken() throws IOException {
-		breakFile(ResourceManager.getResource(FONT), true, true);
+		breakFile(ResourceManager.getResource(FONT), true);
+		GuiProperties.clearCache();
 		Font font = GuiProperties.getFont();
-		fixFile(true);
 		assertEquals(BACKUP, font);
 	}
 	
 	@Test
 	public void testIconNoResFolder() throws IOException {
 		File inRes = ResourceManager.getResource("thing");
-		breakFile(inRes.getParentFile(), false, true);
+		breakFile(inRes.getParentFile(), false);
+		GuiProperties.clearCache();
 		Image icon = GuiProperties.getIcon();
-		fixFile(false);
 		assertNull(icon);
-	}
-	
-	@Test
-	public void testIconResFolder() {
-		assertNotNull(GuiProperties.getIcon());
 	}
 	
 	@Test
 	public void testIconNotFound() throws IOException {
-		breakFile(ResourceManager.getResource(ICON), false, true);
+		breakFile(ResourceManager.getResource(ICON), false);
+		GuiProperties.clearCache();
 		Image icon = GuiProperties.getIcon();
-		fixFile(false);
 		assertNull(icon);
 	}
 	
 	@Test
-	public void testFontCached() throws IOException {
-		GuiProperties.clearCache();
+	public void testZ_Font() throws IOException {
 		Font made = GuiProperties.getFont();
-		breakFile(ResourceManager.getResource(FONT), false, false);
+		// Cannot break file here
 		Font cached = GuiProperties.getFont();
-		fixFile(false);
 		assertEquals(made, cached);
 	}
-	
+
 	@Test
-	public void testIconCached() throws IOException {
-		GuiProperties.clearCache();
+	public void testZ_Icon() throws IOException {
 		Image made = GuiProperties.getIcon();
-		breakFile(ResourceManager.getResource(ICON), false, false);
+		breakFile(ResourceManager.getResource(ICON), false);
 		Image cached = GuiProperties.getIcon();
-		fixFile(false);
 		assertEquals(made, cached);
 	}
 	
-	@Test
-	public void testClearCache() {
-		//TODO check it uncaches
-	}
-	
-	private void breakFile(File fileName, boolean overwrite, boolean uncache)
+	private void breakFile(File fileName, boolean overwrite)
 			throws IOException {
 		this.fileName = fileName;
+		this.overwritten = overwrite;
 		notFileName = new File(fileName.getParentFile(), "notFile");
 		boolean broke = fileName.renameTo(notFileName);
-		if (!broke) fail("Could not tamper with file as writing is locked!");
-		if (uncache) GuiProperties.clearCache();
+		if (!broke) {
+			String msg = "Could not tamper with " + fileName.getName();
+			fail(msg + " for testing purposes as writing is locked.");
+		}
+		if (overwrite) overwriteFile();
+	}
+	
+	private void overwriteFile() throws IOException {
 		FileOutputStream out = null;
-		if (overwrite) try {
+		try {
 			out = new FileOutputStream(fileName);
 			final byte T = 84, R = 114, O = 111, L = 108;
 			byte[] bytes = {T,R,O,L,L,O,L,O,L,O,L,O,L,O,L};
@@ -196,7 +198,7 @@ public class TestGuiProperties {
 		}
 	}
 	
-	private void fixFile(boolean overwritten) {
+	private void fixFile() {
 		if (overwritten) fileName.delete();
 		notFileName.renameTo(fileName);
 	}
