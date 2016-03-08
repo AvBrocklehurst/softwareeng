@@ -44,7 +44,7 @@ public class NetworkSlave implements Runnable, PowerTogglable{
 	public void run() {
 		try{
 			System.out.println("Socket Going");
-			//serverSocket = new ServerSocket(port); //open the server socket.
+			serverSocket = new ServerSocket(port); //open the server socket.
 			while(true && !Thread.currentThread().isInterrupted()){
 				System.out.println("Socket Going");
 				Socket s = serverSocket.accept(); //accept connection and spawn new socket.
@@ -52,7 +52,7 @@ public class NetworkSlave implements Runnable, PowerTogglable{
 				Thread t = new Thread( new NetworkObjectReader(s, model) );
 				t.start();
 			}
-			//serverSocket.close();
+			serverSocket.close();
 		} catch(IOException e){
 			
 		}
@@ -60,7 +60,7 @@ public class NetworkSlave implements Runnable, PowerTogglable{
 
 	@Override
 	public void switchOn() {
-		//new Thread(this).start();
+		new Thread(this).start();
 		System.out.println("Socket Open");
 	}
 

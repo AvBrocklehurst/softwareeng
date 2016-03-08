@@ -77,7 +77,6 @@ public class NetworkMaster implements Runnable{
 		for(int i = 0; i < 256; i++){
 	        try {
 	        	System.out.println(ip + i);
-	        	System.out.println(this.ip);
 	        	/* If it's not my ip */
 	        	checkSocket(ip + i);
 	        	return true;
