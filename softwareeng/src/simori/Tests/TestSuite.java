@@ -10,10 +10,9 @@ import simori.Tests.GuiTests.GuiTestSuite;
  * @author Josh
  * @version 3.0.0
  */
-
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-	GuiTestSuite.class,
+	GuiTestSuite.class, //Must be first (see TestGuiProperties)
 	TestLayer.class,
 	TestMatrixModel.class,
 	TestMIDISoundPlayer.class,
@@ -28,5 +27,4 @@ import simori.Tests.GuiTests.GuiTestSuite;
 	TestSimoriGui.class
 	/*, TestNoteProcessor.class TODO add back in when it works */
 })
-
 public class TestSuite {}
