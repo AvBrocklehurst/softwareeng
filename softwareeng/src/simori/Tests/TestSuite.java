@@ -40,6 +40,8 @@ import simori.Tests.GuiTests.TestSimoriEdgeBar;
    TestOnPressListenerMaker.class,
    TestPressableCircle.class,
    TestSimoriEdgeBar.class
+   TestSaveAndLoad.class,
+   TestSimoriGui.class  
 })
 
 public class TestSuite {}

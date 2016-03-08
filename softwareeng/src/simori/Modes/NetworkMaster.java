@@ -29,6 +29,7 @@ public class NetworkMaster implements Runnable{
 	private int port;
 	private String ip;
 	private MatrixModel model;
+	private NetworkSlave slave;
 	private final static String os = System.getProperty("os.name").toLowerCase();
 
 	
@@ -40,9 +41,10 @@ public class NetworkMaster implements Runnable{
 	 * @param model  The model to export.
 	 * @throws IOException 
 	 */
-	public NetworkMaster(int port, MatrixModel model) throws IOException{
+	public NetworkMaster(int port, MatrixModel model, NetworkSlave slave) throws IOException{
 		this.port = port;
 		this.model = model;
+		this.slave = slave;
 	}
 	
 	/**
@@ -61,6 +63,7 @@ public class NetworkMaster implements Runnable{
 		if(!found){
 			iterateOverIPRange(thisRangeIP);
 		}
+		slave.switchOn();
 	}
 	
 	
@@ -73,11 +76,10 @@ public class NetworkMaster implements Runnable{
 	private boolean closestRangeIP(String ip){
 		for(int i = 0; i < 256; i++){
 	        try {
+	        	System.out.println(ip + i);
 	        	/* If it's not my ip */
-	        	if(!this.ip.equals(ip + i)){
-	        		checkSocket(ip + i);
-	        	    return true;
-	        	}
+	        	checkSocket(ip + i);
+	        	return true;
 	        } catch (IOException e){
 	        	
 	        }
@@ -95,10 +97,14 @@ public class NetworkMaster implements Runnable{
 	 */
 	private void checkSocket(String ip) throws IOException{
 		Socket socket = new Socket();
+		
 		/* attempt socket connection with 100ms timeout */
         socket.connect(new InetSocketAddress(ip, port), 200);
+        System.out.println(ip);
         OutputStream out = (OutputStream) socket.getOutputStream();
+        System.out.println(ip);
         ObjectOutputStream serializer = new ObjectOutputStream(out);
+        System.out.println(ip);
         /* Serialize and write the model to the output stream */
         serializer.writeObject(model);
         serializer.close();
@@ -125,7 +131,6 @@ public class NetworkMaster implements Runnable{
 		} catch (IOException e) {
 			/* Else try trace route for ip */
 			if((betterIP = routeIP()).equals("0.0.0.0")){
-				System.out.println("here fast");
 				/* Else set address to unreliable local address */
 				betterIP  = Inet4Address.getLocalHost().getHostAddress();
 			}
@@ -145,7 +150,6 @@ public class NetworkMaster implements Runnable{
 		String trace = (os.contains("win") ? "tracert" : "traceroute");
 		/* execute command */
 		
-		System.out.println("Execcing on " + Thread.currentThread().getName());
 		ProcessBuilder pb = new ProcessBuilder(trace, "www.google.com");
 		Process p = pb.start();
 		
@@ -197,9 +201,10 @@ public class NetworkMaster implements Runnable{
 
 	@Override
 	public void run() {
-		System.out.println("running on " + Thread.currentThread().getName());
 		try {
+			slave.switchOff();
 			this.ip = getIP();
+			System.out.println(ip);
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -236,16 +241,7 @@ public class NetworkMaster implements Runnable{
 
 			@Override
 			public Setting getCurrentSetting() {
-				try {
-					Thread wtf = new Thread(new NetworkMaster(controller.getPort(), controller.getModel()));
-					wtf.setName("Definitely not awt event queue");
-					wtf.start();
-				} catch (UnknownHostException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+					new Thread(controller.getMaster()).start();
 				return null;
 			}
 		};
