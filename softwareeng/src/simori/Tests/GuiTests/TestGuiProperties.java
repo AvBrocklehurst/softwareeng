@@ -117,7 +117,10 @@ public class TestGuiProperties {
 	
 	@Test
 	public void testFontResFolder() {
-		assertNotNull(GuiProperties.getFont());
+		System.out.println("about to name");
+		String name = GuiProperties.getFont().getFontName();
+		System.out.println("name");
+		assertTrue(FONT.contains(name));
 	}
 	
 	@Test
@@ -174,8 +177,6 @@ public class TestGuiProperties {
 	public void testClearCache() {
 		//TODO check it uncaches
 	}
-	
-	//TODO Check retrieval without making
 	
 	private void breakFile(File fileName, boolean overwrite, boolean uncache)
 			throws IOException {
