@@ -14,10 +14,12 @@ import simori.ModeController;
 import simori.Simori;
 import simori.Exceptions.InvalidCoordinatesException;
 import simori.Exceptions.KeyboardException;
+import simori.Modes.NetworkMaster;
 import simori.Modes.PerformanceMode;
 import simori.Modes.QwertyKeyboard;
 import simori.SwingGui.SimoriJFrame;
 
+import java.io.IOException;
 import java.lang.System;
 
 /**
@@ -40,12 +42,13 @@ public class TestNoteProcessor {
 	 * @throws MidiUnavailableException
 	 * @throws InvalidCoordinatesException
 	 * @throws KeyboardException
+	 * @throws IOException 
 	 */
 	@Before
-	public void setUp() throws MidiUnavailableException, InvalidCoordinatesException, KeyboardException {
+	public void setUp() throws MidiUnavailableException, InvalidCoordinatesException, KeyboardException, IOException {
 		model = new MatrixModel(16,16);
 		gui = new SimoriJFrame(new QwertyKeyboard((byte)16, (byte)16));
-		modes = new ModeController(gui, model, 0);
+		//modes = new ModeController(gui, model, 20160, new NetworkMaster(20160, model, new NetworkSlave()));
 		modes.setMode(new PerformanceMode(modes));
 		model.updateButton((byte)0, (byte)1, (byte)5);
 		midi = new MIDISoundPlayer();

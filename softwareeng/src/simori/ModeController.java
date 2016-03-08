@@ -160,6 +160,7 @@ public class ModeController {
 		}
 		on = true;	
 		setMode(new PerformanceMode(this));
+		model.setBPM((short) 88);
 	}
 	
 	/**

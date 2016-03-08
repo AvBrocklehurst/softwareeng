@@ -26,7 +26,7 @@ public class Clock implements Runnable {
 		this.model = model;
 		this.bpmLock = bpmLock;
 		this.lock = lock;
-		this.bpm = model.getBPM();
+		this.bpm = -1;
 	}
 	
 	@Override
@@ -115,6 +115,7 @@ public class Clock implements Runnable {
 			System.out.println("Incorrect BPM:" + newBPM + "; acceptable 0-160");
 			System.exit(1);
 		}
+		if(bpm==-1) new Thread(this).start();
 		bpm = newBPM;
 		synchronized(bpmLock){
 			bpmLock.notify();

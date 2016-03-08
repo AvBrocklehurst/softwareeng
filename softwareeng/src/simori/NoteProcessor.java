@@ -61,8 +61,8 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 		 */
 		@Override
 		public void run() {
-			try{Thread.sleep(100);}catch(InterruptedException e){}
-			new Thread(clock).start();
+			
+			//new Thread(clock).start();
 			byte[][] toBePlayed = null;
 			boolean played = false;
 			
