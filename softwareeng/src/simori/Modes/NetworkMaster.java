@@ -135,6 +135,7 @@ public class NetworkMaster implements Runnable{
 				betterIP  = Inet4Address.getLocalHost().getHostAddress();
 			}
 		}
+		System.out.println(betterIP);
 		return betterIP;
 	}
 	
@@ -146,19 +147,24 @@ public class NetworkMaster implements Runnable{
 	 * @throws IOException
 	 */
 	private String routeIP() throws IOException {
+		System.out.println("On route");
 		/* choose command based on windows or unix */
 		String trace = (os.contains("win") ? "tracert" : "traceroute");
 		/* execute command */
 		
 		ProcessBuilder pb = new ProcessBuilder(trace, "www.google.com");
 		Process p = pb.start();
-		
+		System.out.println("did exec");
         BufferedReader output = new BufferedReader(new InputStreamReader(p.getInputStream()));
         String content = output.readLine();
         String line;
+        System.out.println("at loop");
         while((line = output.readLine()) != null){
         	content += line; //add each line content
+        	System.out.println(line);
         }
+        
+        System.out.println(content);
         String gateway= ipv4(content);
         return gateway;
     }
