@@ -24,7 +24,7 @@ import simori.ResourceManager;
  * Other utilities include methods for sizing text to fit a given
  * area, and applying multiple ratios to a dimension, for instance.
  * @author Matt
- * @version 3.1.2
+ * @version 3.1.5
  */
 public class GuiProperties {
 	

@@ -13,7 +13,7 @@ import simori.SwingGui.OnPressListenerMaker.OnPressListener;
 /**
  * JPanel which manages a grid of {@link Led}s.
  * @author Matt
- * @version 2.0.0
+ * @version 2.1.0
  */
 public class LedPanel extends JPanel implements OnPressListener {
 	
@@ -77,6 +77,10 @@ public class LedPanel extends JPanel implements OnPressListener {
 		}
 	}
 	
+	/**
+	 * So that subclasses can change the type of {@link Led} to use.
+	 * @return a newly constructed Led
+	 */
 	protected Led makeLed() {
 		return new Led();
 	}
