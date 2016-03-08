@@ -61,6 +61,7 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 		 */
 		@Override
 		public void run() {
+			try{Thread.sleep(100);}catch(InterruptedException e){}
 			new Thread(clock).start();
 			byte[][] toBePlayed = null;
 			boolean played = false;
@@ -83,12 +84,14 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 					else played = false;
 				//if MIDIPlayer throws an error, print it out and stop the JVM
 				}catch(InvalidMidiDataException e){e.printStackTrace();System.exit(1);}
-				
+				System.out.println("Ticking before:"+model.getCurrentColumn());
 				//turn the lights on the current column
 				mode.tickThrough(model.getCurrentColumn());
+				System.out.println("Ticking between:"+model.getCurrentColumn());
 
 				//advance to the next column
 				model.incrementColumn();
+				System.out.println("Ticking after:"+model.getCurrentColumn());
 			}
 		}
 		

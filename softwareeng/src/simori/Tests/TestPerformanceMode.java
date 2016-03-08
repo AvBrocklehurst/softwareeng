@@ -2,6 +2,8 @@ package simori.Tests;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.IOException;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,6 +13,8 @@ import simori.ModeController;
 import simori.SimoriGui.GridButtonEvent;
 import simori.Exceptions.InvalidCoordinatesException;
 import simori.Exceptions.KeyboardException;
+import simori.Modes.NetworkMaster;
+import simori.Modes.NetworkSlave;
 import simori.Modes.PerformanceMode;
 import simori.Modes.QwertyKeyboard;
 import simori.SwingGui.SimoriJFrame;
@@ -36,11 +40,11 @@ public class TestPerformanceMode {
 	
 	
 	@Before
-	public void setUp() throws KeyboardException{
+	public void setUp() throws KeyboardException, IOException{
 		keyboard = new QwertyKeyboard((byte)16,(byte)16);
 		testmodel = new MatrixModel(16, 16);
 		testgui = new SimoriJFrame(keyboard);
-		testcontroller = new ModeController(testgui, testmodel, 0);
+		testcontroller = new ModeController(testgui, testmodel, 0, new NetworkMaster(20160, testmodel, new NetworkSlave(20160, testmodel)));
 		testcontroller.setMode(new PerformanceMode(testcontroller));
 		testpm = new PerformanceMode(testcontroller);
 		testgb = new GridButtonEvent(testgui, 5, 5);

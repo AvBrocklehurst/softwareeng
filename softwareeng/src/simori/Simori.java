@@ -56,7 +56,6 @@ public class Simori {
 		).start();
 	}
 	
-	
 	/**
 	 * Constructs an instance of a Simori. 
 	 * 
@@ -80,7 +79,7 @@ public class Simori {
 		ModeController modes = new ModeController(gui, model, PORT, master);
 		NoteProcessor clock = new NoteProcessor(modes, model, player);
 		model.addObserver(clock);
-		modes.setComponentsToPowerToggle(model, player, clock, slave, gui);
+		modes.setComponentsToPowerToggle(model, player, slave, gui, clock);
 		modes.setOn(false);
 		gui.setVisible(true);
 	}

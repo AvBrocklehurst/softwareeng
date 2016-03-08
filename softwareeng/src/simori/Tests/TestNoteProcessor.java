@@ -18,6 +18,7 @@ import simori.Modes.PerformanceMode;
 import simori.Modes.QwertyKeyboard;
 import simori.SwingGui.SimoriJFrame;
 
+import java.lang.System;
 
 /**
  * 

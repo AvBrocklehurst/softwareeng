@@ -1,6 +1,27 @@
+<<<<<<< HEAD
+/**
+ * 
+ */
+=======
+>>>>>>> 7a3ef3cb2a09c4ec16c8758fa30e6a852bb5dcfe
 package simori.Tests;
 
 import static org.junit.Assert.*;
+
+<<<<<<< HEAD
+import java.net.UnknownHostException;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runners.model.TestTimedOutException;
+
+import simori.MatrixModel;
+import simori.Exceptions.InvalidPortException;
+import simori.Modes.NetworkMaster;
+
+/**
 
 import org.junit.After;
 import org.junit.Before;
@@ -16,6 +37,8 @@ import simori.Modes.NetworkMaster;
  *
  */
 public class TestNetworkMaster {
+	private NetworkMaster nw;
+
 	NetworkMaster nw; 
 
 	@Before
@@ -27,5 +50,5 @@ public class TestNetworkMaster {
 	public void tearDown() throws Exception {
 		nw = null;
 	}
-	
+
 }
