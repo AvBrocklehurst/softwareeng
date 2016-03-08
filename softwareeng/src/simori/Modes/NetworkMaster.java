@@ -36,7 +36,7 @@ public class NetworkMaster implements Runnable{
 	
 	/**
 	 * Constructor for the Network Master Class.
-	 * @author adam
+	 * @author Adam
 	 * @param port   The port to search on.
 	 * @param model  The model to export.
 	 * @throws IOException 
