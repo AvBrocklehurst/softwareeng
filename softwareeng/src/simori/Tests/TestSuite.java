@@ -21,27 +21,27 @@ import simori.Tests.GuiTests.TestSimoriEdgeBar;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-   /*TestNoteProcessor.class,*/ //TODO add back in when it works
-   TestLayer.class,
-   TestMatrixModel.class,
-   TestMIDISoundPlayer.class,
-   TestPerformanceMode.class,
-   TestInstrumentNamer.class,
-   TestSimoriGui.class,
-   TestModeController.class,
-   TestResourceManager.class,
-   TestSaveAndLoad.class,
-   TestSimori.class,
-   TestGuiProperties.class,
-   TestLcd.class,
-   TestLed.class,
-   TestButton.class,
-   TestLedPanel.class,
-   TestOnPressListenerMaker.class,
-   TestPressableCircle.class,
-   TestSimoriEdgeBar.class,
-   TestSaveAndLoad.class,
-   TestSimoriGui.class  
+	TestGuiProperties.class,
+	/*TestNoteProcessor.class,*/ //TODO add back in when it works
+	TestLayer.class,
+	TestMatrixModel.class,
+	TestMIDISoundPlayer.class,
+	TestPerformanceMode.class,
+	TestInstrumentNamer.class,
+	TestSimoriGui.class,
+	TestModeController.class,
+	TestResourceManager.class,
+	TestSaveAndLoad.class,
+	TestSimori.class,
+	TestLcd.class,
+	TestLed.class,
+	TestButton.class,
+	TestLedPanel.class,
+	TestOnPressListenerMaker.class,
+	TestPressableCircle.class,
+	TestSimoriEdgeBar.class,
+	TestSaveAndLoad.class,
+	TestSimoriGui.class  
 })
 
 public class TestSuite {}

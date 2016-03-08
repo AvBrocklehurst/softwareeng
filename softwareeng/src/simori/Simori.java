@@ -37,23 +37,15 @@ public class Simori {
 	 */
 	public static void main(String[] args) {
 		InstrumentNamer.getInstance();
-		new Thread(new Runnable(){ 
-			@Override
-			public void run() {
-				try {
-					new Simori();
-				} catch (MidiUnavailableException e) {
-					e.printStackTrace();
-				} catch (KeyboardException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-			}
-		} 
-		).start();
+		try {
+			new Simori();
+		} catch (MidiUnavailableException e) {
+			e.printStackTrace();
+		} catch (KeyboardException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/**

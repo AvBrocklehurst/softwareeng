@@ -2,19 +2,39 @@ package simori.Tests.GuiTests;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Image;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 import javax.swing.JFrame;
 
+import org.junit.After;
 import org.junit.Test;
 
+import simori.ResourceManager;
 import simori.SwingGui.GuiProperties;
 
 public class TestGuiProperties {
+	
+	private static final String FONT = MockProperties.getFontName();
+	private static final String ICON = MockProperties.getIconName();
+	private static final Font BACKUP = MockProperties.getBackupFont();
+	
+	private File fileName, notFileName;
+	
+	@After
+	public void tearDown() {
+		GuiProperties.clearCache();
+	}
 	
 	@Test
 	public void testRatioReferences() {
@@ -79,12 +99,119 @@ public class TestGuiProperties {
 	}
 	
 	@Test
-	public void testFontNoResFolder() {
-		String workingDir = System.getProperty("user.dir");
-		System.setProperty("user.dir", System.getProperty("user.home"));
+	public void testFontNoResFolder() throws IOException {
+		File inRes = ResourceManager.getResource("thing");
+		breakFile(inRes.getParentFile(), false, true);
 		Font font = GuiProperties.getFont();
-		System.setProperty("user.dir", workingDir);
-		Font backup = new Font(Font.SERIF, Font.PLAIN, 1);
-		assertEquals(backup.getName(), font.getName());
+		fixFile(false);
+		assertEquals(BACKUP, font);
+	}
+	
+	@Test
+	public void testAaFontNotFound() throws IOException {
+		breakFile(ResourceManager.getResource(FONT), false, true);
+		Font font = GuiProperties.getFont();
+		fixFile(false);
+		assertEquals(BACKUP, font);
+	}
+	
+	@Test
+	public void testFontResFolder() {
+		assertNotNull(GuiProperties.getFont());
+	}
+	
+	@Test
+	public void testFontFileBroken() throws IOException {
+		breakFile(ResourceManager.getResource(FONT), true, true);
+		Font font = GuiProperties.getFont();
+		fixFile(true);
+		assertEquals(BACKUP, font);
+	}
+	
+	@Test
+	public void testIconNoResFolder() throws IOException {
+		File inRes = ResourceManager.getResource("thing");
+		breakFile(inRes.getParentFile(), false, true);
+		Image icon = GuiProperties.getIcon();
+		fixFile(false);
+		assertNull(icon);
+	}
+	
+	@Test
+	public void testIconResFolder() {
+		assertNotNull(GuiProperties.getIcon());
+	}
+	
+	@Test
+	public void testIconNotFound() throws IOException {
+		breakFile(ResourceManager.getResource(ICON), false, true);
+		Image icon = GuiProperties.getIcon();
+		fixFile(false);
+		assertNull(icon);
+	}
+	
+	@Test
+	public void testFontCached() throws IOException {
+		GuiProperties.clearCache();
+		Font made = GuiProperties.getFont();
+		breakFile(ResourceManager.getResource(FONT), false, false);
+		Font cached = GuiProperties.getFont();
+		fixFile(false);
+		assertEquals(made, cached);
+	}
+	
+	@Test
+	public void testIconCached() throws IOException {
+		GuiProperties.clearCache();
+		Image made = GuiProperties.getIcon();
+		breakFile(ResourceManager.getResource(ICON), false, false);
+		Image cached = GuiProperties.getIcon();
+		fixFile(false);
+		assertEquals(made, cached);
+	}
+	
+	@Test
+	public void testClearCache() {
+		//TODO check it uncaches
+	}
+	
+	//TODO Check retrieval without making
+	
+	private void breakFile(File fileName, boolean overwrite, boolean uncache)
+			throws IOException {
+		this.fileName = fileName;
+		notFileName = new File(fileName.getParentFile(), "notFile");
+		boolean broke = fileName.renameTo(notFileName);
+		if (!broke) fail("Could not tamper with file as writing is locked!");
+		if (uncache) GuiProperties.clearCache();
+		FileOutputStream out = null;
+		if (overwrite) try {
+			out = new FileOutputStream(fileName);
+			final byte T = 84, R = 114, O = 111, L = 108;
+			byte[] bytes = {T,R,O,L,L,O,L,O,L,O,L,O,L,O,L};
+			out.write(bytes, 0, bytes.length);
+		} finally {
+			if (out != null) out.close();
+		}
+	}
+	
+	private void fixFile(boolean overwritten) {
+		if (overwritten) fileName.delete();
+		notFileName.renameTo(fileName);
+	}
+	
+	private static class MockProperties extends GuiProperties {
+		
+		public static String getFontName() {
+			return FONT_NAME;
+		}
+		
+		public static String getIconName() {
+			return ICON_NAME;
+		}
+		
+		public static Font getBackupFont() {
+			return BACKUP;
+		}
 	}
 }

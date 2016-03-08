@@ -24,7 +24,7 @@ import simori.ResourceManager;
  * Other utilities include methods for sizing text to fit a given
  * area, and applying multiple ratios to a dimension, for instance.
  * @author Matt
- * @version 3.0.0
+ * @version 3.1.2
  */
 public class GuiProperties {
 	
@@ -120,14 +120,17 @@ public class GuiProperties {
 	 * @see SimoriJFrame
 	 * @see ResourceManager#getResource
 	 */
-	private static final String ICON_NAME = "Doctor D 128px.png";
+	protected static final String ICON_NAME = "Doctor D 128px.png";
 	
 	/**
 	 * Name of the TrueType Font file from which to load the font
 	 * used in {@link Button}s and the {@link Lcd} screen.
 	 * @see ResourceManager#getResource
 	 */
-	private static final String FONT_NAME = "cmtt12.ttf";
+	protected static final String FONT_NAME = "cmtt12.ttf";
+	
+	/** To be used when {@link #FONT_NAME} does not work */
+	protected static final Font BACKUP = new Font(Font.SERIF, Font.PLAIN, 1);
 	
 	//Resources held on to statically instead of loading multiple times
 	private static Font font;
@@ -209,17 +212,16 @@ public class GuiProperties {
 	private static Font makeFont() {
 		try {
 			File ttf = ResourceManager.getResource(FONT_NAME);
-			if (ttf == null) {
-				System.err.println("Cannot locate res folder");
-				return null;
-			}
 			return Font.createFont(Font.TRUETYPE_FONT, ttf);
+		} catch (NullPointerException e) {
+			System.err.println("Cannot locate res folder");
+			return BACKUP;
 		} catch (IOException e) {
 			System.err.println("Could not load typeface from " + FONT_NAME);
-			return new Font(Font.SERIF, Font.PLAIN, 1);
+			return BACKUP;
 		} catch (FontFormatException e) {
 			System.err.println("Could not load typeface from " + FONT_NAME);
-			return new Font(Font.SERIF, Font.PLAIN, 1);
+			return BACKUP;
 		}
 	}
 	
@@ -233,8 +235,22 @@ public class GuiProperties {
 			System.err.println("Cannot locate res folder");
 			return null;
 		}
-		if (!icon.exists())
+		if (!icon.exists()) {
 			System.err.println("Could not load icon " + ICON_NAME);
+			return null;
+		}
 		return new ImageIcon(icon.getAbsolutePath()).getImage();
+	}
+	
+	/**
+	 * Once retrieved, the font and icon are cached so that future
+	 * calls to {@link #getFont} or {@link #getIcon} do not result
+	 * in the files being loaded a second time. Calling this method
+	 * dereferences these so that the next call is forced to load
+	 * from the file.
+	 */
+	public static void clearCache() {
+		font = null;
+		icon = null;
 	}
 }
