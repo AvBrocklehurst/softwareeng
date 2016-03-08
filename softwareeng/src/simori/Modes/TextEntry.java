@@ -11,7 +11,7 @@ import simori.Modes.ChangerMode.Setting;
  * accepting a character at a time until the OK button is
  * pressed, and calls {@link #useText} with the result.
  * @author Matt
- * @version 1.0.0
+ * @version 2.0.0
  */
 public abstract class TextEntry implements Changer {
 	
@@ -28,32 +28,41 @@ public abstract class TextEntry implements Changer {
 		builder = new StringBuilder("");
 	}
 	
+	/**
+	 * Called when the user has entered text and pressed OK to submit it.
+	 * The text is to be validated and used for some purpose.
+	 * @param text The text which has been entered before pressing OK
+	 * @return true to close keyboard and exit mode, false to reject text
+	 */
 	protected abstract boolean useText(String text);
 
+	/** {@inheritDoc} */
 	@Override
 	public String getText(Setting s) {
 		addLetter(keyboard.getLetterOn(s.x, s.y));
-		return builder.toString();
+		return builder.toString(); // Display modified text on LCD screen
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean doThingTo(ModeController controller) {
 		if (useText(builder.toString())) {
 			controller.getGui().setKeyboardShown(false);
-			return true;
+			return true; // Re-enter PerformanceMode with keyboard hidden
 		}
 		return false;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public Setting getCurrentSetting() {
 		controller.getGui().setKeyboardShown(true);
 		keyboard = controller.getGui().getKeyboardMapping();
-		return null;
+		return null; // Don't draw lines, as keyboard is shown instead
 	}
 	
 	/**
-	 * Appends the given Character to the given String.
+	 * Appends the given Character to the sequence.
 	 * If it is null, the String is not changed.
 	 * If it is a backspace character, a character is removed.
 	 */
