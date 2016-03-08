@@ -1,5 +1,7 @@
 package simori.Tests;
 
+import java.io.IOException;
+
 import javax.sound.midi.MidiUnavailableException;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
@@ -29,7 +31,7 @@ public class TestSimori {
 	private Simori testsimori;
 	
 	@Before
-	public void setUp() throws MidiUnavailableException, KeyboardException{
+	public void setUp() throws MidiUnavailableException, KeyboardException, IOException{
 		testsimori = new Simori();
 	}
 	

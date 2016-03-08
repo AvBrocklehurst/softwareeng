@@ -1,21 +1,21 @@
 package simori.Tests;
 
+import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
+
+import java.io.IOException;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.hamcrest.CoreMatchers.instanceOf;
-
-
-import simori.Layer;
 import simori.MatrixModel;
 import simori.ModeController;
-import simori.SimoriGui;
 import simori.Exceptions.KeyboardException;
 import simori.Modes.Mode;
+import simori.Modes.NetworkMaster;
+import simori.Modes.NetworkSlave;
 import simori.Modes.PerformanceMode;
 import simori.Modes.QwertyKeyboard;
 import simori.SwingGui.SimoriJFrame;
@@ -33,15 +33,18 @@ public class TestModeController{
 	private SimoriJFrame testgui;
 	private MatrixModel testmodel;
 	private MockModeController mockcontroller;
-	private byte currentColumn;
 	private QwertyKeyboard keyboard;
+	private NetworkSlave testslave;
+	private NetworkMaster testmaster;
 	
 	@Before
-	public void setUp() throws KeyboardException{
+	public void setUp() throws KeyboardException, IOException{
 		keyboard = new QwertyKeyboard((byte)16, (byte)16);
 		testgui = new SimoriJFrame(keyboard);
 		testmodel = new MatrixModel(16, 16);
-		mockcontroller = new MockModeController(testgui, testmodel, 0);
+		testslave = new NetworkSlave(0, testmodel);
+		testmaster = new NetworkMaster(0, testmodel, testslave);
+		mockcontroller = new MockModeController(testgui, testmodel, 0, testmaster);
 	}
 	
 	@After
@@ -64,7 +67,7 @@ public class TestModeController{
 	
 	@Test
 	public void test_isOn(){
-		assertEquals("The simori-on should be off!", false, mockcontroller.isOn());
+		assertEquals("The simori-on should be on!", true, mockcontroller.isOn());
 	}
 	
 	@Test
