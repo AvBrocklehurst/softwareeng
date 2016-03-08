@@ -1,14 +1,21 @@
 package simori.Modes;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Inet4Address;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import simori.MatrixModel;
+import simori.ModeController;
+import simori.Modes.ChangerMode.Changer;
+import simori.Modes.ChangerMode.Setting;
 
 /**
  * Class to act as the master in the master slave mode.
@@ -22,23 +29,27 @@ public class NetworkMaster implements Runnable{
 	private int port;
 	private String ip;
 	private MatrixModel model;
-	
+	private NetworkSlave slave;
+	private final static String os = System.getProperty("os.name").toLowerCase();
+
 	
 	
 	/**
 	 * Constructor for the Network Master Class.
+	 * @author adam
 	 * @param port   The port to search on.
 	 * @param model  The model to export.
-	 * @throws UnknownHostException
+	 * @throws IOException 
 	 */
-	public NetworkMaster(int port, MatrixModel model) throws UnknownHostException{
+	public NetworkMaster(int port, MatrixModel model, NetworkSlave slave) throws IOException{
 		this.port = port;
-		this.ip = getIP();
 		this.model = model;
+		this.slave = slave;
 	}
 	
 	/**
 	 * Find slave generates the ip ranges to search in for another simori on.
+	 * @author adam
 	 */
 	public void findSlave(){
 		/* generate y range (xxx.xxx.xxx.yyy) */
@@ -52,6 +63,7 @@ public class NetworkMaster implements Runnable{
 		if(!found){
 			iterateOverIPRange(thisRangeIP);
 		}
+		slave.switchOn();
 	}
 	
 	
@@ -64,11 +76,10 @@ public class NetworkMaster implements Runnable{
 	private boolean closestRangeIP(String ip){
 		for(int i = 0; i < 256; i++){
 	        try {
+	        	System.out.println(ip + i);
 	        	/* If it's not my ip */
-	        	if(!this.ip.equals(ip + i)){
-	        		checkSocket(ip + i);
-	        	    return true;
-	        	}
+	        	checkSocket(ip + i);
+	        	return true;
 	        } catch (IOException e){
 	        	
 	        }
@@ -86,10 +97,14 @@ public class NetworkMaster implements Runnable{
 	 */
 	private void checkSocket(String ip) throws IOException{
 		Socket socket = new Socket();
+		
 		/* attempt socket connection with 100ms timeout */
-        socket.connect(new InetSocketAddress(ip, port), 100);
+        socket.connect(new InetSocketAddress(ip, port), 200);
+        System.out.println(ip);
         OutputStream out = (OutputStream) socket.getOutputStream();
+        System.out.println(ip);
         ObjectOutputStream serializer = new ObjectOutputStream(out);
+        System.out.println(ip);
         /* Serialize and write the model to the output stream */
         serializer.writeObject(model);
         serializer.close();
@@ -100,16 +115,86 @@ public class NetworkMaster implements Runnable{
 	/**
 	 * Method to return the systems local IP address.
 	 * @author Adam
-	 * @return  A string containing the current systems local IP.
-	 * @throws UnknownHostException
+	 * @return  A string containing the current systems local IP. 
+	 * @throws UnknownHostException 
+	 * @throws IOException 
 	 */
-	private static String getIP() throws UnknownHostException{
-		return Inet4Address.getLocalHost().getHostAddress();
+	private String getIP() throws UnknownHostException, IOException {
+		Socket s;
+		String betterIP;
+		try {
+			/* Check if local address is on the 192.168.0 range */
+			s = new Socket();
+			s.connect(new InetSocketAddress("192.167.0.1", 80), 500);
+			betterIP = s.getLocalAddress().getHostAddress();
+			s.close();
+		} catch (IOException e) {
+			/* Else try trace route for ip */
+			if((betterIP = routeIP()).equals("0.0.0.0")){
+				/* Else set address to unreliable local address */
+				betterIP  = Inet4Address.getLocalHost().getHostAddress();
+			}
+		}
+		System.out.println(betterIP);
+		return betterIP;
 	}
-	 
 	
 	/**
-	 * Method to itterate over an ip address.
+	 * Method to exec traceroute and pass what it returns
+	 * to the ipv4 function.
+	 * @author Adam
+	 * @return The IP address of the users router.
+	 * @throws IOException
+	 */
+	private String routeIP() throws IOException {
+		System.out.println("On route");
+		/* choose command based on windows or unix */
+		String trace = (os.contains("win") ? "tracert" : "traceroute");
+		/* execute command */
+		
+		ProcessBuilder pb = new ProcessBuilder(trace, "www.google.com");
+		Process p = pb.start();
+		System.out.println("did exec");
+        BufferedReader output = new BufferedReader(new InputStreamReader(p.getInputStream()));
+        String content = output.readLine();
+        String line;
+        System.out.println("at loop");
+        while((line = output.readLine()) != null){
+        	content += line; //add each line content
+        	System.out.println(line);
+        }
+        
+        System.out.println(content);
+        String gateway= ipv4(content);
+        return gateway;
+    }
+	
+	/**
+	 * Method to find the 2nd ip address in a string.
+	 * @author Adam.
+	 * @param search  The string to search for an ip in.
+	 * @return An ipv4 address.
+	 */
+	private static String ipv4(String search){
+		/* Regex to match an IP Address */
+		String IPADDRESS_PATTERN =  
+				"(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.)" +
+				"{3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)";
+		
+		Pattern pattern = Pattern.compile(IPADDRESS_PATTERN);
+		
+		/* Check input string against regex */
+		Matcher matcher = pattern.matcher(search);
+		if (matcher.find()) { //If one match
+			if (matcher.find()) { //If two matches
+				return matcher.group(); //return the 2nd IP.
+			} 
+		}
+		return "0.0.0.0";
+	}
+	
+	/**
+	 * Method to itterate over an ip address.Z
 	 * @author Adam
 	 * @param ip  The first 2 sections of an ip to loop through.
 	 */
@@ -122,6 +207,49 @@ public class NetworkMaster implements Runnable{
 
 	@Override
 	public void run() {
+		try {
+			slave.switchOff();
+			this.ip = getIP();
+			System.out.println(ip);
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		findSlave();
+	}
+	
+	/**
+	 * This implementation of the Changer interface allows the simori
+	 * to probe on a given port to find other Simori-ons over a network.
+	 * The first to respond receives the masters configuration and the master
+	 * continues to performance mode.
+	 * 
+	 * @author Adam
+	 * @version 1.0.0
+	 * @see Changer.getText(), Changer.doThingTo(), Changer.getCurrentSetting()
+	 * @return Changer
+	 */
+	protected static Changer masterSlave(final ModeController controller){
+		return new Changer(){
+
+			@Override
+			public String getText(Setting s) {
+				return "Searching...";
+			}
+
+			@Override
+			public boolean doThingTo(ModeController controller) {
+				return true;
+			}
+
+			@Override
+			public Setting getCurrentSetting() {
+					new Thread(controller.getMaster()).start();
+				return null;
+			}
+		};
 	}
 }

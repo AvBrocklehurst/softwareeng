@@ -175,7 +175,7 @@ public class GuiProperties {
 		}
 		
 		//Decrease size to just fit, and set as g's new font
-		g.setFont(new Font(name, style, size--));
+		g.setFont(new Font(name, style, --size));
 	}
 	
 	/**
@@ -234,7 +234,7 @@ public class GuiProperties {
 			return null;
 		}
 		if (!icon.exists())
-			System.err.println("Could not loat icon " + ICON_NAME);
+			System.err.println("Could not load icon " + ICON_NAME);
 		return new ImageIcon(icon.getAbsolutePath()).getImage();
 	}
 }

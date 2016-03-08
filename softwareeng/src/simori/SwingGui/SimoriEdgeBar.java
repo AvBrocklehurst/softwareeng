@@ -23,7 +23,7 @@ import simori.Simori.PowerTogglable;
  */
 public class SimoriEdgeBar extends JPanel implements PowerTogglable {
 	
-	private Button[] buttons;
+	protected Button[] buttons;
 	private Lcd lcd;
 	
 	/**

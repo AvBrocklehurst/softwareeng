@@ -1,8 +1,11 @@
 package simori;
 
+import java.io.IOException;
+
 import javax.sound.midi.MidiUnavailableException;
 
 import simori.Exceptions.KeyboardException;
+import simori.Modes.NetworkMaster;
 import simori.Modes.NetworkSlave;
 import simori.Modes.QwertyKeyboard;
 import simori.SwingGui.SimoriJFrame;
@@ -24,7 +27,6 @@ public class Simori {
 	/**
 	 * The main method to run the whole Simori system. If MIDI is unavailable
 	 * an exception is caught.
-	 * 
 	 * @author Adam
 	 * @author James
 	 * @author Josh
@@ -34,14 +36,24 @@ public class Simori {
 	 * @version 3.0.0
 	 */
 	public static void main(String[] args) {
-		try {
-			InstrumentNamer.getInstance();
-			new Simori();
-		} catch (MidiUnavailableException e) {
-			e.printStackTrace();
-		} catch (KeyboardException e) {
-			e.printStackTrace();
-		}
+		InstrumentNamer.getInstance();
+		new Thread(new Runnable(){ 
+			@Override
+			public void run() {
+				try {
+					new Simori();
+				} catch (MidiUnavailableException e) {
+					e.printStackTrace();
+				} catch (KeyboardException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
+		} 
+		).start();
 	}
 	
 	/**
@@ -55,15 +67,17 @@ public class Simori {
 	 * @version 2.1.0
 	 * @throws MidiUnavailableException If this system does not have MIDI
 	 * @throws KeyboardException If the grid does not fit a QWERTY keyboard
+	 * @throws IOException 
 	 */
-	public Simori() throws MidiUnavailableException, KeyboardException {
+	public Simori() throws MidiUnavailableException, KeyboardException, IOException {
 		MatrixModel model = new MatrixModel(GRID_WIDTH, GRID_HEIGHT);
 		QwertyKeyboard keyboard = new QwertyKeyboard(GRID_WIDTH, GRID_HEIGHT);
 		SimoriJFrame gui = new SimoriJFrame(keyboard);
 		MIDISoundPlayer player = new MIDISoundPlayer();
-		ModeController modes = new ModeController(gui, model, PORT);
-		NoteProcessor clock = new NoteProcessor(modes, model, player);
 		NetworkSlave slave = new NetworkSlave(PORT, model);
+		NetworkMaster master = new NetworkMaster(PORT, model, slave);
+		ModeController modes = new ModeController(gui, model, PORT, master);
+		NoteProcessor clock = new NoteProcessor(modes, model, player);
 		model.addObserver(clock);
 		modes.setComponentsToPowerToggle(model, player, slave, gui, clock);
 		modes.setOn(false);

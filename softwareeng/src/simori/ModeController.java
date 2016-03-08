@@ -3,6 +3,7 @@ package simori;
 import simori.Simori.PowerTogglable;
 import simori.Exceptions.InvalidCoordinatesException;
 import simori.Modes.Mode;
+import simori.Modes.NetworkMaster;
 import simori.Modes.OffMode;
 import simori.Modes.PerformanceMode;
 
@@ -18,7 +19,8 @@ import simori.Modes.PerformanceMode;
  * getters in the ModeController it is constructed with.
  * 
  * @author Matt
- * @version 1.6.0
+ * @author Adam
+ * @version 1.7.0
  */
 public class ModeController {
 	
@@ -26,10 +28,11 @@ public class ModeController {
 	private MatrixModel model;
 	private PowerTogglable[] toPowerToggle;
 	private int port;
+	NetworkMaster master;
 	
-	private Mode mode;
+	protected Mode mode;
 	private byte displayLayer;
-	private boolean on = true;
+	protected boolean on = true;
 	
 	/**
 	 * Creates a ModeController to accept input from the
@@ -40,11 +43,14 @@ public class ModeController {
 	 * @param gui For button input and LED output
 	 * @param model To store information on the Simori-ON's state
 	 */
-	public ModeController(SimoriGui gui, MatrixModel model, int port) {
+	public ModeController(SimoriGui gui, MatrixModel model, int port, NetworkMaster master) {
 		this.gui = gui;
 		this.model = model;
 		this.port = port;
+		this.master = master;
 	}
+	
+	
 	
 	/**
 	 * Draws the clock hand in the specified column. If the current
@@ -60,6 +66,12 @@ public class ModeController {
 	/** @return Model instance encapsulating state of Simori-ON */
 	public MatrixModel getModel() {
 		return model;
+	}
+	
+	/** @return NetworkMaster */
+	public NetworkMaster getMaster(){
+		return master;
+		
 	}
 	
 	/** @return The on-screen representation of the Simori-ON */
