@@ -1,12 +1,11 @@
 package simori.Tests;
 import static org.junit.Assert.*;
-
-import javax.sound.midi.MidiUnavailableException;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+
+import javax.sound.midi.MidiUnavailableException;
 
 import simori.NoteProcessor;
 import simori.MIDISoundPlayer;
@@ -20,6 +19,7 @@ import simori.Modes.QwertyKeyboard;
 import simori.SwingGui.SimoriJFrame;
 
 import java.io.IOException;
+import java.security.Permission;
 
 /**
  * 
@@ -37,8 +37,35 @@ public class TestNoteProcessor {
 	private Thread thread;
 	private Throwable e;
 	
-    @Rule
-    public final ExpectedSystemExit exit = ExpectedSystemExit.none();
+	/**
+	 * 
+	 * @author Jurek
+	 *
+	 */
+    protected static class ExitException extends SecurityException {
+        public final int status;
+        public ExitException(int status) {
+            super("Attempted to System.exit...");
+            this.status = status;
+        }
+    }
+
+    /**
+     * 
+     * @author Jurek
+     *
+     */
+    private static class NoExitSecurityManager extends SecurityManager {
+        @Override
+        public void checkPermission(Permission perm) {}
+        @Override
+        public void checkPermission(Permission perm, Object context) {}
+        @Override
+        public void checkExit(int status) {
+            super.checkExit(status);
+            throw new ExitException(status);
+        }
+    }
 	
 	/**
 	 * 
@@ -62,6 +89,7 @@ public class TestNoteProcessor {
 		modes.setComponentsToPowerToggle(model, midi, slave, gui, clock);
 		modes.setOn(false);
 		e = null;
+        System.setSecurityManager(new NoExitSecurityManager());
 		modes.setOn(true);
 	}
 	
@@ -80,6 +108,7 @@ public class TestNoteProcessor {
 		modes = null;
 		clock = null;
 		e = null;
+        System.setSecurityManager(null);
 	}
 	
 	/**
@@ -134,10 +163,7 @@ public class TestNoteProcessor {
 	@Test (expected=NullPointerException.class)
 	public void testRunNullModel() throws MidiUnavailableException {
 		setUpThread(modes, null, midi);
-		
 		letRun(2000);
-		
-		e.getClass();
 	}
 	
 	
@@ -215,7 +241,8 @@ public class TestNoteProcessor {
 		
 		letRun(2000);
 		clock.switchOff();
-		clock.switchOn();//TODO actually implement
+		clock.switchOn();
+		letRun(2000);
 		
 		assertNull(e);
 	}
@@ -250,14 +277,13 @@ public class TestNoteProcessor {
 		setUpThread(modes, model, midi);
 		
 		letRun(1000);
+
 		model.setInstrument((byte)0, (short)200);
-		model.setBPM((short) 160);
 		for(int i=0; i<16; i++) {
 			model.updateButton((byte)0, (byte)i, (byte)4);
 		}
 		letRun(1000);
-		
-		assertNull(e);
+		assertEquals(e.getClass(), ExitException.class);
 	}
 	
 	/**
@@ -361,10 +387,14 @@ public class TestNoteProcessor {
 		setUpThread(modes, model, midi);
 		
 		letRun(1000);
-		model.setBPM((byte)-1);
-		letRun(1000);
+		try{
 		
-		assertEquals(e.getClass(), IllegalArgumentException.class);
+			model.setBPM((byte)-1);
+		
+			letRun(1000);
+		
+		}catch(ExitException e){return;}
+		fail();
 	}
 	
 }
