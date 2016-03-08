@@ -13,58 +13,73 @@ import org.junit.Test;
 
 import simori.Exceptions.KeyboardException;
 import simori.SwingGui.Lcd;
+import simori.SwingGui.SimoriEdgeBar;
 import simori.Tests.GuiTests.MockSimoriJFrame.MockLed;
 import simori.Tests.GuiTests.MockSimoriJFrame.MockSimoriEdgeBar;
 /**
  * 
  * @author Josh
- * version 1.0.1
+ * @version 1.0.7
  * 
  * class that tests Lcd class.
  */
 public class TestLcd {
+	MockSimoriJFrame gui;
 	Lcd lcd;
 
 	@Before
 	public void setUp() throws Exception {
+		gui = new MockSimoriJFrame();
+		lcd = gui.getBottomBar().getLcd();
 	}
 
 	@After
 	public void tearDown() throws Exception {
+		gui = null;
+		lcd = null;
 	}
 
 	@Test
 	public void testLcd() {
-		Lcd lcd = new Lcd(false);
-		assertNotNull(lcd);
+		Lcd lcd2 = new Lcd(false);
+		assertNotNull(lcd2);
+		lcd2 = null;
 	}
 	
 	@Test
 	public void testSetShorterSide() throws InterruptedException, KeyboardException{
-		MockSimoriEdgeBar gui = new MockSimoriEdgeBar(false,true);
+		lcd.setShorterSize(10);
 		gui.setVisible(true);
-		Thread.sleep(5000);
-		
-		
-		/*
-		JFrame gui = new JFrame();
-		gui.setTitle("It has a title");
-		JPanel panel = new JPanel();
-		gui.add(panel);
-		panel.setMinimumSize(new Dimension(300, 300));
-		gui.setVisible(true);
-
-		lcd = new Lcd(false);
-		lcd.setMinimumSize(new Dimension(100, 100));
-		gui.add(lcd);
-
-		Thread.sleep(5000);
-		lcd.setShorterSize(100f);
-		//System.out.println(lcd.getHeight());
-		 * 
-		 */
+		lcd.setVisible(true);
+		assertEquals(10, lcd.getHeight());
 	}
 	
+	@Test
+	public void testSetText() throws InterruptedException, KeyboardException{
+		lcd.setText("hello world!");
+		String text = lcd.getText();
+		gui.setVisible(true);
+		lcd.setVisible(true);
+		assertEquals("hello world!", text);
+	}
+	
+	@Test
+	public void testSetTextLong() throws InterruptedException, KeyboardException{
+		lcd.setText("hello world my goodness this is a long sentance!");
+		String text = lcd.getText();
+		gui.setVisible(true);
+		lcd.setVisible(true);
+		assertEquals("hello world my goodness this is a long sentance!", text);
+	}
+	
+	@Test
+	public void testSetTextNone() throws InterruptedException, KeyboardException{
+		lcd.setText("");
+		String text = lcd.getText();
+		gui.setVisible(true);
+		lcd.setVisible(true);
+		assertEquals("", text);
+	}
 	
 
 }
