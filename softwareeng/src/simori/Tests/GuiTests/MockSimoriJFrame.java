@@ -70,7 +70,7 @@ public class MockSimoriJFrame extends SimoriJFrame {
 		return getSimoriPanel().getGridPanel().getLedPanel();
 	}
 	
-	public Led getLed(byte row, byte column) {
+	public MockLed getLed(byte row, byte column) {
 		return getSimoriPanel().getGridPanel().getLedPanel().getLed(row, column);
 	}
 	

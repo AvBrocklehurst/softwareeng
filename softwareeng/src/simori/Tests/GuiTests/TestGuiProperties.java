@@ -27,15 +27,31 @@ import simori.SwingGui.GuiProperties;
 
 /**
  * Tests {@link GuiProperties} to 98.7% coverage.
+ * Suffers from major problems relating to file handles and test ordering.
+ * After the font has been loaded once with {@link Font#createFont(int, File)},
+ * the TrueType file in the res folder inexplicably remains locked for writing.
+ * This causes subsequent tests which rely on renaming or overwriting this file
+ * to fail. There is no way to release the handle except by exiting the JVM, so
+ * setUp and tearDown methods cannot be used to make the tests' outcomes
+ * independent of their execution order. Once the font is successfully loaded
+ * from the file, tests which rely on temporarily renaming the file or the res
+ * folder to test exceptional behaviour will fail. Many other GUI and non-GUI
+ * tests involve instantiating a SimoriJFrame, so will cause the font to be
+ * loaded. Therefore, the tests in this class must be run before all others.
+ * TODO and explain the zs
+ * to be loaded
  * @author Matt
+ * @version 3.0.5
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestGuiProperties {
 	
+	// protected constants borrowed from GuiProperties
 	private static final String FONT = MockProperties.getFontName();
 	private static final String ICON = MockProperties.getIconName();
 	private static final Font BACKUP = MockProperties.getBackupFont();
 	
+	// Information for temporarily 
 	private File fileName, notFileName;
 	private boolean overwritten;
 	

@@ -24,7 +24,7 @@ import simori.Tests.GuiTests.GuiTestSuite;
 	TestSaveAndLoad.class,
 	TestSimori.class,
 	TestSaveAndLoad.class,
-	TestSimoriGui.class
-	/*, TestNoteProcessor.class TODO add back in when it works */
+	TestSimoriGui.class,
+	TestNoteProcessor.class
 })
 public class TestSuite {}
