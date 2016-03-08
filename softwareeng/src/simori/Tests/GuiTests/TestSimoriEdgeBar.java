@@ -9,6 +9,7 @@ import org.junit.Test;
 import simori.FunctionButton;
 import simori.Exceptions.KeyboardException;
 import simori.Modes.QwertyKeyboard;
+import simori.SwingGui.Button;
 import simori.SwingGui.Lcd;
 import simori.SwingGui.OnPressListenerMaker;
 import simori.SwingGui.SimoriEdgeBar;
@@ -66,9 +67,36 @@ public class TestSimoriEdgeBar {
 	
 	@Test
 	public void testCorrectNumberOfComponentsBottom(){
-		assertEquals(7, edgeBarBottom.getComponentCount()); // how many components (buttons, glue, etc) should be in a left bar
+		assertEquals(7, edgeBarBottom.getComponentCount()); // how many components (buttons, glue, etc) should be in a bottom bar
 	}
 	
+	@Test
+	public void testButtonOnByDefault(){
+		Button[] buttons = edgeBarLeft.getButtons();
+		for(Button button: buttons){
+			assertTrue(button.isEnabled());
+		}
+	}
 	
+	@Test
+	public void testOff(){
+		edgeBarLeft.switchOff();
+		Button[] buttons = edgeBarLeft.getButtons();
+		for(Button button: buttons){
+			assertFalse(button.isEnabled());
+		}
+	}
 
+	@Test
+	public void testOn(){
+		edgeBarLeft.switchOff();
+		Button[] buttons = edgeBarLeft.getButtons();
+		for(Button button: buttons){
+			assertFalse(button.isEnabled());
+		}
+		edgeBarLeft.switchOn();
+		for(Button button: buttons){
+			assertTrue(button.isEnabled());
+		}
+	}
 }
