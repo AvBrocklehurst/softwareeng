@@ -3,6 +3,7 @@ package simori.Tests;
 import simori.MatrixModel;
 import simori.SimoriGui;
 import simori.Modes.Mode;
+import simori.Modes.NetworkMaster;
 
 import simori.ModeController;
 
@@ -16,8 +17,8 @@ import simori.ModeController;
  */
 public class MockModeController extends ModeController{
 	
-	public MockModeController(SimoriGui gui, MatrixModel model, int port) {
-		super(gui, model, port);
+	public MockModeController(SimoriGui gui, MatrixModel model, int port, NetworkMaster master) {
+		super(gui, model, port, master);
 	}
 	
 	public Mode getMode(){

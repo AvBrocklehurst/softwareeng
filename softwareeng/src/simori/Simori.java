@@ -56,7 +56,6 @@ public class Simori {
 		).start();
 	}
 	
-	
 	/**
 	 * Constructs an instance of a Simori. 
 	 * 
