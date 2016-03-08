@@ -74,7 +74,7 @@ public class GridPanel extends JPanel implements PowerTogglable {
 				keyboard.add(btn);
 				btn.addOnPressListener(maker.getListener(x, y));
 				Character letter = map.getLetterOn(x, y);
-				btn.setEnabled(letter != null);
+				btn.setGreyedOut(letter == null);
 				if (letter == null) continue;
 				String text = letter.toString();
 				if (letter == '\b') text = "<-";

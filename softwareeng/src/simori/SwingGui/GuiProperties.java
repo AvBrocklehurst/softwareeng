@@ -83,7 +83,7 @@ public class GuiProperties {
 	public static final Color CIRCLE_NOT_PRESSED = Color.WHITE;
 	
 	/** Colour to fill a grayed-out {@link PressableCircle} */
-	public static final Color CIRCLE_DISABLED = new Color(0xDDDDDD);
+	public static final Color CIRCLE_GREYED = new Color(0xDDDDDD);
 	
 	/** Colour to fill an illuminated but not pressed {@link Led} */
 	public static final Color LED_COLOUR_ON = new Color(255, 176, 0);
