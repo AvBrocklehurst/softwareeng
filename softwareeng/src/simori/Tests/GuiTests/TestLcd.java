@@ -2,20 +2,12 @@ package simori.Tests.GuiTests;
 
 import static org.junit.Assert.*;
 
-import java.awt.Dimension;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import simori.Exceptions.KeyboardException;
 import simori.SwingGui.Lcd;
-import simori.SwingGui.SimoriEdgeBar;
-import simori.Tests.GuiTests.MockSimoriJFrame.MockLed;
-import simori.Tests.GuiTests.MockSimoriJFrame.MockSimoriEdgeBar;
 /**
  * 
  * @author Josh
@@ -80,6 +72,5 @@ public class TestLcd {
 		lcd.setVisible(true);
 		assertEquals("", text);
 	}
-	
 
 }

@@ -13,6 +13,7 @@ import simori.SwingGui.Lcd;
 import simori.SwingGui.OnPressListenerMaker;
 import simori.SwingGui.SimoriEdgeBar;
 import simori.SwingGui.SimoriJFrame;
+import simori.Tests.GuiTests.MockSimoriJFrame.MockSimoriEdgeBar;
 
 /**
  * 
@@ -22,34 +23,52 @@ import simori.SwingGui.SimoriJFrame;
  * Class that tests the SimoriEdgeBar
  */
 public class TestSimoriEdgeBar {
-	QwertyKeyboard keyBoard;
-	SimoriJFrame gui;
-	OnPressListenerMaker maker;
+	MockSimoriJFrame gui;
+	MockSimoriEdgeBar edgeBarBottom;
+	MockSimoriEdgeBar edgeBarLeft;
 
 	@Before
 	public void setUp() throws Exception {
-		keyBoard = new QwertyKeyboard((byte)16, (byte)16);
-		gui = new SimoriJFrame(keyBoard);
-		maker = new OnPressListenerMaker(gui);
+		gui = new MockSimoriJFrame();
+		edgeBarBottom = gui.getBottomBar();
+		edgeBarLeft = gui.getLeftBar();
 	}
 
 	@After
 	public void tearDown() throws Exception {
-		keyBoard = null;
 		gui = null;
-		maker = null;
+		edgeBarBottom = null;
+		edgeBarLeft = null;
 	}
 
 	@Test
+	public void testConstructor() throws KeyboardException, InterruptedException {
+		SimoriEdgeBar bar = new SimoriEdgeBar(true, true, null, null, null); // since constructor hides most things away it means there is very little to test!
+		assertNotNull(bar);
+	}
+	
+	@Test
 	public void testWithLcd() throws KeyboardException, InterruptedException {
-		SimoriEdgeBar test = new SimoriEdgeBar(true, true, maker, FunctionButton.L1, FunctionButton.L2, FunctionButton.L3, FunctionButton.L4);
-		assertNotNull(test.getLcd());
+		Lcd lcd = edgeBarBottom.getLcd();
+		assertNotNull(lcd);
 	}
 	
 	@Test
 	public void testWithoutLcd() throws KeyboardException, InterruptedException {
-		SimoriEdgeBar test = new SimoriEdgeBar(true, false, maker, FunctionButton.L1, FunctionButton.L2, FunctionButton.L3, FunctionButton.L4);
-		assertNull(test.getLcd());
+		Lcd lcd = edgeBarLeft.getLcd();
+		assertNull(lcd);
 	}
+	
+	@Test
+	public void testCorrectNumberOfComponentsLeft(){
+		assertEquals(11, edgeBarLeft.getComponentCount()); // how many components (buttons, glue, etc) should be in a left bar
+	}
+	
+	@Test
+	public void testCorrectNumberOfComponentsBottom(){
+		assertEquals(7, edgeBarBottom.getComponentCount()); // how many components (buttons, glue, etc) should be in a left bar
+	}
+	
+	
 
 }
