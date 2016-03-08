@@ -3,7 +3,6 @@ package simori.Tests.GuiTests;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.awt.Dimension;
 import java.awt.Font;
@@ -46,11 +45,36 @@ public class TestGuiProperties {
 	}
 
 	@Test
-	public void testSizeFontTo() {
-		Graphics g = new JFrame().getGraphics();
-		g.setFont(new Font(Font.SERIF, Font.PLAIN, 2));
-		GuiProperties.sizeFontTo("whatever", 100, 100, g);
-		System.out.println();
-		fail("Not yet implemented");
+	public void testSizeFontString() {
+		final int dimension = 200;
+		final String text = "short";
+		JFrame frame = new JFrame("Testing!");
+		frame.setVisible(true);
+		Graphics g = frame.getGraphics();
+		g.setFont(new Font(Font.SERIF, Font.PLAIN, 1));
+		GuiProperties.sizeFontTo(text, dimension, dimension, g);
+		int sizeShorter = g.getFont().getSize();
+		g.setFont(new Font(Font.SERIF, Font.PLAIN, 1));
+		GuiProperties.sizeFontTo(text + text + text, dimension, dimension, g);
+		int sizeLonger = g.getFont().getSize();
+		frame.setVisible(false);
+		assertTrue(sizeShorter > sizeLonger);
+	}
+	
+	@Test
+	public void testSizeFontSpace() {
+		final int dimension = 200;
+		final String text = "short";
+		JFrame frame = new JFrame("Testing!");
+		frame.setVisible(true);
+		Graphics g = frame.getGraphics();
+		g.setFont(new Font(Font.SERIF, Font.PLAIN, 1));
+		GuiProperties.sizeFontTo(text, dimension, dimension, g);
+		int sizeMoreSpace = g.getFont().getSize();
+		g.setFont(new Font(Font.SERIF, Font.PLAIN, 1));
+		GuiProperties.sizeFontTo(text, dimension / 2, dimension / 2, g);
+		int sizeLessSpace = g.getFont().getSize();
+		frame.setVisible(false);
+		assertTrue(sizeMoreSpace > sizeLessSpace);
 	}
 }

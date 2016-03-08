@@ -39,8 +39,7 @@ import simori.Tests.GuiTests.TestSimoriEdgeBar;
    TestLedPanel.class,
    TestOnPressListenerMaker.class,
    TestPressableCircle.class,
-   TestSimoriEdgeBar.class
-   TestSaveAndLoad.class,
+   TestSimoriEdgeBar.class,
    TestSimoriGui.class  
 })
 
