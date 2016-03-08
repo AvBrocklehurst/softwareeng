@@ -127,7 +127,7 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 	@Override
 	public void setInitialGrid() {
 		short instr = getModel().getInstrument(getDisplayLayer());  //initial instrument
-		getGui().setText(InstrumentNamer.getInstance().getName(instr));
+		getGui().setText(InstrumentNamer.getInstance().getName(instr));System.out.println("Initial grid:"+getModel().getCurrentColumn());
 		try {
 			tickerLight((byte) (getModel().getCurrentColumn()));
 		} catch (InvalidCoordinatesException e) {}

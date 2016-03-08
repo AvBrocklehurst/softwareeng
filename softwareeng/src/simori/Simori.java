@@ -65,7 +65,7 @@ public class Simori {
 		NoteProcessor clock = new NoteProcessor(modes, model, player);
 		NetworkSlave slave = new NetworkSlave(PORT, model);
 		model.addObserver(clock);
-		modes.setComponentsToPowerToggle(model, player, clock, slave, gui);
+		modes.setComponentsToPowerToggle(model, player, slave, gui, clock);
 		modes.setOn(false);
 		gui.setVisible(true);
 	}
