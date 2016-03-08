@@ -85,6 +85,7 @@ public class QwertyKeyboard implements KeyboardMapping {
 		 */
 		String string = ROWS[ROWS.length - row - 1];
 		if (string == null) return null; // This was an intentionally empty row
+		string = string.replace("Â£", "£"); // Linux encodes £ differently
 		Character[] array = new Character[string.length()];
 		for (int i = 0; i < array.length; i++) array[i] = string.charAt(i);
 		return array;
