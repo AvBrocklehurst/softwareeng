@@ -41,9 +41,13 @@ public class NetworkMaster implements Runnable{
 	 * @param model  The model to export.
 	 * @throws IOException 
 	 */
-	public NetworkMaster(int port, MatrixModel model, NetworkSlave slave) throws IOException{
+	public NetworkMaster(int port, MatrixModel model) throws IOException{
 		this.port = port;
 		this.model = model;
+	}
+	
+	/** HORRIBLE TODO REMOVE */
+	public void setSlave(NetworkSlave slave){
 		this.slave = slave;
 	}
 	
