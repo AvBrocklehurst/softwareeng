@@ -14,6 +14,7 @@ import simori.SwingGui.Lcd;
 import simori.SwingGui.OnPressListenerMaker;
 import simori.SwingGui.SimoriEdgeBar;
 import simori.SwingGui.SimoriJFrame;
+import simori.SwingGui.SimoriPanel;
 import simori.Tests.GuiTests.MockSimoriJFrame.MockSimoriEdgeBar;
 
 /**
@@ -44,7 +45,8 @@ public class TestSimoriEdgeBar {
 
 	@Test
 	public void testConstructor() throws KeyboardException, InterruptedException {
-		SimoriEdgeBar bar = new SimoriEdgeBar(true, true, null, null, null); // since constructor hides most things away it means there is very little to test!
+		OnPressListenerMaker maker = new OnPressListenerMaker(gui);
+		SimoriEdgeBar bar = new SimoriEdgeBar(true, true, maker, FunctionButton.L1, FunctionButton.L2, FunctionButton.L3, FunctionButton.L4); // since constructor hides most things away it means there is very little to test!
 		assertNotNull(bar);
 	}
 	
