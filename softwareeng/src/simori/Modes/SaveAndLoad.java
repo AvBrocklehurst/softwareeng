@@ -35,7 +35,7 @@ public class SaveAndLoad {
 	 * @param filename  The file to save it to.
 	 */
 	public static void save(MatrixModel model, String filename){
-		try {;
+		try {
 			File file = getLocationFor(filename);
 	        FileOutputStream fos = new FileOutputStream(file);
 
