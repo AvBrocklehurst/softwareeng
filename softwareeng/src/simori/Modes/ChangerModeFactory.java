@@ -86,7 +86,15 @@ public class ChangerModeFactory {
 				controller.setDisplayLayer(selectedLayer);
 				return true; //set current layer
 			}
-
+			
+			/**
+			 * Displays the current setting on entering the different mode.
+			 * 
+			 * @author James
+			 * @return Setting
+			 * @version 1.1.0
+			 * @see Setting, ModeController.getDisplayLayer()
+			 */
 			@Override
 			public Setting getCurrentSetting() {
 				return new Setting(null, controller.getDisplayLayer());
@@ -175,7 +183,15 @@ public class ChangerModeFactory {
 				controller.getModel().setInstrument(controller.getDisplayLayer(), instrumentNumber); 
 				return true;
 			}
-
+			
+			/**
+			 * Displays the current setting on entering the different mode.
+			 * 
+			 * @author James
+			 * @return Setting
+			 * @version 1.1.0
+			 * @see Setting, ModeController.getDisplayLayer(), ModeController.getModel(), MatrixModel.getInstrument(), convertBack()
+			 */
 			@Override
 			public Setting getCurrentSetting() {
 				short instrumentNumber = controller.getModel().getInstrument(controller.getDisplayLayer()); //get instrument as this method is called before others
@@ -237,7 +253,15 @@ public class ChangerModeFactory {
 				controller.getModel().setVelocity(controller.getDisplayLayer(), selectedVelocity.byteValue()); 
 				return true;
 			}
-
+			
+			/**
+			 * Displays the current setting on entering the different mode.
+			 * 
+			 * @author James
+			 * @return Setting
+			 * @version 1.1.0
+			 * @see Setting, ModeController.getDisplayLayer(), ModeController.getModel(), MatrixModel.getInstrument(), convertBack()
+			 */
 			@Override
 			public Setting getCurrentSetting() {
 				short selectedVelocity = controller.getModel().getVelocity(controller.getDisplayLayer());
