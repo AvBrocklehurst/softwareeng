@@ -47,6 +47,7 @@ public class Clock implements Runnable {
 				}
 			}
 		}
+		bpm = -1; //set the bpm to be ready for a restart
 	}
 
 	/**
@@ -107,7 +108,7 @@ public class Clock implements Runnable {
 	 * @author Adam
 	 * @author Jurek
 	 * @param newBPM  the bpm to change the clock too.
-	 * @version 1.0.2
+	 * @version 1.0.3
 	 */
 	public void updateBPM(short newBPM){
 		//check if bpm within 0-160 range
@@ -115,6 +116,7 @@ public class Clock implements Runnable {
 			System.out.println("Incorrect BPM:" + newBPM + "; acceptable 0-160");
 			System.exit(1);
 		}
+		//if the clock is only just started, actually start it
 		if(bpm==-1) new Thread(this).start();
 		bpm = newBPM;
 		synchronized(bpmLock){
