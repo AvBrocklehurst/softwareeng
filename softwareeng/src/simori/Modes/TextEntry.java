@@ -6,34 +6,39 @@ import simori.Modes.ChangerMode.Changer;
 import simori.Modes.ChangerMode.Setting;
 
 /**
- * 
+ * Allows {@link ChangerMode} to be used for text entry.
+ * Takes care of displaying a {@link QwertyKeyboard} and
+ * accepting a character at a time until the OK button is
+ * pressed, and calls {@link #useText} with the result.
  * @author Matt
  * @version 1.0.0
  */
 public abstract class TextEntry implements Changer {
 	
+	/** The maximum number of characters which may be entered */
 	private static final int MAX_LENGTH = 20;
 	
 	private ModeController controller;
 	private KeyboardMapping keyboard;
-	private String letters = "";
+	
+	private StringBuilder builder; // For the characters being entered
 	
 	public TextEntry(ModeController controller) {
 		this.controller = controller;
+		builder = new StringBuilder("");
 	}
 	
 	protected abstract boolean useText(String text);
 
 	@Override
 	public String getText(Setting s) {
-		letters = addLetter(keyboard.getLetterOn(s.x, s.y), letters);
-		return letters;
+		addLetter(keyboard.getLetterOn(s.x, s.y));
+		return builder.toString();
 	}
 
 	@Override
 	public boolean doThingTo(ModeController controller) {
-		if (letters == null) return false;
-		if (useText(letters)) {
+		if (useText(builder.toString())) {
 			controller.getGui().setKeyboardShown(false);
 			return true;
 		}
@@ -51,16 +56,15 @@ public abstract class TextEntry implements Changer {
 	 * Appends the given Character to the given String.
 	 * If it is null, the String is not changed.
 	 * If it is a backspace character, a character is removed.
-	 * @author Matt
-	 * @author James
 	 */
-	private static String addLetter(Character letter, String letters) {
-		if (letter == null) return letters;
+	private void addLetter(Character letter) {
+		if (letter == null) return;
 		if (letter == '\b') {
-			if (letters.length() == 0) return letters;
-			return letters.substring(0, letters.length()-1);
+			if (builder.length() == 0) return;
+			builder.deleteCharAt(builder.length() - 1);
 		} else {
-			return letters.length() == MAX_LENGTH ? letters : letters + letter;
+			if (builder.length() == MAX_LENGTH) return;
+			builder.append(letter);
 		}
 	}
 }
