@@ -234,7 +234,7 @@ public class GuiProperties {
 			return null;
 		}
 		if (!icon.exists())
-			System.err.println("Could not loat icon " + ICON_NAME);
+			System.err.println("Could not load icon " + ICON_NAME);
 		return new ImageIcon(icon.getAbsolutePath()).getImage();
 	}
 }
