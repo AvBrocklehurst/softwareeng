@@ -179,8 +179,8 @@ public class ChangerModeFactory {
 			@Override
 			public Setting getCurrentSetting() {
 				short instrumentNumber = controller.getModel().getInstrument(controller.getDisplayLayer()); //get instrument as this method is called before others
-				byte x = convertBack(instrumentNumber).get(0); //access the ArrayList
-				byte y = convertBack(instrumentNumber).get(1);
+				byte x = convertBack(instrumentNumber)[0]; //access the Array
+				byte y = convertBack(instrumentNumber)[1];
 				return new Setting(x, y);
 				
 			}
@@ -241,8 +241,8 @@ public class ChangerModeFactory {
 			@Override
 			public Setting getCurrentSetting() {
 				short selectedVelocity = controller.getModel().getVelocity(controller.getDisplayLayer());
-				byte x = convertBack(selectedVelocity).get(0);
-				byte y = convertBack(selectedVelocity).get(1);
+				byte x = convertBack(selectedVelocity)[0];
+				byte y = convertBack(selectedVelocity)[1];
 				return new Setting(x, y);
 			}
 		};
@@ -330,15 +330,13 @@ public class ChangerModeFactory {
 	 * 
 	 * @author James
 	 * @param s  A short to convert into respective x and y coordinates
-	 * @return ArrayList<Byte>
+	 * @return byte[]
 	 * @version 1.1.0
-	 * @see ArrayList.add
 	 */
-	private static ArrayList<Byte> convertBack(short s){
+	private static byte[] convertBack(short s){
 		
 		byte x = 0;  //coordinates
 		byte y = 0;
-		ArrayList<Byte> output = new ArrayList<>();
 		s--;  //account for margin
 		
 		while(!(s % 16 == 0)){    //subtract while the short is not divisible by 16
@@ -351,9 +349,7 @@ public class ChangerModeFactory {
 			y++;
 		}
 		
-		output.add(x); //put the values into our return ArrayList.
-		output.add(y);
-		return output; 
+		return new byte[]{x,y}; 
 	}
 	
 }
