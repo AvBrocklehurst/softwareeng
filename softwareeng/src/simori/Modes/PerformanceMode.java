@@ -32,6 +32,7 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 	 */
 	public PerformanceMode(ModeController controller){
 		super(controller);
+
 		makeGridCopy((byte) controller.getDisplayLayer());
 	}
 	
@@ -121,13 +122,12 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 	 * Pushes the pattern and clock position for the current layer to the GUI.
 	 * @author Matt
 	 * @author James (end of line comments)
-	 * @author Jurek (the minorest of edits, re: getting the tick to appear on the first column)
 	 * @version 2.0.1
 	 */
 	@Override
 	public void setInitialGrid() {
 		short instr = getModel().getInstrument(getDisplayLayer());  //initial instrument
-		getGui().setText(InstrumentNamer.getInstance().getName(instr));System.out.println("Initial grid:"+getModel().getCurrentColumn());
+		getGui().setText(InstrumentNamer.getInstance().getName(instr));
 		try {
 			tickerLight((byte) (getModel().getCurrentColumn()));
 		} catch (InvalidCoordinatesException e) {}

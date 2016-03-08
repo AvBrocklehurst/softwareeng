@@ -153,6 +153,8 @@ public class ModeController {
 	 * Switches the Simori-ON on by calling
 	 * {@link PowerTogglable#switchOn} on relevant
 	 * components, and entering {@link #PerformanceMode}.
+	 * @author
+	 * @author Jurek
 	 */
 	private void switchOn() {
 		for (PowerTogglable t : toPowerToggle) {
@@ -160,6 +162,7 @@ public class ModeController {
 		}
 		on = true;	
 		setMode(new PerformanceMode(this));
+		model.setBPM((short) 88);
 	}
 	
 	/**

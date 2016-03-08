@@ -61,8 +61,8 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 		 */
 		@Override
 		public void run() {
-			try{Thread.sleep(100);}catch(InterruptedException e){}
-			new Thread(clock).start();
+			
+			//new Thread(clock).start();
 			byte[][] toBePlayed = null;
 			boolean played = false;
 			
@@ -84,14 +84,12 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 					else played = false;
 				//if MIDIPlayer throws an error, print it out and stop the JVM
 				}catch(InvalidMidiDataException e){e.printStackTrace();System.exit(1);}
-				System.out.println("Ticking before:"+model.getCurrentColumn());
+
 				//turn the lights on the current column
 				mode.tickThrough(model.getCurrentColumn());
-				System.out.println("Ticking between:"+model.getCurrentColumn());
 
 				//advance to the next column
 				model.incrementColumn();
-				System.out.println("Ticking after:"+model.getCurrentColumn());
 			}
 		}
 		
@@ -141,6 +139,7 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 		 * @author Jurek
 		 * @version 1.1.3
 		 * @return 2D byte Array containing the notes to be played and layer information.
+		 * @throws IllegalArgumentException
 		 */
 		private byte[][] getNotes() throws IllegalArgumentException{
 			List<Byte> activeLayers = model.getLayers();
@@ -165,7 +164,7 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 					layers[x] = convertLayer(activeLayers.get(x), (byte)(notZero+3), thisLayer);
 				}
 			}
-			//return toBePlayed;
+			
 			/* resize the array to only store layers with notes in this column */
 			return resizeLayers(usedColumns, layers);
 		}
@@ -198,6 +197,7 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 		 * @param len          the length of the layer
 		 * @param thisLayer    the contents of the layer
 		 * @return byte array containing the notes, instrument, channel and pitch.
+		 * @throws IllegalArgumentException
 		 */
 		private byte[] convertLayer(byte layerNumber,byte len, byte[] thisLayer) throws IllegalArgumentException {
 			byte[] layer = setInstrument(layerNumber, len);
@@ -229,8 +229,9 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 		 * @param layerNumber
 		 * @param layerLength
 		 * @return
+		 * @throws IllegalArgumentException
 		 */
-		private byte[] setInstrument(byte layerNumber, byte layerLength) {
+		private byte[] setInstrument(byte layerNumber, byte layerLength) throws IllegalArgumentException {
 			short instrument = model.getInstrument(layerNumber);
 			if(instrument<0||instrument>175) 
 				throw new IllegalArgumentException("Incorrect instrument ID:" + instrument + "; acceptable 0-175");

@@ -12,11 +12,13 @@ import simori.SwingGui.SimoriJFrame;
 
 /**
  * The main Simori class, runs the the whole Simori system.
- * @author Adam
- * @author James
- * @author Josh
- * @author Jurek
- * @author Matt 
+ 
+ * @author Adam 
+ * @author James 
+ * @author Josh 
+ * @author Jurek 
+ * @author Matt  
+ * 
  * @version 2.1.0
  */
 public class Simori {

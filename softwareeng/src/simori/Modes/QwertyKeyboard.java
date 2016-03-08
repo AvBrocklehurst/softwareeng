@@ -10,7 +10,7 @@ public class QwertyKeyboard implements KeyboardMapping {
 		{"1234567890", null,
 		 "QWERTYUIOP", "ASDFGHJKL\b", "ZXCVBNM_", null,
 		 "qwertyuiop", "asdfghjkl\b", "zxcvbnm ", null,
-		 "-+=!£$%^()", "{}[];@#~.,"};
+		 "-+=!Â£$%^()", "{}[];@#~.,"};
 	
 	private Character[][] keys;
 	private byte rows, columns;
