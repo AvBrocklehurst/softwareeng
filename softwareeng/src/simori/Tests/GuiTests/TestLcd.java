@@ -11,7 +11,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import simori.Exceptions.KeyboardException;
 import simori.SwingGui.Lcd;
+import simori.Tests.GuiTests.MockSimoriJFrame.MockLed;
+import simori.Tests.GuiTests.MockSimoriJFrame.MockSimoriEdgeBar;
 /**
  * 
  * @author Josh
@@ -37,7 +40,13 @@ public class TestLcd {
 	}
 	
 	@Test
-	public void testSetShorterSide() throws InterruptedException{
+	public void testSetShorterSide() throws InterruptedException, KeyboardException{
+		MockSimoriEdgeBar gui = new MockSimoriEdgeBar(false,true);
+		gui.setVisible(true);
+		Thread.sleep(5000);
+		
+		
+		/*
 		JFrame gui = new JFrame();
 		gui.setTitle("It has a title");
 		JPanel panel = new JPanel();
@@ -52,6 +61,8 @@ public class TestLcd {
 		Thread.sleep(5000);
 		lcd.setShorterSize(100f);
 		//System.out.println(lcd.getHeight());
+		 * 
+		 */
 	}
 	
 	
