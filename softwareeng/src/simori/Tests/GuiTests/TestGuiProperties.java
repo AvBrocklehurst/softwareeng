@@ -77,4 +77,14 @@ public class TestGuiProperties {
 		frame.setVisible(false);
 		assertTrue(sizeMoreSpace > sizeLessSpace);
 	}
+	
+	@Test
+	public void testFontNoResFolder() {
+		String workingDir = System.getProperty("user.dir");
+		System.setProperty("user.dir", System.getProperty("user.home"));
+		Font font = GuiProperties.getFont();
+		System.setProperty("user.dir", workingDir);
+		Font backup = new Font(Font.SERIF, Font.PLAIN, 1);
+		assertEquals(backup.getName(), font.getName());
+	}
 }
