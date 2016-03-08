@@ -29,6 +29,9 @@ public class Clock implements Runnable {
 		this.bpm = -1;
 	}
 	
+	/**
+	 * @author Jurek
+	 */
 	@Override
 	public void run() {//while running...
 		while(running){
