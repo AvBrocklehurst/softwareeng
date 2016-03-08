@@ -32,6 +32,7 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 	 */
 	public PerformanceMode(ModeController controller){
 		super(controller);
+
 		makeGridCopy((byte) controller.getDisplayLayer());
 	}
 	

@@ -12,13 +12,12 @@ import simori.SwingGui.SimoriJFrame;
 
 /**
  * The main Simori class, runs the the whole Simori system.
- * BLAME KERRY]
- * (author name : weighting )
- * @author Adam 100
- * @author James 100
- * @author Josh 100
- * @author Jurek <- The one at fault for everything. 1
- * @author Matt  100
+ 
+ * @author Adam 
+ * @author James 
+ * @author Josh 
+ * @author Jurek 
+ * @author Matt  
  * 
  * @version 2.1.0
  */
