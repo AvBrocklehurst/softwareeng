@@ -1,6 +1,6 @@
 package simori.Modes;
 
-import java.net.UnknownHostException;
+import java.util.ArrayList;
 
 import simori.FunctionButton;
 import simori.InstrumentNamer;
@@ -14,8 +14,7 @@ import simori.Modes.ChangerMode.Setting;
  * send data to the lcd are also included.
  * 
  *@author James
- *
- *@version 1.0.0
+ *@version 1.3.0
  */
 
 public class ChangerModeFactory {
@@ -179,8 +178,11 @@ public class ChangerModeFactory {
 
 			@Override
 			public Setting getCurrentSetting() {
-				//return new Setting(convertBack(instrumentNumber)[0], convertBack(instrumentNumber)[1]);
-				return null;
+				short instrumentNumber = controller.getModel().getInstrument(controller.getDisplayLayer()); //get instrument as this method is called before others
+				byte x = convertBack(instrumentNumber).get(0); //access the ArrayList
+				byte y = convertBack(instrumentNumber).get(1);
+				return new Setting(x, y);
+				
 			}
 		};
 	}
@@ -238,8 +240,10 @@ public class ChangerModeFactory {
 
 			@Override
 			public Setting getCurrentSetting() {
-				//return new Setting(convertBack(selectedVelocity)[0], convertBack(selectedVelocity)[1]);
-				return null;
+				short selectedVelocity = controller.getModel().getVelocity(controller.getDisplayLayer());
+				byte x = convertBack(selectedVelocity).get(0);
+				byte y = convertBack(selectedVelocity).get(1);
+				return new Setting(x, y);
 			}
 		};
 	}
@@ -318,28 +322,38 @@ public class ChangerModeFactory {
 		return counter;
 	}
 	
-	private static byte[] convertBack(short s){
+	/**
+	 * A method to convert a short value (typically an instrument or velocity)
+	 * into a respective pair of x and y coordinates of a grid press.
+	 * This is required for the getCurrentSetting() method in the Changer
+	 * implementations.
+	 * 
+	 * @author James
+	 * @param s  A short to convert into respective x and y coordinates
+	 * @return ArrayList<Byte>
+	 * @version 1.1.0
+	 * @see ArrayList.add
+	 */
+	private static ArrayList<Byte> convertBack(short s){
 		
-		byte x = 0;
+		byte x = 0;  //coordinates
 		byte y = 0;
-		byte[] arr = {x, y};
+		ArrayList<Byte> output = new ArrayList<>();
+		s--;  //account for margin
 		
-		s--;
-		
-		while(s != 0){
-			if(s < 16){
-				break;
-			}
-			
-			s = (short) (s - 16);
-			y++;
-		}
-		
-		while(s != 0){
+		while(!(s % 16 == 0)){    //subtract while the short is not divisible by 16
 			s = (short) (s - 1);
 			x++;
 		}
 		
-		return arr;
+		while(s != 0){       //subtract to 0
+			s = (short) (s - 16);
+			y++;
+		}
+		
+		output.add(x); //put the values into our return ArrayList.
+		output.add(y);
+		return output; 
 	}
+	
 }
