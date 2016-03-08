@@ -1,11 +1,15 @@
 package simori.Modes;
 
 import simori.ModeController;
-import simori.SimoriGui;
+import simori.SimoriGui.KeyboardMapping;
 import simori.Modes.ChangerMode.Changer;
 import simori.Modes.ChangerMode.Setting;
-import simori.SimoriGui.KeyboardMapping;
 
+/**
+ * 
+ * @author Matt
+ * @version 1.0.0
+ */
 public abstract class TextEntry implements Changer {
 	
 	private static final int MAX_LENGTH = 20;
@@ -28,7 +32,7 @@ public abstract class TextEntry implements Changer {
 
 	@Override
 	public boolean doThingTo(ModeController controller) {
-		if (letters == null || letters.length() == 0) return false;
+		if (letters == null) return false;
 		if (useText(letters)) {
 			controller.getGui().setKeyboardShown(false);
 			return true;
