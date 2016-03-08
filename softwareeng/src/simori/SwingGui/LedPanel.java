@@ -17,8 +17,8 @@ import simori.SwingGui.OnPressListenerMaker.OnPressListener;
  */
 public class LedPanel extends JPanel implements OnPressListener {
 	
-	private Led[][] leds;
-	private PressableCircle lastPressed;
+	protected Led[][] leds;
+	protected PressableCircle lastPressed;
 	
 	/**
 	 * Creates a panel of {@link #Led}s, in a grid
@@ -68,13 +68,17 @@ public class LedPanel extends JPanel implements OnPressListener {
 		   top left corner but should be numbered from the bottom left */
 		for (int y = rows-1; y >= 0; y--) {
 			for (int x = 0; x < columns; x++) {
-				Led led = new Led();
+				Led led = makeLed();
 				add(led);
 				led.addOnPressListener(maker.getListener(x, y));
 				led.addOnPressListener(this);
 				leds[x][y] = led;
 			}
 		}
+	}
+	
+	protected Led makeLed() {
+		return new Led();
 	}
 
 	/** {@inheritDoc} */

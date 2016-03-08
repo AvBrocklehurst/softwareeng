@@ -7,25 +7,34 @@ import java.awt.GridLayout;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
+import simori.Simori.PowerTogglable;
 import simori.SimoriGui.KeyboardMapping;
 
-public class GridPanel extends JPanel {
+public class GridPanel extends JPanel implements PowerTogglable {
 	
 	private static final String LEDS = "LedPanel";
+	private static final String GREYED = "Greyed";
 	private static final String KEYBOARD = "Keyboard";
 	
 	private CardLayout layout;
-	private LedPanel ledPanel;
+	protected LedPanel ledPanel;
 	private JPanel keyboard;
+	private JPanel greyed;
 	
 	public GridPanel(KeyboardMapping map, OnPressListenerMaker maker) {
-		makeKeyboard(map, maker);
-		ledPanel = new LedPanel(map.getRows(), map.getColumns(), maker);
+		ledPanel = makeLedPanel(map, maker);
+		keyboard = makeKeyboard(map, maker);
+		greyed = makeKeyboard(getGreyMap(map), maker);
 		layout = new CardLayout(0, 0);
 		setLayout(layout);
 		add(keyboard, KEYBOARD);
+		add(greyed, GREYED);
 		add(ledPanel, LEDS);
 		setKeyboardShown(false);
+	}
+	
+	protected LedPanel makeLedPanel(KeyboardMapping map, OnPressListenerMaker maker) {
+		return new LedPanel(map.getRows(), map.getColumns(), maker);
 	}
 	
 	public void setKeyboardShown(boolean shown) {
@@ -36,11 +45,23 @@ public class GridPanel extends JPanel {
 		ledPanel.setGrid(grid);
 	}
 	
-	private void makeKeyboard(KeyboardMapping map,
+	/** {@inheritDoc} */
+	@Override
+	public void switchOn() {
+		layout.show(this, LEDS);
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public void switchOff() {
+		layout.show(this, GREYED);
+	}
+	
+	private JPanel makeKeyboard(KeyboardMapping map,
 			OnPressListenerMaker maker) {
 		int rows = map.getRows();
 		int columns = map.getColumns();
-		keyboard = new JPanel(new GridLayout(rows, columns, 0, 0));
+		JPanel keyboard = new JPanel(new GridLayout(rows, columns, 0, 0));
 		keyboard.setBackground(GuiProperties.LED_PANEL_BACKGROUND);
 		Color border = GuiProperties.LED_PANEL_BORDER;
 		keyboard.setBorder(BorderFactory.createLineBorder(border));
@@ -60,5 +81,23 @@ public class GridPanel extends JPanel {
 				btn.setText(text);
 			}
 		}
+		return keyboard;
+	}
+	
+	private KeyboardMapping getGreyMap(final KeyboardMapping map) {
+		return new KeyboardMapping() {
+			@Override
+			public byte getRows() {
+				return map.getRows();
+			}
+			@Override
+			public byte getColumns() {
+				return map.getColumns();
+			}
+			@Override
+			public Character getLetterOn(byte x, byte y) {
+				return null;
+			}
+		};
 	}
 }

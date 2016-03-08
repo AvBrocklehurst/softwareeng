@@ -1,10 +1,14 @@
+<<<<<<< HEAD
 /**
  * 
  */
+=======
+>>>>>>> 7a3ef3cb2a09c4ec16c8758fa30e6a852bb5dcfe
 package simori.Tests;
 
 import static org.junit.Assert.*;
 
+<<<<<<< HEAD
 import java.net.UnknownHostException;
 
 import org.junit.After;
@@ -18,46 +22,33 @@ import simori.Exceptions.InvalidPortException;
 import simori.Modes.NetworkMaster;
 
 /**
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import simori.MatrixModel;
+import simori.Modes.NetworkMaster;
+
+
+/**
+ * 
  * @author Adam
  *
  */
 public class TestNetworkMaster {
 	private NetworkMaster nw;
 
-	
-	/**
-	 * @throws UnknownHostException 
-	 * @throws InvalidPortException 
-	 */
+	NetworkMaster nw; 
+
 	@Before
-	public void setUp() throws UnknownHostException, InvalidPortException {
+	public void setUp() throws Exception {
 		nw = new NetworkMaster(20160, new MatrixModel(16,16));
 	}
 
-	/**
-	 */
-	@After  
-	public void tearDown() {
+	@After
+	public void tearDown() throws Exception {
 		nw = null;
-	}
-
-	/**
-	 * Test method for {@link simori.Modes.NetworkMaster#NetworkMaster(int, simori.MatrixModel)}.
-	 * @throws InvalidPortException 
-	 * @throws UnknownHostException 
-	 */
-	@Test (expected=InvalidPortException.class )
-	public final void testNetworkMaster() throws UnknownHostException, InvalidPortException {
-		nw = new NetworkMaster(-3, new MatrixModel(16,16));
-	}
-
-	/**
-	 * Test method for {@link simori.Modes.NetworkMaster#findSlave()}.
-	 */
-	@Test (timeout=40000, expected=TestTimedOutException.class)
-	public final void testFindSlave() {
-		nw.findSlave();
-		
 	}
 
 }

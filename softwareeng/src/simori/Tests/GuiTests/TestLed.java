@@ -1,6 +1,8 @@
 package simori.Tests.GuiTests;
 
 import static org.junit.Assert.assertEquals;
+import static simori.SwingGui.GuiProperties.LED_COLOUR_OFF;
+import static simori.SwingGui.GuiProperties.LED_COLOUR_ON;
 
 import java.awt.event.MouseEvent;
 
@@ -10,10 +12,7 @@ import org.junit.Test;
 
 import simori.SwingGui.GuiProperties;
 import simori.SwingGui.Led;
-import static simori.SwingGui.GuiProperties.LED_COLOUR_OFF;
-import static simori.SwingGui.GuiProperties.LED_COLOUR_OFF_IN;
-import static simori.SwingGui.GuiProperties.LED_COLOUR_ON;
-import static simori.SwingGui.GuiProperties.LED_COLOUR_ON_IN;
+import simori.Tests.GuiTests.MockSimoriJFrame.MockLed;
 
 /**
  * The class that tests Led.java. 

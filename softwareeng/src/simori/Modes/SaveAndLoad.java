@@ -8,19 +8,24 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 import simori.MatrixModel;
+import simori.ModeController;
+import simori.Modes.ChangerMode.Changer;
 
 
 /**
  * Class for the saving and loading of the model.
  * @version 1.0.0
  * @author Adam
- *
+ * @author Matt
+ * @author James
  */
 public class SaveAndLoad {
 	
 	private static final String HOME = System.getProperty("user.home");
 	private static final String DOCUMENTS = "Documents";
 	private static final String SAVES = "Simori-ON Songs";
+	private static final String SONG_EXTENSION = ".song";   //song file
+	private static final String SONG_NOT_FOUND = "Couldn't find song!";
 	
 	/**
 	 * Static method to save the contents of the model to a given file.
@@ -83,5 +88,59 @@ public class SaveAndLoad {
 		saves = new File(documents.exists() ? documents : home, SAVES);
 		if (!saves.exists()) saves.mkdir(); //Create folder for Simori-ON songs
 		return new File(saves, fileName);
+	}
+	
+	/**
+	 * This implementation of the Changer interface allows a user to input
+	 * unix and windows compatible symbols and letters in order to produce
+	 * a filename to save the current simori configuration to.
+	 * 
+	 * @author James
+	 * @version 1.0.0
+	 * @see Changer.getText(), Changer.doThingTo(), Changer.getCurrentSetting(), coordsConverter(), 
+	 * SaveAndLoad.save(), ModeController.getModel(), java.lang.String.substring()
+	 * @return Changer
+	 */
+	protected static Changer saveConfig(final ModeController controller){
+		return new TextEntry(controller) {
+			@Override
+			protected boolean useText(String text) {
+				if (text.length() == 0) return true;
+				text += SONG_EXTENSION;   //add the .song extension
+				SaveAndLoad.save(controller.getModel(), text);
+				return true;
+			}
+		};
+	}
+	
+	/**
+	 * This implementation of the Changer interface allows a user to input
+	 * unix and windows compatible symbols and letters in order to produce
+	 * a filename to load a simori configuration from.
+	 * 
+	 * @author James
+	 * @version 1.0.0
+	 * @see Changer.getText(), Changer.doThingTo(), Changer.getCurrentSetting(), coordsConverter(), 
+	 * SaveAndLoad.save(), ModeController.getModel(), java.lang.String.substring()
+	 * @return Changer
+	 */
+	protected static Changer loadConfig(final ModeController controller){
+		return new TextEntry(controller) {
+			@Override
+			protected boolean useText(String text) {
+				if (text.length() == 0) return true;
+				text += SONG_EXTENSION;
+				if (SaveAndLoad.load(controller.getModel(), text)) {
+					return true;
+				} else {
+					if (controller.getGui().getText().equals(SONG_NOT_FOUND)) {
+						return true;
+					} else {
+						controller.getGui().setText(SONG_NOT_FOUND);
+						return false;
+					}
+				}
+			}
+		};
 	}
 }

@@ -2,15 +2,16 @@ package simori;
 
 import java.util.EventObject;
 
+import simori.Simori.PowerTogglable;
 import simori.Exceptions.InvalidCoordinatesException;
 
 /**
  * Interface setting out the constraints that any implementation
  * of a graphical user interface for the Simori-ON must comply to.
  * @author Matt
- * @version 2.1.5
+ * @version 2.5.0
  */
-public interface SimoriGui {
+public interface SimoriGui extends PowerTogglable {
 	
 	/**
 	 * Sets the pattern of illuminated LEDs in the grid.
