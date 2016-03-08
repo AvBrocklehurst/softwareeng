@@ -36,7 +36,7 @@ public class NetworkMaster implements Runnable{
 	
 	/**
 	 * Constructor for the Network Master Class.
-	 * @author adam
+	 * @author Adam
 	 * @param port   The port to search on.
 	 * @param model  The model to export.
 	 * @throws IOException 
@@ -125,7 +125,7 @@ public class NetworkMaster implements Runnable{
 		try {
 			/* Check if local address is on the 192.168.0 range */
 			s = new Socket();
-			s.connect(new InetSocketAddress("192.167.0.1", 80), 500);
+			s.connect(new InetSocketAddress("192.168.0.1", 80), 500);
 			betterIP = s.getLocalAddress().getHostAddress();
 			s.close();
 		} catch (IOException e) {
