@@ -25,5 +25,7 @@ import simori.Tests.GuiTests.TestSimoriEdgeBar;
 	TestOnPressListenerMaker.class,
 	TestPressableCircle.class,
 	TestSimoriEdgeBar.class,
+	TestSimoriJFrame.class,
+	TestSimoriPanel.class
 })
 public class GuiTestSuite {}
