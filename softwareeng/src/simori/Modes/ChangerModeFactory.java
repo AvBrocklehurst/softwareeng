@@ -1,7 +1,5 @@
 package simori.Modes;
 
-import java.util.ArrayList;
-
 import simori.FunctionButton;
 import simori.InstrumentNamer;
 import simori.ModeController;

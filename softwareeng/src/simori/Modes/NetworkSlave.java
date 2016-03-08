@@ -5,8 +5,9 @@ import java.io.ObjectInputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import simori.InstrumentNamer;
 import simori.MatrixModel;
-import simori.Simori;
+import simori.ModeController;
 import simori.Simori.PowerTogglable;
 
 /**
@@ -22,18 +23,18 @@ import simori.Simori.PowerTogglable;
 public class NetworkSlave implements Runnable, PowerTogglable{
 	 private int port; //The port to listen on.
 	 private ServerSocket serverSocket;
-	 private MatrixModel model;
+	 private ModeController controller;
 	 
 	 
 	 /**
 	  * Constuctor for the NewworkSlave class.
 	  * @author Adam
 	  * @param port   The port to listen on.
-	  * @param model  Reference to the model to change.
+	  * @param controller  ModeController with reference to GUI and model
 	  */
-	 public NetworkSlave(int port, MatrixModel model){
+	 public NetworkSlave(int port, ModeController controller){
 		 this.port = port;
-		 this.model = model;
+		 this.controller = controller;
 	 }
 
 	@Override
@@ -51,7 +52,7 @@ public class NetworkSlave implements Runnable, PowerTogglable{
 				System.out.println("Socket Going");
 				Socket s = serverSocket.accept(); //accept connection and spawn new socket.
 				System.out.println("Socket Accepted");
-				Thread t = new Thread( new NetworkObjectReader(s, model) );
+				Thread t = new Thread( new NetworkObjectReader(s, controller) );
 				t.start();
 			}
 			serverSocket.close();
@@ -86,7 +87,7 @@ public class NetworkSlave implements Runnable, PowerTogglable{
 	 */
 	public class NetworkObjectReader implements Runnable {
 	  private Socket s;
-	  private MatrixModel model;
+	  private ModeController controller;
 	  
 	  
 	  /**
@@ -95,9 +96,9 @@ public class NetworkSlave implements Runnable, PowerTogglable{
 	   * @param model  The model to override.
 	   * @author Adam
 	   */
-	  public NetworkObjectReader( Socket s, MatrixModel model ) {
+	  public NetworkObjectReader( Socket s, ModeController controller ) {
 	    this.s = s;
-	    this.model = model;
+	    this.controller = controller;
 	  }
 	
 	  /**
@@ -112,23 +113,22 @@ public class NetworkSlave implements Runnable, PowerTogglable{
 		try {
 			in = s.getInputStream();
 			out = new ObjectInputStream(in);
-		
 			try {
-				model.convertModel((MatrixModel) out.readObject());
-				
+				MatrixModel received = (MatrixModel) out.readObject();
+				MatrixModel ours = controller.getModel();
+				ours.convertModel(received);
+				int num = ours.getInstrument(controller.getDisplayLayer());
+				String name = InstrumentNamer.getInstance().getName(num);
+				controller.getGui().setText(name);
 			} catch (ClassNotFoundException e1) {
 				System.err.println("Class sent wasn't a MatrixModel");
 			}
-	
 			out.close();
 			in.close();
 			s.close();
 		} catch (IOException e) {
 			System.err.println("Input / output stream can't be found");
 		}
-		
 	  }
-	
 	}
-	
 }
