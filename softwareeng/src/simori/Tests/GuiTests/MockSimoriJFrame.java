@@ -12,16 +12,17 @@ import static simori.FunctionButton.R3;
 import static simori.FunctionButton.R4;
 
 import java.awt.Color;
+import java.awt.Graphics;
 
 import simori.FunctionButton;
 import simori.Exceptions.KeyboardException;
 import simori.Modes.QwertyKeyboard;
 import simori.SwingGui.Button;
-import simori.SwingGui.SimoriCentrePanel;
 import simori.SwingGui.Led;
 import simori.SwingGui.LedPanel;
 import simori.SwingGui.OnPressListenerMaker;
 import simori.SwingGui.PressableCircle;
+import simori.SwingGui.SimoriCentrePanel;
 import simori.SwingGui.SimoriEdgeBar;
 import simori.SwingGui.SimoriJFrame;
 import simori.SwingGui.SimoriPanel;
@@ -197,5 +198,68 @@ public class MockSimoriJFrame extends SimoriJFrame {
 		public Color getBorderColour(){
 			return super.getBorderColour(); 
 		}
+	}
+	
+	public static class MockButton extends Button{
+		
+		@Override
+		public Color getFillColour(){
+			return super.getFillColour();
+		}
+		
+		public boolean getResized(){
+			return resized;
+		}
+		
+		@Override
+		public void resized(){
+			super.resized();
+		}
+		
+		
+	}
+	
+	/**
+	 * A Mock object for PressableCircle. Required as PressableCircle
+	 * is an abstract class. Provides getters and setters needed in testing.
+	 * 
+	 * @author James
+	 * @version 1.0.0
+	 * @see PressableCircle.java, TestPressableCircle
+	 *
+	 */
+
+	public class MockPressableCircle extends PressableCircle{
+		
+		public MockPressableCircle(){
+			super();
+		}
+		
+		public boolean getPushed(){
+			return pushed;
+		}
+		
+		public void setPushed(){
+			pushed = true;
+		}
+		
+		public boolean getMouseOver(){
+			return mouseOver;
+		}
+		
+		public void setMouseOver(){
+			mouseOver = true;
+		}
+		
+		@Override
+		public Color getFillColour(){
+			return super.getFillColour();
+		}
+		
+		@Override
+		public Color getBorderColour(){
+			return super.getBorderColour(); 
+		}
+
 	}
 }

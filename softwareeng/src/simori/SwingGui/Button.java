@@ -13,7 +13,7 @@ public class Button extends PressableCircle {
 	
 	private String text = "";
 	private int textX, textY; //Where to draw text
-	private boolean resized;  //Whether to re-evaluate text size and position
+	protected boolean resized;  //Whether to re-evaluate text size and position
 	
 	/** {@inheritDoc} */
 	@Override
