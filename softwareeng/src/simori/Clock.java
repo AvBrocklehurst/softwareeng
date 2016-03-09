@@ -114,8 +114,9 @@ public class Clock implements Runnable {
 	public void updateBPM(short newBPM){
 		//check if bpm within 0-160 range
 		if(newBPM<0||newBPM>160) {
-			System.out.println("Incorrect BPM:" + newBPM + "; acceptable 0-160");
-			System.exit(1);
+			throw new IllegalArgumentException("Incorrect BPM:" + newBPM + "; acceptable 0-160");
+			//System.out.println("Incorrect BPM:" + newBPM + "; acceptable 0-160");
+			//System.exit(1);
 		}
 		//if the clock is only just started, actually start it
 		if(bpm==-1) new Thread(this).start();

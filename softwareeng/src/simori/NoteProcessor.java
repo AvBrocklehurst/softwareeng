@@ -75,7 +75,7 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 				//...assuming that the simori has not been turned off
 				if(!running) break;
 				try{toBePlayed = getNotes();}
-				catch(IllegalArgumentException e) {e.printStackTrace();System.exit(1);}
+				catch(IllegalArgumentException e) {/*e.printStackTrace()*/;System.exit(1);}
 				
 				//send a play request to the MIDIPlayer
 				try{
