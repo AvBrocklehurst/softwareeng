@@ -1,4 +1,4 @@
-	package simori.Tests;
+package simori.Tests;
 
 import static org.junit.Assert.*;
 
