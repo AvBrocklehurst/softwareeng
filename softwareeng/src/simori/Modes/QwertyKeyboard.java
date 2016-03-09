@@ -19,9 +19,9 @@ public class QwertyKeyboard implements KeyboardMapping {
 	 */
 	private static final String[] ROWS =
 		{"1234567890", null,
-		 "QWERTYUIOP", "ASDFGHJKL\b", "ZXCVBNM_", null,
+		 "QWERTYUIOP", "ASDFGHJKL\b", "ZXCVBNM ", null,
 		 "qwertyuiop", "asdfghjkl\b", "zxcvbnm ", null,
-		 "-+=!Â£$%^()", "{}[];@#~.,"}; //TODO how does this look on Windows?
+		 "-+=!$%^()_", "{}[];@#~.,"};
 	
 	private Character[][] keys;
 	private byte rows, columns;
@@ -85,7 +85,6 @@ public class QwertyKeyboard implements KeyboardMapping {
 		 */
 		String string = ROWS[ROWS.length - row - 1];
 		if (string == null) return null; // This was an intentionally empty row
-		string = string.replace("Â£", "£"); // Linux encodes £ differently
 		Character[] array = new Character[string.length()];
 		for (int i = 0; i < array.length; i++) array[i] = string.charAt(i);
 		return array;
