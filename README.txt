@@ -20,6 +20,4 @@ All files were tested on the machines in the blue room as specified in the speci
 
 Cheers,
 Team H
-Josh, Adam, Matt, Jurek and James
-
-P.S. Be sure to look in the res folder!
+Adam, James, Josh, Jurek and Matt
