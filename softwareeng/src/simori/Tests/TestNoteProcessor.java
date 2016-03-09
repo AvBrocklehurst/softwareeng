@@ -271,11 +271,16 @@ public class TestNoteProcessor {
 	}
 	
 	/**
+	 * Tests whether the Simori will exit upon the NoteProcessor receiving
+	 * an invalid insturment. Due to the nature of the exiting, which does
+	 * so via printing the error and then System.exit()ing, this test will
+	 * print out the stack trace of the IllegalArgumentException thrown.
+	 * This is expected behaviour.
 	 * @author Jurek
 	 * @throws MidiUnavailableException
 	 * @throws InvalidCoordinatesException
 	 */
-	@Test (expected=IllegalArgumentException.class)
+	@Test
 	public void testRunWrongInstrument() throws MidiUnavailableException, InvalidCoordinatesException {
 		System.out.println("testRunWrongInstrument");
 		setUpThread(modes, model, midi);
