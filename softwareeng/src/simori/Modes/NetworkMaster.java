@@ -78,16 +78,17 @@ public class NetworkMaster implements Runnable {
 	 * @return  boolean, true if an exception ip was found
 	 */
 	private boolean closestRangeIP(String ip){
-		for(int i = 0; i < 256; i++){
-			if(!running){
+		for(int i = 1; i < 256; i++){
+			if(running){
 		        try {
-		        	System.out.println(ip + i);
 		        	/* If it's not my ip */
 		        	checkSocket(ip + i);
 		        	return true;
-		        } catch (IOException e){
+		        } catch (IOException	 e){
 		        	
 		        }
+			} else {
+				break;
 			}
 	    }
 		return false;
@@ -106,11 +107,11 @@ public class NetworkMaster implements Runnable {
 		
 		/* attempt socket connection with 100ms timeout */
         socket.connect(new InetSocketAddress(ip, port), 200);
-        System.out.println(ip);
+       
         OutputStream out = (OutputStream) socket.getOutputStream();
-        System.out.println(ip);
+        
         ObjectOutputStream serializer = new ObjectOutputStream(out);
-        System.out.println(ip);
+       
         /* Serialize and write the model to the output stream */
         serializer.writeObject(controller.getModel());
         serializer.close();
@@ -141,7 +142,7 @@ public class NetworkMaster implements Runnable {
 				betterIP  = Inet4Address.getLocalHost().getHostAddress();
 			}
 		}
-		System.out.println(betterIP);
+		
 		return betterIP;
 	}
 	
@@ -153,24 +154,24 @@ public class NetworkMaster implements Runnable {
 	 * @throws IOException
 	 */
 	private String routeIP() throws IOException {
-		System.out.println("On route");
+		
 		/* choose command based on windows or unix */
 		String trace = (os.contains("win") ? "tracert" : "traceroute");
 		/* execute command */
 		
 		ProcessBuilder pb = new ProcessBuilder(trace, "www.google.com");
 		Process p = pb.start();
-		System.out.println("did exec");
+		
         BufferedReader output = new BufferedReader(new InputStreamReader(p.getInputStream()));
         String content = output.readLine();
         String line;
-        System.out.println("at loop");
+        
         while((line = output.readLine()) != null){
         	content += line; //add each line content
-        	System.out.println(line);
+        	
         }
         
-        System.out.println(content);
+        
         String gateway= ipv4(content);
         return gateway;
     }
@@ -206,9 +207,11 @@ public class NetworkMaster implements Runnable {
 	 */
 	private void iterateOverIPRange(String ip) {
 		for(int j = 0; j < 256; j++){
-			if(!running){
+			if(running){
 				/* itterate through the end section. */
 				closestRangeIP(ip + j + '.'); 
+			} else {
+				break;
 			}
 			
 		} 
