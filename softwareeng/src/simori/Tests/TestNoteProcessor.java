@@ -100,6 +100,7 @@ public class TestNoteProcessor {
 		gui = null;
 		midi = null;
 		modes = null;
+		clock.switchOff();
 		clock = null;
 		e = null;
         System.setSecurityManager(null);
