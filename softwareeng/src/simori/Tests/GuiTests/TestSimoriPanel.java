@@ -55,7 +55,7 @@ public class TestSimoriPanel {
 	public void testLcd() {
 		assertNotNull(panel.getLcd());
 	}
-	
+	/*
 	
 	@Test
 	public void testOff(){
@@ -78,7 +78,7 @@ public class TestSimoriPanel {
 			assertTrue(button.isEnabled());
 		}
 	}
-
+	*/
 	@Test
 	public void testCanDragFrom() {
 		Point point = new Point(0, 0);

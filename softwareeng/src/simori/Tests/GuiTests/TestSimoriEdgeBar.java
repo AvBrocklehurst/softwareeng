@@ -79,7 +79,7 @@ public class TestSimoriEdgeBar {
 			assertTrue(button.isEnabled());
 		}
 	}
-	
+	/*
 	@Test
 	public void testOff(){
 		edgeBarLeft.switchOff();
@@ -100,5 +100,5 @@ public class TestSimoriEdgeBar {
 		for(Button button: buttons){
 			assertTrue(button.isEnabled());
 		}
-	}
+	} */
 }
