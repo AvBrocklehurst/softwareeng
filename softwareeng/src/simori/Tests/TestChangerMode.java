@@ -93,6 +93,8 @@ public class TestChangerMode {
 		testcmode = null;
 		fb = null;
 		fbevent = null;
+		testmaster.stopRunning();
+		testslave.switchOff();
 	}
 	
 	/**onFunctionButtonPress is tested in Mode, and ChangerMode simply calls super to Mode. Therefore there is little
