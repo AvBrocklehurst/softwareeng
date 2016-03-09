@@ -43,7 +43,7 @@ public class TestModeController{
 		testgui = new SimoriJFrame(keyboard);
 		testmodel = new MatrixModel(16, 16);
 		testslave = new NetworkSlave(0, mockcontroller);
-		testmaster = new NetworkMaster(0, testmodel);
+		testmaster = new NetworkMaster(0, mockcontroller, testslave);
 		mockcontroller = new MockModeController(testgui, testmodel, 0, testmaster);
 	}
 	

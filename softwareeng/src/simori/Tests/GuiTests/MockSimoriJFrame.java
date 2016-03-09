@@ -219,6 +219,15 @@ public class MockSimoriJFrame extends SimoriJFrame {
 		}
 	}
 	
+	/**
+	 * A mock button to allow testing of the Button 
+	 * class with getters and setters.
+	 * 
+	 * @author James
+	 * @version 1.0.0
+	 * @see Button
+	 *
+	 */
 	public static class MockButton extends Button{
 		
 		@Override

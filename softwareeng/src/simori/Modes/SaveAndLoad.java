@@ -64,6 +64,7 @@ public class SaveAndLoad {
 	        FileInputStream fos = new FileInputStream(file);
 	        ObjectInputStream oos = new ObjectInputStream(fos);
 	        MatrixModel tempModel = (MatrixModel)oos.readObject();
+	        fos.close();
 	        oos.close();
 	        model.convertModel(tempModel);
 	        return true;
