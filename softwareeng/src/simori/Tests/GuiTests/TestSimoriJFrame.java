@@ -145,7 +145,7 @@ public class TestSimoriJFrame {
 	public void testMouseDragged() {
 		Point p = jframe.getLocation();
 		jframe.mouseDragged(new MouseEvent(jframe, 0, 0, 0, p.x+5, p.y+5, 1, false));
-		assertNotEquals(p, jframe.getLocation());
+		assertEquals(new Point(p.x+5, p.y+5), jframe.getLocation());
 	}
 
 	@Test
