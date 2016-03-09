@@ -5,7 +5,6 @@ import java.io.ObjectInputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import simori.InstrumentNamer;
 import simori.MatrixModel;
 import simori.ModeController;
 import simori.Simori.PowerTogglable;
@@ -118,8 +117,7 @@ public class NetworkSlave implements Runnable, PowerTogglable{
 				MatrixModel ours = controller.getModel();
 				ours.convertModel(received);
 				int num = ours.getInstrument(controller.getDisplayLayer());
-				String name = InstrumentNamer.getInstance().getName(num);
-				controller.getGui().setText(name);
+				controller.showInstrumentName(num);
 			} catch (ClassNotFoundException e1) {
 				System.err.println("Class sent wasn't a MatrixModel");
 			}
