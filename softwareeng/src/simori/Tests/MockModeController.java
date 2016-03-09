@@ -18,7 +18,7 @@ import simori.ModeController;
 public class MockModeController extends ModeController{
 	
 	public MockModeController(SimoriGui gui, MatrixModel model, int port, NetworkMaster master) {
-		super(gui, model, port, master);
+		super(gui, model, port);
 	}
 	
 	public Mode getMode(){

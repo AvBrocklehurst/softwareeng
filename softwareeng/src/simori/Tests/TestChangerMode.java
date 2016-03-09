@@ -20,6 +20,7 @@ import simori.Modes.ChangerMode;
 import simori.Modes.ChangerMode.Changer;
 import simori.Modes.ChangerMode.Setting;
 import simori.Modes.NetworkMaster;
+import simori.Modes.NetworkSlave;
 import simori.Modes.QwertyKeyboard;
 import simori.SwingGui.SimoriJFrame;
 
@@ -41,6 +42,7 @@ public class TestChangerMode {
 	private SimoriJFrame testgui;
 	private MatrixModel testmodel;
 	private NetworkMaster testmaster;
+	private NetworkSlave testslave;
 	private QwertyKeyboard keyboard;
 	private ChangerMode testcmode;
 	private FunctionButtonEvent fbevent;
@@ -72,8 +74,9 @@ public class TestChangerMode {
 		keyboard = new QwertyKeyboard((byte)16,(byte)16);
 		testgui = new SimoriJFrame(keyboard);
 		testmodel = new MatrixModel(16, 16);
-		testmaster = new NetworkMaster(0, testmodel);
-		testcontroller = new ModeController(testgui, testmodel, 0, testmaster);
+		testslave = new NetworkSlave(0, testcontroller);
+		testmaster = new NetworkMaster(0, testcontroller, testslave);
+		testcontroller = new ModeController(testgui, testmodel, 0);
 		testcmode = new ChangerMode(testcontroller, testChanger(), true, true);
 		fb = FunctionButton.OK;
 		fbevent = new FunctionButtonEvent(testgui,fb);
@@ -84,6 +87,7 @@ public class TestChangerMode {
 		keyboard = null;
 		testgui = null;
 		testmodel = null;
+		testslave = null;
 		testmaster = null;
 		testcontroller = null;
 		testcmode = null;

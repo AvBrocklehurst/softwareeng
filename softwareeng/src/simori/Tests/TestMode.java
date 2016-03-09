@@ -106,7 +106,7 @@ public class TestMode{
 		testmodel = new MatrixModel(16, 16);
 		mockcontroller = new MockModeController(testgui, testmodel, 0, testmaster);
 		testslave = new NetworkSlave(0, mockcontroller);
-		testmaster = new NetworkMaster(0, testmodel);
+		testmaster = new NetworkMaster(0, mockcontroller, testslave);
 		testermode = new TesterMode(mockcontroller);
 	}
 	
@@ -120,6 +120,7 @@ public class TestMode{
 		testfb = null;
 		testfb2 = null;
 		testfb3 = null;
+		testslave = null;
 		testmodel = null;
 		mockcontroller = null;
 		testslave = null;
