@@ -28,7 +28,8 @@ import simori.SwingGui.OnPressListenerMaker.OnPressListener;
 public abstract class PressableCircle
 		extends JComponent implements MouseListener {
 	
-	protected boolean pushed, mouseOver;	
+	protected boolean pushed, mouseOver;
+	private boolean greyedOut = true;	
 	private ArrayList<OnPressListener> listeners;
 	private Shape hitbox;
 	
@@ -40,8 +41,19 @@ public abstract class PressableCircle
 				resized();
 			}
 		});
-		setCursor(GuiProperties.HAND_CURSOR);
 		listeners = new ArrayList<OnPressListener>();
+		setGreyedOut(false);
+	}
+	
+	/**
+	 * @param greyed true to disable the button
+	 */
+	public void setGreyedOut(boolean greyed) {
+		if (greyedOut == greyed) return;
+		this.greyedOut = greyed;
+		setCursor(greyed ? GuiProperties.NORMAL_CURSOR :
+								GuiProperties.HAND_CURSOR);
+		repaint();
 	}
 	
 	/**
@@ -75,7 +87,7 @@ public abstract class PressableCircle
 	
 	/** @return Colour to fill the circular area */
 	protected Color getFillColour() {
-		if (!isEnabled()) return GuiProperties.CIRCLE_DISABLED;
+		if (greyedOut) return GuiProperties.CIRCLE_GREYED;
 		return pushed ? GuiProperties.CIRCLE_PRESSED :
 						GuiProperties.CIRCLE_NOT_PRESSED;
 	}
@@ -151,6 +163,7 @@ public abstract class PressableCircle
 	
 	/** Informs the registered {@link OnPressListener}s of a press */
 	protected void pressed() {
+		if (greyedOut) return;
 		for (OnPressListener l : listeners) {
 			l.onPress(this);
 		}

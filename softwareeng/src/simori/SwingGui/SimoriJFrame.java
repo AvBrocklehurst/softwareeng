@@ -38,7 +38,7 @@ import simori.Modes.Mode;
  * @see GuiProperties
  * @see simori.ModeController
  * @author Matt
- * @version 2.3.7
+ * @version 2.3.8
  */
 public class SimoriJFrame extends JFrame implements SimoriGui, MouseMotionListener {
 	
@@ -61,10 +61,9 @@ public class SimoriJFrame extends JFrame implements SimoriGui, MouseMotionListen
 	private Lcd lcd;
 	
 	/**
-	 * Creates a visual representation of a Simori-ON
-	 * with an LED grid of the specified dimensions.
-	 * @param rows Number of LEDs the grid is wide
-	 * @param columns Number of LEDs the grid is tall
+	 * Creates a visual representation of a Simori-ON with an
+	 * LED grid of the dimensions specified in the given mapping.
+	 * @param mapping Layout of the keyboard to display for text entry
 	 */
 	public SimoriJFrame(KeyboardMapping mapping) {
 		this.mapping = mapping;
@@ -175,13 +174,16 @@ public class SimoriJFrame extends JFrame implements SimoriGui, MouseMotionListen
 		sortSizes();
 	}
 	
+	/**
+	 * Constructs the {@link SimoriPanel}
+	 * and keeps reference to its {@link Lcd}.
+	 */
 	protected void addSimoriPanel() {
 		simoriPanel = new SimoriPanel(mapping, new OnPressListenerMaker(this));
 		lcd = simoriPanel.getLcd();
 		add(simoriPanel);
 	}
 	
-	//TODO rewrite and recomment, and change top javadoc to reflect
 	/**
 	 * Sizes the various components of the Simori-ON GUI appropriately.
 	 * The {@link JFrame} size is locked at a constant proportion of the
