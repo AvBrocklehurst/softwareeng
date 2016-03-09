@@ -1,4 +1,4 @@
-1package simori;
+package simori;
 
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiSystem;
