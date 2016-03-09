@@ -1,9 +1,12 @@
 package simori;
 
+import java.io.IOException;
+
 import simori.Simori.PowerTogglable;
 import simori.Exceptions.InvalidCoordinatesException;
 import simori.Modes.Mode;
 import simori.Modes.NetworkMaster;
+import simori.Modes.NetworkSlave;
 import simori.Modes.OffMode;
 import simori.Modes.PerformanceMode;
 
@@ -24,11 +27,14 @@ import simori.Modes.PerformanceMode;
  */
 public class ModeController {
 	
+	private static final short DEFAULT_BPM = 88;
+	
 	private SimoriGui gui;
 	private MatrixModel model;
+	private NetworkMaster master;
+	private NetworkSlave slave;
 	private PowerTogglable[] toPowerToggle;
 	private int port;
-	NetworkMaster master;
 	
 	protected Mode mode;
 	private byte displayLayer;
@@ -43,11 +49,10 @@ public class ModeController {
 	 * @param gui For button input and LED output
 	 * @param model To store information on the Simori-ON's state
 	 */
-	public ModeController(SimoriGui gui, MatrixModel model, int port, NetworkMaster master) {
+	public ModeController(SimoriGui gui, MatrixModel model, int port) {
 		this.gui = gui;
 		this.model = model;
 		this.port = port;
-		this.master = master;
 	}
 	
 	
@@ -66,12 +71,6 @@ public class ModeController {
 	/** @return Model instance encapsulating state of Simori-ON */
 	public MatrixModel getModel() {
 		return model;
-	}
-	
-	/** @return NetworkMaster */
-	public NetworkMaster getMaster(){
-		return master;
-		
 	}
 	
 	/** @return The on-screen representation of the Simori-ON */
@@ -136,6 +135,12 @@ public class ModeController {
 		toPowerToggle = s;
 	}
 	
+	/** Searches searches for another Simori-ON to copy the configuration to */
+	public void startNetworkMaster() {
+		if (master == null) return;
+		new Thread(master).start();
+	}
+	
 	/**
 	 * Sets the power state of the Simori-ON.
 	 * @param on true to switch on, or false to switch off
@@ -153,7 +158,7 @@ public class ModeController {
 	 * Switches the Simori-ON on by calling
 	 * {@link PowerTogglable#switchOn} on relevant
 	 * components, and entering {@link #PerformanceMode}.
-	 * @author
+	 * @author Matt
 	 * @author Jurek
 	 */
 	private void switchOn() {
@@ -162,7 +167,12 @@ public class ModeController {
 		}
 		on = true;	
 		setMode(new PerformanceMode(this));
-		model.setBPM((short) 88);
+		model.setBPM(DEFAULT_BPM);
+		slave = new NetworkSlave(port, this);
+		try {
+			master = new NetworkMaster(port, this, slave);
+		} catch (IOException e) {}
+		slave.switchOn();
 	}
 	
 	/**
@@ -177,5 +187,9 @@ public class ModeController {
 		for (int i = toPowerToggle.length - 1; i >= 0; i--) {
 			toPowerToggle[i].switchOff();
 		}
+		if (slave != null) slave.switchOff();
+		//TODO Stop the master scanning whilst off
+		master = null;
+		slave = null;
 	}
 }
