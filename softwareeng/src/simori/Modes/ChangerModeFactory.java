@@ -277,7 +277,7 @@ public class ChangerModeFactory {
 	 * @version 1.0.1
 	 * @return Changer
 	 */
-	private static Changer makeSpeedChanger(ModeController controller){
+	private static Changer makeSpeedChanger(final ModeController controller){
 		return new Changer(){
 			
 			private Short selectedTempo;   //the speed of the ticker in BPM
@@ -287,14 +287,6 @@ public class ChangerModeFactory {
 			 */
 			@Override
 			public String getText(Setting s) {
-//				if(s.y==0) {
-//					selectedTempo = (short) s.x;
-//					return String.valueOf(s.x);
-//				} else {
-//					selectedTempo = (short) (15 + 16*(s.y-1) + s.x);
-//					selectedTempo = (selectedTempo.shortValue() < (short)161 ? selectedTempo : null);
-//					return (selectedTempo == null ? null : String.valueOf(selectedTempo));
-//				}
 				selectedTempo = coordsConverter(s.x, s.y);
 				selectedTempo = (selectedTempo < 161 ? selectedTempo : null);
 				return selectedTempo == null ? null : String.valueOf(selectedTempo);
@@ -362,22 +354,17 @@ public class ChangerModeFactory {
 	 * @version 1.1.0
 	 */
 	private static byte[] convertBack(short s){
-		
 		byte x = 0;  //coordinates
 		byte y = 0;
 		s--;  //account for margin
-		
 		while(!(s % 16 == 0)){    //subtract while the short is not divisible by 16
 			s = (short) (s - 1);
 			x++;
 		}
-		
 		while(s != 0){       //subtract to 0
 			s = (short) (s - 16);
 			y++;
 		}
-		
 		return new byte[]{x,y}; 
 	}
-	
 }
