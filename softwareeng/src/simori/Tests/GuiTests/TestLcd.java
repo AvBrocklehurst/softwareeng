@@ -44,6 +44,8 @@ public class TestLcd {
 		gui.setVisible(true);
 		lcd.setVisible(true);
 		assertEquals(10, lcd.getHeight());
+		gui.setVisible(false);
+		lcd.setVisible(false);
 	}
 	
 	@Test
@@ -53,6 +55,8 @@ public class TestLcd {
 		gui.setVisible(true);
 		lcd.setVisible(true);
 		assertEquals("hello world!", text);
+		gui.setVisible(false);
+		lcd.setVisible(false);
 	}
 	
 	@Test
@@ -62,6 +66,8 @@ public class TestLcd {
 		gui.setVisible(true);
 		lcd.setVisible(true);
 		assertEquals("hello world my goodness this is a long sentance!", text);
+		gui.setVisible(false);
+		lcd.setVisible(false);
 	}
 	
 	@Test
@@ -71,6 +77,8 @@ public class TestLcd {
 		gui.setVisible(true);
 		lcd.setVisible(true);
 		assertEquals("", text);
+		gui.setVisible(false);
+		lcd.setVisible(false);
 	}
 
 }
