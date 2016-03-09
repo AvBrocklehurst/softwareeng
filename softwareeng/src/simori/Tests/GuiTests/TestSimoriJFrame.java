@@ -163,7 +163,7 @@ public class TestSimoriJFrame {
 		String keyboardShownTrue = jframe.getGridPanel().getComponent(0).toString();
 		jframe.setKeyboardShown(false);
 		String keyboardShownFalse = jframe.getGridPanel().getComponent(0).toString();
-		assertNotEquals(keyboardShownTrue, keyboardShownFalse);
+		assertThat(keyboardShownTrue, not(keyboardShownFalse));
 	}
 	
 	/**
@@ -173,7 +173,10 @@ public class TestSimoriJFrame {
 	public void testGetKeyboardMapping() {
 		assertEquals(mapping, jframe.getKeyboardMapping());
 	}
-
+	
+	
+	
+	/*
 	//TODO finish
 	@Test
 	public void testMouseDragged() {
@@ -181,7 +184,7 @@ public class TestSimoriJFrame {
 		Point p = jframe.getLocation();System.out.println(p.x);System.out.println(p.y);
 		jframe.mouseDragged(new MouseEvent(jframe, 0, 0, 0, p.x+5, p.y+5, 1, false));
 		assertEquals(new Point(p.x+5, p.y+5), jframe.getLocation());
-}
+}  */
 
 	/**
 	 * @author Jurek

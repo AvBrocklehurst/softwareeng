@@ -40,45 +40,32 @@ public class TestLcd {
 	
 	@Test
 	public void testSetShorterSide() throws InterruptedException, KeyboardException{
-		lcd.setShorterSize(10);
-		gui.setVisible(true);
-		lcd.setVisible(true);
-		assertEquals(10, lcd.getHeight());
-		gui.setVisible(false);
-		lcd.setVisible(false);
+		lcd.setShorterSize(2);
+		assertEquals(2, lcd.getHeight());
 	}
 	
 	@Test
 	public void testSetText() throws InterruptedException, KeyboardException{
 		lcd.setText("hello world!");
 		String text = lcd.getText();
-		gui.setVisible(true);
-		lcd.setVisible(true);
+		
 		assertEquals("hello world!", text);
-		gui.setVisible(false);
-		lcd.setVisible(false);
+		
 	}
 	
 	@Test
 	public void testSetTextLong() throws InterruptedException, KeyboardException{
 		lcd.setText("hello world my goodness this is a long sentance!");
 		String text = lcd.getText();
-		gui.setVisible(true);
-		lcd.setVisible(true);
-		assertEquals("hello world my goodness this is a long sentance!", text);
-		gui.setVisible(false);
-		lcd.setVisible(false);
-	}
 	
+		assertEquals("hello world my goodness this is a long sentance!", text);
+		
+	}
 	@Test
 	public void testSetTextNone() throws InterruptedException, KeyboardException{
 		lcd.setText("");
 		String text = lcd.getText();
-		gui.setVisible(true);
-		lcd.setVisible(true);
 		assertEquals("", text);
-		gui.setVisible(false);
-		lcd.setVisible(false);
 	}
-
+	
 }
