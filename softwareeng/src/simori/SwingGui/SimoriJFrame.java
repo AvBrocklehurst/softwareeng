@@ -48,7 +48,7 @@ public class SimoriJFrame extends JFrame implements SimoriGui, MouseMotionListen
 	
 	//Dragging state information
 	private int startX, startY;
-	private boolean couldDragBefore;
+	protected boolean couldDragBefore;
 	private Cursor oldCursor;
 	
 	//Size and layout information

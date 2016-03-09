@@ -1,10 +1,7 @@
 package simori.Tests.GuiTests;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.*;
 
 import java.awt.Color;
 import java.awt.Point;
@@ -84,29 +81,36 @@ public class TestSimoriJFrame {
 	@Test
 	public void testSwitchOn() {
 		jframe.switchOn();
-		
-		Button b = jframe.getTopBar().getButtons()[0];
-		PressableCircle c = (PressableCircle)b;
-		MockPressableCircle m = (MockPressableCircle)c;
-		//top button
-		assertNotEquals(new Color(0xDDDDDD), ((MockPressableCircle)((PressableCircle)(jframe.getTopBar().getButtons()[0]))).getFillColour());
 		//bottom buttons
-		assertNotEquals(new Color(0xDDDDDD), ((MockPressableCircle)(PressableCircle)jframe.getBottomBar().getButtons()[0]).getFillColour());
+		assertThat(new Color(0xDDDDDD), not(jframe.getBottomBar().getButton(0).getFillColour()));
 		//left buttons
-		assertNotEquals(new Color(0xDDDDDD), ((MockPressableCircle)(PressableCircle)jframe.getLeftBar().getButtons()[0]).getFillColour());
-		assertNotEquals(new Color(0xDDDDDD), ((MockPressableCircle)(PressableCircle)jframe.getLeftBar().getButtons()[1]).getFillColour());
-		assertNotEquals(new Color(0xDDDDDD), ((MockPressableCircle)(PressableCircle)jframe.getLeftBar().getButtons()[2]).getFillColour());
-		assertNotEquals(new Color(0xDDDDDD), ((MockPressableCircle)(PressableCircle)jframe.getLeftBar().getButtons()[3]).getFillColour());
+		assertThat(new Color(0xDDDDDD), not(jframe.getLeftBar().getButton(0).getFillColour()));
+		assertThat(new Color(0xDDDDDD), not(jframe.getLeftBar().getButton(1).getFillColour()));
+		assertThat(new Color(0xDDDDDD), not(jframe.getLeftBar().getButton(2).getFillColour()));
+		assertThat(new Color(0xDDDDDD), not(jframe.getLeftBar().getButton(3).getFillColour()));
 		//right buttons
-		assertNotEquals(new Color(0xDDDDDD), ((MockPressableCircle)(PressableCircle)jframe.getRightBar().getButtons()[0]).getFillColour());
-		assertNotEquals(new Color(0xDDDDDD), ((MockPressableCircle)(PressableCircle)jframe.getRightBar().getButtons()[1]).getFillColour());
-		assertNotEquals(new Color(0xDDDDDD), ((MockPressableCircle)(PressableCircle)jframe.getRightBar().getButtons()[2]).getFillColour());
-		assertNotEquals(new Color(0xDDDDDD), ((MockPressableCircle)(PressableCircle)jframe.getRightBar().getButtons()[3]).getFillColour());
+		assertThat(new Color(0xDDDDDD), not(jframe.getRightBar().getButton(0).getFillColour()));
+		assertThat(new Color(0xDDDDDD), not(jframe.getRightBar().getButton(1).getFillColour()));
+		assertThat(new Color(0xDDDDDD), not(jframe.getRightBar().getButton(2).getFillColour()));
+		assertThat(new Color(0xDDDDDD), not(jframe.getRightBar().getButton(3).getFillColour()));
 	}
 	
 	@Test
 	public void testSwitchOff() {
-		fail();
+		jframe.switchOn();
+		jframe.switchOff();
+		//bottom buttons
+		assertEquals(new Color(0xDDDDDD), jframe.getBottomBar().getButton(0).getFillColour());
+		//left buttons
+		assertEquals(new Color(0xDDDDDD), jframe.getLeftBar().getButton(0).getFillColour());
+		assertEquals(new Color(0xDDDDDD), jframe.getLeftBar().getButton(1).getFillColour());
+		assertEquals(new Color(0xDDDDDD), jframe.getLeftBar().getButton(2).getFillColour());
+		assertEquals(new Color(0xDDDDDD), jframe.getLeftBar().getButton(3).getFillColour());
+		//right buttons
+		assertEquals(new Color(0xDDDDDD), jframe.getRightBar().getButton(0).getFillColour());
+		assertEquals(new Color(0xDDDDDD), jframe.getRightBar().getButton(1).getFillColour());
+		assertEquals(new Color(0xDDDDDD), jframe.getRightBar().getButton(2).getFillColour());
+		assertEquals(new Color(0xDDDDDD), jframe.getRightBar().getButton(3).getFillColour());
 	}
 	
 	@Test
@@ -141,22 +145,25 @@ public class TestSimoriJFrame {
 		assertEquals(mapping, jframe.getKeyboardMapping());
 	}
 
-	@Test
-	public void testMouseDragged() {
-		Point p = jframe.getLocation();
-		jframe.mouseDragged(new MouseEvent(jframe, 0, 0, 0, p.x+5, p.y+5, 1, false));
-		assertEquals(new Point(p.x+5, p.y+5), jframe.getLocation());
-	}
+	//TODO finish
+//	@Test
+//	public void testMouseDragged() {
+//		Point p = jframe.getLocation();
+//		jframe.mouseDragged(new MouseEvent(jframe, 0, 0, 0, p.x+5, p.y+5, 1, false));
+//		assertEquals(new Point(p.x+5, p.y+5), jframe.getLocation());
+//	}
 
 	@Test
 	public void testMouseMovedNotValid() {
 		Point p = jframe.getTopBar().getLocation();
 		jframe.mouseMoved(new MouseEvent(jframe, 0, 0, 0, p.x-5, p.y-5, 1, false));
-		assertEquals
+		assertFalse(jframe.getCouldDragBefore());
+		
 	}
 	
-	@Test
-	public void testMouseValid() {
-		
-	}	
+	//TODO finish
+//	@Test
+//	public void testMouseValid() {
+//		
+//	}	
 }

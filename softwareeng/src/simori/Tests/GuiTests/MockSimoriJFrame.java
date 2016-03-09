@@ -81,6 +81,10 @@ public class MockSimoriJFrame extends SimoriJFrame {
 		return getSimoriPanel().getGridPanel().getLedPanel().getLed(row, column);
 	}
 	
+	public boolean getCouldDragBefore() {
+		return couldDragBefore;
+	}
+	
 	public static class MockSimoriPanel extends SimoriPanel {
 
 		public MockSimoriPanel(KeyboardMapping map,
@@ -126,8 +130,13 @@ public class MockSimoriJFrame extends SimoriJFrame {
 			super(vertical, hasLcd, maker, fbs);
 		}
 		
-		public Button[] getButtons() {
-			return buttons;
+		/**
+		 * @author Jurek
+		 * @param index
+		 * @return
+		 */
+		public MockButton getButton(int index) {
+			return (MockButton) buttons[index];
 		}
 		
 		@Override
@@ -238,7 +247,6 @@ public class MockSimoriJFrame extends SimoriJFrame {
 	 * @see PressableCircle.java, TestPressableCircle
 	 *
 	 */
-
 	public static class MockPressableCircle extends PressableCircle{
 		
 		public MockPressableCircle(){
