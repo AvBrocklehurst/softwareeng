@@ -15,8 +15,6 @@ import simori.MatrixModel;
 import simori.ModeController;
 import simori.Exceptions.InvalidCoordinatesException;
 import simori.Exceptions.KeyboardException;
-import simori.Modes.NetworkMaster;
-import simori.Modes.NetworkSlave;
 import simori.Modes.QwertyKeyboard;
 import simori.SwingGui.SimoriJFrame;
 
@@ -32,8 +30,6 @@ public class TestNoteProcessor {
 	private QwertyKeyboard keyboard;
 	private SimoriJFrame gui;
 	private MIDISoundPlayer midi;
-	private NetworkSlave slave;
-	private NetworkMaster master;
 	private ModeController modes;
 	private NoteProcessor clock;
 	private Thread thread;
@@ -83,13 +79,10 @@ public class TestNoteProcessor {
 		keyboard = new QwertyKeyboard((byte)16, (byte)16);
 		gui = new SimoriJFrame(keyboard);
 		midi = new MIDISoundPlayer();
-		master = new NetworkMaster(20160, model);
-		modes = new ModeController(gui, model, 20160, master);
-		slave = new NetworkSlave(20160, modes);
-		master.setSlave(slave);
+		modes = new ModeController(gui, model, 20160);
 		clock = new NoteProcessor(modes, model, midi);
 		model.addObserver(clock);
-		modes.setComponentsToPowerToggle(model, midi, slave, gui, clock);
+		modes.setComponentsToPowerToggle(model, midi, gui, clock);
 		modes.setOn(false);
 		e = null;
         System.setSecurityManager(new NoExitSecurityManager());
@@ -106,8 +99,6 @@ public class TestNoteProcessor {
 		keyboard = null;
 		gui = null;
 		midi = null;
-		slave = null;
-		master = null;
 		modes = null;
 		clock = null;
 		e = null;

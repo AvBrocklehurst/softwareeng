@@ -6,7 +6,6 @@ import static org.hamcrest.CoreMatchers.*;
 import java.awt.Color;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
-import java.io.IOException;
 
 import org.junit.After;
 import org.junit.Before;
@@ -16,12 +15,8 @@ import simori.MatrixModel;
 import simori.ModeController;
 import simori.SimoriGui.KeyboardMapping;
 import simori.Modes.Mode;
-import simori.Modes.NetworkMaster;
 import simori.Modes.OffMode;
 import simori.Modes.QwertyKeyboard;
-import simori.SwingGui.Button;
-import simori.SwingGui.PressableCircle;
-import simori.Tests.GuiTests.MockSimoriJFrame.MockPressableCircle;
 
 /**
  * Class that tests SimoriJFrame
@@ -32,6 +27,10 @@ public class TestSimoriJFrame {
 	MockSimoriJFrame jframe;
 	KeyboardMapping mapping;
 	
+	/**
+	 * @author Jurek
+	 * @throws Exception
+	 */
 	@Before
 	public void setUp() throws Exception {
 		mapping = new QwertyKeyboard((byte)16, (byte)16);
@@ -39,12 +38,19 @@ public class TestSimoriJFrame {
 		
 	}
 
+	/**
+	 * @author Jurek
+	 * @throws Exception
+	 */
 	@After
 	public void tearDown() throws Exception {
 		jframe = null;
 		mapping = null;
 	}
 	
+	/**
+	 * @author Jurek
+	 */
 	@Test
 	public void testSetGrid() {
 		boolean[][] grid = new boolean[16][16];
@@ -56,6 +62,9 @@ public class TestSimoriJFrame {
 		assertFalse(jframe.getLedPanel().getLed((byte)0, (byte)0).getIlluminated());
 	}
 	
+	/**
+	 * @author Jurek
+	 */
 	@Test
 	public void testClearGrid() {
 		boolean[][] grid = new boolean[16][16];
@@ -78,6 +87,9 @@ public class TestSimoriJFrame {
 		assertEquals(jframe.getText(), "test");
 	}
 	
+	/**
+	 * @author Jurek
+	 */
 	@Test
 	public void testSwitchOn() {
 		jframe.switchOn();
@@ -95,6 +107,9 @@ public class TestSimoriJFrame {
 		assertThat(new Color(0xDDDDDD), not(jframe.getRightBar().getButton(3).getFillColour()));
 	}
 	
+	/**
+	 * @author Jurek
+	 */
 	@Test
 	public void testSwitchOff() {
 		jframe.switchOn();
@@ -113,24 +128,31 @@ public class TestSimoriJFrame {
 		assertEquals(new Color(0xDDDDDD), jframe.getRightBar().getButton(3).getFillColour());
 	}
 	
+	/**
+	 * @author Jurek
+	 */
 	@Test
 	public void testSetAndGetGridButtonListener() {
 		MatrixModel model = new MatrixModel(16, 16);
-		Mode mode = null;
-		try{mode = new OffMode(new ModeController(jframe, model, 20160, new NetworkMaster(20160, model)));}catch(IOException e){fail();}
+		Mode mode = new OffMode(new ModeController(jframe, model, 20160));
 		jframe.setGridButtonListener(mode);
 		assertEquals(mode, jframe.getGridButtonListener());
 	}
 	
+	/**
+	 * @author Jurek
+	 */
 	@Test
 	public void testSetAndGetFunctionButtonListener() {
 		MatrixModel model = new MatrixModel(16, 16);
-		Mode mode = null;
-		try{mode = new OffMode(new ModeController(jframe, model, 20160, new NetworkMaster(20160, model)));}catch(IOException e){fail();}
+		Mode mode = new OffMode(new ModeController(jframe, model, 20160));
 		jframe.setFunctionButtonListener(mode);
 		assertEquals(mode, jframe.getFunctionButtonListener());
 	}
 	
+	/**
+	 * @author Jurek
+	 */
 	@Test
 	public void testSetKeyboardShown() {
 		jframe.setKeyboardShown(true);
@@ -140,6 +162,9 @@ public class TestSimoriJFrame {
 		assertNotEquals(keyboardShownTrue, keyboardShownFalse);
 	}
 	
+	/**
+	 * @author Jurek
+	 */
 	@Test
 	public void testGetKeyboardMapping() {
 		assertEquals(mapping, jframe.getKeyboardMapping());
@@ -153,6 +178,9 @@ public class TestSimoriJFrame {
 //		assertEquals(new Point(p.x+5, p.y+5), jframe.getLocation());
 //	}
 
+	/**
+	 * @author Jurek
+	 */
 	@Test
 	public void testMouseMovedNotValid() {
 		Point p = jframe.getTopBar().getLocation();
@@ -161,9 +189,10 @@ public class TestSimoriJFrame {
 		
 	}
 	
-	//TODO finish
-//	@Test
-//	public void testMouseValid() {
-//		
-//	}	
+	@Test
+	public void testMouseValid() {
+		Point p = jframe.getTopBar().getLocation();
+		jframe.mouseMoved(new MouseEvent(jframe, 0, 0, 0, p.x, p.y, 1, false));
+		assertTrue(jframe.getCouldDragBefore());
+	}	
 }
