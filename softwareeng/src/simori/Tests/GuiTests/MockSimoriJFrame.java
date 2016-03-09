@@ -32,6 +32,7 @@ public class MockSimoriJFrame extends SimoriJFrame {
 	protected void addSimoriPanel() {
 		simoriPanel = new MockSimoriPanel(mapping, new OnPressListenerMaker(this));
 		add(simoriPanel);
+		lcd = getBottomBar().getLcd();
 	}
 	
 	public MockSimoriJFrame() throws KeyboardException {

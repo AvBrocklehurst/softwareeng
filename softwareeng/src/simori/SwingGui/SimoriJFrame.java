@@ -38,7 +38,7 @@ import simori.Modes.Mode;
  * @see GuiProperties
  * @see simori.ModeController
  * @author Matt
- * @version 2.3.7
+ * @version 2.3.8
  */
 public class SimoriJFrame extends JFrame implements SimoriGui, MouseMotionListener {
 	
@@ -58,7 +58,7 @@ public class SimoriJFrame extends JFrame implements SimoriGui, MouseMotionListen
 	
 	//Components
 	protected SimoriPanel simoriPanel;
-	private Lcd lcd;
+	protected Lcd lcd;
 	
 	/**
 	 * Creates a visual representation of a Simori-ON
