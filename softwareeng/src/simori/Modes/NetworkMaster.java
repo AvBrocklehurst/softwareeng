@@ -81,7 +81,6 @@ public class NetworkMaster implements Runnable {
 		for(int i = 1; i < 256; i++){
 			if(running){
 		        try {
-		        	System.out.println(ip + i);
 		        	/* If it's not my ip */
 		        	checkSocket(ip + i);
 		        	return true;

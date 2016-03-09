@@ -173,18 +173,26 @@ public class TestSimoriJFrame {
 	public void testGetKeyboardMapping() {
 		assertEquals(mapping, jframe.getKeyboardMapping());
 	}
-	
-	
-	
-	/*
-	//TODO finish
+
+	/**
+	 * @author Jurek
+	 */
 	@Test
-	public void testMouseDragged() {
-		//Point p = null;
-		Point p = jframe.getLocation();System.out.println(p.x);System.out.println(p.y);
-		jframe.mouseDragged(new MouseEvent(jframe, 0, 0, 0, p.x+5, p.y+5, 1, false));
-		assertEquals(new Point(p.x+5, p.y+5), jframe.getLocation());
-}  */
+	public void testMouseDraggedInvalid() {
+		Point p = jframe.getLocation();
+		jframe.mouseDragged(new MouseEvent(jframe, 0, 0, 0, -5, -5, 1, false));
+		assertEquals(new Point(p.x, p.y), jframe.getLocation());
+	}
+
+	/**
+	 * @author Jurek
+	 */
+	@Test
+	public void testMouseDraggedValid() {
+		Point p = jframe.getLocation();
+		jframe.mouseDragged(new MouseEvent(jframe, 0, 0, 0, 50, 50, 1, false));
+		assertEquals(new Point(p.x+50, p.y+50), jframe.getLocation());
+	}
 
 	/**
 	 * @author Jurek

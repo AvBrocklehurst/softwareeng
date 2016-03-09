@@ -234,7 +234,7 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 		private byte[] setInstrument(byte layerNumber, byte layerLength) throws IllegalArgumentException {
 			short instrument = model.getInstrument(layerNumber);
 			if(instrument<0||instrument>175) 
-				throw new IllegalArgumentException("Incorrect instrument ID:" + instrument + "; acceptable 0-175");
+				throw new IllegalArgumentException();
 			byte[] layer = new byte[layerLength];
 			if(instrument < 128){ // insturment isn't in normal set
 				layer[0] = 0;
