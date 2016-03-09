@@ -20,10 +20,12 @@ import simori.SwingGui.SimoriJFrame;
 
 import java.io.IOException;
 import java.security.Permission;
-
+import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.*;
 /**
  * 
  * @author Jurek
+ * @author Adam
  */
 public class TestNoteProcessor {
 	private MatrixModel model;
@@ -214,6 +216,7 @@ public class TestNoteProcessor {
 	 * It does this by confirming that the columns have changed after a second,
 	 * as opposed to after the 60 seconds it would take under the BPM of 1
 	 * @author Jurek
+	 * @author Adam
 	 * @version 1.0.0
 	 * @throws MidiUnavailableException
 	 */
@@ -228,7 +231,7 @@ public class TestNoteProcessor {
 		model.setBPM((short) 80);
 		letRun(1000);
 		
-		assertNotEquals(column, model.getCurrentColumn());
+		assertThat(column, not(model.getCurrentColumn()));
 		assertNull(e);
 	}
 
