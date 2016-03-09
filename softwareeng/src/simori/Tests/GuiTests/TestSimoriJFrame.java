@@ -1,16 +1,15 @@
 package simori.Tests.GuiTests;
 
-import static org.junit.Assert.*;
-import static simori.SwingGui.GuiProperties.SCREEN_PROPORTION;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
-import java.util.Arrays;
-
-import javax.swing.JFrame;
 
 import org.junit.After;
 import org.junit.Before;
@@ -18,7 +17,6 @@ import org.junit.Test;
 
 import simori.MatrixModel;
 import simori.ModeController;
-import simori.SimoriGui.GridButtonListener;
 import simori.SimoriGui.KeyboardMapping;
 import simori.Modes.Mode;
 import simori.Modes.NetworkMaster;
@@ -26,8 +24,7 @@ import simori.Modes.OffMode;
 import simori.Modes.QwertyKeyboard;
 import simori.SwingGui.Button;
 import simori.SwingGui.PressableCircle;
-import simori.Tests.GuiTests.MockSimoriJFrame.MockLed;
-import simori.Tests.GuiTests.MockPressableCircle;
+import simori.Tests.GuiTests.MockSimoriJFrame.MockPressableCircle;
 
 /**
  * Class that tests SimoriJFrame

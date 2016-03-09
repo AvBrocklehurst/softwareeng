@@ -15,6 +15,7 @@ import simori.Modes.QwertyKeyboard;
 import simori.SwingGui.OnPressListenerMaker;
 import simori.SwingGui.OnPressListenerMaker.OnPressListener;
 import simori.SwingGui.SimoriJFrame;
+import simori.Tests.GuiTests.MockSimoriJFrame.MockPressableCircle;
 
 /**
  * A class to test the abstract class PressableCircle.

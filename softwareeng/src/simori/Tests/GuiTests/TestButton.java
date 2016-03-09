@@ -12,6 +12,16 @@ import simori.SwingGui.Button;
 import simori.SwingGui.SimoriJFrame;
 import simori.Tests.GuiTests.MockSimoriJFrame.MockButton;
 
+/**
+ * A class to test the Button class. As the rest of the suite
+ * tests test the private gui methods when a given gui is set to 
+ * it is redundant to test some of the methods in this class.
+ * 
+ * @author James
+ * @version 1.0.1
+ * @see Button.java
+ *
+ */
 public class TestButton {
 	
 	private MockButton testbutt;
@@ -23,8 +33,7 @@ public class TestButton {
 		testbutt = new MockButton();
 		keyboard = new QwertyKeyboard((byte)16,(byte)16);
 		testgui = new MockSimoriJFrame(keyboard);
-		Button[] buttons = testgui.getLeftBar().getButtons();
-		buttons[0] = testbutt;
+		testgui.setVisible(true);
 	}
 	
 	@After 
@@ -32,6 +41,7 @@ public class TestButton {
 		testbutt = null;
 		keyboard = null;
 		testgui = null;
+		testgui.setVisible(false);
 	}
 	
 	@Test
@@ -45,11 +55,7 @@ public class TestButton {
 		testbutt.setText("Hello World");
 		assertEquals("The text should be Hello World!", "Hello World!", testbutt.getText());
 	}
-	
-	@Test
-	public void test_updateSize(){
-		
-	}
+
 	
 	
 	

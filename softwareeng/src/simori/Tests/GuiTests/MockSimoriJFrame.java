@@ -239,7 +239,7 @@ public class MockSimoriJFrame extends SimoriJFrame {
 	 *
 	 */
 
-	public class MockPressableCircle extends PressableCircle{
+	public static class MockPressableCircle extends PressableCircle{
 		
 		public MockPressableCircle(){
 			super();
