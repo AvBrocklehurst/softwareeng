@@ -48,6 +48,7 @@ public class TestSimoriPanel {
 		OnPressListenerMaker maker = new OnPressListenerMaker(gui);
 		SimoriPanel panel = new SimoriPanel(map, maker);// since constructor hides most things away it means there is very little to test!
 		assertNotNull(panel);
+		Thread.sleep(1000);
 	}
 	
 	
@@ -109,7 +110,7 @@ public class TestSimoriPanel {
 	}
 	
 	@Test
-	public void testSetGrid() {
+	public void testSetGrid() throws InterruptedException {
 		boolean[][] grid = new boolean[16][16];
 		for(int i = 0; i<15; i++){
 			grid[i][i] = true;
@@ -121,10 +122,11 @@ public class TestSimoriPanel {
 		for(int i = 0; i<15; i++){
 		assertTrue(panel.getGridPanel().getLedPanel().getLed((byte)i,(byte) i).getIlluminated());
 		}
+		Thread.sleep(1000);
 	}
 	
 	@Test
-	public void testPainting() {
+	public void testPainting() throws InterruptedException {
 		// very hard to test if something is painted!
 		// instead test that paint methods were called when panel is created
 		// this is done through checking code coverage using emma,
@@ -132,5 +134,6 @@ public class TestSimoriPanel {
 		
 		// of course the easy way to test this is just to look with your eyes and ask the question: "Has this been painted?"
 		gui.setVisible(true);
+		gui.setVisible(false);
 	}
 }
