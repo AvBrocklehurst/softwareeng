@@ -10,7 +10,7 @@ import simori.Exceptions.InvalidCoordinatesException;
  * <p> 
  *
  * @author  Adam
- * @version 1.1.0
+ * @version 1.1.1
  */
 public class Layer implements Serializable {
 	private boolean[][] grid; //Grid to store whether each button is on (True) or off (False).
@@ -127,7 +127,7 @@ public class Layer implements Serializable {
 	/**
 	 * Method to update a button in the grid when it is turned on / off.
 	 * @author  Adam
-	 * @version 1.1.0
+	 * @version 1.2,0
 	 * @param column  The column containing the button to change 
 	 * @param row     The row containing the button to change
 	 * @throws InvalidCoordinatesException 
@@ -136,7 +136,7 @@ public class Layer implements Serializable {
 		if(column >= 0 && column < 16 && row >= 0 && row < 16){
 			grid[row][column] = !grid[row][column]; //Inverse the current value to swap.
 		} else {
-			throw new InvalidCoordinatesException("Column or Row not between 0 and 16");
+			throw new InvalidCoordinatesException("Column or Row not between 1 and 16");
 		}
 	}
 	
