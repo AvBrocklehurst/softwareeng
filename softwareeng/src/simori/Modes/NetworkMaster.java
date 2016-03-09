@@ -31,6 +31,7 @@ public class NetworkMaster implements Runnable {
 	private ModeController controller;
 	private NetworkSlave slave;
 	private final static String os = System.getProperty("os.name").toLowerCase();
+	private boolean running;
 	
 	/**
 	 * Constructor for the Network Master Class.
@@ -51,18 +52,22 @@ public class NetworkMaster implements Runnable {
 	 * @author adam
 	 */
 	public void findSlave(){
-		/* generate y range (xxx.xxx.xxx.yyy) */
-		String cloesestRangeIP =  ip.substring(0, ip.indexOf('.',
-				ip.indexOf('.',ip.indexOf('.')+1)+1) + 1);
-		/* generate y range (xxx.xxx.yyy.xxx) */
-		String thisRangeIP = cloesestRangeIP.substring
-				(0, cloesestRangeIP.indexOf('.',cloesestRangeIP.indexOf('.')+1) + 1);
-		/* First check the same end ip range */
-		boolean found = closestRangeIP(cloesestRangeIP);
-		if(!found){
-			iterateOverIPRange(thisRangeIP);
+		if(!running){
+			running = true;
+			/* generate y range (xxx.xxx.xxx.yyy) */
+			String cloesestRangeIP =  ip.substring(0, ip.indexOf('.',
+					ip.indexOf('.',ip.indexOf('.')+1)+1) + 1);
+			/* generate y range (xxx.xxx.yyy.xxx) */
+			String thisRangeIP = cloesestRangeIP.substring
+					(0, cloesestRangeIP.indexOf('.',cloesestRangeIP.indexOf('.')+1) + 1);
+			/* First check the same end ip range */
+			boolean found = closestRangeIP(cloesestRangeIP);
+			if(!found){
+				iterateOverIPRange(thisRangeIP);
+			}
+			slave.switchOn();
 		}
-		slave.switchOn();
+		
 	}
 	
 	
@@ -74,14 +79,16 @@ public class NetworkMaster implements Runnable {
 	 */
 	private boolean closestRangeIP(String ip){
 		for(int i = 0; i < 256; i++){
-	        try {
-	        	System.out.println(ip + i);
-	        	/* If it's not my ip */
-	        	checkSocket(ip + i);
-	        	return true;
-	        } catch (IOException e){
-	        	
-	        }
+			if(!running){
+		        try {
+		        	System.out.println(ip + i);
+		        	/* If it's not my ip */
+		        	checkSocket(ip + i);
+		        	return true;
+		        } catch (IOException e){
+		        	
+		        }
+			}
 	    }
 		return false;
 	}
@@ -199,9 +206,19 @@ public class NetworkMaster implements Runnable {
 	 */
 	private void iterateOverIPRange(String ip) {
 		for(int j = 0; j < 256; j++){
-			/* itterate through the end section. */
-			closestRangeIP(ip + j + '.'); 
+			if(!running){
+				/* itterate through the end section. */
+				closestRangeIP(ip + j + '.'); 
+			}
+			
 		} 
+	}
+	
+	/**
+	 * @author Adam
+	 */
+	public void stopRunning(){
+		running = false;
 	}
 
 	@Override
@@ -209,7 +226,6 @@ public class NetworkMaster implements Runnable {
 		try {
 			slave.switchOff();
 			this.ip = getIP();
-			System.out.println(ip);
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

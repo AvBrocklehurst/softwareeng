@@ -179,6 +179,8 @@ public class ModeController {
 	 * Switches the Simori-ON off by calling
 	 * {@link PowerTogglable#switchOff} on relevant
 	 * components, and entering {@link #OffMode}.
+	 * @author Matt
+	 * @author Adam
 	 */
 	private void switchOff() {
 		on = false;
@@ -187,6 +189,7 @@ public class ModeController {
 		for (int i = toPowerToggle.length - 1; i >= 0; i--) {
 			toPowerToggle[i].switchOff();
 		}
+		if(master != null) master.stopRunning();
 		if (slave != null) slave.switchOff();
 		//TODO Stop the master scanning whilst off
 		master = null;
