@@ -126,6 +126,8 @@ public class TestMode{
 		testslave = null;
 		testmaster = null;
 		testermode = null;
+		testmaster.stopRunning();
+		testslave.switchOff();
 	}
 	
 	@Test
