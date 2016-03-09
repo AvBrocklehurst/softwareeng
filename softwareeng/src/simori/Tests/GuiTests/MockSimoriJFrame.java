@@ -138,6 +138,10 @@ public class MockSimoriJFrame extends SimoriJFrame {
 		public MockButton getButton(int index) {
 			return (MockButton) buttons[index];
 		}
+
+		public Button[] getButtons() {
+			return buttons;
+		}
 		
 		@Override
 		protected Button makeButton() {
