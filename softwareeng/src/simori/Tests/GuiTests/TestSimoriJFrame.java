@@ -174,6 +174,9 @@ public class TestSimoriJFrame {
 		assertEquals(mapping, jframe.getKeyboardMapping());
 	}
 
+	/**
+	 * @author Jurek
+	 */
 	@Test
 	public void testMouseDraggedInvalid() {
 		Point p = jframe.getLocation();
@@ -181,6 +184,9 @@ public class TestSimoriJFrame {
 		assertEquals(new Point(p.x, p.y), jframe.getLocation());
 	}
 
+	/**
+	 * @author Jurek
+	 */
 	@Test
 	public void testMouseDraggedValid() {
 		Point p = jframe.getLocation();
