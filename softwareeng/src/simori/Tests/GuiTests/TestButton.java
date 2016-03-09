@@ -33,7 +33,6 @@ public class TestButton {
 		testbutt = new MockButton();
 		keyboard = new QwertyKeyboard((byte)16,(byte)16);
 		testgui = new MockSimoriJFrame(keyboard);
-		testgui.setVisible(true);
 	}
 	
 	@After 
@@ -41,7 +40,6 @@ public class TestButton {
 		testbutt = null;
 		keyboard = null;
 		testgui = null;
-		testgui.setVisible(false);
 	}
 	
 	@Test
@@ -52,12 +50,7 @@ public class TestButton {
 	
 	@Test
 	public void test_set_get_Text(){
-		testbutt.setText("Hello World");
+		testbutt.setText("Hello World!");
 		assertEquals("The text should be Hello World!", "Hello World!", testbutt.getText());
 	}
-
-	
-	
-	
-	
 }

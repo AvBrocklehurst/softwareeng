@@ -44,7 +44,7 @@ public class TestPerformanceMode {
 		keyboard = new QwertyKeyboard((byte)16,(byte)16);
 		testmodel = new MatrixModel(16, 16);
 		testgui = new SimoriJFrame(keyboard);
-		testcontroller = new ModeController(testgui, testmodel, 0, new NetworkMaster(20160, testmodel, new NetworkSlave(20160, testmodel)));
+		testcontroller = new ModeController(testgui, testmodel, 0, new NetworkMaster(20160, testmodel));
 		testcontroller.setMode(new PerformanceMode(testcontroller));
 		testpm = new PerformanceMode(testcontroller);
 		testgb = new GridButtonEvent(testgui, 5, 5);

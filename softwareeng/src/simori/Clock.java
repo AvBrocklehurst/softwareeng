@@ -15,7 +15,6 @@ public class Clock implements Runnable {
 	private long maxTime;
 	private Timer timer;
 	private volatile boolean running;
-	private MatrixModel model;
 	private Object bpmLock;
 	private Object lock;
 	private short bpm;
@@ -23,7 +22,6 @@ public class Clock implements Runnable {
 	Clock(long maxTime, boolean running, MatrixModel model, Object bpmLock, Object lock) {
 		this.maxTime = maxTime;
 		this.running = running;
-		this.model = model;
 		this.bpmLock = bpmLock;
 		this.lock = lock;
 		this.bpm = -1;
