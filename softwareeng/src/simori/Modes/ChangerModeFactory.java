@@ -142,7 +142,7 @@ public class ChangerModeFactory {
 	 * @see ChangerMode.Changer
 	 * @version 1.2.1
 	 */
-	private static Changer makeVoiceChanger(ModeController controller) {
+	private static Changer makeVoiceChanger(final ModeController controller) {
 		return new Changer() {
 			
 			private Short instrumentNumber;  //the instrument to change to
@@ -211,7 +211,7 @@ public class ChangerModeFactory {
 	 * @see ChangerMode.Changer
 	 * @version 1.0.0
 	 */
-	private static Changer makeVelocityChanger(ModeController controller){
+	private static Changer makeVelocityChanger(final ModeController controller){
 		return new Changer(){
 
 			private Short selectedVelocity;   //the velocity to change to
