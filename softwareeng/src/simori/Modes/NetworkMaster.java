@@ -78,16 +78,19 @@ public class NetworkMaster implements Runnable {
 	 * @return  boolean, true if an exception ip was found
 	 */
 	private boolean closestRangeIP(String ip){
-		for(int i = 0; i < 256; i++){
-			if(!running){
+		System.out.println("in closetest");
+		for(int i = 1; i < 256; i++){
+			if(running){
 		        try {
 		        	System.out.println(ip + i);
 		        	/* If it's not my ip */
 		        	checkSocket(ip + i);
 		        	return true;
-		        } catch (IOException e){
+		        } catch (IOException	 e){
 		        	
 		        }
+			} else {
+				break;
 			}
 	    }
 		return false;
@@ -206,9 +209,11 @@ public class NetworkMaster implements Runnable {
 	 */
 	private void iterateOverIPRange(String ip) {
 		for(int j = 0; j < 256; j++){
-			if(!running){
+			if(running){
 				/* itterate through the end section. */
 				closestRangeIP(ip + j + '.'); 
+			} else {
+				break;
 			}
 			
 		} 
