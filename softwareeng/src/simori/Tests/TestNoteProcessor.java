@@ -81,8 +81,10 @@ public class TestNoteProcessor {
 		keyboard = new QwertyKeyboard((byte)16, (byte)16);
 		gui = new SimoriJFrame(keyboard);
 		midi = new MIDISoundPlayer();
-		modes = new ModeController(gui, model, 20160, master);
 		master = new NetworkMaster(20160, model);
+		modes = new ModeController(gui, model, 20160, master);
+		slave = new NetworkSlave(20160, modes);
+		master.setSlave(slave);
 		clock = new NoteProcessor(modes, model, midi);
 		model.addObserver(clock);
 		modes.setComponentsToPowerToggle(model, midi, slave, gui, clock);
