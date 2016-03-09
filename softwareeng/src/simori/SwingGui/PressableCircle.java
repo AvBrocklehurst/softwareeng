@@ -21,7 +21,8 @@ import simori.SwingGui.OnPressListenerMaker.OnPressListener;
  * click behaviour is different. The {@link OnPressListener}s
  * are notified immediately on mouse down inside the circular
  * area, instead of on mouse button release. Features the hand
- * cursor to indicate that it can be clicked on.
+ * cursor to indicate that it can be clicked on. Can be enabled
+ * and disabled using {@link #setGreyedOut}.
  * @author Matt
  * @version 1.6.4
  */

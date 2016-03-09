@@ -17,7 +17,7 @@ import simori.FunctionButton;
 import simori.Exceptions.KeyboardException;
 import simori.Modes.QwertyKeyboard;
 import simori.SwingGui.Button;
-import simori.SwingGui.GridPanel;
+import simori.SwingGui.SimoriCentrePanel;
 import simori.SwingGui.Led;
 import simori.SwingGui.LedPanel;
 import simori.SwingGui.OnPressListenerMaker;
@@ -124,7 +124,7 @@ public class MockSimoriJFrame extends SimoriJFrame {
 		}
 	}
 	
-	public static class MockGridPanel extends GridPanel {
+	public static class MockGridPanel extends SimoriCentrePanel {
 
 		public MockGridPanel(KeyboardMapping map, OnPressListenerMaker maker) {
 			super(map, maker);

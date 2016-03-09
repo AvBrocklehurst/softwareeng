@@ -10,7 +10,7 @@ import javax.swing.JPanel;
 import simori.Simori.PowerTogglable;
 import simori.SimoriGui.KeyboardMapping;
 
-public class GridPanel extends JPanel implements PowerTogglable {
+public class SimoriCentrePanel extends JPanel implements PowerTogglable {
 	
 	private static final String LEDS = "LedPanel";
 	private static final String GREYED = "Greyed";
@@ -21,7 +21,7 @@ public class GridPanel extends JPanel implements PowerTogglable {
 	private JPanel keyboard;
 	private JPanel greyed;
 	
-	public GridPanel(KeyboardMapping map, OnPressListenerMaker maker) {
+	public SimoriCentrePanel(KeyboardMapping map, OnPressListenerMaker maker) {
 		ledPanel = makeLedPanel(map, maker);
 		keyboard = makeKeyboard(map, maker);
 		greyed = makeKeyboard(getGreyMap(map), maker);
