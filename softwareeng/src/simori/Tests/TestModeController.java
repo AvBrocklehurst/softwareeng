@@ -49,6 +49,9 @@ public class TestModeController{
 	
 	@After
 	public void tearDown(){
+		testmaster.stopRunning();
+		testslave.switchOff();
+		testslave = null;
 		keyboard = null;
 		testgui = null;
 		testmodel = null;
