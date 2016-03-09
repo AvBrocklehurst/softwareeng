@@ -19,7 +19,7 @@ import simori.Simori.PowerTogglable;
  * In horizontal bars, the LCD screen is left of all the buttons,
  * and in vertical bars it is above the buttons.
  * @author Matt
- * @version 2.8.5
+ * @version 3.0.0
  */
 public class SimoriEdgeBar extends JPanel implements PowerTogglable {
 	
@@ -55,7 +55,7 @@ public class SimoriEdgeBar extends JPanel implements PowerTogglable {
 	@Override
 	public void switchOn() {
 		for (Button b : buttons) {
-			b.setEnabled(true);
+			b.setGreyedOut(false);
 		}
 	}
 
@@ -63,7 +63,7 @@ public class SimoriEdgeBar extends JPanel implements PowerTogglable {
 	@Override
 	public void switchOff() {
 		for (Button b : buttons) {
-			b.setEnabled(false);
+			b.setGreyedOut(true);
 		}
 	}
 	
@@ -113,12 +113,17 @@ public class SimoriEdgeBar extends JPanel implements PowerTogglable {
 	 */
 	private Button makeButtonFor(FunctionButton fb,
 			OnPressListenerMaker maker) {
-		Button b = new Button();
+		Button b = makeButton();
 		b.setText(fb.buttonName());
 		b.setToolTipText(fb.toolTip());
 		b.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 		b.addOnPressListener(maker.getListener(fb));
 		return b;
+	}
+	
+	/** Protected so that subclasses can use different types of button */
+	protected Button makeButton() {
+		return new Button();
 	}
 	
 	/**

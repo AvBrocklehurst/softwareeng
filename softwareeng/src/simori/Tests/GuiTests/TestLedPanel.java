@@ -9,9 +9,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import simori.Exceptions.KeyboardException;
-import simori.SwingGui.Led;
+import simori.SwingGui.LedPanel;
 import simori.SwingGui.PressableCircle;
 import simori.Tests.GuiTests.MockSimoriJFrame.MockLedPanel;
+import simori.Tests.GuiTests.MockSimoriJFrame.MockPressableCircle;
 
 /**
  * A class to test LedPanel.

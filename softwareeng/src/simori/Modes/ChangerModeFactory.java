@@ -30,9 +30,9 @@ public class ChangerModeFactory {
 		case R1 :
 			return new ChangerMode(controller, makeLayerChanger(controller), false, true);
 		case R2 :
-			return new ChangerMode(controller, SaveAndLoad.saveConfig(controller), false, false);
+			return new ChangerMode(controller, SaveAndLoad.makeSaveChanger(controller), false, false);
 		case R3 :
-			return new ChangerMode(controller, SaveAndLoad.loadConfig(controller), false, false);
+			return new ChangerMode(controller, SaveAndLoad.makeLoadChanger(controller), false, false);
 		case R4 :
 			return new ChangerMode(controller, NetworkMaster.masterSlave(controller), false, false);
 		default: 

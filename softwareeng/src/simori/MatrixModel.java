@@ -58,7 +58,7 @@ public class MatrixModel extends Observable implements Serializable, PowerToggla
 	}
 	
 	/**
-	 * Priavte method that instantiates a layer if it doesn't exist.
+	 * Private method that instantiates a layer if it doesn't exist.
 	 * @author  Adam
 	 * @version 1.0.0
 	 * @param laynum   the index of the layer to check.
