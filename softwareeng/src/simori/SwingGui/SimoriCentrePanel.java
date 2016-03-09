@@ -26,7 +26,7 @@ public class SimoriCentrePanel extends JPanel implements PowerTogglable {
 	private static final String KEYBOARD = "Keyboard";
 	
 	// Layout and children
-	private CardLayout layout;
+	protected CardLayout layout;
 	protected LedPanel ledPanel;
 	private JPanel keyboard;
 	private JPanel greyed;

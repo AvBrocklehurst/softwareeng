@@ -3,9 +3,11 @@ package simori.Tests.GuiTests;
 import static org.junit.Assert.*;
 import static simori.SwingGui.GuiProperties.SCREEN_PROPORTION;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.util.Arrays;
 
 import javax.swing.JFrame;
@@ -14,9 +16,18 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import simori.MatrixModel;
+import simori.ModeController;
+import simori.SimoriGui.GridButtonListener;
 import simori.SimoriGui.KeyboardMapping;
+import simori.Modes.Mode;
+import simori.Modes.NetworkMaster;
+import simori.Modes.OffMode;
 import simori.Modes.QwertyKeyboard;
+import simori.SwingGui.Button;
+import simori.SwingGui.PressableCircle;
 import simori.Tests.GuiTests.MockSimoriJFrame.MockLed;
+import simori.Tests.GuiTests.MockPressableCircle;
 
 /**
  * Class that tests SimoriJFrame
@@ -62,60 +73,82 @@ public class TestSimoriJFrame {
 	
 	/**
 	 * Since both tests would be the same (as there is no other way
-	 * of getting or settings the text field) this unit test tests
+	 * of getting or settings the text field), and the methods in question
+	 * are simply an assignment and a return, this unit test tests
 	 * both setText and getText at the same time.
 	 * @author Jurek
 	 */
 	@Test
 	public void testSetAndGetText() {
-		//jframe.switchOn();
 		jframe.setText("test");
 		assertEquals(jframe.getText(), "test");
 	}
 	
 	@Test
-	public void switchOn() {
-
+	public void testSwitchOn() {
+		jframe.switchOn();
+		
+		Button b = jframe.getTopBar().getButtons()[0];
+		PressableCircle c = (PressableCircle)b;
+		MockPressableCircle m = (MockPressableCircle)c;
+		//top button
+		assertNotEquals(new Color(0xDDDDDD), ((MockPressableCircle)((PressableCircle)(jframe.getTopBar().getButtons()[0]))).getFillColour());
+		//bottom buttons
+		assertNotEquals(new Color(0xDDDDDD), ((MockPressableCircle)(PressableCircle)jframe.getBottomBar().getButtons()[0]).getFillColour());
+		//left buttons
+		assertNotEquals(new Color(0xDDDDDD), ((MockPressableCircle)(PressableCircle)jframe.getLeftBar().getButtons()[0]).getFillColour());
+		assertNotEquals(new Color(0xDDDDDD), ((MockPressableCircle)(PressableCircle)jframe.getLeftBar().getButtons()[1]).getFillColour());
+		assertNotEquals(new Color(0xDDDDDD), ((MockPressableCircle)(PressableCircle)jframe.getLeftBar().getButtons()[2]).getFillColour());
+		assertNotEquals(new Color(0xDDDDDD), ((MockPressableCircle)(PressableCircle)jframe.getLeftBar().getButtons()[3]).getFillColour());
+		//right buttons
+		assertNotEquals(new Color(0xDDDDDD), ((MockPressableCircle)(PressableCircle)jframe.getRightBar().getButtons()[0]).getFillColour());
+		assertNotEquals(new Color(0xDDDDDD), ((MockPressableCircle)(PressableCircle)jframe.getRightBar().getButtons()[1]).getFillColour());
+		assertNotEquals(new Color(0xDDDDDD), ((MockPressableCircle)(PressableCircle)jframe.getRightBar().getButtons()[2]).getFillColour());
+		assertNotEquals(new Color(0xDDDDDD), ((MockPressableCircle)(PressableCircle)jframe.getRightBar().getButtons()[3]).getFillColour());
 	}
 	
 	@Test
 	public void testSwitchOff() {
-
+		fail();
 	}
 	
 	@Test
-	public void testSetGridButtonListener() {
-
+	public void testSetAndGetGridButtonListener() {
+		MatrixModel model = new MatrixModel(16, 16);
+		Mode mode = null;
+		try{mode = new OffMode(new ModeController(jframe, model, 20160, new NetworkMaster(20160, model)));}catch(IOException e){fail();}
+		jframe.setGridButtonListener(mode);
+		assertEquals(mode, jframe.getGridButtonListener());
 	}
 	
 	@Test
-	public void testSetFunctionButtonListener() {
-
-	}
-	
-	@Test
-	public void testGetGridButtonListener() {
-
-	}
-	
-	@Test
-	public void testGetFunctionButtonListener() {
-
+	public void testSetAndGetFunctionButtonListener() {
+		MatrixModel model = new MatrixModel(16, 16);
+		Mode mode = null;
+		try{mode = new OffMode(new ModeController(jframe, model, 20160, new NetworkMaster(20160, model)));}catch(IOException e){fail();}
+		jframe.setFunctionButtonListener(mode);
+		assertEquals(mode, jframe.getFunctionButtonListener());
 	}
 	
 	@Test
 	public void testSetKeyboardShown() {
-
+		jframe.setKeyboardShown(true);
+		String keyboardShownTrue = jframe.getGridPanel().getComponent(0).toString();
+		jframe.setKeyboardShown(false);
+		String keyboardShownFalse = jframe.getGridPanel().getComponent(0).toString();
+		assertNotEquals(keyboardShownTrue, keyboardShownFalse);
 	}
 	
 	@Test
 	public void testGetKeyboardMapping() {
-
+		assertEquals(mapping, jframe.getKeyboardMapping());
 	}
 
 	@Test
 	public void testMouseDragged() {
-
+		Point p = jframe.getLocation();
+		jframe.mouseDragged(new MouseEvent(jframe, 0, 0, 0, p.x+5, p.y+5, 1, false));
+		assertNotEquals(p, jframe.getLocation());
 	}
 
 	@Test
