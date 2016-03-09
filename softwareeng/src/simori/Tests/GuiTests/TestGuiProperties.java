@@ -18,9 +18,7 @@ import javax.swing.JFrame;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.FixMethodOrder;
 import org.junit.Test;
-import org.junit.runners.MethodSorters;
 
 import simori.ResourceManager;
 import simori.SwingGui.GuiProperties;
