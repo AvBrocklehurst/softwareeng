@@ -53,9 +53,4 @@ public class TestButton {
 		testbutt.setText("Hello World!");
 		assertEquals("The text should be Hello World!", "Hello World!", testbutt.getText());
 	}
-
-	
-	
-	
-	
 }
