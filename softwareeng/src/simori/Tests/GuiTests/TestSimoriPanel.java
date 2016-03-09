@@ -13,8 +13,10 @@ import org.junit.Test;
 import simori.Exceptions.KeyboardException;
 import simori.Modes.QwertyKeyboard;
 import simori.SwingGui.Button;
+import simori.SwingGui.GuiProperties;
 import simori.SwingGui.OnPressListenerMaker;
 import simori.SwingGui.SimoriPanel;
+import simori.Tests.GuiTests.MockSimoriJFrame.MockButton;
 import simori.Tests.GuiTests.MockSimoriJFrame.MockSimoriPanel;
 
 
@@ -56,14 +58,13 @@ public class TestSimoriPanel {
 	public void testLcd() {
 		assertNotNull(panel.getLcd());
 	}
-	/*
 	
 	@Test
 	public void testOff(){
 		panel.switchOff();
 		Button[] buttons = panel.getLeftBar().getButtons();
 		for(Button button: buttons){
-			assertFalse(button.isEnabled());
+			assertEquals(GuiProperties.CIRCLE_GREYED,((MockButton)button).getFillColour());
 		}
 	}
 
@@ -72,14 +73,14 @@ public class TestSimoriPanel {
 		panel.switchOff();
 		Button[] buttons = panel.getRightBar().getButtons();
 		for(Button button: buttons){
-			assertFalse(button.isEnabled());
+			assertEquals(GuiProperties.CIRCLE_GREYED,((MockButton)button).getFillColour());
 		}
 		panel.switchOn();
 		for(Button button: buttons){
 			assertTrue(button.isEnabled());
 		}
 	}
-	*/
+	
 	@Test
 	public void testCanDragFrom() {
 		Point point = new Point(0, 0);

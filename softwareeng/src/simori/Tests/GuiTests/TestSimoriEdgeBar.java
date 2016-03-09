@@ -10,11 +10,13 @@ import simori.FunctionButton;
 import simori.Exceptions.KeyboardException;
 import simori.Modes.QwertyKeyboard;
 import simori.SwingGui.Button;
+import simori.SwingGui.GuiProperties;
 import simori.SwingGui.Lcd;
 import simori.SwingGui.OnPressListenerMaker;
 import simori.SwingGui.SimoriEdgeBar;
 import simori.SwingGui.SimoriJFrame;
 import simori.SwingGui.SimoriPanel;
+import simori.Tests.GuiTests.MockSimoriJFrame.MockButton;
 import simori.Tests.GuiTests.MockSimoriJFrame.MockSimoriEdgeBar;
 
 /**
@@ -79,7 +81,7 @@ public class TestSimoriEdgeBar {
 			assertTrue(button.isEnabled());
 		}
 	}
-	/*
+	
 	@Test
 	public void testOff(){
 		edgeBarLeft.switchOff();
@@ -94,11 +96,11 @@ public class TestSimoriEdgeBar {
 		edgeBarLeft.switchOff();
 		Button[] buttons = edgeBarLeft.getButtons();
 		for(Button button: buttons){
-			assertFalse(button.isEnabled());
+			assertEquals(GuiProperties.CIRCLE_GREYED,((MockButton)button).getFillColour());
 		}
 		edgeBarLeft.switchOn();
 		for(Button button: buttons){
 			assertTrue(button.isEnabled());
 		}
-	} */
+	} 
 }
