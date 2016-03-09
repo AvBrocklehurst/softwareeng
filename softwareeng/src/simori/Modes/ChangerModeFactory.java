@@ -274,8 +274,7 @@ public class ChangerModeFactory {
 	 * This implementation of the Changer interface changes the current tempo
 	 * 
 	 * @author Jurek
-	 * @author Adam
-	 * @version 1.0.0
+	 * @version 1.0.1
 	 * @return Changer
 	 */
 	private static Changer makeSpeedChanger(ModeController controller){
@@ -285,18 +284,20 @@ public class ChangerModeFactory {
 			
 			/**
 			 * @author Jurek
-			 * @author Adam
 			 */
 			@Override
 			public String getText(Setting s) {
-				if(s.y==0) {
-					selectedTempo = (short) s.x;
-					return String.valueOf(s.x);
-				} else {
-					selectedTempo = (short) (15 + 16*(s.y-1) + s.x);
-					selectedTempo = (selectedTempo.shortValue() < (short)161 ? selectedTempo : null);
-					return (selectedTempo == null ? null : String.valueOf(selectedTempo));
-				}
+//				if(s.y==0) {
+//					selectedTempo = (short) s.x;
+//					return String.valueOf(s.x);
+//				} else {
+//					selectedTempo = (short) (15 + 16*(s.y-1) + s.x);
+//					selectedTempo = (selectedTempo.shortValue() < (short)161 ? selectedTempo : null);
+//					return (selectedTempo == null ? null : String.valueOf(selectedTempo));
+//				}
+				selectedTempo = coordsConverter(s.x, s.y);
+				selectedTempo = (selectedTempo < 161 ? selectedTempo : null);
+				return selectedTempo == null ? null : String.valueOf(selectedTempo);
 			}
 			
 			/**
@@ -311,10 +312,14 @@ public class ChangerModeFactory {
 				controller.getModel().setBPM((short)selectedTempo);
 				return true;
 			}
-
+			
+			/**
+			 * @author Jurek
+			 */
 			@Override
 			public Setting getCurrentSetting() {
-				return null; //TODO convert back into coords for initial display
+				byte[] point = convertBack(selectedTempo);
+				return new Setting(point[0], point[1]);
 			}
 		};
 	}

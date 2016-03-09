@@ -149,7 +149,14 @@ public class TestSimoriJFrame {
 	}
 
 	@Test
-	public void testMouseMoved() {
+	public void testMouseMovedNotValid() {
+		Point p = jframe.getTopBar().getLocation();
+		jframe.mouseMoved(new MouseEvent(jframe, 0, 0, 0, p.x-5, p.y-5, 1, false));
+		assertEquals
+	}
+	
+	@Test
+	public void testMouseValid() {
 		
 	}	
 }
