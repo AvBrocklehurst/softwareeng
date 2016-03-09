@@ -5,8 +5,6 @@ import java.io.IOException;
 import javax.sound.midi.MidiUnavailableException;
 
 import simori.Exceptions.KeyboardException;
-import simori.Modes.NetworkMaster;
-import simori.Modes.NetworkSlave;
 import simori.Modes.QwertyKeyboard;
 import simori.SwingGui.SimoriJFrame;
 
@@ -68,14 +66,10 @@ public class Simori {
 		QwertyKeyboard keyboard = new QwertyKeyboard(GRID_WIDTH, GRID_HEIGHT);
 		SimoriJFrame gui = new SimoriJFrame(keyboard);
 		MIDISoundPlayer player = new MIDISoundPlayer();
-		
-		NetworkMaster master = new NetworkMaster(PORT, model);
-		ModeController modes = new ModeController(gui, model, PORT, master);
-		NetworkSlave slave = new NetworkSlave(PORT, modes);
-		master.setSlave(slave);
+		ModeController modes = new ModeController(gui, model, PORT);
 		NoteProcessor clock = new NoteProcessor(modes, model, player);
 		model.addObserver(clock);
-		modes.setComponentsToPowerToggle(model, player, slave, gui, clock);
+		modes.setComponentsToPowerToggle(model, player, gui, clock);
 		modes.setOn(false);
 		gui.setVisible(true);
 	}

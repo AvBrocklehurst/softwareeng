@@ -12,7 +12,6 @@ import java.net.UnknownHostException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import simori.MatrixModel;
 import simori.ModeController;
 import simori.Modes.ChangerMode.Changer;
 import simori.Modes.ChangerMode.Setting;
@@ -21,18 +20,17 @@ import simori.Modes.ChangerMode.Setting;
  * Class to act as the master in the master slave mode.
  * It contains functions to search through an ip range
  * and set up a socket to transfer the model over.
- * @version 1.1.0
+ * @version 1.4.0
  * @author Adam
  * @author Matt
  */
-public class NetworkMaster implements Runnable{
+public class NetworkMaster implements Runnable {
+	
 	private int port;
 	private String ip;
-	private MatrixModel model;
+	private ModeController controller;
 	private NetworkSlave slave;
 	private final static String os = System.getProperty("os.name").toLowerCase();
-
-	
 	
 	/**
 	 * Constructor for the Network Master Class.
@@ -41,13 +39,10 @@ public class NetworkMaster implements Runnable{
 	 * @param model  The model to export.
 	 * @throws IOException 
 	 */
-	public NetworkMaster(int port, MatrixModel model) throws IOException{
+	public NetworkMaster(int port, ModeController controller, NetworkSlave slave)
+			throws IOException {
 		this.port = port;
-		this.model = model;
-	}
-	
-	/** HORRIBLE TODO REMOVE */
-	public void setSlave(NetworkSlave slave){
+		this.controller = controller;
 		this.slave = slave;
 	}
 	
@@ -110,7 +105,7 @@ public class NetworkMaster implements Runnable{
         ObjectOutputStream serializer = new ObjectOutputStream(out);
         System.out.println(ip);
         /* Serialize and write the model to the output stream */
-        serializer.writeObject(model);
+        serializer.writeObject(controller.getModel());
         serializer.close();
         out.close();
         socket.close();
@@ -216,10 +211,8 @@ public class NetworkMaster implements Runnable{
 			this.ip = getIP();
 			System.out.println(ip);
 		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		findSlave();
@@ -232,7 +225,7 @@ public class NetworkMaster implements Runnable{
 	 * continues to performance mode.
 	 * 
 	 * @author Adam
-	 * @version 1.0.0
+	 * @version 1.1.0
 	 * @see Changer.getText(), Changer.doThingTo(), Changer.getCurrentSetting()
 	 * @return Changer
 	 */
@@ -251,7 +244,7 @@ public class NetworkMaster implements Runnable{
 
 			@Override
 			public Setting getCurrentSetting() {
-					new Thread(controller.getMaster()).start();
+				controller.startNetworkMaster();
 				return null;
 			}
 		};
