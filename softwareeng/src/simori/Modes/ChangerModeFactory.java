@@ -1,7 +1,5 @@
 package simori.Modes;
 
-import java.net.UnknownHostException;
-
 import simori.FunctionButton;
 import simori.InstrumentNamer;
 import simori.ModeController;
@@ -14,8 +12,7 @@ import simori.Modes.ChangerMode.Setting;
  * send data to the lcd are also included.
  * 
  *@author James
- *
- *@version 1.0.0
+ *@version 1.3.0
  */
 
 public class ChangerModeFactory {
@@ -33,9 +30,9 @@ public class ChangerModeFactory {
 		case R1 :
 			return new ChangerMode(controller, makeLayerChanger(controller), false, true);
 		case R2 :
-			return new ChangerMode(controller, SaveAndLoad.saveConfig(controller), false, false);
+			return new ChangerMode(controller, SaveAndLoad.makeSaveChanger(controller), false, false);
 		case R3 :
-			return new ChangerMode(controller, SaveAndLoad.loadConfig(controller), false, false);
+			return new ChangerMode(controller, SaveAndLoad.makeLoadChanger(controller), false, false);
 		case R4 :
 			return new ChangerMode(controller, NetworkMaster.masterSlave(controller), false, false);
 		default: 
@@ -87,7 +84,15 @@ public class ChangerModeFactory {
 				controller.setDisplayLayer(selectedLayer);
 				return true; //set current layer
 			}
-
+			
+			/**
+			 * Displays the current setting on entering the different mode.
+			 * 
+			 * @author James
+			 * @return Setting
+			 * @version 1.1.0
+			 * @see Setting, ModeController.getDisplayLayer()
+			 */
 			@Override
 			public Setting getCurrentSetting() {
 				return new Setting(null, controller.getDisplayLayer());
@@ -176,11 +181,22 @@ public class ChangerModeFactory {
 				controller.getModel().setInstrument(controller.getDisplayLayer(), instrumentNumber); 
 				return true;
 			}
-
+			
+			/**
+			 * Displays the current setting on entering the different mode.
+			 * 
+			 * @author James
+			 * @return Setting
+			 * @version 1.1.0
+			 * @see Setting, ModeController.getDisplayLayer(), ModeController.getModel(), MatrixModel.getInstrument(), convertBack()
+			 */
 			@Override
 			public Setting getCurrentSetting() {
-				//return new Setting(convertBack(instrumentNumber)[0], convertBack(instrumentNumber)[1]);
-				return null;
+				short instrumentNumber = controller.getModel().getInstrument(controller.getDisplayLayer()); //get instrument as this method is called before others
+				byte x = convertBack(instrumentNumber)[0]; //access the Array
+				byte y = convertBack(instrumentNumber)[1];
+				return new Setting(x, y);
+				
 			}
 		};
 	}
@@ -235,11 +251,21 @@ public class ChangerModeFactory {
 				controller.getModel().setVelocity(controller.getDisplayLayer(), selectedVelocity.byteValue()); 
 				return true;
 			}
-
+			
+			/**
+			 * Displays the current setting on entering the different mode.
+			 * 
+			 * @author James
+			 * @return Setting
+			 * @version 1.1.0
+			 * @see Setting, ModeController.getDisplayLayer(), ModeController.getModel(), MatrixModel.getInstrument(), convertBack()
+			 */
 			@Override
 			public Setting getCurrentSetting() {
-				//return new Setting(convertBack(selectedVelocity)[0], convertBack(selectedVelocity)[1]);
-				return null;
+				short selectedVelocity = controller.getModel().getVelocity(controller.getDisplayLayer());
+				byte x = convertBack(selectedVelocity)[0];
+				byte y = convertBack(selectedVelocity)[1];
+				return new Setting(x, y);
 			}
 		};
 	}
@@ -318,28 +344,34 @@ public class ChangerModeFactory {
 		return counter;
 	}
 	
+	/**
+	 * A method to convert a short value (typically an instrument or velocity)
+	 * into a respective pair of x and y coordinates of a grid press.
+	 * This is required for the getCurrentSetting() method in the Changer
+	 * implementations.
+	 * 
+	 * @author James
+	 * @param s  A short to convert into respective x and y coordinates
+	 * @return byte[]
+	 * @version 1.1.0
+	 */
 	private static byte[] convertBack(short s){
 		
-		byte x = 0;
+		byte x = 0;  //coordinates
 		byte y = 0;
-		byte[] arr = {x, y};
+		s--;  //account for margin
 		
-		s--;
-		
-		while(s != 0){
-			if(s < 16){
-				break;
-			}
-			
-			s = (short) (s - 16);
-			y++;
-		}
-		
-		while(s != 0){
+		while(!(s % 16 == 0)){    //subtract while the short is not divisible by 16
 			s = (short) (s - 1);
 			x++;
 		}
 		
-		return arr;
+		while(s != 0){       //subtract to 0
+			s = (short) (s - 16);
+			y++;
+		}
+		
+		return new byte[]{x,y}; 
 	}
+	
 }

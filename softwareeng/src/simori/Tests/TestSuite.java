@@ -3,26 +3,16 @@ package simori.Tests;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
-import simori.Tests.GuiTests.TestButton;
-import simori.Tests.GuiTests.TestGuiProperties;
-import simori.Tests.GuiTests.TestLcd;
-import simori.Tests.GuiTests.TestLed;
-import simori.Tests.GuiTests.TestLedPanel;
-import simori.Tests.GuiTests.TestOnPressListenerMaker;
-import simori.Tests.GuiTests.TestPressableCircle;
-import simori.Tests.GuiTests.TestSimoriEdgeBar;
+import simori.Tests.GuiTests.GuiTestSuite;
 
 /**
  * Test suite to run all our unit tests
  * @author Josh
- * @author Matt
- * @version 2.0.1
+ * @version 3.0.0
  */
-
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-	TestGuiProperties.class,
-	/*TestNoteProcessor.class,*/ //TODO add back in when it works
+	GuiTestSuite.class, //Must be first (see TestGuiProperties)
 	TestLayer.class,
 	TestMatrixModel.class,
 	TestMIDISoundPlayer.class,
@@ -33,15 +23,8 @@ import simori.Tests.GuiTests.TestSimoriEdgeBar;
 	TestResourceManager.class,
 	TestSaveAndLoad.class,
 	TestSimori.class,
-	TestLcd.class,
-	TestLed.class,
-	TestButton.class,
-	TestLedPanel.class,
-	TestOnPressListenerMaker.class,
-	TestPressableCircle.class,
-	TestSimoriEdgeBar.class,
 	TestSaveAndLoad.class,
-	TestSimoriGui.class  
+	TestSimoriGui.class,
+	TestNoteProcessor.class
 })
-
 public class TestSuite {}

@@ -174,8 +174,8 @@ public class ModeController {
 		on = false;
 		setMode(new OffMode(this));
 		if (toPowerToggle == null) return;
-		for (PowerTogglable t : toPowerToggle) {
-			t.switchOff();
+		for (int i = toPowerToggle.length - 1; i >= 0; i--) {
+			toPowerToggle[i].switchOff();
 		}
 	}
 }

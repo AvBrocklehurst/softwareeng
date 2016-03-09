@@ -68,9 +68,11 @@ public class Simori {
 		QwertyKeyboard keyboard = new QwertyKeyboard(GRID_WIDTH, GRID_HEIGHT);
 		SimoriJFrame gui = new SimoriJFrame(keyboard);
 		MIDISoundPlayer player = new MIDISoundPlayer();
-		NetworkSlave slave = new NetworkSlave(PORT, model);
-		NetworkMaster master = new NetworkMaster(PORT, model, slave);
+		
+		NetworkMaster master = new NetworkMaster(PORT, model);
 		ModeController modes = new ModeController(gui, model, PORT, master);
+		NetworkSlave slave = new NetworkSlave(PORT, modes);
+		master.setSlave(slave);
 		NoteProcessor clock = new NoteProcessor(modes, model, player);
 		model.addObserver(clock);
 		modes.setComponentsToPowerToggle(model, player, slave, gui, clock);

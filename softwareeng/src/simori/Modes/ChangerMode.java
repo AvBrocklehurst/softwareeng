@@ -1,9 +1,8 @@
 package simori.Modes;
 
+import simori.ModeController;
 import simori.SimoriGui.FunctionButtonEvent;
 import simori.SimoriGui.GridButtonEvent;
-import simori.ModeController;
-import simori.SimoriGui;
 import simori.Exceptions.InvalidCoordinatesException;
 
 /**
@@ -11,7 +10,7 @@ import simori.Exceptions.InvalidCoordinatesException;
  * Change Voice Mode and Change Velocity Mode. Specific functionality
  * is customised by providing a {@link #Changer} implementation.
  * @author Matt
- * @version 2.7.2
+ * @version 2.7.5
  */
 public class ChangerMode extends Mode {
 	

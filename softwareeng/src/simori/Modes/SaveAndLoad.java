@@ -35,7 +35,7 @@ public class SaveAndLoad {
 	 * @param filename  The file to save it to.
 	 */
 	public static void save(MatrixModel model, String filename){
-		try {;
+		try {
 			File file = getLocationFor(filename);
 	        FileOutputStream fos = new FileOutputStream(file);
 
@@ -104,15 +104,13 @@ public class SaveAndLoad {
 	 * SaveAndLoad.save(), ModeController.getModel(), java.lang.String.substring()
 	 * @return Changer
 	 */
-	protected static Changer saveConfig(final ModeController controller){
+	protected static Changer makeSaveChanger(final ModeController controller){
 		return new TextEntry(controller) {
 			@Override
 			protected boolean useText(String text) {
-				
 				if (text.length() == 0) return true;
 				text += SONG_EXTENSION;   //add the .song extension
 				SaveAndLoad.save(controller.getModel(), text);
-				
 				return true;
 			}
 		};
@@ -129,7 +127,7 @@ public class SaveAndLoad {
 	 * SaveAndLoad.save(), ModeController.getModel(), java.lang.String.substring()
 	 * @return Changer
 	 */
-	protected static Changer loadConfig(final ModeController controller){
+	protected static Changer makeLoadChanger(final ModeController controller){
 		return new TextEntry(controller) {
 			@Override
 			protected boolean useText(String text) {
