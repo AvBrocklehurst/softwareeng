@@ -134,9 +134,11 @@ public class TestSimoriJFrame {
 	@Test
 	public void testSetAndGetGridButtonListener() {
 		MatrixModel model = new MatrixModel(16, 16);
-		Mode mode = new OffMode(new ModeController(jframe, model, 20160));
+		ModeController mc = new ModeController(jframe, model, 20160);
+		Mode mode = new OffMode(mc);
 		jframe.setGridButtonListener(mode);
 		assertEquals(mode, jframe.getGridButtonListener());
+		mc.setOn(false);
 	}
 	
 	/**
@@ -145,9 +147,11 @@ public class TestSimoriJFrame {
 	@Test
 	public void testSetAndGetFunctionButtonListener() {
 		MatrixModel model = new MatrixModel(16, 16);
-		Mode mode = new OffMode(new ModeController(jframe, model, 20160));
+		ModeController mc = new ModeController(jframe, model, 20160);
+		Mode mode = new OffMode(mc);
 		jframe.setFunctionButtonListener(mode);
 		assertEquals(mode, jframe.getFunctionButtonListener());
+		mc.setOn(false);
 	}
 	
 	/**
@@ -171,12 +175,13 @@ public class TestSimoriJFrame {
 	}
 
 	//TODO finish
-//	@Test
-//	public void testMouseDragged() {
-//		Point p = jframe.getLocation();
-//		jframe.mouseDragged(new MouseEvent(jframe, 0, 0, 0, p.x+5, p.y+5, 1, false));
-//		assertEquals(new Point(p.x+5, p.y+5), jframe.getLocation());
-//	}
+	@Test
+	public void testMouseDragged() {
+		//Point p = null;
+		Point p = jframe.getLocation();System.out.println(p.x);System.out.println(p.y);
+		jframe.mouseDragged(new MouseEvent(jframe, 0, 0, 0, p.x+5, p.y+5, 1, false));
+		assertEquals(new Point(p.x+5, p.y+5), jframe.getLocation());
+}
 
 	/**
 	 * @author Jurek
@@ -189,6 +194,9 @@ public class TestSimoriJFrame {
 		
 	}
 	
+	/**
+	 * @author Jurek
+	 */
 	@Test
 	public void testMouseValid() {
 		Point p = jframe.getTopBar().getLocation();
