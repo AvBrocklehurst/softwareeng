@@ -9,9 +9,7 @@ import org.junit.Test;
 import simori.Exceptions.InvalidCoordinatesException;
 import simori.Layer;
 /**
- * 
  * @author Adam
- *
  */
 public class TestLayer {
 	Layer testlayer;
@@ -88,6 +86,4 @@ public class TestLayer {
 			}
 		}
 	}
-	
-
 }

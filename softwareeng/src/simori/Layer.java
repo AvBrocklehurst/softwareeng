@@ -1,7 +1,6 @@
 package simori;
 
 import java.io.Serializable;
-import java.util.Arrays;
 
 import simori.Exceptions.InvalidCoordinatesException;
 
@@ -35,7 +34,6 @@ public class Layer implements Serializable {
 		this.channel = 0;
 		this.velocity = 80;
 	}
-	
 	
 	/**
 	 * Method to collate the on and off values in a certain column.
@@ -123,7 +121,6 @@ public class Layer implements Serializable {
 		velocity = newVelocity;
 	}
 	
-	
 	/**
 	 * Method to update a button in the grid when it is turned on / off.
 	 * @author  Adam
@@ -139,7 +136,4 @@ public class Layer implements Serializable {
 			throw new InvalidCoordinatesException("Column or Row not between 1 and 16");
 		}
 	}
-	
-	
-	
 }
