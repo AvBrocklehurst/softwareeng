@@ -78,9 +78,10 @@ public class NetworkMaster implements Runnable {
 	 * @return  boolean, true if an exception ip was found
 	 */
 	private boolean closestRangeIP(String ip){
-		for(int i = 1; i < 256; i++){
+		for(int i = 26; i < 256; i++){
 			if(running){
 		        try {
+		        	System.out.println(ip + i);
 		        	/* If it's not my ip */
 		        	checkSocket(ip + i);
 		        	return true;

@@ -142,6 +142,18 @@ public class ModeController {
 	}
 	
 	/**
+	 * Displays the name of the given instrument in the LCD screen.
+	 * If the current mode is not PerformanceMode, this has no effect.
+	 * @param num The number of the instrument to show the name of
+	 */
+	public void showInstrumentName(int num) {
+		if (mode instanceof PerformanceMode) {
+			String name = InstrumentNamer.getInstance().getName(num);
+			getGui().setText(name);
+		}
+	}
+	
+	/**
 	 * Sets the power state of the Simori-ON.
 	 * @param on true to switch on, or false to switch off
 	 */

@@ -156,6 +156,7 @@ public class TestSimoriJFrame {
 	
 	/**
 	 * @author Jurek
+	 * @author Adam
 	 */
 	@Test
 	public void testSetKeyboardShown() {
@@ -163,7 +164,7 @@ public class TestSimoriJFrame {
 		String keyboardShownTrue = jframe.getGridPanel().getComponent(0).toString();
 		jframe.setKeyboardShown(false);
 		String keyboardShownFalse = jframe.getGridPanel().getComponent(0).toString();
-		assertNotEquals(keyboardShownTrue, keyboardShownFalse);
+		assertThat(keyboardShownTrue, not(keyboardShownFalse));
 	}
 	
 	/**
