@@ -7,7 +7,6 @@ import simori.Modes.SaveAndLoad;
 
 /**
  * @author adam
- *
  */
 public class TestSaveAndLoad {
 
