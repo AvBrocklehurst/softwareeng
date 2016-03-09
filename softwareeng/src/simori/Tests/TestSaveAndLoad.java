@@ -1,6 +1,3 @@
-/**
- * 
- */
 package simori.Tests;
 
 import org.junit.Test;
