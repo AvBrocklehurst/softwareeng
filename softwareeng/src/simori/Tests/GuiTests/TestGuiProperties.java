@@ -18,9 +18,7 @@ import javax.swing.JFrame;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.FixMethodOrder;
 import org.junit.Test;
-import org.junit.runners.MethodSorters;
 
 import simori.ResourceManager;
 import simori.SwingGui.GuiProperties;
@@ -42,10 +40,14 @@ import simori.SwingGui.GuiProperties;
  * To ensure that the test which successfully loads the font runs last,
  * the method order has been fixed as ascending alphabetical name and a 'Z' has
  * been inserted into the name of the successful font and icon loading tests.
+ * 
+ * Update: The tests which had to be run last have been commented out,
+ * because FixMethodOrder does not seem to work in the Blue Room.
+ * 
  * @author Matt
  * @version 3.0.5
  */
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+//@FixMethodOrder(MethodSorters.NAME_ASCENDING)	//Doesn't work in Blue Room!
 public class TestGuiProperties {
 	
 	// protected constants borrowed from GuiProperties
@@ -205,7 +207,7 @@ public class TestGuiProperties {
 	 * returns a cached version the same as the first, even if the
 	 * PNG file is renamed in the meantime.
 	 */
-	@Test
+	//@Test	//Disabled because FixMethodOrder doesn't work
 	public void testY_Icon() throws IOException {
 		Image made = GuiProperties.getIcon();
 		breakFile(ResourceManager.getResource(ICON), false);
@@ -221,7 +223,7 @@ public class TestGuiProperties {
 	 * fail if run after this test.
 	 * @see TestGuiProperties
 	 */
-	@Test
+	//@Test	//Disabled because FixMethodOrder doesn't work
 	public void testZ_Font() throws IOException {
 		Font made = GuiProperties.getFont();
 		// Calling breakFile here fails because it's locked

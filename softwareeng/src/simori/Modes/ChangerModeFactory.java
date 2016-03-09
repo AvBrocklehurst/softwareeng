@@ -318,7 +318,8 @@ public class ChangerModeFactory {
 			 */
 			@Override
 			public Setting getCurrentSetting() {
-				byte[] point = convertBack(selectedTempo);
+				short tempo = controller.getModel().getBPM();
+				byte[] point = convertBack(tempo);
 				return new Setting(point[0], point[1]);
 			}
 		};
