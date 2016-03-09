@@ -33,7 +33,7 @@ public class TestPerformanceMode {
 	
 	private MatrixModel testmodel;
 	private SimoriJFrame testgui;
-	private ModeController testcontroller;
+	private ModeController mockcontroller;
 	private PerformanceMode testpm;
 	private GridButtonEvent testgb;
 	private QwertyKeyboard keyboard;
@@ -44,9 +44,9 @@ public class TestPerformanceMode {
 		keyboard = new QwertyKeyboard((byte)16,(byte)16);
 		testmodel = new MatrixModel(16, 16);
 		testgui = new SimoriJFrame(keyboard);
-		testcontroller = new ModeController(testgui, testmodel, 0);
-		testcontroller.setMode(new PerformanceMode(testcontroller));
-		testpm = new PerformanceMode(testcontroller);
+		mockcontroller = new ModeController(testgui, testmodel, 0);
+		mockcontroller.setMode(new PerformanceMode(mockcontroller));
+		testpm = new PerformanceMode(mockcontroller);
 		testgb = new GridButtonEvent(testgui, 5, 5);
 	}
 	
@@ -55,7 +55,7 @@ public class TestPerformanceMode {
 		keyboard = null;
 		testmodel = null;
 		testgui = null;
-		testcontroller = null;
+		mockcontroller = null;
 		testpm = null;
 	}
 	
@@ -75,6 +75,7 @@ public class TestPerformanceMode {
 		boolean changedgridcoords = testpm.getModifiedGrid()[5][5];
 		assertEquals("The grid button was not inverted back to false!", false, changedgridcoords);
 	}
+	
 	
 	
 	@Test
