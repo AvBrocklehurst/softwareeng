@@ -113,12 +113,17 @@ public class SimoriEdgeBar extends JPanel implements PowerTogglable {
 	 */
 	private Button makeButtonFor(FunctionButton fb,
 			OnPressListenerMaker maker) {
-		Button b = new Button();
+		Button b = makeButton();
 		b.setText(fb.buttonName());
 		b.setToolTipText(fb.toolTip());
 		b.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 		b.addOnPressListener(maker.getListener(fb));
 		return b;
+	}
+	
+	/** Protected so that subclasses can use different types of button */
+	protected Button makeButton() {
+		return new Button();
 	}
 	
 	/**

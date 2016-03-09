@@ -27,6 +27,11 @@ import simori.SwingGui.SimoriEdgeBar;
 import simori.SwingGui.SimoriJFrame;
 import simori.SwingGui.SimoriPanel;
 
+/**
+ * Uses mock versions of subcomponents to expose them for testing.
+ * @author Matt
+ * @version 3.0.0
+ */
 public class MockSimoriJFrame extends SimoriJFrame {
 	
 	@Override
@@ -123,6 +128,11 @@ public class MockSimoriJFrame extends SimoriJFrame {
 		
 		public Button[] getButtons() {
 			return buttons;
+		}
+		
+		@Override
+		protected Button makeButton() {
+			return new MockButton();
 		}
 	}
 	
