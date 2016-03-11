@@ -321,7 +321,7 @@ public class TestMIDISoundPlayer {
 	 * ArbitarySoundTest
 	 * The ultimate test! 16 layers, 16 notes, each of a different instrument, each with a different velocity.
 	 */
-	@Test(timeout = 100) // dont want it to take too long to play all the notes simultaneously, otherwise it will go out of sync!
+	@Test(timeout = 10000) // dont want it to take too long to play all the notes simultaneously, otherwise it will go out of sync!
 	public void testPlayMaximumLayersAndNotes() throws InvalidMidiDataException {
 		player.play(maximumLayersAndNotes); 
 	}

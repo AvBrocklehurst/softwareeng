@@ -21,6 +21,7 @@ import simori.Tests.GuiTests.GuiTestSuite;
 	TestSimoriGui.class,
 	TestModeController.class,
 	TestResourceManager.class,
+
 	TestSaveAndLoad.class,
 	TestSimoriGui.class,
 	TestNoteProcessor.class
