@@ -16,7 +16,11 @@ junit-4.12.jar
 hamcrest-core-1.3.jar
 These are included within the zip file.
 
+The network master mode currently does not have an active gui. It works the same as any other mode, you press R4 to go into master mode. The screen will go white and then you can press okay immediatly to go back to performance mode. As soon as you pressed R4 the master mode started to probe ips to find another listening simori, and will continue to do so even after you press okay.
+
 All files were tested on the machines in the blue room as specified in the specification.
+
+Please note that on some blue room machines there is a local problem that causes "lock: no locks available" to appear.
 
 Cheers,
 Team H

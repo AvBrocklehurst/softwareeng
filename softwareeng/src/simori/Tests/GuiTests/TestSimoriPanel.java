@@ -2,6 +2,7 @@ package simori.Tests.GuiTests;
 
 import static org.junit.Assert.*;
 
+import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
 
@@ -13,8 +14,10 @@ import org.junit.Test;
 import simori.Exceptions.KeyboardException;
 import simori.Modes.QwertyKeyboard;
 import simori.SwingGui.Button;
+import simori.SwingGui.GuiProperties;
 import simori.SwingGui.OnPressListenerMaker;
 import simori.SwingGui.SimoriPanel;
+import simori.Tests.GuiTests.MockSimoriJFrame.MockButton;
 import simori.Tests.GuiTests.MockSimoriJFrame.MockSimoriPanel;
 
 
@@ -48,7 +51,6 @@ public class TestSimoriPanel {
 		OnPressListenerMaker maker = new OnPressListenerMaker(gui);
 		SimoriPanel panel = new SimoriPanel(map, maker);// since constructor hides most things away it means there is very little to test!
 		assertNotNull(panel);
-		Thread.sleep(1000);
 	}
 	
 	
@@ -56,30 +58,29 @@ public class TestSimoriPanel {
 	public void testLcd() {
 		assertNotNull(panel.getLcd());
 	}
-	/*
 	
 	@Test
 	public void testOff(){
 		panel.switchOff();
 		Button[] buttons = panel.getLeftBar().getButtons();
 		for(Button button: buttons){
-			assertFalse(button.isEnabled());
+			assertEquals(GuiProperties.CIRCLE_GREYED,((MockButton)button).getFillColour());
 		}
 	}
-
+	
 	@Test
 	public void testOn(){
 		panel.switchOff();
 		Button[] buttons = panel.getRightBar().getButtons();
 		for(Button button: buttons){
-			assertFalse(button.isEnabled());
+			assertEquals(GuiProperties.CIRCLE_GREYED,((MockButton)button).getFillColour());
 		}
 		panel.switchOn();
 		for(Button button: buttons){
 			assertTrue(button.isEnabled());
 		}
 	}
-	*/
+	
 	@Test
 	public void testCanDragFrom() {
 		Point point = new Point(0, 0);
@@ -122,7 +123,6 @@ public class TestSimoriPanel {
 		for(int i = 0; i<15; i++){
 		assertTrue(panel.getGridPanel().getLedPanel().getLed((byte)i,(byte) i).getIlluminated());
 		}
-		Thread.sleep(1000);
 	}
 	
 	@Test
@@ -133,7 +133,9 @@ public class TestSimoriPanel {
 		// unfortunately Junit doesn't provide a way of testing whether a method ran or not
 		
 		// of course the easy way to test this is just to look with your eyes and ask the question: "Has this been painted?"
-		gui.setVisible(true);
-		gui.setVisible(false);
+		Graphics g = panel.getGraphics();
+		panel.paintComponent(g);
+		panel.paintBorder(g);
 	}
+
 }

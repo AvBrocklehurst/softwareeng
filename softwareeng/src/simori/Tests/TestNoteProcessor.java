@@ -144,6 +144,7 @@ public class TestNoteProcessor {
 	 */
 	@Test
 	public void testRun() throws MidiUnavailableException {
+		
 		setUpThread(modes, model, midi);
 		
 		letRun(2000);
@@ -180,6 +181,7 @@ public class TestNoteProcessor {
 	 */
 	@Test
 	public void testRunNullMode() throws MidiUnavailableException {
+		
 		setUpThread(null, model, midi);
 		
 		letRun(2000);
@@ -193,6 +195,7 @@ public class TestNoteProcessor {
 	 */
 	@Test
 	public void testRunZeroBpm() throws MidiUnavailableException {
+		
 		setUpThread(modes, model, midi);
 		
 		letRun(1000);
@@ -232,6 +235,7 @@ public class TestNoteProcessor {
 	 */
 	@Test
 	public void testRunRestart() throws MidiUnavailableException {
+		
 		setUpThread(modes, model, midi);
 		
 		letRun(2000);
@@ -249,6 +253,7 @@ public class TestNoteProcessor {
 	 */
 	@Test
 	public void testRunPercussion() throws MidiUnavailableException, InvalidCoordinatesException {
+		
 		setUpThread(modes, model, midi);
 		
 		letRun(1000);
@@ -262,24 +267,6 @@ public class TestNoteProcessor {
 		assertNull(e);
 	}
 	
-	/**
-	 * @author Jurek
-	 * @throws MidiUnavailableException
-	 * @throws InvalidCoordinatesException
-	 */
-	@Test
-	public void testRunWrongInstrument() throws MidiUnavailableException, InvalidCoordinatesException {
-		setUpThread(modes, model, midi);
-		
-		letRun(1000);
-
-		model.setInstrument((byte)0, (short)200);
-		for(int i=0; i<16; i++) {
-			model.updateButton((byte)0, (byte)i, (byte)4);
-		}
-		letRun(1000);
-		assertEquals(e.getClass(), ExitException.class);
-	}
 	
 	/**
 	 * @author Jurek
@@ -377,19 +364,11 @@ public class TestNoteProcessor {
 		assertNull(e);
 	}
 	
-	@Test 
+	@Test (expected=IllegalArgumentException.class)
 	public void testRunTempoNegative() throws MidiUnavailableException {
 		setUpThread(modes, model, midi);
-		
 		letRun(1000);
-		try{
-		
-			model.setBPM((byte)-1);
-		
-			letRun(1000);
-		
-		}catch(ExitException e){return;}
-		fail();
+		model.setBPM((byte)-1);
 	}
 	
 }
