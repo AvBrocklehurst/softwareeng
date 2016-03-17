@@ -10,7 +10,7 @@ import javax.sound.midi.InvalidMidiDataException;
  * Interface that describes the public methods available to accessing and playing MIDI sounds.
  * 
  */
-public interface MIDIPlayer {
+public interface SimoriSound {
 	/**
 	 * @author Josh
 	 * @version 1.0.4

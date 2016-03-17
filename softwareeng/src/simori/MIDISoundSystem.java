@@ -19,7 +19,7 @@ import simori.Simori.PowerTogglable;
  * 
  * @author Josh aka the music man
  * @version 6.2.4
- * {@link simori.MIDIPlayer}
+ * {@link simori.SimoriSound}
  * {@link ShortMessage}
  * 
  * Class that implements the MIDIPlayer interface.

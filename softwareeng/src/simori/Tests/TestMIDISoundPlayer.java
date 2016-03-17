@@ -15,7 +15,7 @@ import simori.SimoriSoundSystem;
 /**
  * @author Josh
  * @version 2.0.1
- * {@link simori.MIDIPlayer}
+ * {@link simori.SimoriSound}
  * {@link simori.SimoriSoundSystem}
  * 
  * JUnit tests for the MIDISoundPlayer Class.

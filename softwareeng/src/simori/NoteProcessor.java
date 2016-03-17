@@ -26,7 +26,7 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 		private volatile boolean running;
 		private ModeController mode;
 		private MatrixModel model;
-		private MIDIPlayer midi;
+		private SimoriSound midi;
 		private Object lock;
 		public Object bpmLock;
 		private Clock clock;
@@ -39,7 +39,7 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 		 * @param midi Holds the reference to the MIDIPlayer
 		 * @param bbm Beats Per Minute; used to calculate the period
 		 */
-		public NoteProcessor(ModeController modes, MatrixModel model, MIDIPlayer midi){
+		public NoteProcessor(ModeController modes, MatrixModel model, SimoriSound midi){
 			running = true;
 			this.mode = modes;
 			this.model = model;
