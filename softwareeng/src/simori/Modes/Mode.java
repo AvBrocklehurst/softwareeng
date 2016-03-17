@@ -1,5 +1,6 @@
 package simori.Modes;
 
+import simori.MiniMidi;
 import simori.SimoriGui.FunctionButtonEvent;
 import simori.SimoriGui.FunctionButtonListener;
 import simori.SimoriGui.GridButtonListener;
@@ -81,6 +82,7 @@ public abstract class Mode implements FunctionButtonListener,
 		FunctionButton fb = e.getFunctionButton();
 		switch (fb) {
 		case OK:
+			MiniMidi.happyNoise();
 			controller.setMode(new PerformanceMode(controller));
 			break;
 		case ON:

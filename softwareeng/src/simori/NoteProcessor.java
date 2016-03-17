@@ -244,9 +244,6 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 				instrument = (short) (instrument - 94);
 			}
 			layer[1] = (byte) instrument;
-			if(layer[0] == 9){
-				layer[1] = 0; //if the channel is 9 make isntrument 0
-			}
 			
 			return layer;
 		}
