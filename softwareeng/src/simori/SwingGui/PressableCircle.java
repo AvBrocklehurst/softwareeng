@@ -46,15 +46,18 @@ public abstract class PressableCircle
 		setGreyedOut(false);
 	}
 	
-	/**
-	 * @param greyed true to disable the button
-	 */
+	/** @param greyed true to draw greyed out and disable presses */
 	public void setGreyedOut(boolean greyed) {
 		if (greyedOut == greyed) return;
 		this.greyedOut = greyed;
 		setCursor(greyed ? GuiProperties.NORMAL_CURSOR :
 								GuiProperties.HAND_CURSOR);
 		repaint();
+	}
+	
+	/** @return true if greyed out */
+	public boolean isGreyedOut() {
+		return greyedOut;
 	}
 	
 	/**

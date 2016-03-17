@@ -40,7 +40,8 @@ public class Led extends PressableCircle {
 	/** {@inheritDoc} */
 	@Override
 	protected Color getFillColour() {
-		//Four possible colours, depending on illumination and press state
+		if (isGreyedOut()) return super.getFillColour();
+		// Four possible colours when not greyed out
 		return lit ?
 				(pushed ? LED_COLOUR_ON_IN : LED_COLOUR_ON) :
 				(pushed ? LED_COLOUR_OFF_IN : LED_COLOUR_OFF);
