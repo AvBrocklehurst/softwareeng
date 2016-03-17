@@ -34,7 +34,6 @@ public class MIDISoundPlayer implements MIDIPlayer, PowerTogglable {
 	private Synthesizer synth;
 	private Receiver reciever;
 	private ShortMessage[] noteOnArray; // array that will hold all MIDI messages for a single tick.
-	private ShortMessage[] noteOffArray; // array that will hold all MIDI messages for a single tick.
 	private ShortMessage message;
 	
 	
@@ -79,8 +78,7 @@ public class MIDISoundPlayer implements MIDIPlayer, PowerTogglable {
 			commandCounter += (layer.length - 2);
 		}
 
-		noteOnArray = new ShortMessage[commandCounter]; // create 2 arrays of that length
-		noteOffArray = new ShortMessage[commandCounter];
+		noteOnArray = new ShortMessage[commandCounter]; // create an array of that length
 		int currentPositionInArray = 0;
 
 		for(int i = 0; i<array.length; i++){
@@ -88,7 +86,6 @@ public class MIDISoundPlayer implements MIDIPlayer, PowerTogglable {
 			message  = new ShortMessage(); // for some reason constructor does not work in blue room, so setMessage has to be used instead
 			message.setMessage(ShortMessage.PROGRAM_CHANGE, array[i][0], array[i][1], 0); // for the given layer set the channel and instrument, the zero is arbitrary (but is needed for correct number of bytes to be sent).
 			noteOnArray[currentPositionInArray] = message; // add MIDI message to on array
-			noteOffArray[currentPositionInArray] = message; // add MIDI message to off array
 			currentPositionInArray ++;
 			
 			// for every note in one of the inner byte arrays we'll need that many messages
@@ -96,11 +93,6 @@ public class MIDISoundPlayer implements MIDIPlayer, PowerTogglable {
 				message = new ShortMessage(); // for some reason constructor does not work in blue room, so setMessage has to be used instead
 				message.setMessage(ShortMessage.NOTE_ON, array[i][0], array[i][j], array[i][2]); // set a play command for that note with the correct pitch and velocity.
 				noteOnArray[currentPositionInArray] = message; // add MIDI message to on array
-				
-				message = new ShortMessage();
-				message.setMessage(ShortMessage.NOTE_OFF, array[i][0], array[i][j], array[i][2]); // set an off command for that note with the correct pitch and velocity.
-				noteOffArray[currentPositionInArray] = message; // add MIDI message to off array
-
 				currentPositionInArray ++;
 			}
 		}
@@ -128,6 +120,7 @@ public class MIDISoundPlayer implements MIDIPlayer, PowerTogglable {
 	 */
 	@Override
 	public void play(byte[][] array) throws InvalidMidiDataException {
+		System.out.println(array[0][0] + " "+ array[0][1] + " "+ array[0][2] + " "+ array[0][3]);
 		readArray(array); // take the array and turn it into MIDI messages.
 		playArray(); //play all the MIDI messages.
 	}
@@ -141,9 +134,8 @@ public class MIDISoundPlayer implements MIDIPlayer, PowerTogglable {
 	 */
 	@Override
 	public void stopPlay() throws InvalidMidiDataException {
-			for (ShortMessage message : noteOffArray) { // for every message in the MIDI message arrayList:
-			reciever.send(message, TIMESTAMP); // send that MIDI message to the synthesiser.
-		}
+		synth.getChannels()[0].allNotesOff();
+		synth.getChannels()[9].allNotesOff();
 	}
 	
 	
