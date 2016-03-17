@@ -5,6 +5,15 @@ import simori.SimoriGui.FunctionButtonEvent;
 import simori.SimoriGui.GridButtonEvent;
 import simori.Exceptions.InvalidCoordinatesException;
 
+/**
+ * ShopBoyMode is a demonstration mode where a serious of songs
+ * will be played to show the power of the Simori.
+ * 
+ * @author James
+ * @author Matt
+ * @version 1.0.0
+ * @see Mode, ModeController
+ */
 public class ShopBoyMode extends Mode {
 
 	public ShopBoyMode(ModeController controller) {
