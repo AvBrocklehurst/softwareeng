@@ -14,12 +14,12 @@ import javax.sound.midi.ShortMessage;
  * The amount of time it takes to do .play(Array) is ideally zero.
  * As a result there is little to no error checking in this class. All error checking is done before this method is played (whilst it is still in sync with the clock)
  */
-public class SimoriSoundSystem extends MIDISoundSystem{
+public class SimoriSoundSystem {
 
 /**
 	 * @author Josh
 	 * @version 5.0.1
-	 * @param array
+	 * @param simoriLayers
 	 * @return void
 	 * @throws InvalidMidiDataException
 	 * 
@@ -32,29 +32,22 @@ public class SimoriSoundSystem extends MIDISoundSystem{
 	 * As a result the array will be of length (size of individual array -2)* number of arrays
 	 * For example an array of arrays [[0,110,80,60]] would contain 2 commands
 	 */
-	private ShortMessage[] readArray(byte[][] array) throws InvalidMidiDataException{
+	private ShortMessage[] convertToMIDIMessages(byte[][] simoriLayers) throws InvalidMidiDataException{
 		ShortMessage message;
-		ShortMessage[] toBePlayedArray;
-		int commandCounter = 0;	
-		// work out the number of midi messages needed for the input array
-		for(byte[] layer : array){
-			commandCounter += (layer.length - 2);
-		}
-
-		toBePlayedArray = new ShortMessage[commandCounter]; // create an array of that length
+		ShortMessage[] toBePlayedArray = new ShortMessage[calculateMIDIArraySize(simoriLayers)]; // create an array of that length
+		
 		int currentPositionInArray = 0;
-
-		for(int i = 0; i<array.length; i++){
+		for(int i = 0; i<simoriLayers.length; i++){
 			// for each byte array in the larger array we'll need a command change
-			message  = new ShortMessage(); // for some reason constructor does not work in blue room, so setMessage has to be used instead
-			message.setMessage(ShortMessage.PROGRAM_CHANGE, array[i][0], array[i][1], 0); // for the given layer set the channel and instrument, the zero is arbitrary (but is needed for correct number of bytes to be sent).
+			message = new ShortMessage(); // for some reason constructor does not work in blue room, so setMessage has to be used instead
+			message.setMessage(ShortMessage.PROGRAM_CHANGE, simoriLayers[i][0], simoriLayers[i][1], 0); // for the given layer set the channel and instrument, the zero is arbitrary (but is needed for correct number of bytes to be sent).
 			toBePlayedArray[currentPositionInArray] = message; // add MIDI message to  array
 			currentPositionInArray ++;
 			
 			// for every note in one of the inner byte arrays we'll need that many messages
-			for(int j = 3; j<array[i].length; j++){
+			for(int j = 3; j<simoriLayers[i].length; j++){
 				message = new ShortMessage(); // for some reason constructor does not work in blue room, so setMessage has to be used instead
-				message.setMessage(ShortMessage.NOTE_ON, array[i][0], array[i][j], array[i][2]); // set a play command for that note with the correct pitch and velocity.
+				message.setMessage(ShortMessage.NOTE_ON, simoriLayers[i][0], simoriLayers[i][j], simoriLayers[i][2]); // set a play command for that note with the correct pitch and velocity.
 				toBePlayedArray[currentPositionInArray] = message; // add MIDI message to on array
 				currentPositionInArray ++;
 			}
@@ -62,7 +55,16 @@ public class SimoriSoundSystem extends MIDISoundSystem{
 		return toBePlayedArray;
 	}
 	
+	private int calculateMIDIArraySize(byte[][] array){
+		// work out the number of midi messages needed for the input array
+		int commandCounter = 0;	
+		for(byte[] layer : array){
+			commandCounter += (layer.length - 2);
+		}
+		return commandCounter;
+	}
 	
+
 	/**
 	 * @author Josh
 	 * @version 1.0.5
@@ -71,8 +73,9 @@ public class SimoriSoundSystem extends MIDISoundSystem{
 	 */
 	//Override
 	public void play(byte[][] array) throws InvalidMidiDataException {
-		sendCommands(readArray(array)); // take the array and turn it into MIDI messages.
+		MIDISoundSystem.sendCommands(convertToMIDIMessages(array)); // take the array and turn it into MIDI messages.
 		//play all the MIDI messages.
+		 
 	}
 	
 	/* FROM INTERFACE

@@ -26,8 +26,8 @@ import simori.Simori.PowerTogglable;
 public class MIDISoundSystem implements PowerTogglable {
 
 	final static int TIMESTAMP = -1; // Timestamp of -1 means MIDI messages will be executed immediately.
-	Synthesizer synth;
-	Receiver reciever;
+	static Synthesizer synth;
+	static Receiver reciever;
 	
 	/**
 	 * @author Josh
@@ -84,7 +84,6 @@ public class MIDISoundSystem implements PowerTogglable {
 			synth.open();
 			reciever = synth.getReceiver();
 		} catch (MidiUnavailableException e) {e.printStackTrace();System.exit(1);}
-		
 	}
 
 	
@@ -113,4 +112,10 @@ public class MIDISoundSystem implements PowerTogglable {
 	public void stopPlay() throws InvalidMidiDataException;
 	 */
 	
+	public static void main(String[] args) throws InvalidMidiDataException, InterruptedException {
+		MIDISoundSystem josh = new MIDISoundSystem();
+		ShortMessage message = new ShortMessage(ShortMessage.NOTE_ON,0,60,80);
+		josh.sendCommand(message);
+		Thread.sleep(1000);
+	}
 }
