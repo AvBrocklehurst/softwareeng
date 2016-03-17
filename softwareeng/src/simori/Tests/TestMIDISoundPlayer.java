@@ -10,13 +10,13 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import simori.MIDISoundPlayer;
+import simori.SimoriSoundSystem;
 
 /**
  * @author Josh
  * @version 2.0.1
  * {@link simori.MIDIPlayer}
- * {@link simori.MIDISoundPlayer}
+ * {@link simori.SimoriSoundSystem}
  * 
  * JUnit tests for the MIDISoundPlayer Class.
  * NOTE: Since this class has no error checking, technically any invalid data (such as an instrument number over 127) wont be caught by this class.
@@ -28,7 +28,7 @@ import simori.MIDISoundPlayer;
  *
  */
 public class TestMIDISoundPlayer {
-	MIDISoundPlayer player; // declare a MIDISoundPlayer.
+	SimoriSoundSystem player; // declare a MIDISoundPlayer.
 	byte[][] array; // declare an array to be used with play(array) tests.
 	
 	final byte[] singleNote = {0,0,80,60}; // channel:0 , instrument:0 (piano), velocity:80, pitch 60 (middle c).
@@ -74,7 +74,7 @@ public class TestMIDISoundPlayer {
 	 */
 	@Before
 	public void setupUp() throws MidiUnavailableException{
-		player = new MIDISoundPlayer(); // Instantiate player.
+		player = new SimoriSoundSystem(); // Instantiate player.
 		// no need to instantiate array as it will need to have different data (and length) depending on test.
 	}
 	

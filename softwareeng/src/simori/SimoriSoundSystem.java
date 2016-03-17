@@ -28,7 +28,7 @@ import simori.Simori.PowerTogglable;
  * The amount of time it takes to do .play(Array) is ideally zero.
  * As a result there is little to no error checking in this class. All error checking is done before this method is played (whilst it is still in sync with the clock)
  */
-public class MIDISoundPlayer implements MIDIPlayer, PowerTogglable {
+public class SimoriSoundSystem implements MIDIPlayer, PowerTogglable {
 
 	final static int TIMESTAMP = -1; // Timestamp of -1 means MIDI messages will be executed immediately.
 	private Synthesizer synth;
@@ -44,7 +44,7 @@ public class MIDISoundPlayer implements MIDIPlayer, PowerTogglable {
 	 * 
 	 * Constructor that creates a MIDISynthesizer with a connected receiver that can send MIDI short messages to the synthesizer.
 	 */
-	public MIDISoundPlayer(){
+	public SimoriSoundSystem(){
 		try {
 			synth = MidiSystem.getSynthesizer();
 			synth.open();
@@ -168,6 +168,6 @@ public class MIDISoundPlayer implements MIDIPlayer, PowerTogglable {
 		reciever.close();
 		synth.close();	
 	}
-
+	
 }
 
