@@ -30,7 +30,7 @@ public class MasterSlaveMode extends Mode implements ScanProgressListener {
 		super(controller);
 		rows = getGui().getGridHeight();
 		columns = getGui().getGridWidth();
-		grid = new boolean[rows][columns];
+		grid = new boolean[rows][columns]; 
 	}
 	
 	/** {@inheritDoc} */
