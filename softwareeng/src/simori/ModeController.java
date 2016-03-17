@@ -3,12 +3,14 @@ package simori;
 import java.io.IOException;
 
 import simori.Simori.PowerTogglable;
+import simori.SimoriGui.FunctionButtonEvent;
 import simori.Exceptions.InvalidCoordinatesException;
 import simori.Modes.Mode;
 import simori.Modes.NetworkMaster;
 import simori.Modes.NetworkSlave;
 import simori.Modes.OffMode;
 import simori.Modes.PerformanceMode;
+import simori.Modes.ShopBoyMode;
 
 /**
  * Manages the current {@link Mode} of the Simori-ON.
@@ -55,8 +57,6 @@ public class ModeController {
 		this.port = port;
 	}
 	
-	
-	
 	/**
 	 * Draws the clock hand in the specified column. If the current
 	 * mode is not {@link PerformanceMode}, this has no effect.
@@ -82,7 +82,6 @@ public class ModeController {
 	public boolean isOn() {
 		return on;
 	}
-	
 	
 	/**
 	 * Method to return the port to use.
@@ -175,11 +174,9 @@ public class ModeController {
 	 * @author Jurek
 	 */
 	private void switchOn() {
-		for (PowerTogglable t : toPowerToggle) {
-			t.switchOn();
-		}
+		for (PowerTogglable t : toPowerToggle) t.switchOn();
 		on = true;	
-		setMode(new PerformanceMode(this));
+		setMode(makeInitialPerformanceMode());
 		model.setBPM(DEFAULT_BPM);
 		slave = new NetworkSlave(port, this);
 		try {
@@ -204,8 +201,25 @@ public class ModeController {
 		}
 		if(master != null) master.stopRunning();
 		if (slave != null) slave.switchOff();
-		//TODO Stop the master scanning whilst off
 		master = null;
 		slave = null;
+	}
+	
+	/**
+	 * Creates a PerformanceMode which enters ShopBoyMode when OK is pressed.
+	 * This should only be used when the Simori-ON has just been switched on.
+	 * @return Modified {@link PerformanceMode}
+	 */
+	private Mode makeInitialPerformanceMode() {
+		return new PerformanceMode(this) {
+			@Override
+			public void onFunctionButtonPress(FunctionButtonEvent e) {
+				if (e.getFunctionButton().equals(FunctionButton.OK)) {
+					setMode(new ShopBoyMode(ModeController.this));
+				} else {
+					super.onFunctionButtonPress(e);
+				}
+			}
+		};
 	}
 }
