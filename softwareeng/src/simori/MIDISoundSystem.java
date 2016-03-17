@@ -14,28 +14,20 @@ import simori.Simori.PowerTogglable;
  * As a result this code works with multiple laptops,PC's etc but doesnt work properly in blue room.
  * (It just plays a clicking noise)
  * 
- * Please note: Whilst it may not appear like a lot of work has been done (making it an array instead of arrayList and the stopPlay method)
- * I assure you it look a lot of debugging, testing and implementing time!
  * 
  * @author Josh aka the music man
- * @version 6.2.4
- * {@link simori.SimoriSound}
+ * @version 2.2.1
+ *
+ * Class that contains all access to playing sound.
+ * This class is meant to act as the one place that all sound 'goes through' in order to be played,
+ * regardless of whether it is a from a layer in the Simori or from a 'jingle' in the audio feedback.
  * {@link ShortMessage}
- * 
- * Class that implements the MIDIPlayer interface.
- * NOTE: This class is designed to have the lowest overhead as possible.
- * This is because it is played after the clock, i.e. if it takes too long to process it may become out of sync with the rest of the system.
- * The amount of time it takes to do .play(Array) is ideally zero.
- * As a result there is little to no error checking in this class. All error checking is done before this method is played (whilst it is still in sync with the clock)
  */
 public class MIDISoundSystem implements PowerTogglable {
 
 	final static int TIMESTAMP = -1; // Timestamp of -1 means MIDI messages will be executed immediately.
 	Synthesizer synth;
 	Receiver reciever;
-	ShortMessage[] noteOnArray; // array that will hold all MIDI messages for a single tick.
-	ShortMessage message;
-	
 	
 	/**
 	 * @author Josh
@@ -54,18 +46,31 @@ public class MIDISoundSystem implements PowerTogglable {
 		if (reciever == null){System.exit(1);}
 		}
 	
+	public void sendCommand(ShortMessage message){
+		reciever.send(message, TIMESTAMP);
+	}
+	
+	/**
+	 * Method takes arrayList of MIDI messages and executes them simultaneously (or near simultaneous).
+	 * @param toBePlayed
+	 */
+	public void sendCommands(ShortMessage[] toBePlayed){
+		for (ShortMessage message : toBePlayed) {
+			sendCommand(message);
+		}
+	}
+	
+	
 	/**
 	 * @author Josh
 	 * @version 1.0.2
 	 * @throws InvalidMidiDataException 
 	 * {@inheritDoc}
 	 */
-	//Override
-	public void stopPlay() throws InvalidMidiDataException {
+	public void stopSound() throws InvalidMidiDataException {
 		synth.getChannels()[0].allNotesOff();
 		synth.getChannels()[9].allNotesOff();
 	}
-	
 	
 	
 	/**
@@ -78,8 +83,6 @@ public class MIDISoundSystem implements PowerTogglable {
 		try {
 			synth.open();
 			reciever = synth.getReceiver();
-			message = null; // just in case there is something stored in message
-			noteOnArray = null; // just in case there is something stored in the array
 		} catch (MidiUnavailableException e) {e.printStackTrace();System.exit(1);}
 		
 	}
@@ -92,10 +95,22 @@ public class MIDISoundSystem implements PowerTogglable {
 	 */
 	@Override
 	public void switchOff() {
-		message = null; // just in case there is something stored in message
-		noteOnArray = null; // just in case there is something stored in the array
 		reciever.close();
 		synth.close();	
 	}
+	
+	
+	
+	/* FROM INTERFACE
+	 * 	/**
+	 * @author Josh
+	 * @version 1.0.0
+	 * @return void
+	 * 
+	 * Method that takes any playing notes and stops them playing.
+	 * Is expected to be used after a play method.
+	 *
+	public void stopPlay() throws InvalidMidiDataException;
+	 */
 	
 }
