@@ -1,6 +1,6 @@
 package simori.Modes;
 
-import simori.MiniMidi;
+
 import simori.SimoriGui.FunctionButtonEvent;
 import simori.SimoriGui.FunctionButtonListener;
 import simori.SimoriGui.GridButtonListener;
