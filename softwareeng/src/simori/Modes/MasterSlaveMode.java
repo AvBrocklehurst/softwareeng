@@ -57,7 +57,6 @@ public class MasterSlaveMode extends Mode implements ScanProgressListener {
 	/** {@inheritDoc} */
 	@Override
 	public void onIpScan(int lastOctet) {
-		if (lastOctet > 0) lastOctet--; // Scans start at 1, but grid at 0
 		grid[row][column] = false;		// Clear previous dot
 		column = lastOctet % columns;	// Position new dot
 		row    = lastOctet / rows;

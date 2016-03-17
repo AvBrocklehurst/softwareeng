@@ -225,6 +225,7 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 		/**
 		 * 
 		 * @author Jurek
+		 * @author adam
 		 * @version 1.0.0
 		 * @param layerNumber
 		 * @param layerLength
@@ -282,5 +283,13 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 		@Override
 		public void update(Observable a, Object b) {
 			clock.updateBPM(model.getBPM());	
+			if(model.getPlaying() == false){
+				try {
+					midi.stopPlay();
+				} catch (InvalidMidiDataException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 		}
 }

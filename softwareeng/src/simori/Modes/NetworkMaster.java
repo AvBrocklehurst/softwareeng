@@ -116,7 +116,7 @@ public class NetworkMaster implements Runnable {
 		rangeUnderScan = ip.substring(0, ip.length() - 1);
 		if (listener != null) listener.onRangeChanged(rangeUnderScan);
 		
-		for(int i = 1; i < 256; i++){
+		for(int i = 0; i < 256; i++){
 			if(running) {
 				if (listener != null) listener.onIpScan(i);
 		        try {
