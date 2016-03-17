@@ -22,14 +22,15 @@ public class SimoriCentrePanel extends JPanel implements PowerTogglable {
 	
 	// Keys to identify child JPanels
 	private static final String LEDS = "LedPanel";
-	private static final String GREYED = "Greyed";
 	private static final String KEYBOARD = "Keyboard";
 	
 	// Layout and children
 	protected CardLayout layout;
 	protected LedPanel ledPanel;
 	private JPanel keyboard;
-	private JPanel greyed;
+	
+	// Shortcuts for greying and un-greying the entire grid
+	private boolean[][] all, none;
 	
 	/**
 	 * @param map Layout of the keyboard to construct
@@ -38,13 +39,12 @@ public class SimoriCentrePanel extends JPanel implements PowerTogglable {
 	public SimoriCentrePanel(KeyboardMapping map, OnPressListenerMaker maker) {
 		ledPanel = makeLedPanel(map, maker);
 		keyboard = makeKeyboard(map, maker);
-		greyed = makeKeyboard(getGreyMap(map), maker);
 		layout = new CardLayout(0, 0);
 		setLayout(layout);
 		add(keyboard, KEYBOARD);
-		add(greyed, GREYED);
 		add(ledPanel, LEDS);
 		setKeyboardShown(false);
+		makeAllAndNone(map);
 	}
 	
 	/** @see SimoriJFrame#setKeyboardShown */
@@ -57,16 +57,23 @@ public class SimoriCentrePanel extends JPanel implements PowerTogglable {
 		ledPanel.setGrid(grid);
 	}
 	
+	/** @see LedPanel#setGreyedOut(boolean[][]) */
+	public void setGreyedOut(boolean[][] which) {
+		ledPanel.setGreyedOut(which);
+	}
+	
 	/** {@inheritDoc} */
 	@Override
 	public void switchOn() {
 		layout.show(this, LEDS);
+		ledPanel.setGreyedOut(none);
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public void switchOff() {
-		layout.show(this, GREYED); // Grey out grid when Simori-ON is off
+		layout.show(this, LEDS);
+		ledPanel.setGreyedOut(all);
 	}
 	
 	/**
@@ -117,25 +124,19 @@ public class SimoriCentrePanel extends JPanel implements PowerTogglable {
 	}
 	
 	/**
-	 * Creates a KeyboardMapping of the same grid dimensions as the given
-	 * mapping, but which returns a null character for every coordinate,
-	 * causing a keyboard created from it with {@link #makeKeyboard} to be
-	 * an entire grid of greyed out buttons.
+	 * Initialises all and none as multidimensional arrays that
+	 * are completely true and completely false, respectively.
+	 * @param map Used to determine the dimensions of the grid
 	 */
-	private KeyboardMapping getGreyMap(final KeyboardMapping map) {
-		return new KeyboardMapping() {
-			@Override
-			public byte getRows() {
-				return map.getRows();
+	private void makeAllAndNone(KeyboardMapping map) {
+		int rows = map.getRows();
+		int columns = map.getColumns();
+		none = new boolean[rows][columns];
+		all = new boolean[rows][columns];
+		for (boolean[] row : all) {
+			for (int i = 0; i < row.length; i++) {
+				row[i] = true;
 			}
-			@Override
-			public byte getColumns() {
-				return map.getColumns();
-			}
-			@Override
-			public Character getLetterOn(byte x, byte y) {
-				return null;
-			}
-		};
+		}
 	}
 }

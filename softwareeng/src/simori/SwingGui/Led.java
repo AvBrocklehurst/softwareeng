@@ -50,8 +50,8 @@ public class Led extends PressableCircle {
 	/** {@inheritDoc} */
 	@Override
 	protected Color getBorderColour() {
-		//No outline drawn if illuminated
-		return lit ? null : GuiProperties.LED_BORDER;
+		if (isGreyedOut()) return super.getBorderColour();
+		return lit ? null : GuiProperties.LED_BORDER; // No outline when lit
 	}	
 	
 	/** {@inheritDoc} */

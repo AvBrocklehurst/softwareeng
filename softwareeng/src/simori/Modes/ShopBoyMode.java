@@ -14,6 +14,7 @@ public class ShopBoyMode extends Mode {
 	public void setInitialGrid() {
 		getGui().clearGrid();
 		getGui().setText("Shop boy mode (in development!)");
+		((simori.SwingGui.SimoriJFrame) getGui()).testAnimation();
 	}
 
 	@Override
