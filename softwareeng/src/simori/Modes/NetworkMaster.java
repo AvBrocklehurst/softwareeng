@@ -24,6 +24,14 @@ import simori.ModeController;
  */
 public class NetworkMaster implements Runnable {
 	
+	/*
+	 * FIXME
+	 * Should running be volatile?
+	 * 192.168.0 range appears to be scanned twice
+	 * Is running ever set false if the end of the scan is reached?
+	 * (With successful and / or unsuccessful outcome)
+	 */
+	
 	private static final String OS_NAME =
 			System.getProperty("os.name").toLowerCase();
 	
@@ -32,7 +40,10 @@ public class NetworkMaster implements Runnable {
 	private ModeController controller;
 	private NetworkSlave slave;
 	private boolean running;
-	private ScanProgressListener listener;
+	
+	private volatile boolean obtainingIp;
+	private volatile String rangeUnderScan;
+	private volatile ScanProgressListener listener;
 	
 	/**
 	 * Constructor for the Network Master Class.
@@ -49,25 +60,47 @@ public class NetworkMaster implements Runnable {
 	}
 	
 	/**
+	 * Starts an asynchronous scan for other Simori-ONs on the network,
+	 * and copies the configuration to the first one found.
+	 * This call does nothing if a scan is already underway.
+	 * @author Matt
+	 */
+	public void scan() {
+		if (!running) new Thread(this).start();
+	}
+	
+	/** @author Adam */
+	@Override
+	public void run() {
+		try {
+			slave.switchOff();
+			this.ip = getIP();
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		findSlave();
+	}
+	
+	/**
 	 * Find slave generates the IP ranges to search in for another Simori-ON.
 	 * @author adam
 	 */
 	public void findSlave(){
-		if(!running){
-			running = true;
-			/* generate y range (xxx.xxx.xxx.yyy) */
-			String cloesestRangeIP =  ip.substring(0, ip.indexOf('.',
-					ip.indexOf('.',ip.indexOf('.')+1)+1) + 1);
-			/* generate y range (xxx.xxx.yyy.xxx) */
-			String thisRangeIP = cloesestRangeIP.substring
-					(0, cloesestRangeIP.indexOf('.',cloesestRangeIP.indexOf('.')+1) + 1);
-			/* First check the same end IP range */
-			boolean found = closestRangeIP(cloesestRangeIP);
-			if(!found){
-				iterateOverIPRange(thisRangeIP); //FIXME does this mean it repeats the range it just checked?
-			}
-			slave.switchOn();
+		running = true;
+		/* generate y range (xxx.xxx.xxx.yyy) */
+		String cloesestRangeIP =  ip.substring(0, ip.indexOf('.',
+				ip.indexOf('.',ip.indexOf('.')+1)+1) + 1);
+		/* generate y range (xxx.xxx.yyy.xxx) */
+		String thisRangeIP = cloesestRangeIP.substring
+				(0, cloesestRangeIP.indexOf('.',cloesestRangeIP.indexOf('.')+1) + 1);
+		/* First check the same end IP range */
+		boolean found = closestRangeIP(cloesestRangeIP);
+		if(!found){
+			iterateOverIPRange(thisRangeIP);
 		}
+		slave.switchOn();
 	}
 	
 	
@@ -78,8 +111,8 @@ public class NetworkMaster implements Runnable {
 	 * @return  boolean, true if an exception IP was found
 	 */
 	private boolean closestRangeIP(String ip) {
-		if (listener != null)
-			listener.onRangeChanged(ip.substring(0, ip.length() - 1));
+		rangeUnderScan = ip.substring(0, ip.length() - 1);
+		if (listener != null) listener.onRangeChanged(rangeUnderScan);
 		
 		for(int i = 1; i < 256; i++){
 			if(running) {
@@ -88,9 +121,7 @@ public class NetworkMaster implements Runnable {
 		        	/* If it's not my IP */
 		        	checkSocket(ip + i);
 		        	return true;
-		        } catch (IOException	 e){
-		        	
-		        }
+		        } catch (IOException e){}
 			} else {
 				break;
 			}
@@ -139,8 +170,7 @@ public class NetworkMaster implements Runnable {
 			s.connect(new InetSocketAddress("192.168.0.1", 80), 500);
 			betterIP = s.getLocalAddress().getHostAddress();
 			s.close();
-		} catch (IOException e) {
-			if (listener != null) listener.onLocalIpCheck();			
+		} catch (IOException e) {			
 			/* Else try trace route for IP */
 			if((betterIP = routeIP()).equals("0.0.0.0")){
 				/* Else set address to unreliable local address */
@@ -158,8 +188,10 @@ public class NetworkMaster implements Runnable {
 	 * @throws IOException
 	 */
 	private String routeIP() throws IOException {
+		obtainingIp = true;
+		if (listener != null) listener.onLocalIpCheck();
 		
-		/* choose command based on windows or unix */
+		/* choose command based on Windows or Unix */
 		String trace = (OS_NAME.contains("win") ? "tracert" : "traceroute");
 		/* execute command */
 		
@@ -172,17 +204,16 @@ public class NetworkMaster implements Runnable {
         
         while((line = output.readLine()) != null){
         	content += line; //add each line content
-        	
         }
         
-        
+        obtainingIp = false;
         String gateway= ipv4(content);
         return gateway;
     }
 	
 	/**
 	 * Method to find the 2nd IP address in a string.
-	 * @author Adam.
+	 * @author Adam
 	 * @param search  The string to search for an IP in.
 	 * @return An IPv4 address.
 	 */
@@ -223,30 +254,22 @@ public class NetworkMaster implements Runnable {
 	}
 	
 	/**
+	 * Interrupts the current scan
 	 * @author Adam
 	 */
 	public void stopRunning(){
 		running = false;
 	}
 	
-	/** Registers a listener for callbacks about the IP scan's progress */
+	/**
+	 * @author Matt
+	 * @param listener to register for callbacks on scan progress
+	 */
 	public void setIpScanListener(ScanProgressListener listener) {
 		this.listener = listener;
-		/* TODO If a tracert is in progress, call onLocalIpCheck
-		        or if scanning a range, call onRangeChanged      */
-	}
-
-	@Override
-	public void run() {
-		try {
-			slave.switchOff();
-			this.ip = getIP();
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		findSlave();
+		if (listener == null) return;
+		if (obtainingIp) listener.onLocalIpCheck();
+		if (rangeUnderScan != null) listener.onRangeChanged(rangeUnderScan);
 	}
 	
 	/**

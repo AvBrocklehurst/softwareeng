@@ -6,6 +6,14 @@ import simori.SimoriGui.GridButtonEvent;
 import simori.Exceptions.InvalidCoordinatesException;
 import simori.Modes.NetworkMaster.ScanProgressListener;
 
+/**
+ * Mode which initiates a {@link NetworkMaster} scan for another Simori-ON
+ * on the same network, and displays its progress by activating one LED at
+ * a time, in a sequence that resembles a dot moving across a screen.
+ * Messages indicating the state of the scan are displayed on the LCD screen.
+ * @author Matt
+ * @version 1.1.0
+ */
 public class MasterSlaveMode extends Mode implements ScanProgressListener {
 	
 	private static final String FINISH_SUCCESS = "Slave located!";
@@ -15,8 +23,8 @@ public class MasterSlaveMode extends Mode implements ScanProgressListener {
 	
 	private NetworkMaster master;
 	private boolean[][] grid;
-	private int row, column;
-	private int rows, columns;
+	private int row, column;	// Position of progress dot
+	private int rows, columns;	// Dimensions of grid to move dot through
 
 	public MasterSlaveMode(ModeController controller) {
 		super(controller);
@@ -49,14 +57,15 @@ public class MasterSlaveMode extends Mode implements ScanProgressListener {
 	/** {@inheritDoc} */
 	@Override
 	public void onIpScan(int lastOctet) {
-		if (lastOctet > 0) lastOctet--;
-		grid[row][column] = false;
-		column = lastOctet % columns;
+		if (lastOctet > 0) lastOctet--; // Scans start at 1, but grid at 0
+		grid[row][column] = false;		// Clear previous dot
+		column = lastOctet % columns;	// Position new dot
 		row    = lastOctet / rows;
 		while (column >= columns) column -= columns;
 		while (row >= rows) row -= rows;
+		if (row % 2 != 0) column = columns - 1 - column; // Reverse direction
 		grid[row][column] = true;
-		getGui().setGrid(grid);
+		getGui().setGrid(grid);			// Draw dot to indicate scan progress
 	}
 
 	/** {@inheritDoc} */
@@ -69,11 +78,11 @@ public class MasterSlaveMode extends Mode implements ScanProgressListener {
 	@Override
 	public void onFunctionButtonPress(FunctionButtonEvent e) {
 		switch (e.getFunctionButton()) {
-		case ON :
+		case ON : // ON and OK exit the mode
 		case OK :
 			master.setIpScanListener(null);
 			super.onFunctionButtonPress(e);
-		default:
+		default: // Ignore all other function buttons
 			break;
 		}
 	}
@@ -81,5 +90,5 @@ public class MasterSlaveMode extends Mode implements ScanProgressListener {
 	/** {@inheritDoc} */
 	@Override
 	public void onGridButtonPress(GridButtonEvent e)
-			throws InvalidCoordinatesException {}
+			throws InvalidCoordinatesException {} // No grid input in this mode
 }
