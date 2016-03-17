@@ -54,6 +54,21 @@ public class LedPanel extends JPanel implements OnPressListener {
 	}
 	
 	/**
+	 * Greys out particular {@link Led}s in the grid,
+	 * according to the specified pattern.
+	 * LEDs in positions corresponding to true values in the
+	 * given multidimensional boolean array will be greyed out.
+	 * @param which The pattern of LEDs to grey out
+	 */
+	public void setGreyedOut(boolean[][] which) {
+		for (int y = 0; y < which.length; y++) {
+			for (int x = 0; x < which[y].length; x++) {
+				leds[x][y].setGreyedOut(which[y][x]);
+			}
+		}
+	}
+	
+	/**
 	 * Adds the required {@link Led}s to the frame,
 	 * using {@link GridLayout}, and sets their listeners.
 	 * @param rows Number of LEDs in the horizontal dimension
