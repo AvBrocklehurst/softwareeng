@@ -39,7 +39,7 @@ public class NetworkMaster implements Runnable {
 	private String ip;
 	private ModeController controller;
 	private NetworkSlave slave;
-	private boolean running;
+	private volatile boolean running;
 	
 	private volatile boolean obtainingIp;
 	private volatile String rangeUnderScan;
@@ -96,10 +96,12 @@ public class NetworkMaster implements Runnable {
 		String thisRangeIP = cloesestRangeIP.substring
 				(0, cloesestRangeIP.indexOf('.',cloesestRangeIP.indexOf('.')+1) + 1);
 		/* First check the same end IP range */
+		this.ip = cloesestRangeIP;
 		boolean found = closestRangeIP(cloesestRangeIP);
 		if(!found){
 			iterateOverIPRange(thisRangeIP);
 		}
+		rangeUnderScan = null;
 		slave.switchOn();
 	}
 	
@@ -244,8 +246,10 @@ public class NetworkMaster implements Runnable {
 		boolean success = false;
 		for(int j = 0; j < 256; j++){
 			if(running){
-				/* iterate through the end section. */
-				success = closestRangeIP(ip + j + '.');
+				if(!this.ip.equals(ip + j + '.')){
+					/* iterate through the end section. */
+					success = closestRangeIP(ip + j + '.');
+				}
 			} else {
 				break;
 			}
