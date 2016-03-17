@@ -1,7 +1,11 @@
+package simori;
+import javax.sound.midi.InvalidMidiDataException;
+import javax.sound.midi.ShortMessage;
 
-		
-	
-	/**
+public class SimoriSoundSystem extends MIDISoundSystem{
+
+
+/**
 	 * @author Josh
 	 * @version 5.0.1
 	 * @param array
@@ -64,7 +68,7 @@
 	 * @throws InvalidMidiDataException 
 	 * {@inheritDoc}
 	 */
-	@Override
+	//Override
 	public void play(byte[][] array) throws InvalidMidiDataException {
 		System.out.println(array[0][0] + " "+ array[0][1] + " "+ array[0][2] + " "+ array[0][3]);
 		readArray(array); // take the array and turn it into MIDI messages.
@@ -72,17 +76,7 @@
 	}
 	
 	
-	/**
-	 * @author Josh
-	 * @version 1.0.2
-	 * @throws InvalidMidiDataException 
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void stopPlay() throws InvalidMidiDataException {
-		synth.getChannels()[0].allNotesOff();
-		synth.getChannels()[9].allNotesOff();
-	}
+
 	
 	
 

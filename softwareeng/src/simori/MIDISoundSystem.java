@@ -31,10 +31,10 @@ import simori.Simori.PowerTogglable;
 public class MIDISoundSystem implements PowerTogglable {
 
 	final static int TIMESTAMP = -1; // Timestamp of -1 means MIDI messages will be executed immediately.
-	private Synthesizer synth;
-	private Receiver reciever;
-	private ShortMessage[] noteOnArray; // array that will hold all MIDI messages for a single tick.
-	private ShortMessage message;
+	Synthesizer synth;
+	Receiver reciever;
+	ShortMessage[] noteOnArray; // array that will hold all MIDI messages for a single tick.
+	ShortMessage message;
 	
 	
 	/**
@@ -53,6 +53,18 @@ public class MIDISoundSystem implements PowerTogglable {
 		if (synth == null){System.exit(1);}
 		if (reciever == null){System.exit(1);}
 		}
+	
+	/**
+	 * @author Josh
+	 * @version 1.0.2
+	 * @throws InvalidMidiDataException 
+	 * {@inheritDoc}
+	 */
+	//Override
+	public void stopPlay() throws InvalidMidiDataException {
+		synth.getChannels()[0].allNotesOff();
+		synth.getChannels()[9].allNotesOff();
+	}
 	
 	
 	
