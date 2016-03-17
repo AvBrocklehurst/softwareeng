@@ -315,7 +315,6 @@ public class ChangerModeFactory {
 		};
 	}
 	
-	
 	/**
 	 * This method, given two integer coordinates of a button press,
 	 * translates input into a short representing an instrument to be passed
