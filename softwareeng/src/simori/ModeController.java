@@ -136,9 +136,10 @@ public class ModeController {
 	}
 	
 	/** Searches searches for another Simori-ON to copy the configuration to */
-	public void startNetworkMaster() {
-		if (master == null) return;
-		new Thread(master).start();
+	public NetworkMaster startNetworkMaster() {
+		if (master == null) return null;
+		new Thread(master).start(); //FIXME Unless there's already a thread, surely
+		return master;
 	}
 	
 	/**

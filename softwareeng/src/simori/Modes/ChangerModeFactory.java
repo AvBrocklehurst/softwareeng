@@ -12,7 +12,7 @@ import simori.Modes.ChangerMode.Setting;
  * send data to the lcd are also included.
  * 
  *@author James
- *@version 1.3.0
+ *@version 1.3.1
  */
 
 public class ChangerModeFactory {
@@ -33,8 +33,6 @@ public class ChangerModeFactory {
 			return new ChangerMode(controller, SaveAndLoad.makeSaveChanger(controller), false, false);
 		case R3 :
 			return new ChangerMode(controller, SaveAndLoad.makeLoadChanger(controller), false, false);
-		case R4 :
-			return new ChangerMode(controller, NetworkMaster.masterSlave(controller), false, false);
 		default: 
 			return null;
 		}
