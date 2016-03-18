@@ -10,7 +10,7 @@ import org.junit.Test;
 import simori.MatrixModel;
 import simori.ModeController;
 import simori.SimoriSoundSystem;
-import simori.Exceptions.KeyboardException;
+import simori.Exceptions.SimoriNonFatalException;
 import simori.Modes.QwertyKeyboard;
 import simori.SwingGui.SimoriJFrame;
 
@@ -21,7 +21,7 @@ import simori.SwingGui.SimoriJFrame;
 public class TestNetworkMaster {
 
 	@Test
-	public void testRunning() throws KeyboardException{
+	public void testRunning() throws SimoriNonFatalException{
 		MatrixModel model = new MatrixModel(16, 16);
 		QwertyKeyboard keyboard = new QwertyKeyboard((byte)16, (byte)16);
 		SimoriJFrame gui = new SimoriJFrame(keyboard);

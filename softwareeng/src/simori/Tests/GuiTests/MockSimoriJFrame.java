@@ -15,7 +15,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 import simori.FunctionButton;
-import simori.Exceptions.KeyboardException;
+import simori.Exceptions.SimoriNonFatalException;
 import simori.Modes.QwertyKeyboard;
 import simori.SimoriGui.KeyboardMapping;
 import simori.SwingGui.Button;
@@ -42,7 +42,7 @@ public class MockSimoriJFrame extends SimoriJFrame {
 		lcd = getBottomBar().getLcd();
 	}
 	
-	public MockSimoriJFrame() throws KeyboardException {
+	public MockSimoriJFrame() throws SimoriNonFatalException {
 		this(new QwertyKeyboard((byte) 16, (byte) 16));
 	}
 

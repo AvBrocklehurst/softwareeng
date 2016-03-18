@@ -7,7 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import simori.FunctionButton;
-import simori.Exceptions.KeyboardException;
+import simori.Exceptions.SimoriNonFatalException;
 import simori.Modes.QwertyKeyboard;
 import simori.SwingGui.Button;
 import simori.SwingGui.GuiProperties;
@@ -46,20 +46,20 @@ public class TestSimoriEdgeBar {
 	}
 
 	@Test
-	public void testConstructor() throws KeyboardException, InterruptedException {
+	public void testConstructor() throws SimoriNonFatalException, InterruptedException {
 		OnPressListenerMaker maker = new OnPressListenerMaker(gui);
 		SimoriEdgeBar bar = new SimoriEdgeBar(true, true, maker, FunctionButton.L1, FunctionButton.L2, FunctionButton.L3, FunctionButton.L4); // since constructor hides most things away it means there is very little to test!
 		assertNotNull(bar);
 	}
 	
 	@Test
-	public void testWithLcd() throws KeyboardException, InterruptedException {
+	public void testWithLcd() throws SimoriNonFatalException, InterruptedException {
 		Lcd lcd = edgeBarBottom.getLcd();
 		assertNotNull(lcd);
 	}
 	
 	@Test
-	public void testWithoutLcd() throws KeyboardException, InterruptedException {
+	public void testWithoutLcd() throws SimoriNonFatalException, InterruptedException {
 		Lcd lcd = edgeBarLeft.getLcd();
 		assertNull(lcd);
 	}

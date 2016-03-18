@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import simori.MatrixModel;
 import simori.ModeController;
-import simori.Exceptions.KeyboardException;
+import simori.Exceptions.SimoriNonFatalException;
 import simori.Modes.ChangerMode.Setting;
 import simori.Modes.QwertyKeyboard;
 import simori.Modes.TextEntry;
@@ -36,7 +36,7 @@ public class TestTextEntry {
 	private boolean test;
 	
 	@Before
-	public void setUp() throws KeyboardException {
+	public void setUp() throws SimoriNonFatalException {
 		gui = new SimoriJFrame(new QwertyKeyboard((byte)16, (byte)16));
 		model = new MatrixModel(16, 16);
 		mode = new ModeController(gui, model, 20160);

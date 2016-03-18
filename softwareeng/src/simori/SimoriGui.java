@@ -3,7 +3,7 @@ package simori;
 import java.util.EventObject;
 
 import simori.Simori.PowerTogglable;
-import simori.Exceptions.InvalidCoordinatesException;
+import simori.Exceptions.SimoriNonFatalException;
 
 /**
  * Interface setting out the constraints that any implementation
@@ -64,7 +64,7 @@ public interface SimoriGui extends PowerTogglable {
 	/** Listener interface for {@link GridButtonEvent} */
 	public interface GridButtonListener  {
 		public void onGridButtonPress(GridButtonEvent e)
-				throws InvalidCoordinatesException;
+				throws SimoriNonFatalException;
 	}
 	
 	/** Listener interface for {@link FunctionButtonEvent} */

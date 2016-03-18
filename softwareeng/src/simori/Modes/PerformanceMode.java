@@ -7,7 +7,7 @@ import simori.SimoriGui;
 import simori.SimoriGui.FunctionButtonEvent;
 import simori.SimoriGui.GridButtonEvent;
 import simori.SimoriGui.GridButtonListener;
-import simori.Exceptions.InvalidCoordinatesException;
+import simori.Exceptions.SimoriNonFatalException;
 
 /**
  * The class for Performance Mode, extending
@@ -48,7 +48,7 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 	 * @see GridButtonEvent.getX(), GridButtonEvent.getY(), GridButtonEvent.getSource()
 	 * @version 1.1.3
 	 */
-	public void onGridButtonPress(GridButtonEvent e) throws InvalidCoordinatesException{
+	public void onGridButtonPress(GridButtonEvent e) throws SimoriNonFatalException{
 		
 		int x = e.getX();            //grid position of button press
 		int y = e.getY();  
@@ -78,7 +78,7 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 	 * @version 2.0.1
 	 */
 	@Override
-	public void tickerLight(byte col) throws InvalidCoordinatesException {
+	public void tickerLight(byte col) throws SimoriNonFatalException {
 		
 		
 		makeGridCopy(getDisplayLayer());   //copy the grid
@@ -138,6 +138,6 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 		getGui().setText(InstrumentNamer.getInstance().getName(instr));
 		try {
 			tickerLight((byte) (getModel().getCurrentColumn()));
-		} catch (InvalidCoordinatesException e) {}
+		} catch (SimoriNonFatalException e) {}
 	}
 }

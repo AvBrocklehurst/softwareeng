@@ -3,7 +3,7 @@ package simori.Modes;
 import simori.ModeController;
 import simori.SimoriGui.FunctionButtonEvent;
 import simori.SimoriGui.GridButtonEvent;
-import simori.Exceptions.InvalidCoordinatesException;
+import simori.Exceptions.SimoriNonFatalException;
 
 /**
  * ShopBoyMode is a demonstration mode where a serious of songs
@@ -29,7 +29,7 @@ public class ShopBoyMode extends Mode {
 
 	@Override
 	public void onGridButtonPress(GridButtonEvent e)
-			throws InvalidCoordinatesException {} // No grid input in this mode
+			throws SimoriNonFatalException {} // No grid input in this mode
 	
 	@Override
 	public void onFunctionButtonPress(FunctionButtonEvent e){

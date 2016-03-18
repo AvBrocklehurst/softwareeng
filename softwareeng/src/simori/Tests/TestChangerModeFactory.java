@@ -13,7 +13,7 @@ import org.junit.Test;
 import simori.FunctionButton;
 import simori.MatrixModel;
 import simori.SimoriGui.FunctionButtonEvent;
-import simori.Exceptions.KeyboardException;
+import simori.Exceptions.SimoriNonFatalException;
 import simori.Modes.ChangerMode;
 import simori.Modes.ChangerModeFactory;
 import simori.Modes.NetworkMaster;
@@ -41,7 +41,7 @@ public class TestChangerModeFactory {
 	private QwertyKeyboard keyboard;
 	
 	@Before
-	public void setUp() throws KeyboardException, IOException{
+	public void setUp() throws SimoriNonFatalException, IOException{
 		keyboard = new QwertyKeyboard((byte)16,(byte)16);
 		testgui = new SimoriJFrame(keyboard);
 		testmodel = new MatrixModel(16, 16);

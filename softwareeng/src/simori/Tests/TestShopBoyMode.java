@@ -9,7 +9,7 @@ import org.junit.Test;
 
 import simori.MatrixModel;
 import simori.ModeController;
-import simori.Exceptions.KeyboardException;
+import simori.Exceptions.SimoriNonFatalException;
 import simori.Modes.MasterSlaveMode;
 import simori.Modes.QwertyKeyboard;
 import simori.Modes.ShopBoyMode;
@@ -23,7 +23,7 @@ public class TestShopBoyMode {
 	private ShopBoyMode sbmode;
 	
 	@Before
-	public void setUp() throws KeyboardException {
+	public void setUp() throws SimoriNonFatalException {
 		gui = new MockSimoriJFrame(new QwertyKeyboard((byte)16, (byte)16));
 		model = new MatrixModel(16, 16);
 		mode = new ModeController(gui, model, 20160);

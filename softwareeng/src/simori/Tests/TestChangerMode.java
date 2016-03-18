@@ -17,7 +17,7 @@ import simori.ModeController;
 import simori.SimoriGui.FunctionButtonEvent;
 import simori.SimoriGui.GridButtonEvent;
 import simori.Exceptions.InvalidCoordinatesException;
-import simori.Exceptions.KeyboardException;
+import simori.Exceptions.SimoriNonFatalException;
 import simori.Modes.ChangerMode;
 import simori.Modes.ChangerMode.Changer;
 import simori.Modes.ChangerMode.Setting;
@@ -77,7 +77,7 @@ public class TestChangerMode {
 	}
 	
 	@Before
-	public void setUp() throws KeyboardException, IOException{
+	public void setUp() throws SimoriNonFatalException, IOException{
 		keyboard = new QwertyKeyboard((byte)16,(byte)16);
 		testgui = new SimoriJFrame(keyboard);
 		testmodel = new MatrixModel(16, 16);

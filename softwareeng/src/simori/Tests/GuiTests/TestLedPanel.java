@@ -8,7 +8,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import simori.Exceptions.KeyboardException;
+import simori.Exceptions.SimoriNonFatalException;
 import simori.SwingGui.LedPanel;
 import simori.SwingGui.PressableCircle;
 import simori.Tests.GuiTests.MockSimoriJFrame.MockLedPanel;
@@ -28,7 +28,7 @@ public class TestLedPanel {
 	private MockPressableCircle mockcircle;
 	
 	@Before
-	public void setUp() throws KeyboardException{
+	public void setUp() throws SimoriNonFatalException{
 		mockgui = new MockSimoriJFrame();
 		mockpanel = mockgui.getLedPanel();
 		mockcircle = new MockPressableCircle();

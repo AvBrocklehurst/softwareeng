@@ -10,6 +10,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
+import java.lang.Thread.UncaughtExceptionHandler;
+import java.util.logging.Handler;
 
 import javax.swing.JFrame;
 
@@ -67,6 +69,8 @@ public class SimoriJFrame extends JFrame implements SimoriGui, MouseMotionListen
 	 * @param mapping Layout of the keyboard to display for text entry
 	 */
 	public SimoriJFrame(KeyboardMapping mapping) {
+		Handler handler = new Handler();
+	    Thread.setDefaultUncaughtExceptionHandler(handler);
 		this.mapping = mapping;
 		this.rows = mapping.getRows();
 		this.columns = mapping.getColumns();
@@ -75,7 +79,7 @@ public class SimoriJFrame extends JFrame implements SimoriGui, MouseMotionListen
 		addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				//Remember starting coordinates for mouse drags
+				//Remember starting coordinates for mouse drags 
 				startX = e.getX();
 				startY = e.getY();
 			}
@@ -249,4 +253,10 @@ public class SimoriJFrame extends JFrame implements SimoriGui, MouseMotionListen
 		}
 		couldDragBefore = canDrag;
 	}
+	
+	class Handler implements Thread.UncaughtExceptionHandler {
+		  public void uncaughtException(Thread t, Throwable e) {
+		    System.err.println("Throwable: " + e.getMessage());
+		  }
+		}
 }

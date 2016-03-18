@@ -8,7 +8,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import simori.Exceptions.KeyboardException;
+import simori.Exceptions.SimoriNonFatalException;
 import simori.Modes.QwertyKeyboard;
 import simori.SwingGui.LedPanel;
 import simori.SwingGui.OnPressListenerMaker;
@@ -32,7 +32,7 @@ public class TestSimoriCentrePanel {
 	private SimoriJFrame testgui;
 	
 	@Before 
-	public void setUp() throws KeyboardException{
+	public void setUp() throws SimoriNonFatalException{
 		keyboard = new QwertyKeyboard((byte)16,(byte)16);
 		testgui = new SimoriJFrame(keyboard);
 		testmaker = new OnPressListenerMaker(testgui);

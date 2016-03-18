@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import simori.Simori.PowerTogglable;
 import simori.SimoriGui.FunctionButtonEvent;
-import simori.Exceptions.InvalidCoordinatesException;
+import simori.Exceptions.SimoriNonFatalException;
 import simori.Modes.Mode;
 import simori.Modes.NetworkMaster;
 import simori.Modes.NetworkSlave;
@@ -63,11 +63,10 @@ public class ModeController {
 	 * Draws the clock hand in the specified column. If the current
 	 * mode is not {@link PerformanceMode}, this has no effect.
 	 * @param column x coordinate at which to draw clock hand
+	 * @throws SimoriNonFatalException 
 	 */
-	public void tickThrough(byte column) {
-		try {
+	public void tickThrough(byte column) throws SimoriNonFatalException {
 			mode.tickerLight(column);
-		} catch (InvalidCoordinatesException e) {}
 	}
 	
 	/** @return Model instance encapsulating state of Simori-ON */

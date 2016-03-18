@@ -11,7 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 
-import simori.Exceptions.KeyboardException;
+import simori.Exceptions.SimoriNonFatalException;
 import simori.Modes.QwertyKeyboard;
 import simori.SwingGui.Button;
 import simori.SwingGui.GuiProperties;
@@ -46,7 +46,7 @@ public class TestSimoriPanel {
 
 	
 	@Test
-	public void testConstructor() throws KeyboardException, InterruptedException {
+	public void testConstructor() throws SimoriNonFatalException, InterruptedException {
 		QwertyKeyboard map = new QwertyKeyboard((byte)16, (byte)16);
 		OnPressListenerMaker maker = new OnPressListenerMaker(gui);
 		SimoriPanel panel = new SimoriPanel(map, maker);// since constructor hides most things away it means there is very little to test!

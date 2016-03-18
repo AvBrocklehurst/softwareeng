@@ -15,7 +15,7 @@ import simori.SimoriGui.FunctionButtonListener;
 import simori.SimoriGui.GridButtonEvent;
 import simori.SimoriGui.GridButtonListener;
 import simori.Exceptions.InvalidCoordinatesException;
-import simori.Exceptions.KeyboardException;
+import simori.Exceptions.SimoriNonFatalException;
 import simori.SwingGui.Button;
 import simori.SwingGui.OnPressListenerMaker;
 import simori.SwingGui.OnPressListenerMaker.OnPressListener;
@@ -38,7 +38,7 @@ public class TestOnPressListenerMaker {
 	
 	/** Instantiates mock objects and test subjects */
 	@Before
-	public void setUp() throws KeyboardException {
+	public void setUp() throws SimoriNonFatalException {
 		gui = new MockSimoriJFrame();
 		testSubject = new OnPressListenerMaker(gui);
 		circle = new Button();

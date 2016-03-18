@@ -12,7 +12,7 @@ import simori.MatrixModel;
 import simori.ModeController;
 import simori.SimoriGui.GridButtonEvent;
 import simori.Exceptions.InvalidCoordinatesException;
-import simori.Exceptions.KeyboardException;
+import simori.Exceptions.SimoriNonFatalException;
 import simori.Modes.NetworkMaster;
 import simori.Modes.NetworkSlave;
 import simori.Modes.PerformanceMode;
@@ -40,7 +40,7 @@ public class TestPerformanceMode {
 	
 	
 	@Before
-	public void setUp() throws KeyboardException, IOException{
+	public void setUp() throws SimoriNonFatalException, IOException{
 		keyboard = new QwertyKeyboard((byte)16,(byte)16);
 		testmodel = new MatrixModel(16, 16);
 		testgui = new SimoriJFrame(keyboard);

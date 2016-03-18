@@ -6,13 +6,13 @@ package simori.Exceptions;
  * @author Matt
  * @version 1.0.0
  */
-public class KeyboardException extends Exception {
+public class SimoriNonFatalException extends Exception {
 	
 	//Parameterless Constructor
-    public KeyboardException() {}
+    public SimoriNonFatalException() {}
 
     //Constructor that accepts a message
-    public KeyboardException(String message) {
+    public SimoriNonFatalException(String message) {
        super(message);
     }
 }

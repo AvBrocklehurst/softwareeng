@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Observable;
 
 import simori.Simori.PowerTogglable;
-import simori.Exceptions.InvalidCoordinatesException;
+import simori.Exceptions.SimoriNonFatalException;
 
 /**
  * Class to handle the storage of data for the 16x16 grid.
@@ -249,12 +249,11 @@ public class MatrixModel extends Observable implements Serializable, PowerToggla
 	 * @param laynum  the layer to update
 	 * @param col     the column the button is in.
 	 * @param row     the row the layer is in.
-	 * @throws InvalidCoordinatesException
+	 * @throws SimoriNonFatalException 
 	 */
-	public void updateButton(byte laynum, byte col, byte row) throws InvalidCoordinatesException{
+	public void updateButton(byte laynum, byte col, byte row) throws SimoriNonFatalException {
 		layerExists(laynum);
 		layers[laynum].updateButton(col, row);
-		
 	}
 	
 	/**

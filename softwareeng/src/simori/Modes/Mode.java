@@ -7,7 +7,7 @@ import simori.FunctionButton;
 import simori.MatrixModel;
 import simori.ModeController;
 import simori.SimoriGui;
-import simori.Exceptions.InvalidCoordinatesException;
+import simori.Exceptions.SimoriNonFatalException;
 
 /**
  * An abstract class defining methods for general
@@ -65,7 +65,7 @@ public abstract class Mode implements FunctionButtonListener,
 	 * Called when the clock hand changes column
 	 * @param col The column the clock hand has just entered
 	 */
-	public void tickerLight(byte col) throws InvalidCoordinatesException {}
+	public void tickerLight(byte col) throws SimoriNonFatalException {}
 	
 	/**
 	 * Gets the function button pressed and the source GUI and then

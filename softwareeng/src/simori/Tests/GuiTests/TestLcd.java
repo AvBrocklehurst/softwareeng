@@ -6,7 +6,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import simori.Exceptions.KeyboardException;
+import simori.Exceptions.SimoriNonFatalException;
 import simori.SwingGui.Lcd;
 /**
  * 
@@ -39,13 +39,13 @@ public class TestLcd {
 	}
 	
 	@Test
-	public void testSetShorterSide() throws InterruptedException, KeyboardException{
+	public void testSetShorterSide() throws InterruptedException, SimoriNonFatalException{
 		lcd.setShorterSize(2);
 		assertEquals(2, lcd.getHeight());
 	}
 	
 	@Test
-	public void testSetText() throws InterruptedException, KeyboardException{
+	public void testSetText() throws InterruptedException, SimoriNonFatalException{
 		lcd.setText("hello world!");
 		String text = lcd.getText();
 		
@@ -54,7 +54,7 @@ public class TestLcd {
 	}
 	
 	@Test
-	public void testSetTextLong() throws InterruptedException, KeyboardException{
+	public void testSetTextLong() throws InterruptedException, SimoriNonFatalException{
 		lcd.setText("hello world my goodness this is a long sentance!");
 		String text = lcd.getText();
 	
@@ -62,7 +62,7 @@ public class TestLcd {
 		
 	}
 	@Test
-	public void testSetTextNone() throws InterruptedException, KeyboardException{
+	public void testSetTextNone() throws InterruptedException, SimoriNonFatalException{
 		lcd.setText("");
 		String text = lcd.getText();
 		assertEquals("", text);

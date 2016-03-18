@@ -4,7 +4,7 @@ import simori.FunctionButton;
 import simori.ModeController;
 import simori.SimoriGui.FunctionButtonEvent;
 import simori.SimoriGui.GridButtonEvent;
-import simori.Exceptions.InvalidCoordinatesException;
+import simori.Exceptions.SimoriNonFatalException;
 
 /**
  * Mode which simulates a powered-off state, ignoring
@@ -21,7 +21,7 @@ public class OffMode extends Mode {
 	/** Ignores input from grid buttons whilst switched off */
 	@Override
 	public void onGridButtonPress(GridButtonEvent e)
-			throws InvalidCoordinatesException {}
+			throws SimoriNonFatalException {}
 	
 	/** Ignores all buttons except ON, which is allowed to function normally */
 	@Override

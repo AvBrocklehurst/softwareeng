@@ -3,7 +3,8 @@ package simori.SwingGui;
 import simori.FunctionButton;
 import simori.SimoriGui.FunctionButtonEvent;
 import simori.SimoriGui.GridButtonEvent;
-import simori.Exceptions.InvalidCoordinatesException;
+import simori.Exceptions.SimoriNonFatalException;
+
 
 /**
  * Encapsulates the creation of {@link OnPressListener} objects
@@ -38,11 +39,9 @@ public class OnPressListenerMaker {
 	 */
 	public OnPressListener getListener(final int x, final int y) {
 		return new OnPressListener() {
-			public void onPress(PressableCircle circle) {
-				try {
+			public void onPress(PressableCircle circle) throws SimoriNonFatalException {
 					final GridButtonEvent e = new GridButtonEvent(gui, x, y);
 					gui.getGridButtonListener().onGridButtonPress(e);
-				} catch (InvalidCoordinatesException ex) {}
 			}
 		};
 	}
@@ -74,7 +73,8 @@ public class OnPressListenerMaker {
 		/**
 		 * Called when the circle is pressed.
 		 * @param circle Reference to the circle which was pressed
+		 * @throws SimoriNonFatalException 
 		 */
-		public void onPress(PressableCircle circle);
+		public void onPress(PressableCircle circle) throws SimoriNonFatalException;
 	}
 }

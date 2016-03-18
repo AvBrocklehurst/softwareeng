@@ -12,7 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import simori.Simori;
-import simori.Exceptions.KeyboardException;
+import simori.Exceptions.SimoriNonFatalException;
 
 /**
  * Tests the main method and consequently Simori's constructor.
@@ -26,7 +26,7 @@ public class TestMain {
 	private Simori testsimori;
 	
 	@Before
-	public void setUp() throws MidiUnavailableException, KeyboardException, IOException{
+	public void setUp() throws MidiUnavailableException, SimoriNonFatalException, IOException{
 		testsimori = new Simori();
 	}
 	

@@ -17,7 +17,7 @@ import simori.SimoriGui;
 import simori.SimoriGui.FunctionButtonEvent;
 import simori.SimoriGui.GridButtonEvent;
 import simori.Exceptions.InvalidCoordinatesException;
-import simori.Exceptions.KeyboardException;
+import simori.Exceptions.SimoriNonFatalException;
 import simori.Modes.Mode;
 import simori.Modes.NetworkMaster;
 import simori.Modes.NetworkSlave;
@@ -94,7 +94,7 @@ public class TestMode{
 	}
 	
 	@Before
-	public void setUp() throws KeyboardException, IOException{
+	public void setUp() throws SimoriNonFatalException, IOException{
 		keyboard = new QwertyKeyboard((byte)16,(byte)16);
 		testgui = new SimoriJFrame(keyboard);
 		testfb = FunctionButton.OK;

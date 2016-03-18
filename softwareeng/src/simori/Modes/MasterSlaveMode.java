@@ -3,7 +3,7 @@ package simori.Modes;
 import simori.ModeController;
 import simori.SimoriGui.FunctionButtonEvent;
 import simori.SimoriGui.GridButtonEvent;
-import simori.Exceptions.InvalidCoordinatesException;
+import simori.Exceptions.SimoriNonFatalException;
 import simori.Modes.NetworkMaster.ScanProgressListener;
 
 /**
@@ -89,5 +89,5 @@ public class MasterSlaveMode extends Mode implements ScanProgressListener {
 	/** {@inheritDoc} */
 	@Override
 	public void onGridButtonPress(GridButtonEvent e)
-			throws InvalidCoordinatesException {} // No grid input in this mode
+			throws SimoriNonFatalException {} // No grid input in this mode
 }
