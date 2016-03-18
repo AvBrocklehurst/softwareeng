@@ -32,7 +32,6 @@ public class ShopBoyMode extends Mode implements Observer {
 		getModel().addObserver(this);
 		getGui().clearGrid();
 		getGui().setText("Shop boy mode (in development!)");
-		((simori.SwingGui.SimoriJFrame) getGui()).testAnimation();
 	}
 
 	@Override
