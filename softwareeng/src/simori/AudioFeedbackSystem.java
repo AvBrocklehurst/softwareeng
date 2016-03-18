@@ -2,7 +2,7 @@ package simori;
 
 import javax.sound.midi.InvalidMidiDataException;
 
-public class AudioFeedbackSystem extends MIDIMessageHelper {
+public class AudioFeedbackSystem extends MIDIMessengerSystem {
 	
 	public AudioFeedbackSystem(MIDISoundSystem player) {
 		super(player);

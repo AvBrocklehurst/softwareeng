@@ -15,7 +15,7 @@ import javax.sound.midi.ShortMessage;
  * The amount of time it takes to do .play(Array) is ideally zero.
  * As a result there is little to no error checking in this class. All error checking is done before this method is played (whilst it is still in sync with the clock)
  */
-public class SimoriSoundSystem extends MIDIMessageHelper {
+public class SimoriSoundSystem extends MIDIMessengerSystem {
 	
 	public SimoriSoundSystem(MIDISoundSystem player) {
 		super(player);
