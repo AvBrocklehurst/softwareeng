@@ -16,7 +16,12 @@ import simori.Simori.PowerTogglable;
  * The amount of time it takes to do .play(Array) is ideally zero.
  * As a result there is little to no error checking in this class. All error checking is done before this method is played (whilst it is still in sync with the clock)
  */
-public class SimoriSoundSystem implements PowerTogglable{
+public class SimoriSoundSystem {
+	MIDISoundSystem player;
+	
+	public SimoriSoundSystem(MIDISoundSystem player) {
+		this.player = player;
+	}
 
 /**
 	 * @author Josh
@@ -75,21 +80,12 @@ public class SimoriSoundSystem implements PowerTogglable{
 	 */
 	//Override
 	public void play(byte[][] array) throws InvalidMidiDataException {
-		MIDISoundSystem.sendCommands(convertToMIDIMessages(array)); // take the array and turn it into MIDI messages.
+		player.sendCommands(convertToMIDIMessages(array)); // take the array and turn it into MIDI messages.
 		//play all the MIDI messages.
-		 
 	}
-
-	@Override
-	public void switchOn() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void switchOff() {
-		// TODO Auto-generated method stub
-		
+	
+	public void stopPlay() throws InvalidMidiDataException{
+		player.stopSound();
 	}
 	
 	/* FROM INTERFACE

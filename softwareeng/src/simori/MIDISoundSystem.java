@@ -46,7 +46,7 @@ public class MIDISoundSystem implements PowerTogglable {
 		if (reciever == null){System.exit(1);}
 		}
 	
-	public static void sendCommand(ShortMessage message){
+	public void sendCommand(ShortMessage message){
 		reciever.send(message, TIMESTAMP);
 	}
 	
@@ -54,7 +54,7 @@ public class MIDISoundSystem implements PowerTogglable {
 	 * Method takes arrayList of MIDI messages and executes them simultaneously (or near simultaneous).
 	 * @param toBePlayed
 	 */
-	public static void sendCommands(ShortMessage[] toBePlayed){
+	public void sendCommands(ShortMessage[] toBePlayed){
 		for (ShortMessage message : toBePlayed) {
 			sendCommand(message);
 		}

@@ -39,11 +39,11 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 		 * @param midi Holds the reference to the MIDIPlayer
 		 * @param bbm Beats Per Minute; used to calculate the period
 		 */
-		public NoteProcessor(ModeController modes, MatrixModel model, SimoriSoundSystem midi){
+		public NoteProcessor(ModeController modes, MatrixModel model, MIDISoundSystem player){
 			running = true;
 			this.mode = modes;
 			this.model = model;
-			this.midi = midi;
+			this.midi = new SimoriSoundSystem(player);
 			lock = new Object();
 			bpmLock = new Object();
 			clock = new Clock(findMaxProcessingTime(), running, model, bpmLock, lock);
@@ -79,7 +79,7 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 				
 				//send a play request to the MIDIPlayer
 				try{
-					if(played) {/*midi.stopPlay();*/ played = false;}
+					if(played) {midi.stopPlay(); played = false;}
 					if(toBePlayed.length!=0) {midi.play(toBePlayed); played = true;}
 					else played = false;
 				//if MIDIPlayer throws an error, print it out and stop the JVM
@@ -285,7 +285,7 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 			clock.updateBPM(model.getBPM());	
 			if(model.getPlaying() == false){
 				try {
-					/*midi.stopPlay();*/
+					midi.stopPlay();
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

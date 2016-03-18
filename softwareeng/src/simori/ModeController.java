@@ -37,6 +37,7 @@ public class ModeController {
 	private NetworkSlave slave;
 	private PowerTogglable[] toPowerToggle;
 	private int port;
+	private AudioFeedbackSystem afs;
 	
 	protected Mode mode;
 	private byte displayLayer;
@@ -51,10 +52,11 @@ public class ModeController {
 	 * @param gui For button input and LED output
 	 * @param model To store information on the Simori-ON's state
 	 */
-	public ModeController(SimoriGui gui, MatrixModel model, int port) {
+	public ModeController(SimoriGui gui, MatrixModel model, int port, MIDISoundSystem player) {
 		this.gui = gui;
 		this.model = model;
 		this.port = port;
+		this.afs = new AudioFeedbackSystem(player);
 	}
 	
 	/**

@@ -65,8 +65,8 @@ public class Simori {
 		MatrixModel model = new MatrixModel(GRID_WIDTH, GRID_HEIGHT);
 		QwertyKeyboard keyboard = new QwertyKeyboard(GRID_WIDTH, GRID_HEIGHT);
 		SimoriJFrame gui = new SimoriJFrame(keyboard);
-		SimoriSoundSystem player = new SimoriSoundSystem();
-		ModeController modes = new ModeController(gui, model, PORT);
+		MIDISoundSystem player = new MIDISoundSystem();
+		ModeController modes = new ModeController(gui, model, PORT,player);
 		NoteProcessor clock = new NoteProcessor(modes, model, player);
 		model.addObserver(clock);
 		modes.setComponentsToPowerToggle(model, player, gui, clock);
