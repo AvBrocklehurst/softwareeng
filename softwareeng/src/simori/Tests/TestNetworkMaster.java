@@ -11,7 +11,6 @@ import simori.MatrixModel;
 import simori.ModeController;
 import simori.SimoriSoundSystem;
 import simori.Exceptions.KeyboardException;
-import simori.Modes.NetworkMaster;
 import simori.Modes.QwertyKeyboard;
 import simori.SwingGui.SimoriJFrame;
 
