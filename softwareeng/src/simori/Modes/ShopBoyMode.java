@@ -50,7 +50,7 @@ public class ShopBoyMode extends Mode implements Observer {
 		}
 	}
 	
-	private void iterateFile(File f){
+	private void playShopBoy(File f){
 		
 		if(!f.isDirectory() || f == null){
 			System.err.println("Shopboy is not a directory or is null!");
@@ -61,14 +61,26 @@ public class ShopBoyMode extends Mode implements Observer {
 			File[] files = f.listFiles();
 			for(int i=0; i<files.length; i++){
 				getGui().setText(files[i].getName());
-				
+				songPlay(files[i]);
 			}
+		}
+	}
+	
+	private void songPlay(File f){
+		File[] song = f.listFiles();
+		for(int i=0; i<song.length; i++){
+			SaveAndLoad.load(getModel(), song[i].getName());
 		}
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
-		//get loop point current column and check if their equal, if so next song
+		byte looppoint = getModel().getLoopPoint();
+		byte currentcolumn = getModel().getCurrentColumn();
+		
+		if(looppoint == currentcolumn){
+			//next song or next directory
+		}
 		
 	}
 	
