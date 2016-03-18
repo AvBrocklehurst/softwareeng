@@ -10,7 +10,7 @@ import org.junit.Test;
 import javax.sound.midi.MidiUnavailableException;
 
 import simori.NoteProcessor;
-import simori.MIDISoundPlayer;
+import simori.SimoriSoundSystem;
 import simori.MatrixModel;
 import simori.ModeController;
 import simori.Exceptions.InvalidCoordinatesException;
@@ -29,7 +29,7 @@ public class TestNoteProcessor {
 	private MatrixModel model;
 	private QwertyKeyboard keyboard;
 	private SimoriJFrame gui;
-	private MIDISoundPlayer midi;
+	private SimoriSoundSystem midi;
 	private ModeController modes;
 	private NoteProcessor clock;
 	private Thread thread;
@@ -78,7 +78,7 @@ public class TestNoteProcessor {
 		model = new MatrixModel(16, 16);
 		keyboard = new QwertyKeyboard((byte)16, (byte)16);
 		gui = new SimoriJFrame(keyboard);
-		midi = new MIDISoundPlayer();
+		midi = new SimoriSoundSystem();
 		modes = new ModeController(gui, model, 20160);
 		clock = new NoteProcessor(modes, model, midi);
 		model.addObserver(clock);
@@ -109,7 +109,7 @@ public class TestNoteProcessor {
 	/**
 	 * @author Jurek
 	 */
-	private void setUpThread(ModeController modes, MatrixModel model, MIDISoundPlayer midi) {
+	private void setUpThread(ModeController modes, MatrixModel model, SimoriSoundSystem midi) {
 		clock.switchOff();
 		model.deleteObserver(clock);
 		clock = new NoteProcessor(modes, model, midi);

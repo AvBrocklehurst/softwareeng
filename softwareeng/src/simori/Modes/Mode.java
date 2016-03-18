@@ -68,7 +68,7 @@ public abstract class Mode implements FunctionButtonListener,
 	public void tickerLight(byte col) throws InvalidCoordinatesException {}
 	
 	/**
-	 * Gets the function button pressed and the source Gui and then
+	 * Gets the function button pressed and the source GUI and then
 	 * changes the current mode based on a specified FunctionButton.
 	 * 
 	 * @param e  A FunctionButtonEvent representing the press of a function button to switch
@@ -85,6 +85,9 @@ public abstract class Mode implements FunctionButtonListener,
 			break;
 		case ON:
 			controller.setOn(!controller.isOn());
+			break;
+		case R4:
+			controller.setMode(new MasterSlaveMode(controller));
 			break;
 		default:
 			controller.setMode(ChangerModeFactory.getChanger(fb, controller));

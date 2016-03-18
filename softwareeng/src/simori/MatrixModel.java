@@ -23,6 +23,7 @@ public class MatrixModel extends Observable implements Serializable, PowerToggla
 	private int width;
 	private byte loopPoint;
 	private byte currentColumn;
+	private volatile boolean playing;
 	
 	
 	/**
@@ -39,6 +40,7 @@ public class MatrixModel extends Observable implements Serializable, PowerToggla
 		this.BPM = 88; // default BPM
 		this.loopPoint = 15;
 		this.currentColumn = 0;
+		this.playing = true;
 	}
 
 	/**
@@ -114,7 +116,17 @@ public class MatrixModel extends Observable implements Serializable, PowerToggla
 	public void setBPM(short newBPM){
 		BPM = newBPM; 
 		setChanged(); //change the state of observable to changed.
-	    notifyObservers(newBPM); //notify all observers.
+	    notifyObservers(); //notify all observers.
+	}
+	
+	public void setPlaying(){
+		this.playing = !this.playing;
+		setChanged(); //change the state of observable to changed.
+	    notifyObservers(); //notify all observers.
+	}
+	
+	public boolean getPlaying(){
+		return this.playing;
 	}
 	
 	/**

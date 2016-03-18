@@ -13,6 +13,7 @@ import java.awt.event.MouseMotionListener;
 
 import javax.swing.JFrame;
 
+import simori.FunctionButton;
 import simori.SimoriGui;
 import simori.Modes.Mode;
 
@@ -88,6 +89,16 @@ public class SimoriJFrame extends JFrame implements SimoriGui, MouseMotionListen
 		});
 	}
 	
+	public void testAnimation() { //TODO Improve or remove :P
+		simoriPanel.setGreyedOut(FunctionButton.L2, true);
+		simoriPanel.setGreyedOut(FunctionButton.R3, true);
+		boolean[][] which = new boolean[rows][columns];
+		for (boolean[] row : which) row[5] = true;
+		simoriPanel.setGreyedOut(which);
+		for (boolean[] row : which) row[6] = true;
+		simoriPanel.setGrid(which);
+	}
+	
 	/** {@inheritDoc} */
 	@Override
 	public void setGrid(boolean[][] grid) {
@@ -110,6 +121,18 @@ public class SimoriJFrame extends JFrame implements SimoriGui, MouseMotionListen
 	@Override
 	public String getText() {
 		return lcd.getText();
+	}
+	
+	/** {@inheritDoc} */
+	@Override
+	public int getGridWidth() {
+		return columns;
+	}
+	
+	/** {@inheritDoc} */
+	@Override
+	public int getGridHeight() {
+		return rows;
 	}
 	
 	/** {@inheritDoc} */

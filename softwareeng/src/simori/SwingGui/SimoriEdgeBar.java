@@ -3,6 +3,8 @@ package simori.SwingGui;
 import java.awt.Dimension;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -24,6 +26,7 @@ import simori.Simori.PowerTogglable;
 public class SimoriEdgeBar extends JPanel implements PowerTogglable {
 	
 	protected Button[] buttons;
+	private Map<FunctionButton, Button> buttonMap;
 	private Lcd lcd;
 	
 	/**
@@ -68,6 +71,19 @@ public class SimoriEdgeBar extends JPanel implements PowerTogglable {
 	}
 	
 	/**
+	 * Switches an individual button on or off.
+	 * Returns false if the requested button was not present in this bar.
+	 * @param fb The identifier of the button to switch
+	 * @param greyedOut True to grey out (switch off) the button
+	 * @return true if the change was applied
+	 */
+	public boolean setGreyedOut(FunctionButton fb, boolean greyedOut) {
+		if (!buttonMap.containsKey(fb)) return false;
+		buttonMap.get(fb).setGreyedOut(greyedOut);
+		return true;
+	}
+	
+	/**
 	 * Adds the list of {@link Button}s and optionally the {@link Lcd}.
 	 * Components are spaced evenly.
 	 * @param vertical true if the LCD should be drawn sideways
@@ -94,12 +110,14 @@ public class SimoriEdgeBar extends JPanel implements PowerTogglable {
 	 */
 	private void addButtons(FunctionButton[] fbs,
 			OnPressListenerMaker maker) {
+		buttonMap = new HashMap<FunctionButton, Button>(fbs.length);
 		buttons = new Button[fbs.length];
 		add(Box.createGlue());
 		for (int i = 0; i < fbs.length; i++) {
 			if (fbs[i] == null) continue;
 			buttons[i] = makeButtonFor(fbs[i], maker);
 			add(buttons[i]);
+			buttonMap.put(fbs[i], buttons[i]);
 			add(Box.createGlue()); //Glue between each button spaces them out
 		}
 		add(Box.createGlue()); //Final glue for space away from right edge

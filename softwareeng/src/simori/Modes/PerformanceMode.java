@@ -1,10 +1,12 @@
 package simori.Modes;
 
-import simori.SimoriGui.GridButtonEvent;
-import simori.SimoriGui.GridButtonListener;
+import simori.FunctionButton;
 import simori.InstrumentNamer;
 import simori.ModeController;
 import simori.SimoriGui;
+import simori.SimoriGui.FunctionButtonEvent;
+import simori.SimoriGui.GridButtonEvent;
+import simori.SimoriGui.GridButtonListener;
 import simori.Exceptions.InvalidCoordinatesException;
 
 /**
@@ -56,6 +58,12 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 
 		getModel().updateButton(getDisplayLayer(), (byte) x, (byte) y);   //update the data structure by inverting button at Gui position x,y
 		sc.setGrid(grid);       //relay the change to the gui
+	}
+	
+	/** {@inheritDoc} */
+	public void onFunctionButtonPress(FunctionButtonEvent e) {
+		if (e.getFunctionButton().equals(FunctionButton.OK)) return;
+		super.onFunctionButtonPress(e); // Default behaviour except for OK
 	}
 	
 	/**  

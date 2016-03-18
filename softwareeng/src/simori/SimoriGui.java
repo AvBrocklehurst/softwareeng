@@ -9,7 +9,7 @@ import simori.Exceptions.InvalidCoordinatesException;
  * Interface setting out the constraints that any implementation
  * of a graphical user interface for the Simori-ON must comply to.
  * @author Matt
- * @version 2.5.0
+ * @version 2.6.0
  */
 public interface SimoriGui extends PowerTogglable {
 	
@@ -48,6 +48,12 @@ public interface SimoriGui extends PowerTogglable {
 	
 	/** @return The mapping from grid button coordinates to character */
 	public KeyboardMapping getKeyboardMapping();
+	
+	/** @return Number of columns in the LED grid */
+	public int getGridWidth();
+	
+	/** @return Number of rows in the LED grid */
+	public int getGridHeight();
 	
 	/** Sets the listener to receive {@link GridButtonEvent}s */
 	public void setGridButtonListener(GridButtonListener l);

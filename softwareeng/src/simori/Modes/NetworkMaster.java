@@ -13,12 +13,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import simori.ModeController;
-import simori.Modes.ChangerMode.Changer;
-import simori.Modes.ChangerMode.Setting;
 
 /**
  * Class to act as the master in the master slave mode.
- * It contains functions to search through an ip range
+ * It contains functions to search through an IP range
  * and set up a socket to transfer the model over.
  * @version 1.4.0
  * @author Adam
@@ -26,12 +24,26 @@ import simori.Modes.ChangerMode.Setting;
  */
 public class NetworkMaster implements Runnable {
 	
+	/*
+	 * FIXME
+	 * Should running be volatile?
+	 * 192.168.0 range appears to be scanned twice
+	 * Is running ever set false if the end of the scan is reached?
+	 * (With successful and / or unsuccessful outcome)
+	 */
+	
+	private static final String OS_NAME =
+			System.getProperty("os.name").toLowerCase();
+	
 	private int port;
 	private String ip;
 	private ModeController controller;
 	private NetworkSlave slave;
-	private final static String os = System.getProperty("os.name").toLowerCase();
-	private boolean running;
+	private volatile boolean running;
+	
+	private volatile boolean obtainingIp;
+	private volatile String rangeUnderScan;
+	private volatile ScanProgressListener listener;
 	
 	/**
 	 * Constructor for the Network Master Class.
@@ -48,45 +60,70 @@ public class NetworkMaster implements Runnable {
 	}
 	
 	/**
-	 * Find slave generates the ip ranges to search in for another simori on.
+	 * Starts an asynchronous scan for other Simori-ONs on the network,
+	 * and copies the configuration to the first one found.
+	 * This call does nothing if a scan is already underway.
+	 * @author Matt
+	 */
+	public void scan() {
+		if (!running) new Thread(this).start();
+	}
+	
+	/** @author Adam */
+	@Override
+	public void run() {
+		try {
+			slave.switchOff();
+			this.ip = getIP();
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		findSlave();
+	}
+	
+	/**
+	 * Find slave generates the IP ranges to search in for another Simori-ON.
 	 * @author adam
 	 */
 	public void findSlave(){
-		if(!running){
-			running = true;
-			/* generate y range (xxx.xxx.xxx.yyy) */
-			String cloesestRangeIP =  ip.substring(0, ip.indexOf('.',
-					ip.indexOf('.',ip.indexOf('.')+1)+1) + 1);
-			/* generate y range (xxx.xxx.yyy.xxx) */
-			String thisRangeIP = cloesestRangeIP.substring
-					(0, cloesestRangeIP.indexOf('.',cloesestRangeIP.indexOf('.')+1) + 1);
-			/* First check the same end ip range */
-			boolean found = closestRangeIP(cloesestRangeIP);
-			if(!found){
-				iterateOverIPRange(thisRangeIP);
-			}
-			slave.switchOn();
+		running = true;
+		/* generate y range (xxx.xxx.xxx.yyy) */
+		String cloesestRangeIP =  ip.substring(0, ip.indexOf('.',
+				ip.indexOf('.',ip.indexOf('.')+1)+1) + 1);
+		/* generate y range (xxx.xxx.yyy.xxx) */
+		String thisRangeIP = cloesestRangeIP.substring
+				(0, cloesestRangeIP.indexOf('.',cloesestRangeIP.indexOf('.')+1) + 1);
+		/* First check the same end IP range */
+		this.ip = cloesestRangeIP;
+		boolean found = closestRangeIP(cloesestRangeIP);
+		if(!found){
+			iterateOverIPRange(thisRangeIP);
 		}
-		
+		rangeUnderScan = null;
+		slave.switchOn();
 	}
 	
 	
 	/**
-	 * Method to check ips in the last section of the address.
+	 * Method to check IPs in the last section of the address.
 	 * @author Adam
-	 * @param ip  The ip range to itterate over
-	 * @return  boolean, true if an exception ip was found
+	 * @param ip  The IP range to iterate over
+	 * @return  boolean, true if an exception IP was found
 	 */
-	private boolean closestRangeIP(String ip){
-		for(int i = 1; i < 256; i++){
-			if(running){
+	private boolean closestRangeIP(String ip) {
+		rangeUnderScan = ip.substring(0, ip.length() - 1);
+		if (listener != null) listener.onRangeChanged(rangeUnderScan);
+		
+		for(int i = 0; i < 256; i++){
+			if(running) {
+				if (listener != null) listener.onIpScan(i);
 		        try {
-		        	/* If it's not my ip */
+		        	/* If it's not my IP */
 		        	checkSocket(ip + i);
 		        	return true;
-		        } catch (IOException	 e){
-		        	
-		        }
+		        } catch (IOException e){}
 			} else {
 				break;
 			}
@@ -96,7 +133,7 @@ public class NetworkMaster implements Runnable {
 	
 	
 	/**
-	 * Method to attempt a socket connection on a given ip.
+	 * Method to attempt a socket connection on a given IP.
 	 * @author Adam
 	 * @author Matt
 	 * @param ip  The IP to attempt a connection with.
@@ -107,12 +144,12 @@ public class NetworkMaster implements Runnable {
 		
 		/* attempt socket connection with 100ms timeout */
         socket.connect(new InetSocketAddress(ip, port), 200);
+        if (listener != null) listener.onCompletion(true);
        
         OutputStream out = (OutputStream) socket.getOutputStream();
-        
         ObjectOutputStream serializer = new ObjectOutputStream(out);
        
-        /* Serialize and write the model to the output stream */
+        /* Serialise and write the model to the output stream */
         serializer.writeObject(controller.getModel());
         serializer.close();
         out.close();
@@ -135,28 +172,29 @@ public class NetworkMaster implements Runnable {
 			s.connect(new InetSocketAddress("192.168.0.1", 80), 500);
 			betterIP = s.getLocalAddress().getHostAddress();
 			s.close();
-		} catch (IOException e) {
-			/* Else try trace route for ip */
+		} catch (IOException e) {			
+			/* Else try trace route for IP */
 			if((betterIP = routeIP()).equals("0.0.0.0")){
 				/* Else set address to unreliable local address */
 				betterIP  = Inet4Address.getLocalHost().getHostAddress();
 			}
 		}
-		
 		return betterIP;
 	}
 	
 	/**
 	 * Method to exec traceroute and pass what it returns
-	 * to the ipv4 function.
+	 * to the IPv4 function.
 	 * @author Adam
 	 * @return The IP address of the users router.
 	 * @throws IOException
 	 */
 	private String routeIP() throws IOException {
+		obtainingIp = true;
+		if (listener != null) listener.onLocalIpCheck();
 		
-		/* choose command based on windows or unix */
-		String trace = (os.contains("win") ? "tracert" : "traceroute");
+		/* choose command based on Windows or Unix */
+		String trace = (OS_NAME.contains("win") ? "tracert" : "traceroute");
 		/* execute command */
 		
 		ProcessBuilder pb = new ProcessBuilder(trace, "www.google.com");
@@ -168,19 +206,18 @@ public class NetworkMaster implements Runnable {
         
         while((line = output.readLine()) != null){
         	content += line; //add each line content
-        	
         }
         
-        
+        obtainingIp = false;
         String gateway= ipv4(content);
         return gateway;
     }
 	
 	/**
-	 * Method to find the 2nd ip address in a string.
-	 * @author Adam.
-	 * @param search  The string to search for an ip in.
-	 * @return An ipv4 address.
+	 * Method to find the 2nd IP address in a string.
+	 * @author Adam
+	 * @param search  The string to search for an IP in.
+	 * @return An IPv4 address.
 	 */
 	private static String ipv4(String search){
 		/* Regex to match an IP Address */
@@ -201,71 +238,71 @@ public class NetworkMaster implements Runnable {
 	}
 	
 	/**
-	 * Method to itterate over an ip address.Z
+	 * Method to iterate over an IP address.
 	 * @author Adam
-	 * @param ip  The first 2 sections of an ip to loop through.
+	 * @param ip  The first 2 sections of an IP to loop through.
 	 */
 	private void iterateOverIPRange(String ip) {
+		boolean success = false;
 		for(int j = 0; j < 256; j++){
 			if(running){
-				/* itterate through the end section. */
-				closestRangeIP(ip + j + '.'); 
+				if(!this.ip.equals(ip + j + '.')){
+					/* iterate through the end section. */
+					success = closestRangeIP(ip + j + '.');
+				}
 			} else {
 				break;
 			}
-			
-		} 
+		}
+		if (!success && listener != null) listener.onCompletion(false);
 	}
 	
 	/**
+	 * Interrupts the current scan
 	 * @author Adam
 	 */
 	public void stopRunning(){
 		running = false;
 	}
-
-	@Override
-	public void run() {
-		try {
-			slave.switchOff();
-			this.ip = getIP();
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		findSlave();
+	
+	/**
+	 * @author Matt
+	 * @param listener to register for callbacks on scan progress
+	 */
+	public void setIpScanListener(ScanProgressListener listener) {
+		this.listener = listener;
+		if (listener == null) return;
+		if (obtainingIp) listener.onLocalIpCheck();
+		if (rangeUnderScan != null) listener.onRangeChanged(rangeUnderScan);
 	}
 	
 	/**
-	 * This implementation of the Changer interface allows the simori
-	 * to probe on a given port to find other Simori-ons over a network.
-	 * The first to respond receives the masters configuration and the master
-	 * continues to performance mode.
-	 * 
-	 * @author Adam
+	 * Callback interface for receiving updates on the
+	 * progress of an IP-by-IP scan for a slave Simori-ON.
+	 * @author Matt
 	 * @version 1.1.0
-	 * @see Changer.getText(), Changer.doThingTo(), Changer.getCurrentSetting()
-	 * @return Changer
 	 */
-	protected static Changer masterSlave(final ModeController controller){
-		return new Changer(){
-
-			@Override
-			public String getText(Setting s) {
-				return "Searching...";
-			}
-
-			@Override
-			public boolean doThingTo(ModeController controller) {
-				return true;
-			}
-
-			@Override
-			public Setting getCurrentSetting() {
-				controller.startNetworkMaster();
-				return null;
-			}
-		};
+	public interface ScanProgressListener {
+		
+		/** Called when determining the local IP is taking a long time */
+		public void onLocalIpCheck();
+		
+		/**
+		 * Called when the range of 256 IPs under consideration changes
+		 * @param ipRange The most significant three segments of the IP range
+		 */
+		public void onRangeChanged(String ipRange);
+		
+		/**
+		 * Called when a new IP is about to be considered
+		 * @param lastOctet The least significant segment of the IP
+		 */
+		public void onIpScan(int lastOctet);
+		
+		/**
+		 * Called at the completion of a scan (after success or timing out)
+		 * @param success True if a listening slave Simori-ON was found
+		 */
+		public void onCompletion(boolean success);
 	}
 }

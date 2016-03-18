@@ -17,6 +17,7 @@ import java.awt.Graphics;
 import simori.FunctionButton;
 import simori.Exceptions.KeyboardException;
 import simori.Modes.QwertyKeyboard;
+import simori.SimoriGui.KeyboardMapping;
 import simori.SwingGui.Button;
 import simori.SwingGui.Led;
 import simori.SwingGui.LedPanel;
@@ -292,5 +293,32 @@ public class MockSimoriJFrame extends SimoriJFrame {
 			return super.getBorderColour(); 
 		}
 
+	}
+	
+	/**
+	 * A Mock object for SimoriCentrePanel.Provides getters and setters needed in testing.
+	 * 
+	 * @author James
+	 * @version 1.0.0
+	 * @see SimoriCentrePanel.java, TestSimoriCentrePanel
+	 *
+	 */
+	public static class MockCentrePanel extends SimoriCentrePanel{
+
+		public MockCentrePanel(KeyboardMapping map, OnPressListenerMaker maker) {
+			super(map, maker);
+		}
+		
+		public LedPanel getLedPanel(){
+			return ledPanel;
+		}
+		
+		@Override
+		public LedPanel makeLedPanel(KeyboardMapping map,
+				OnPressListenerMaker maker){
+			return super.makeLedPanel(map, maker);
+		}
+		
+		
 	}
 }

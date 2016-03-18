@@ -19,6 +19,7 @@ import java.awt.Rectangle;
 
 import javax.swing.JPanel;
 
+import simori.FunctionButton;
 import simori.Simori.PowerTogglable;
 import simori.SimoriGui.KeyboardMapping;
 
@@ -53,6 +54,25 @@ public class SimoriPanel extends JPanel implements PowerTogglable {
 	/** @see SimoriJFrame#setGrid */
 	public void setGrid(boolean[][] grid) {
 		centrePanel.setGrid(grid);
+	}
+	
+	/** @see LedPanel#setGreyedOut(boolean[][]) */
+	public void setGreyedOut(boolean[][] which) {
+		centrePanel.setGreyedOut(which);
+	}
+	
+	/**
+	 * Switches an individual button on or off.
+	 * Forwards the call to each edge bar until the requested
+	 * button is found or all edge bars have been tried.
+	 * @param fb The identifier of the button to switch
+	 * @param greyedOut true to grey the button out
+	 */
+	public void setGreyedOut(FunctionButton fb, boolean greyedOut) {
+		SimoriEdgeBar[] bars = {topBar, leftBar, rightBar, bottomBar};
+		for (SimoriEdgeBar bar : bars) {
+			if (bar.setGreyedOut(fb, greyedOut)) break;
+		}
 	}
 	
 	/** @return The LCD screen of the bottom {@link SimoriEdgeBar} */
