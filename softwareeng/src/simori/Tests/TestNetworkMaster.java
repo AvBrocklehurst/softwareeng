@@ -28,6 +28,8 @@ public class TestNetworkMaster {
 		SimoriJFrame gui = new SimoriJFrame(keyboard);
 		SimoriSoundSystem player = new SimoriSoundSystem();
 		ModeController modes = new ModeController(gui, model, 20160);
+		modes.setComponentsToPowerToggle(model, player, gui);
+		modes.setOn(false);
 		modes.setOn(true);
 		modes.startNetworkMaster();
 	}

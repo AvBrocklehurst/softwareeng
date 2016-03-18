@@ -1,6 +1,8 @@
 package simori;
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.ShortMessage;
+
+import simori.Simori.PowerTogglable;
 /**
  * 
  * @author Josh aka the music man
@@ -14,7 +16,7 @@ import javax.sound.midi.ShortMessage;
  * The amount of time it takes to do .play(Array) is ideally zero.
  * As a result there is little to no error checking in this class. All error checking is done before this method is played (whilst it is still in sync with the clock)
  */
-public class SimoriSoundSystem {
+public class SimoriSoundSystem implements PowerTogglable{
 
 /**
 	 * @author Josh
@@ -76,6 +78,18 @@ public class SimoriSoundSystem {
 		MIDISoundSystem.sendCommands(convertToMIDIMessages(array)); // take the array and turn it into MIDI messages.
 		//play all the MIDI messages.
 		 
+	}
+
+	@Override
+	public void switchOn() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void switchOff() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	/* FROM INTERFACE
