@@ -70,7 +70,7 @@ public class Simori {
 		NoteProcessor clock = new NoteProcessor(modes, model, player);
 		model.addObserver(clock);
 		modes.setComponentsToPowerToggle(model, player, gui, clock);
-		modes.setOn(false);
+		modes.setOn(false, false);
 		gui.setVisible(true);
 	}
 	

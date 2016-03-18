@@ -50,7 +50,7 @@ public interface SimoriGui extends PowerTogglable {
 	public KeyboardMapping getKeyboardMapping();
 	
 	/** @param Animation which will be played on the GUI's buttons */
-	public void playAnimation(Animation toPlay);
+	public void play(Animation toPlay);
 	
 	/** @return Number of columns in the LED grid */
 	public int getGridWidth();

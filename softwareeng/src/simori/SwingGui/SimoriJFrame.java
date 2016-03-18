@@ -72,8 +72,7 @@ public class SimoriJFrame extends JFrame implements SimoriGui, MouseMotionListen
 	 * @param mapping Layout of the keyboard to display for text entry
 	 */
 	public SimoriJFrame(KeyboardMapping mapping) {
-		Handler handler = new Handler();
-	    Thread.setDefaultUncaughtExceptionHandler(handler);
+	    //TODO Thread.setDefaultUncaughtExceptionHandler(new Handler());
 		this.mapping = mapping;
 		this.rows = mapping.getRows();
 		this.columns = mapping.getColumns();
@@ -121,14 +120,22 @@ public class SimoriJFrame extends JFrame implements SimoriGui, MouseMotionListen
 	}
 	
 	/** {@inheritDoc} */
-	public void playAnimation(Animation toPlay) {
-		new Timer(100, new ActionListener() {
+	public void play(Animation toPlay) {
+		simoriPanel.switchOn();
+		final Timer timer = new Timer(100, null);
+		timer.addActionListener(new ActionListener() {
+			int phase = 0;
 			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-				
+			public void actionPerformed(ActionEvent e) {
+				if (phase >= getGridWidth() / 2) {
+					toPlay.finished();
+					timer.stop();
+					return;
+				}
+				setGrid(toPlay.makeSquareGrid(getGridWidth(), phase++));
 			}
-		}).start();
+		});
+		timer.start();
 	}
 	
 	/** {@inheritDoc} */
@@ -259,8 +266,9 @@ public class SimoriJFrame extends JFrame implements SimoriGui, MouseMotionListen
 	}
 	
 	class Handler implements Thread.UncaughtExceptionHandler {
-		  public void uncaughtException(Thread t, Throwable e) {
-		    System.err.println("Throwable: " + e.getMessage());
-		  }
+		public void uncaughtException(Thread t, Throwable e) {
+			System.out.println(e.toString());
+			System.err.println("Throwable: " + e.getMessage());
 		}
+	}
 }
