@@ -1,6 +1,11 @@
 package simori.Modes;
 
+import java.io.File;
+import java.util.Observable;
+import java.util.Observer;
+
 import simori.ModeController;
+import simori.ResourceManager;
 import simori.SimoriGui.FunctionButtonEvent;
 import simori.SimoriGui.GridButtonEvent;
 import simori.Exceptions.SimoriNonFatalException;
@@ -14,14 +19,17 @@ import simori.Exceptions.SimoriNonFatalException;
  * @version 1.0.0
  * @see Mode, ModeController
  */
-public class ShopBoyMode extends Mode {
+public class ShopBoyMode extends Mode implements Observer {
 
 	public ShopBoyMode(ModeController controller) {
 		super(controller);
+		File shopboy = ResourceManager.getResource("ShopBoySongs");
+		
 	}
 	
 	@Override
 	public void setInitialGrid() {
+		getModel().addObserver(this);
 		getGui().clearGrid();
 		getGui().setText("Shop boy mode (in development!)");
 		((simori.SwingGui.SimoriJFrame) getGui()).testAnimation();
@@ -41,4 +49,28 @@ public class ShopBoyMode extends Mode {
 			break; //ignore all other function buttons
 		}
 	}
+	
+	private void iterateFile(File f){
+		
+		if(!f.isDirectory() || f == null){
+			System.err.println("Shopboy is not a directory or is null!");
+			return;
+		}
+		
+		else{
+			File[] files = f.listFiles();
+			for(int i=0; i<files.length; i++){
+				getGui().setText(files[i].getName());
+				
+			}
+		}
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		//get loop point current column and check if their equal, if so next song
+		
+	}
+	
+	
 }

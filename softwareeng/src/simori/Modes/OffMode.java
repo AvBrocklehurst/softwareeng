@@ -27,6 +27,7 @@ public class OffMode extends Mode {
 	@Override
 	public void onFunctionButtonPress(FunctionButtonEvent e) {
 		if (e.getFunctionButton() == FunctionButton.ON) {
+			
 			getModeController().setOn(true);
 		}
 	}

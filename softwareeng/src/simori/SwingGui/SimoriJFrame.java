@@ -5,6 +5,8 @@ import static simori.SwingGui.GuiProperties.SCREEN_PROPORTION;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -14,8 +16,9 @@ import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.logging.Handler;
 
 import javax.swing.JFrame;
+import javax.swing.Timer;
 
-import simori.FunctionButton;
+import simori.Animation;
 import simori.SimoriGui;
 import simori.Modes.Mode;
 
@@ -93,16 +96,6 @@ public class SimoriJFrame extends JFrame implements SimoriGui, MouseMotionListen
 		});
 	}
 	
-	public void testAnimation() { //TODO Improve or remove :P
-		simoriPanel.setGreyedOut(FunctionButton.L2, true);
-		simoriPanel.setGreyedOut(FunctionButton.R3, true);
-		boolean[][] which = new boolean[rows][columns];
-		for (boolean[] row : which) row[5] = true;
-		simoriPanel.setGreyedOut(which);
-		for (boolean[] row : which) row[6] = true;
-		simoriPanel.setGrid(which);
-	}
-	
 	/** {@inheritDoc} */
 	@Override
 	public void setGrid(boolean[][] grid) {
@@ -125,6 +118,17 @@ public class SimoriJFrame extends JFrame implements SimoriGui, MouseMotionListen
 	@Override
 	public String getText() {
 		return lcd.getText();
+	}
+	
+	/** {@inheritDoc} */
+	public void playAnimation(Animation toPlay) {
+		new Timer(100, new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+		}).start();
 	}
 	
 	/** {@inheritDoc} */

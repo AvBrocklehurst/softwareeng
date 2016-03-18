@@ -196,6 +196,8 @@ public class MatrixModel extends Observable implements Serializable, PowerToggla
 		} else {
 			currentColumn = 0;
 		}
+		setChanged();
+		notifyObservers();
 	}
 	
 	/**
