@@ -2,13 +2,13 @@ package simori;
 
 import java.io.IOException;
 
+import simori.Animation.OnFinishListener;
 import simori.Simori.PowerTogglable;
 import simori.SimoriGui.FunctionButtonEvent;
 import simori.Exceptions.SimoriNonFatalException;
 import simori.Modes.Mode;
 import simori.Modes.NetworkMaster;
 import simori.Modes.NetworkSlave;
-import simori.Modes.OffMode;
 import simori.Modes.PerformanceMode;
 import simori.Modes.ShopBoyMode;
 
@@ -158,13 +158,39 @@ public class ModeController {
 	 * Sets the power state of the Simori-ON.
 	 * @param on true to switch on, or false to switch off
 	 */
-	public void setOn(boolean on) {
+	public void setOn(boolean on, boolean animated) {
 		if (this.on == on) return;
 		if (on) {
-			switchOn();
+			bootUp(animated);
 		} else {
-			switchOff();
+			shutDown(animated);
 		}
+	}
+	
+	private void bootUp(boolean animated) {
+		if (!animated) {
+			switchOn();
+			return;
+		}
+		gui.play(new Animation(new OnFinishListener() {
+			@Override
+			public void onAnimationFinished() {
+				switchOn();
+			}
+		}));
+	}
+	
+	private void shutDown(boolean animated) {
+		if (!animated) {
+			switchOff();
+			return;
+		}
+		gui.play(new Animation(new OnFinishListener() {
+			@Override
+			public void onAnimationFinished() {
+				switchOff();
+			}
+		}));
 	}
 	
 	/**
@@ -195,7 +221,7 @@ public class ModeController {
 	 */
 	private void switchOff() {
 		on = false;
-		setMode(new OffMode(this));
+		setMode(makeOffMode());
 		if (toPowerToggle == null) return;
 		for (int i = toPowerToggle.length - 1; i >= 0; i--) {
 			toPowerToggle[i].switchOff();
@@ -219,6 +245,22 @@ public class ModeController {
 					setMode(new ShopBoyMode(ModeController.this));
 				} else {
 					super.onFunctionButtonPress(e);
+				}
+			}
+		};
+	}
+	
+	/**
+	 * Creates a {@link Mode} which calls {@link #setOn} to switch on
+	 * when the OK button is pressed, and ignores all other input.
+	 * @return A mode to represent the Simori-ON's switched off state
+	 */
+	private Mode makeOffMode() {
+		return new Mode(this) {
+			@Override
+			public void onFunctionButtonPress(FunctionButtonEvent e) {
+				if (e.getFunctionButton() == FunctionButton.ON) {
+					getModeController().setOn(true, true);
 				}
 			}
 		};
