@@ -1,7 +1,6 @@
 package simori;
 
 import javax.sound.midi.InvalidMidiDataException;
-import javax.sound.midi.ShortMessage;
 
 public class AudioFeedbackSystem extends MIDIMessageHelper {
 	
@@ -19,32 +18,51 @@ public class AudioFeedbackSystem extends MIDIMessageHelper {
 	}
 	
 	
-	public static void main(String[] args) throws InvalidMidiDataException, InterruptedException {
-		MIDISoundSystem player = new MIDISoundSystem();
-		AudioFeedbackSystem afs = new AudioFeedbackSystem(player);
-		afs.test();
-		Thread.sleep(1000);
-	}
+
 
 	// welcome sound
 	// good bye sound
 	// happy sound
 	// sad sound
-	public void createMessage(int command, byte a , byte b, byte c){
-		
+	
+	void playInstrument(byte instrument, byte pitch, byte velocity) throws InvalidMidiDataException{
+		player.sendCommand(createMessage((byte)0, instrument));
+		player.sendCommand(createMessage((byte)0,pitch,velocity));
+	}
+	void playPercussion(byte percussion, byte velocity ) throws InvalidMidiDataException{
+		player.sendCommand(createMessage((byte)9,percussion,velocity));
 	}
 	
-	
-	
-	public void test() throws InvalidMidiDataException, InterruptedException{
-		ShortMessage message = new ShortMessage();
-		ShortMessage[] messages = new ShortMessage[2];
-		message.setMessage(ShortMessage.PROGRAM_CHANGE, 0, 110, 0);
-		messages[0] = message;
-		message = new ShortMessage();
-		message.setMessage(ShortMessage.NOTE_ON, 0, 60, 80);
-		messages[1] = message;
-		player.sendCommands(messages);
+	public static void main(String[] args) throws InvalidMidiDataException, InterruptedException {
+		MIDISoundSystem player = new MIDISoundSystem();
+		AudioFeedbackSystem afs = new AudioFeedbackSystem(player);
+		afs.playPercussion((byte)81, (byte)80);
+		afs.playPercussion((byte)39,(byte) 80);
+		Thread.sleep(2000);
+		/*
+		afs.playInstrument((byte)0, (byte)60, (byte)80);
+		afs.playInstrument((byte)0, (byte)64, (byte)80);
+		afs.playInstrument((byte)0, (byte)67, (byte)80);
+		Thread.sleep(1000);
+		afs.stopPlay();
+		Thread.sleep(1000);
+		afs.playInstrument((byte)110, (byte)60, (byte)80);
+		Thread.sleep(500);
+		afs.stopPlay();
+		*/
+		
+		/*afs.playInstrument((byte)110, (byte)60, (byte)80);
+		Thread.sleep(1000);
+		afs.playPercussion((byte)72, (byte)80);
+		Thread.sleep(200);
+		afs.playInstrument((byte)57, (byte)60, (byte)80);
+		afs.playPercussion((byte)39, (byte)80);
+		Thread.sleep(200);
+		afs.playPercussion((byte)39, (byte)80);
+		Thread.sleep(200);
+		afs.playPercussion((byte)39, (byte)80);
+		Thread.sleep(1000);*/
+		System.out.println("DONE");
 	}
 	
 }
