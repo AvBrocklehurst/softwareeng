@@ -2,7 +2,6 @@ package simori;
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.ShortMessage;
 
-import simori.Simori.PowerTogglable;
 /**
  * 
  * @author Josh aka the music man
@@ -16,12 +15,13 @@ import simori.Simori.PowerTogglable;
  * The amount of time it takes to do .play(Array) is ideally zero.
  * As a result there is little to no error checking in this class. All error checking is done before this method is played (whilst it is still in sync with the clock)
  */
-public class SimoriSoundSystem {
-	MIDISoundSystem player;
+public class SimoriSoundSystem extends MIDIMessageHelper {
 	
 	public SimoriSoundSystem(MIDISoundSystem player) {
-		this.player = player;
+		super(player);
 	}
+
+
 
 /**
 	 * @author Josh
@@ -46,15 +46,18 @@ public class SimoriSoundSystem {
 		int currentPositionInArray = 0;
 		for(int i = 0; i<simoriLayers.length; i++){
 			// for each byte array in the larger array we'll need a command change
-			message = new ShortMessage(); // for some reason constructor does not work in blue room, so setMessage has to be used instead
-			message.setMessage(ShortMessage.PROGRAM_CHANGE, simoriLayers[i][0], simoriLayers[i][1], 0); // for the given layer set the channel and instrument, the zero is arbitrary (but is needed for correct number of bytes to be sent).
+			//message = new ShortMessage(); // for some reason constructor does not work in blue room, so setMessage has to be used instead
+			//message.setMessage(ShortMessage.PROGRAM_CHANGE, simoriLayers[i][0], simoriLayers[i][1], 0); // for the given layer set the channel and instrument, the zero is arbitrary (but is needed for correct number of bytes to be sent).
+			
+			message = createMessage(simoriLayers[i][0], simoriLayers[i][1]);
 			toBePlayedArray[currentPositionInArray] = message; // add MIDI message to  array
 			currentPositionInArray ++;
 			
 			// for every note in one of the inner byte arrays we'll need that many messages
+			//message = new ShortMessage(); // for some reason constructor does not work in blue room, so setMessage has to be used instead
+			//message.setMessage(ShortMessage.NOTE_ON, simoriLayers[i][0], simoriLayers[i][j], simoriLayers[i][2]); // set a play command for that note with the correct pitch and velocity.
 			for(int j = 3; j<simoriLayers[i].length; j++){
-				message = new ShortMessage(); // for some reason constructor does not work in blue room, so setMessage has to be used instead
-				message.setMessage(ShortMessage.NOTE_ON, simoriLayers[i][0], simoriLayers[i][j], simoriLayers[i][2]); // set a play command for that note with the correct pitch and velocity.
+				message = createMessage(simoriLayers[i][0], simoriLayers[i][j],  simoriLayers[i][2]);
 				toBePlayedArray[currentPositionInArray] = message; // add MIDI message to on array
 				currentPositionInArray ++;
 			}
