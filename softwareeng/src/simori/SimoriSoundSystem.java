@@ -83,6 +83,7 @@ public class SimoriSoundSystem extends MIDIMessengerSystem {
 	 */
 	//Override
 	public void play(byte[][] array) throws InvalidMidiDataException {
+		System.out.println(array[0][3]);
 		player.sendCommands(convertToMIDIMessages(array)); // take the array and turn it into MIDI messages.
 		//play all the MIDI messages.
 	}
