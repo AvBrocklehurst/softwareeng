@@ -122,6 +122,7 @@ public class NetworkMaster implements Runnable {
 		        try {
 		        	/* If it's not my IP */
 		        	checkSocket(ip + i);
+		        	running = false;
 		        	return true;
 		        } catch (IOException e){}
 			} else {

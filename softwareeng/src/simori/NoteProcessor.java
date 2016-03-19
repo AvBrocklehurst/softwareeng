@@ -293,7 +293,6 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 		@Override
 		public void update(Observable a, Object b) {
 			clock.updateBPM(model.getBPM());	
-			System.out.println(model.getPlaying());
 			if(model.getPlaying() == false){
 				try {
 					midi.stopPlay();
