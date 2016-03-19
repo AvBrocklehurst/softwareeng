@@ -206,7 +206,7 @@ public class AudioFeedbackSystem extends MIDIMessengerSystem {
 		MIDISoundSystem player = new MIDISoundSystem();
 		MatrixModel model = new MatrixModel(16,16);
 		AudioFeedbackSystem afs = new AudioFeedbackSystem(player, model);
-		afs.play(Sound.GOODBYE);
+		afs.play(Sound.HAPPY);
 		for (int i = 0; i < 6; i ++) {
 			System.out.println(i % 2 == 0 ? "Printing" : "whilst playing");
 			Thread.sleep(200);
