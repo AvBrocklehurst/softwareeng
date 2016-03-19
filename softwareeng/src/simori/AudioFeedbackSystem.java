@@ -51,7 +51,7 @@ public class AudioFeedbackSystem extends MIDIMessengerSystem {
 	 * @author Josh
 	 * @version 1.0.0
 	 * 
-	 * Enum for different audio's 
+	 * Enum for different audio feeback
 	 */
 	public enum Sound {WELCOME, GOODBYE, HAPPY, SAD}
 	
@@ -179,25 +179,42 @@ public class AudioFeedbackSystem extends MIDIMessengerSystem {
 	
 	/**
 	 * @author Josh
-	 * @param instrument
+	 * @param instrument - midi number (1-128)
 	 * @param pitch
+	 * @param velocity
+	 * @param duration - Length to play in millseconds
+	 * @param stop - should the instrument stop making noise after the duration has ended?
+	 * @throws InvalidMidiDataException
+	 * @throws InterruptedException
+	 * @version 2.0.1
+	 * 
+	 * Method that plays an instrument for some amount of time.
+	 * If stop is true then this note is stopped after the duration is finished.
+	 * Note: If the duration is zero and stop is false then this basically means 'play and immediately move on'.
+	 * This allows for production of chords (multiple notes at the same time).
+	 * 
+	 */
+	void playInstrument(int instrument, int pitch, int velocity, int duration, boolean stop) throws InvalidMidiDataException, InterruptedException{
+		player.sendCommand(createMessage((byte)0, (byte)(instrument-1))); // send the program change message.
+		player.sendCommand(createMessage((byte)0,(byte)pitch, (byte)velocity)); // send the note on message.
+		Thread.sleep(duration);
+		if(stop){player.stopSound();}
+	}
+	
+	/**
+	 * @author Josh
+	 * @param percussion
 	 * @param velocity
 	 * @param duration
 	 * @param stop
 	 * @throws InvalidMidiDataException
 	 * @throws InterruptedException
-	 * @version 2.0.1
+	 * @version 2.0.0
 	 * 
-	 * Method that plays 
+	 * Same as playInstrument, except with percussion.
 	 */
-	void playInstrument(int instrument, int pitch, int velocity, int duration, boolean stop) throws InvalidMidiDataException, InterruptedException{
-		player.sendCommand(createMessage((byte)0, (byte)(instrument-1)));
-		player.sendCommand(createMessage((byte)0,(byte)pitch, (byte)velocity));
-		Thread.sleep(duration);
-		if(stop){player.stopSound();}
-	}
 	void playPercussion(int percussion, int velocity, int duration, boolean stop ) throws InvalidMidiDataException, InterruptedException{
-		player.sendCommand(createMessage((byte)9,(byte)percussion,(byte)velocity));
+		player.sendCommand(createMessage((byte)9,(byte)percussion,(byte)velocity)); // program change message is unnecessary, only note on message is needed
 		Thread.sleep(duration);
 		if(stop){player.stopSound();}
 	}
