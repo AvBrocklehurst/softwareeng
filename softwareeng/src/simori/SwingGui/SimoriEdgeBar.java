@@ -1,8 +1,6 @@
 package simori.SwingGui;
 
 import java.awt.Dimension;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,12 +44,6 @@ public class SimoriEdgeBar extends JPanel implements PowerTogglable {
 		BoxLayout layout = new BoxLayout(this, axis);
 		setLayout(layout);
 		addComponents(vertical, hasLcd, maker, fbs);
-		addComponentListener(new ComponentAdapter() {
-			@Override
-			public void componentResized(ComponentEvent e) {
-				updateSize();
-			}
-		});
 	}
 	
 	/** {@inheritDoc} */
@@ -89,6 +81,28 @@ public class SimoriEdgeBar extends JPanel implements PowerTogglable {
 		if (!buttonMap.containsKey(fb)) return false;
 		buttonMap.get(fb).setGreyedOut(greyedOut);
 		return true;
+	}
+	
+	/**
+	 * If vertical, sets the width of the {@link Button}s
+	 * to a proportion of the width of the bar.
+	 * If horizontal, sets the height of the buttons
+	 * to a proportion of the height of the bar.
+	 * The {@link Lcd} is also sized to fit.
+	 * @param The predetermined size of this bar
+	 */
+	public void setDefiniteSize(Dimension size) {
+		setPreferredSize(size);
+		float min = Math.min(size.width, size.height);
+		int ratio = (int) (min * GuiProperties.MARGIN_PROPORTION);
+		Dimension bSize = new Dimension(ratio, ratio);
+		for (Button b : buttons) b.setDefiniteSize(bSize);
+		if (lcd != null) lcd.setShorterSize(ratio);
+	}
+	
+	/** @return The {@link Lcd} on this edge, or null */
+	public Lcd getLcd() {
+		return lcd;
 	}
 	
 	/**
@@ -150,30 +164,5 @@ public class SimoriEdgeBar extends JPanel implements PowerTogglable {
 	/** Protected so that subclasses can use different types of button */
 	protected Button makeButton() {
 		return new Button();
-	}
-	
-	/**
-	 * If vertical, sets the width of the {@link Button}s
-	 * to a proportion of the width of the bar.
-	 * If horizontal, sets the height of the buttons
-	 * to a proportion of the height of the bar.
-	 * The {@link Lcd} is also sized to fit.
-	 */
-	private void updateSize() {
-		float min = Math.min(getWidth(), getHeight());
-		int ratio = (int) (min * GuiProperties.MARGIN_PROPORTION);
-		Dimension bSize = new Dimension(ratio, ratio);
-		for (Button b : buttons) {
-			//BoxLayout respects size if all three are set
-			b.setPreferredSize(bSize);
-			b.setMaximumSize(bSize);
-			b.setMinimumSize(bSize);
-		}
-		if (lcd != null) lcd.setShorterSize(ratio);
-	}
-	
-	/** @return The {@link Lcd} on this edge, or null */
-	public Lcd getLcd() {
-		return lcd;
 	}
 }

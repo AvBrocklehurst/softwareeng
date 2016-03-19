@@ -1,7 +1,10 @@
 package simori.SwingGui;
 
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 
 /**
  * A {@link PressableCircle} with text.
@@ -11,9 +14,24 @@ import java.awt.geom.Rectangle2D;
  */
 public class Button extends PressableCircle {
 	
-	private String text = "";
 	private int textX, textY; //Where to draw text
-	protected boolean resized;  //Whether to re-evaluate text size and position
+	private String text = "";
+	private Dimension size;
+	private Font font;
+	
+	/**
+	 * Sets the short string to be drawn inside the button on a single line.
+	 * Causes the button to redraw itself with the new string.
+	 */
+	public void setText(String text) {
+		this.text = text;
+		repaint();
+	}
+	
+	/** @return The text displayed on this button */
+	public String getText() {
+		return text;
+	}
 	
 	/** {@inheritDoc} */
 	@Override
@@ -22,11 +40,34 @@ public class Button extends PressableCircle {
 		drawText(g); //Draw text in addition to superclass behaviour
 	}
 	
+	/**
+	 * Sets the (minimum, maximum and preferred) size of this button.
+	 * Sizes and positions the text as necessary.
+	 * @param size The predetermined button size
+	 */
+	public void setDefiniteSize(Dimension size) {
+		if (size != null && size.equals(this.size)) return;
+		this.size = size;
+		setSize(size);
+		sizeAndPositionText();
+	}
+	
 	/** {@inheritDoc} */
 	@Override
-	protected void resized() {
-		super.resized();
-		resized = true; //Resize and reposition text on next draw
+	public Dimension getPreferredSize() {
+		return size;
+	}
+	
+	/** {@inheritDoc} */
+	@Override
+	public Dimension getMaximumSize() {
+		return size;
+	}
+	
+	/** {@inheritDoc} */
+	@Override
+	public Dimension getMinimumSize() {
+		return size;
 	}
 	
 	/**
@@ -34,21 +75,23 @@ public class Button extends PressableCircle {
 	 * @param g The graphics context to use
 	 */
 	private void drawText(Graphics g) {
-		g.setFont(GuiProperties.getFont());
+		g.setFont(font);
 		g.setColor(GuiProperties.BUTTON_TEXT);
-		if (resized) updateSize(g);
 		g.drawString(text, textX, textY);
 	}
 	
 	/**
-	 * Calculates the size and position the {@link #text}
-	 * should be drawn so that it all fits, centred within
-	 * the circle, with as large a font size as possible. 
-	 * @param g The graphics context with the font to use
+	 * Determines the {@link #font} size and coordinates at
+	 * which to draw the {@link #text} so that it is centred
+	 * and fills as much of the button's area as possible.
 	 */
-	private void updateSize(Graphics g) {
+	private void sizeAndPositionText() {
+		Graphics g = new BufferedImage(size.width, size.height,
+				BufferedImage.TYPE_INT_ARGB).createGraphics();
+		g.setFont(GuiProperties.getFont());
 		int space = calculateSpace();
 		GuiProperties.sizeFontTo(text, space, space, g);
+		font = g.getFont();
 		placeText(g);
 	}
 	
@@ -78,19 +121,5 @@ public class Button extends PressableCircle {
 		int ascent = g.getFontMetrics().getAscent();
 		textX = (getWidth() - textWidth) / 2 + 1;
 		textY = (getHeight() - textHeight) / 2 + ascent - 1;
-	}
-	
-	/**
-	 * Sets the short string to be drawn inside the button on a single line.
-	 * Causes the button to redraw itself with the new string.
-	 */
-	public void setText(String text) {
-		this.text = text;
-		repaint();
-	}
-	
-	/** @return The text displayed on this button */
-	public String getText() {
-		return text;
 	}
 }

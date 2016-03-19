@@ -10,7 +10,9 @@ import java.awt.event.MouseListener;
 import java.awt.geom.Ellipse2D;
 import java.util.ArrayList;
 
+import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JToggleButton;
 
 import simori.Exceptions.SimoriNonFatalException;
 import simori.SwingGui.OnPressListenerMaker.OnPressListener;

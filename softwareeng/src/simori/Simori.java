@@ -21,7 +21,7 @@ import simori.SwingGui.SimoriJFrame;
  */
 public class Simori {
 	
-	private static final byte GRID_WIDTH = 16, GRID_HEIGHT = 16;
+	private static final byte GRID_SIZE = 16;
 	private static final int PORT = 20160;
 	
 	/**
@@ -62,8 +62,8 @@ public class Simori {
 	 * @throws IOException 
 	 */
 	public Simori() throws MidiUnavailableException, SimoriNonFatalException, IOException {
-		MatrixModel model = new MatrixModel(GRID_WIDTH, GRID_HEIGHT);
-		QwertyKeyboard keyboard = new QwertyKeyboard(GRID_WIDTH, GRID_HEIGHT);
+		MatrixModel model = new MatrixModel(GRID_SIZE, GRID_SIZE);
+		QwertyKeyboard keyboard = new QwertyKeyboard(GRID_SIZE, GRID_SIZE);
 		SimoriJFrame gui = new SimoriJFrame(keyboard);
 		MIDISoundSystem player = new MIDISoundSystem();
 		AudioFeedbackSystem afs = new AudioFeedbackSystem(player, model);
