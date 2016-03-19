@@ -26,8 +26,8 @@ public class MasterSlaveMode extends Mode implements ScanProgressListener {
 
 	public MasterSlaveMode(ModeController controller) {
 		super(controller);
-		rows = getGui().getGridHeight();
-		columns = getGui().getGridWidth();
+		rows = getGui().getGridSize();
+		columns = getGui().getGridSize();
 		grid = new boolean[rows][columns]; 
 	}
 	

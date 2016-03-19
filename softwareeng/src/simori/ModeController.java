@@ -188,7 +188,7 @@ public class ModeController {
 				switchOn();
 			}
 		};
-		gui.play(new Animation(gui.getGridWidth(), switchOn, true));
+		gui.play(new Animation(gui.getGridSize(), switchOn, true));
 	}
 	
 	private void shutDown(boolean animated) {
@@ -206,7 +206,7 @@ public class ModeController {
 				switchOff();
 			}
 		};
-		gui.play(new Animation(gui.getGridWidth(), switchOff, false));
+		gui.play(new Animation(gui.getGridSize(), switchOff, false));
 	}
 	
 	private void switchOn() {
