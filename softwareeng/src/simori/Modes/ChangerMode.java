@@ -89,7 +89,7 @@ public class ChangerMode extends Mode {
 			}
 			break;
 		default:
-			//Ignore L and R buttons
+			getController().sadSound();
 			break;
 		}
 	}

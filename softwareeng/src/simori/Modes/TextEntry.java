@@ -69,10 +69,16 @@ public abstract class TextEntry implements Changer {
 	private void addLetter(Character letter) {
 		if (letter == null) return;
 		if (letter == '\b') {
-			if (builder.length() == 0) return;
+			if (builder.length() == 0) {
+				controller.sadSound();
+				return;
+			}
 			builder.deleteCharAt(builder.length() - 1);
 		} else {
-			if (builder.length() == MAX_LENGTH) return;
+			if (builder.length() == MAX_LENGTH) {
+				controller.sadSound();
+				return;
+			}
 			builder.append(letter);
 		}
 	}
