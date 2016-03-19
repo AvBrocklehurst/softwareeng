@@ -8,18 +8,15 @@ public class Animation {
 		this.listener = listener;
 	}
 	
-	public boolean[][] makeSquareGrid(int size, int phase) {
-		boolean[][] grid = new boolean[size][size];
+	public void setSquareOfGrid(boolean[][] grid, int phase, boolean to) {
+		int size = grid.length;
 		int symmetry = --size % 2 == 0 ? 0 : 1;
 		int bl = size / 2 - phase;
 		int tr = size / 2 + phase + symmetry;
 		for (int i = bl; i <= tr; i++) {
-			grid[tr][i] = true;
-			grid[bl][i] = true;
-			grid[i][tr] = true;
-			grid[i][bl] = true;
+			grid[tr][i] = grid[bl][i] = to;
+			grid[i][tr] = grid[i][bl] = to;
 		}
-		return grid;
 	}
 	
 	public void finished() {

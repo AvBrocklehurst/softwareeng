@@ -121,8 +121,11 @@ public class SimoriJFrame extends JFrame implements SimoriGui, MouseMotionListen
 	
 	/** {@inheritDoc} */
 	public void play(Animation toPlay) {
-		simoriPanel.switchOn();
 		final Timer timer = new Timer(100, null);
+		final boolean[][] grid = new boolean[rows][columns];
+		for (boolean[] row : grid) {
+			for (int i = 0; i < row.length; i++) row[i] = true;
+		}
 		timer.addActionListener(new ActionListener() {
 			int phase = 0;
 			@Override
@@ -132,7 +135,8 @@ public class SimoriJFrame extends JFrame implements SimoriGui, MouseMotionListen
 					timer.stop();
 					return;
 				}
-				setGrid(toPlay.makeSquareGrid(getGridWidth(), phase++));
+				toPlay.setSquareOfGrid(grid, phase++, false);
+				simoriPanel.setGreyedOut(grid);
 			}
 		});
 		timer.start();
