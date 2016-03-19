@@ -68,7 +68,13 @@ public class MasterSlaveMode extends Mode implements ScanProgressListener {
 	/** {@inheritDoc} */
 	@Override
 	public void onCompletion(boolean success) {
-		getGui().setText(success ? FINISH_SUCCESS : FINISH_FAILURE);
+		if (success) {
+			getController().happySound();
+			getGui().setText(FINISH_SUCCESS);
+		} else {
+			getController().sadSound();
+			getGui().setText(FINISH_FAILURE);
+		}
 	}
 	
 	/** {@inheritDoc} */

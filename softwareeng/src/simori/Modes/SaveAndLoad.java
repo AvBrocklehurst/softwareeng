@@ -120,7 +120,7 @@ public class SaveAndLoad {
 	
 	/**
 	 * This implementation of the Changer interface allows a user to input
-	 * unix and windows compatible symbols and letters in order to produce
+	 * Unix and Windows compatible symbols and letters in order to produce
 	 * a filename to load a simori configuration from.
 	 * 
 	 * @author James
