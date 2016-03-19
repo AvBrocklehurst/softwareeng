@@ -280,7 +280,7 @@ public class MatrixModel extends Observable implements Serializable, PowerToggla
 	@Override
 	public void switchOn() {
 		this.layers = new Layer[16]; //make layers 16 long to hold all 16 layers
-		this.layers[0] = new Layer(width, height); //instatiate the first layer
+		this.layers[0] = new Layer(width, height); //Instantiate the first layer
 	}
 	
 	/** {@inheritDoc} */
