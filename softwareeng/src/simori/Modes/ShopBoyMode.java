@@ -15,75 +15,112 @@ import simori.Exceptions.SimoriNonFatalException;
  * will be played to show the power of the Simori.
  * 
  * @author James
- * @author Matt
  * @version 1.0.0
  * @see Mode, ModeController
  */
-public class ShopBoyMode extends Mode implements Observer {
+public class ShopBoyMode extends PerformanceMode implements Observer {
 	
-	private File currentFile;
-	private int counter = 0;
-	private File shopboy;
+	private File currentFile;     //a handle on the current file to be played
+	private int counter = 0;         //keep track of the track directory
+	private int partCounter = 0;     //keep track of the song part
+	private File shopboy;            //main res directory
+	private File[] song;
 
 	public ShopBoyMode(ModeController controller) {
 		super(controller);
-		shopboy = ResourceManager.getResource("ShopBoySongs");
-		playShopBoy(shopboy);
-		songPlay(currentFile);
+		shopboy = ResourceManager.getResource("ShopBoySongs");    //get the folder
 	}
 	
+	/**{@inheritDoc}*/
+	/**
+	 * @author James
+	 * @version 1.0.0
+	 */
 	@Override
 	public void setInitialGrid() {
 		getModel().addObserver(this);
 		getGui().clearGrid();
-		getGui().setText("Shop boy mode (in development!)");
+		playShopBoy(shopboy);      //begin the first song
+		songPlay(currentFile);
 	}
-
+	
+	/**{@inheritDoc}*/
 	@Override
 	public void onFunctionButtonPress(FunctionButtonEvent e){
 		switch(e.getFunctionButton()){
+		case ON:
+			getModeController().setOn(!getModeController().isOn(), true);
+			break;
 		case OK:
-			super.onFunctionButtonPress(e);  //return to Performance Mode as normal
+			getModeController().setMode(new PerformanceMode(getModeController()));
+			break;  //return to Performance Mode as normal
 		
 		default:
 			break; //ignore all other function buttons
 		}
 	}
 	
+	/**
+	 * This method sets the current LCD text to a found subdirectory or song
+	 * name and makes that song the current song to play.
+	 * 
+	 * @author James
+	 * @version 1.3.0
+	 * @see java.io.File, Mode.getGui()
+	 * @param f  A file to search for songs in
+	 */
 	private void playShopBoy(File f){
-		
-		if(!f.isDirectory() || f == null){
+		if(!f.isDirectory() || f == null){        //if shopboy for some reason was not retrieved correctly
 			System.err.println("Shopboy is not a directory or is null!");
 			return;
 		}
 		
 		else{
-			File[] files = f.listFiles();
-			for(int i=0; i<files.length; i++){
-				getGui().setText(files[i].getName());
-				currentFile = files[i];
-				if(counter == i) break;
-			}
+			File[] files = f.listFiles();        //a list of subdirectories to ShopBoySongs
+			if(counter == files.length) counter = 0;       //loops if the end of the songs is reached
+			getGui().setText(files[counter].getName());      //song name on LCD
+			currentFile = files[counter];
 		}
 	}
 	
+	/**
+	 * This method finds all the part files for a given song and then 
+	 * loads one in depending on what has been played so far (partCounter).
+	 * 
+	 * @author James
+	 * @version 2.0.0
+	 * @see java.io.File, SaveAndLoad.load()
+	 * @param f   A single song to process
+	 */
 	private void songPlay(File f){
-		File[] song = f.listFiles();
-		for(int i=0; i<song.length; i++){
-			SaveAndLoad.load(getModel(), song[i].getName());
-			if(counter == i) break;
-		}
+		song = f.listFiles();      //list all files in a single song subdirectory
+		SaveAndLoad.load(getModel(), song[partCounter].getName());       //load in a part
 	}
 
+	/**{@inheritDoc}*/
+	/**
+	 * @author James
+	 * @version 2.0.0
+	 */
 	@Override
 	public void update(Observable o, Object arg) {
 		byte looppoint = getModel().getLoopPoint();
 		byte currentcolumn = getModel().getCurrentColumn();
 		
-		if(looppoint == currentcolumn){
-			counter++;
-			playShopBoy(shopboy);
-			songPlay(currentFile);
+		if(currentcolumn == 0){                 //if the end of the simori's columns is reached
+			partCounter++;       //next part
+
+			if(partCounter == song.length){       //if all parts have been played
+				partCounter = 0;
+				counter++;                //next song subdirectory
+				playShopBoy(shopboy);
+				songPlay(currentFile);
+			}
+			
+			else{
+				playShopBoy(shopboy);       //continue to play
+				songPlay(currentFile);
+			}
 		}
 		
 	}
