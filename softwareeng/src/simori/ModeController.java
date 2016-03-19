@@ -37,8 +37,6 @@ public class ModeController {
 	private NetworkSlave slave;
 	private PowerTogglable[] toPowerToggle;
 	private int port;
-	private AudioFeedbackSystem afs;
-	
 	protected Mode mode;
 	private byte displayLayer;
 	protected boolean on = true;
@@ -56,7 +54,6 @@ public class ModeController {
 		this.gui = gui;
 		this.model = model;
 		this.port = port;
-		this.afs = new AudioFeedbackSystem(player);
 	}
 	
 	/**
