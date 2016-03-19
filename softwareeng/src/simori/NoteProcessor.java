@@ -160,7 +160,7 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 				for(byte y=0; y<layer.length; y++){
 					if(layer[y]){
 						/*alter the value to store the correct pitch. */
-						thisLayer[y + 3] = (byte) (y + 50);
+						thisLayer[y + 3] = (byte) (y + 57);
 						notZero++;
 					} else {
 						thisLayer[y + 3] = 0;

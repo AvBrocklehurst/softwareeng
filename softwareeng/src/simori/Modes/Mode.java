@@ -33,7 +33,7 @@ public abstract class Mode implements FunctionButtonListener,
 	}
 	
 	/** @return The controller managing the current mode in effect */
-	protected ModeController getModeController() {
+	protected ModeController getController() {
 		return controller;
 	}
 	

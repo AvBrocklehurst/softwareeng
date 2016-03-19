@@ -3,18 +3,16 @@ package simori.Modes;
 import simori.ModeController;
 import simori.SimoriGui.FunctionButtonEvent;
 import simori.SimoriGui.GridButtonEvent;
-import simori.Exceptions.SimoriNonFatalException;
 
 /**
  * Mode which implements the common functionality of modes such as
  * Change Voice Mode and Change Velocity Mode. Specific functionality
  * is customised by providing a {@link #Changer} implementation.
  * @author Matt
- * @version 2.7.5
+ * @version 2.7.7
  */
 public class ChangerMode extends Mode {
 	
-	private ModeController controller;
 	private Changer changer;
 	private boolean hLine, vLine;
 	private int rows, columns;
@@ -30,7 +28,6 @@ public class ChangerMode extends Mode {
 	public ChangerMode(ModeController controller, Changer changer,
 			boolean verticalLine, boolean horizontalLine) {
 		super(controller);
-		this.controller = controller;
 		this.changer = changer;
 		this.hLine = horizontalLine;
 		this.vLine = verticalLine;
@@ -64,7 +61,6 @@ public class ChangerMode extends Mode {
 	public void onGridButtonPress(GridButtonEvent e) {
 		Setting setting = new Setting((byte) e.getX(), (byte) e.getY());
 		String text = changer.getText(setting);
-		if (text == null) return;
 		e.getSource().setText(text);
 		drawSelector((byte) e.getX(), (byte) e.getY());
 	}
@@ -85,12 +81,15 @@ public class ChangerMode extends Mode {
 			super.onFunctionButtonPress(e);
 			break;
 		case OK:
-			if (!changer.doThingTo(controller)) break;
-			getGui().setText(null); //Clear screen
-			super.onFunctionButtonPress(e);
+			if (changer.doThingTo(getController())) {
+				getGui().setText(null); //Clear screen
+				super.onFunctionButtonPress(e);
+			} else {
+				getController().sadSound();
+			}
 			break;
 		default:
-			//Ignore L and R buttons
+			getController().sadSound();
 			break;
 		}
 	}

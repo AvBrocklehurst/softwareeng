@@ -35,6 +35,7 @@ public class ModeController {
 	private MatrixModel model;
 	private NetworkMaster master;
 	private NetworkSlave slave;
+	private AudioFeedbackSystem afs;
 	private PowerTogglable[] toPowerToggle;
 	private int port;
 	protected Mode mode;
@@ -50,10 +51,12 @@ public class ModeController {
 	 * @param gui For button input and LED output
 	 * @param model To store information on the Simori-ON's state
 	 */
-	public ModeController(SimoriGui gui, MatrixModel model, int port, MIDISoundSystem player) {
+	public ModeController(SimoriGui gui, MatrixModel model,
+			AudioFeedbackSystem afs, int port) {
 		this.gui = gui;
 		this.model = model;
 		this.port = port;
+		this.afs = afs;
 	}
 	
 	/**
@@ -151,6 +154,14 @@ public class ModeController {
 		}
 	}
 	
+	public void happySound() {
+		afs.play(AudioFeedbackSystem.Sound.HAPPY);
+	}
+	
+	public void sadSound() {
+		afs.play(AudioFeedbackSystem.Sound.SAD);
+	}
+	
 	/**
 	 * Sets the power state of the Simori-ON.
 	 * @param on true to switch on, or false to switch off
@@ -170,6 +181,7 @@ public class ModeController {
 			switchOn();
 			return;
 		}
+		afs.play(AudioFeedbackSystem.Sound.WELCOME);
 		OnFinishListener switchOn = new OnFinishListener() {
 			@Override
 			public void onAnimationFinished() {
@@ -187,6 +199,7 @@ public class ModeController {
 			switchOff();
 			return;
 		}
+		afs.play(AudioFeedbackSystem.Sound.GOODBYE);
 		OnFinishListener switchOff = new OnFinishListener() {
 			@Override
 			public void onAnimationFinished() {
@@ -196,13 +209,6 @@ public class ModeController {
 		gui.play(new Animation(gui.getGridWidth(), switchOff, false));
 	}
 	
-	/**
-	 * Switches the Simori-ON on by calling
-	 * {@link PowerTogglable#switchOn} on relevant
-	 * components, and entering {@link #PerformanceMode}.
-	 * @author Matt
-	 * @author Jurek
-	 */
 	private void switchOn() {
 		for (PowerTogglable t : toPowerToggle) t.switchOn();
 		on = true;	
@@ -215,13 +221,6 @@ public class ModeController {
 		slave.switchOn();
 	}
 	
-	/**
-	 * Switches the Simori-ON off by calling
-	 * {@link PowerTogglable#switchOff} on relevant
-	 * components, and entering {@link #OffMode}.
-	 * @author Matt
-	 * @author Adam
-	 */
 	private void switchOff() {
 		on = false;
 		setMode(makeOffMode());
@@ -263,7 +262,7 @@ public class ModeController {
 			@Override
 			public void onFunctionButtonPress(FunctionButtonEvent e) {
 				if (e.getFunctionButton() == FunctionButton.ON) {
-					getModeController().setOn(true, true);
+					getController().setOn(true, true);
 				}
 			}
 		};

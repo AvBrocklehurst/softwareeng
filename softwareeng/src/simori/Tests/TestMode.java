@@ -71,8 +71,8 @@ public class TestMode{
 		}
 		
 		@Override 
-		public ModeController getModeController(){
-			return super.getModeController();
+		public ModeController getController(){
+			return super.getController();
 		}
 		
 		@Override
@@ -132,7 +132,7 @@ public class TestMode{
 	
 	@Test
 	public void test_getModeController(){
-		assertThat("The retrieved object is not a mode controller!", testermode.getModeController(), instanceOf(ModeController.class));
+		assertThat("The retrieved object is not a mode controller!", testermode.getController(), instanceOf(ModeController.class));
 	}
 	
 	@Test
@@ -147,7 +147,7 @@ public class TestMode{
 	
 	@Test
 	public void test_getDisplayLayer(){
-		testermode.getModeController().setDisplayLayer((byte)0);
+		testermode.getController().setDisplayLayer((byte)0);
 		assertEquals("That is not the correct layer", (byte)0, testermode.getDisplayLayer());
 	}
 	
@@ -160,7 +160,7 @@ public class TestMode{
 	@Test
 	public void test_onFunctionButtonPress_On(){
 		testermode.onFunctionButtonPress(testfbevent3);
-		assertEquals("Simori was not turned off as expected", false, testermode.getModeController().isOn());
+		assertEquals("Simori was not turned off as expected", false, testermode.getController().isOn());
 	}
 	
 	@Test
