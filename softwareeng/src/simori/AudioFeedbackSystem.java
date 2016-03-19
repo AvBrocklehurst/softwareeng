@@ -26,11 +26,11 @@ public class AudioFeedbackSystem extends MIDIMessengerSystem {
 
 	
 	public void welcomeSound() throws InvalidMidiDataException, InterruptedException{
-		playInstrument(1, C5, VELOCITY, 500, true);
-		playInstrument(1, E5, VELOCITY, 500, true);
-		playInstrument(1, G5, VELOCITY, 500, true);
-		playInstrument(1, C6, VELOCITY, 500, true);
-		Thread.sleep(500);
+		playInstrument(1, C5, VELOCITY, 100, true);
+		playInstrument(1, E5, VELOCITY, 150, true);
+		playInstrument(1, G5, VELOCITY, 150, true);
+		playInstrument(1, C6, VELOCITY, 150, true);
+		Thread.sleep(150);
 		playInstrument(1, C5, VELOCITY, 0, false);
 		playInstrument(1, E5, VELOCITY, 0, false);
 		playInstrument(1, G5, VELOCITY, 0, false);
@@ -40,18 +40,19 @@ public class AudioFeedbackSystem extends MIDIMessengerSystem {
 	}
 	
 	public void goodbyeSound() throws InvalidMidiDataException, InterruptedException{
-		playInstrument(1, C6, VELOCITY, 500, false);
-		playInstrument(1, G5, VELOCITY, 500, false);
-		playInstrument(1, E5, VELOCITY, 500, false);
+		playInstrument(1, C6, VELOCITY, 350, false);
+		playInstrument(1, G5, VELOCITY, 400, false);
+		playInstrument(1, E5, VELOCITY, 400, false);
 		playInstrument(1, C5, VELOCITY, 2500, true);
 		player.stopSound();
 	}
 	
 	public void happySound() throws InvalidMidiDataException, InterruptedException{
-		playInstrument(62, C6, 127, 300, true);
+		playInstrument(62, C6, 127, 250, true);
 		playInstrument(62, C6, 127, 150, true);
 		playInstrument(62, C6, 127, 150, true);
 		playInstrument(62, G6, 127, 1500, true);
+		player.stopSound();
 		//System.out.println("hello");
 	}
 	
@@ -64,6 +65,7 @@ public class AudioFeedbackSystem extends MIDIMessengerSystem {
 		
 		playInstrument(56, F5, 127, 0, false);
 		playInstrument(20, F5, 127, 2000, true);
+		player.stopSound();
 	}
 	
 
@@ -83,11 +85,15 @@ public class AudioFeedbackSystem extends MIDIMessengerSystem {
 	public static void main(String[] args) throws InvalidMidiDataException, InterruptedException {
 		MIDISoundSystem player = new MIDISoundSystem();
 		AudioFeedbackSystem afs = new AudioFeedbackSystem(player);
-		//afs.welcomeSound();
-		//afs.happySound();
-		//afs.goodbyeSound();
+		afs.welcomeSound();
+		afs.goodbyeSound();
+		
+		afs.happySound();
+		
 		afs.sadSound();
-		//System.out.println("done");
+		
+		
+		System.out.println("done");
 	}
 	
 }
