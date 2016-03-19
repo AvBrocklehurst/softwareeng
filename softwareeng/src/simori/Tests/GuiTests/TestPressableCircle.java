@@ -10,7 +10,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import simori.Exceptions.KeyboardException;
+import simori.Exceptions.SimoriNonFatalException;
 import simori.Modes.QwertyKeyboard;
 import simori.SwingGui.OnPressListenerMaker;
 import simori.SwingGui.OnPressListenerMaker.OnPressListener;
@@ -35,7 +35,7 @@ public class TestPressableCircle {
 	private MouseEvent testevent;
 	
 	@Before
-	public void setUp() throws KeyboardException{
+	public void setUp() throws SimoriNonFatalException{
 		mockcircle = new MockPressableCircle();
 		keyboard = new QwertyKeyboard((byte)16, (byte)16);
 		testgui = new SimoriJFrame(keyboard);

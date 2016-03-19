@@ -1,13 +1,14 @@
 package simori.Modes;
 
-import simori.SimoriGui.FunctionButtonEvent;
-import simori.SimoriGui.FunctionButtonListener;
-import simori.SimoriGui.GridButtonListener;
 import simori.FunctionButton;
 import simori.MatrixModel;
 import simori.ModeController;
 import simori.SimoriGui;
-import simori.Exceptions.InvalidCoordinatesException;
+import simori.SimoriGui.FunctionButtonEvent;
+import simori.SimoriGui.FunctionButtonListener;
+import simori.SimoriGui.GridButtonEvent;
+import simori.SimoriGui.GridButtonListener;
+import simori.Exceptions.SimoriNonFatalException;
 
 /**
  * An abstract class defining methods for general
@@ -65,7 +66,7 @@ public abstract class Mode implements FunctionButtonListener,
 	 * Called when the clock hand changes column
 	 * @param col The column the clock hand has just entered
 	 */
-	public void tickerLight(byte col) throws InvalidCoordinatesException {}
+	public void tickerLight(byte col) throws SimoriNonFatalException {}
 	
 	/**
 	 * Gets the function button pressed and the source GUI and then
@@ -84,7 +85,7 @@ public abstract class Mode implements FunctionButtonListener,
 			controller.setMode(new PerformanceMode(controller));
 			break;
 		case ON:
-			controller.setOn(!controller.isOn());
+			controller.setOn(!controller.isOn(), true);
 			break;
 		case R4:
 			controller.setMode(new MasterSlaveMode(controller));
@@ -93,4 +94,7 @@ public abstract class Mode implements FunctionButtonListener,
 			controller.setMode(ChangerModeFactory.getChanger(fb, controller));
 		}
 	}
+	
+	/** Modes which do not ignore grid buttons may override this. */
+	public void onGridButtonPress(GridButtonEvent e) {}
 }

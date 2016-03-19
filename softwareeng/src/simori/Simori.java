@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import javax.sound.midi.MidiUnavailableException;
 
-import simori.Exceptions.KeyboardException;
+import simori.Exceptions.SimoriNonFatalException;
 import simori.Modes.QwertyKeyboard;
 import simori.SwingGui.SimoriJFrame;
 
@@ -41,7 +41,7 @@ public class Simori {
 			new Simori();
 		} catch (MidiUnavailableException e) {
 			e.printStackTrace();
-		} catch (KeyboardException e) {
+		} catch (SimoriNonFatalException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -58,46 +58,35 @@ public class Simori {
 	 * @author Matt
 	 * @version 2.1.0
 	 * @throws MidiUnavailableException If this system does not have MIDI
-	 * @throws KeyboardException If the grid does not fit a QWERTY keyboard
+	 * @throws SimoriNonFatalException If the grid does not fit a QWERTY keyboard
 	 * @throws IOException 
 	 */
-	public Simori() throws MidiUnavailableException, KeyboardException, IOException {
+	public Simori() throws MidiUnavailableException, SimoriNonFatalException, IOException {
 		MatrixModel model = new MatrixModel(GRID_WIDTH, GRID_HEIGHT);
 		QwertyKeyboard keyboard = new QwertyKeyboard(GRID_WIDTH, GRID_HEIGHT);
 		SimoriJFrame gui = new SimoriJFrame(keyboard);
-		SimoriSoundSystem player = new SimoriSoundSystem();
-		ModeController modes = new ModeController(gui, model, PORT);
+		MIDISoundSystem player = new MIDISoundSystem();
+		ModeController modes = new ModeController(gui, model, PORT,player);
 		NoteProcessor clock = new NoteProcessor(modes, model, player);
 		model.addObserver(clock);
 		modes.setComponentsToPowerToggle(model, player, gui, clock);
-		modes.setOn(false);
+		modes.setOn(false, false);
 		gui.setVisible(true);
 	}
 	
 	/**
-	 * @author Josh
-	 * @author Matt  
-	 * @version 1.0.0
-	 * interface that tells classes that have statuses (that are not needed) to close and open
+	 * TODO rejavadoc
+	 * @author Matt
+	 * @version 2.0.0
 	 */
 	public interface PowerTogglable {
 		
-		/**
-		 * @author Josh
-		 * @author Matt
-		 * @version 1.0.0
-		 * method continues execution.
-		 */
+		public void ready();
+		
 		public void switchOn();
 		
-		/**
-		 * @author Josh
-		 * @author Matt
-		 * @version 1.0.0
-		 * method pauses and resets all functionality
-		 * It should not destroy any instances however
-		 */
+		public void stop();
+		
 		public void switchOff();
 	}
-	
 }

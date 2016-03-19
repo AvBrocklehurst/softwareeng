@@ -37,6 +37,9 @@ public class SimoriPanel extends JPanel implements PowerTogglable {
 	protected SimoriEdgeBar leftBar, rightBar;
 	protected SimoriEdgeBar topBar, bottomBar;
 	
+	// List of subcomponents to switch on / off
+	private PowerTogglable[] components;
+	
 	/**
 	 * @param map Layout of the keyboard for text entry
 	 * @param maker Source of callbacks for the LED / button presses
@@ -110,20 +113,26 @@ public class SimoriPanel extends JPanel implements PowerTogglable {
 	
 	/** {@inheritDoc} */
 	@Override
+	public void ready() {
+		for (PowerTogglable p : components) p.ready();
+	}
+	
+	/** {@inheritDoc} */
+	@Override
 	public void switchOn() {
-		centrePanel.switchOn();
-		leftBar.switchOn();
-		rightBar.switchOn();
-		bottomBar.switchOn();
+		for (PowerTogglable p : components) p.switchOn();
+	}
+	
+	/** {@inheritDoc} */
+	@Override
+	public void stop() {
+		for (PowerTogglable p : components) p.stop();
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public void switchOff() {
-		centrePanel.switchOff();
-		leftBar.switchOff();
-		rightBar.switchOff();
-		bottomBar.switchOff();
+		for (PowerTogglable p : components) p.switchOff();
 	}
 	
 	/**
@@ -139,6 +148,8 @@ public class SimoriPanel extends JPanel implements PowerTogglable {
 		leftBar = new SimoriEdgeBar(true, false, maker, L1, L2, L3, L4);
 		rightBar = new SimoriEdgeBar(true, false, maker, R1, R2, R3, R4);
 		bottomBar = new SimoriEdgeBar(false, true, maker, OK);
+		components = new PowerTogglable[]
+				{centrePanel, leftBar, rightBar, bottomBar}; // Exclude topBar
 	}
 	
 	/**

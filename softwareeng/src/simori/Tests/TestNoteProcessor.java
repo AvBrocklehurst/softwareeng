@@ -14,7 +14,7 @@ import simori.SimoriSoundSystem;
 import simori.MatrixModel;
 import simori.ModeController;
 import simori.Exceptions.InvalidCoordinatesException;
-import simori.Exceptions.KeyboardException;
+import simori.Exceptions.SimoriNonFatalException;
 import simori.Modes.QwertyKeyboard;
 import simori.SwingGui.SimoriJFrame;
 
@@ -70,11 +70,11 @@ public class TestNoteProcessor {
 	 * @author Jurek
 	 * @throws MidiUnavailableException
 	 * @throws InvalidCoordinatesException
-	 * @throws KeyboardException
+	 * @throws SimoriNonFatalException
 	 * @throws IOException 
 	 */
 	@Before
-	public void setUp() throws MidiUnavailableException, InvalidCoordinatesException, KeyboardException, IOException {
+	public void setUp() throws MidiUnavailableException, InvalidCoordinatesException, SimoriNonFatalException, IOException {
 		model = new MatrixModel(16, 16);
 		keyboard = new QwertyKeyboard((byte)16, (byte)16);
 		gui = new SimoriJFrame(keyboard);

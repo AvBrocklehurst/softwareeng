@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 import javax.swing.JComponent;
 
+import simori.Exceptions.SimoriNonFatalException;
 import simori.SwingGui.OnPressListenerMaker.OnPressListener;
 
 /**
@@ -148,7 +149,7 @@ public abstract class PressableCircle
 
 	/** {@inheritDoc} */
 	@Override
-	public void mousePressed(MouseEvent e) {
+	public void mousePressed(MouseEvent e){
 		if (mouseOver) { //Mouse button pressed inside this LED
 			pushed = true;
 			pressed();
@@ -165,11 +166,17 @@ public abstract class PressableCircle
 		}
 	}
 	
-	/** Informs the registered {@link OnPressListener}s of a press */
+	/** Informs the registered {@link OnPressListener}s of a press 
+	 * @throws SimoriNonFatalException */
 	protected void pressed() {
 		if (greyedOut) return;
 		for (OnPressListener l : listeners) {
-			l.onPress(this);
+			try {
+				l.onPress(this);
+			} catch (SimoriNonFatalException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 }

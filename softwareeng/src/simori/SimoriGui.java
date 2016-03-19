@@ -3,7 +3,7 @@ package simori;
 import java.util.EventObject;
 
 import simori.Simori.PowerTogglable;
-import simori.Exceptions.InvalidCoordinatesException;
+import simori.Exceptions.SimoriNonFatalException;
 
 /**
  * Interface setting out the constraints that any implementation
@@ -49,6 +49,9 @@ public interface SimoriGui extends PowerTogglable {
 	/** @return The mapping from grid button coordinates to character */
 	public KeyboardMapping getKeyboardMapping();
 	
+	/** @param Animation which will be played on the GUI's buttons */
+	public void play(Animation toPlay);
+	
 	/** @return Number of columns in the LED grid */
 	public int getGridWidth();
 	
@@ -63,8 +66,7 @@ public interface SimoriGui extends PowerTogglable {
 	
 	/** Listener interface for {@link GridButtonEvent} */
 	public interface GridButtonListener  {
-		public void onGridButtonPress(GridButtonEvent e)
-				throws InvalidCoordinatesException;
+		public void onGridButtonPress(GridButtonEvent e);
 	}
 	
 	/** Listener interface for {@link FunctionButtonEvent} */

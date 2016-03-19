@@ -2,13 +2,13 @@ package simori;
 
 import java.io.IOException;
 
+import simori.Animation.OnFinishListener;
 import simori.Simori.PowerTogglable;
 import simori.SimoriGui.FunctionButtonEvent;
-import simori.Exceptions.InvalidCoordinatesException;
+import simori.Exceptions.SimoriNonFatalException;
 import simori.Modes.Mode;
 import simori.Modes.NetworkMaster;
 import simori.Modes.NetworkSlave;
-import simori.Modes.OffMode;
 import simori.Modes.PerformanceMode;
 import simori.Modes.ShopBoyMode;
 
@@ -37,6 +37,7 @@ public class ModeController {
 	private NetworkSlave slave;
 	private PowerTogglable[] toPowerToggle;
 	private int port;
+	private AudioFeedbackSystem afs;
 	
 	protected Mode mode;
 	private byte displayLayer;
@@ -51,21 +52,21 @@ public class ModeController {
 	 * @param gui For button input and LED output
 	 * @param model To store information on the Simori-ON's state
 	 */
-	public ModeController(SimoriGui gui, MatrixModel model, int port) {
+	public ModeController(SimoriGui gui, MatrixModel model, int port, MIDISoundSystem player) {
 		this.gui = gui;
 		this.model = model;
 		this.port = port;
+		this.afs = new AudioFeedbackSystem(player);
 	}
 	
 	/**
 	 * Draws the clock hand in the specified column. If the current
 	 * mode is not {@link PerformanceMode}, this has no effect.
 	 * @param column x coordinate at which to draw clock hand
+	 * @throws SimoriNonFatalException 
 	 */
-	public void tickThrough(byte column) {
-		try {
+	public void tickThrough(byte column) throws SimoriNonFatalException {
 			mode.tickerLight(column);
-		} catch (InvalidCoordinatesException e) {}
 	}
 	
 	/** @return Model instance encapsulating state of Simori-ON */
@@ -157,13 +158,45 @@ public class ModeController {
 	 * Sets the power state of the Simori-ON.
 	 * @param on true to switch on, or false to switch off
 	 */
-	public void setOn(boolean on) {
+	public void setOn(boolean on, boolean animated) {
 		if (this.on == on) return;
 		if (on) {
-			switchOn();
+			bootUp(animated);
 		} else {
-			switchOff();
+			shutDown(animated);
 		}
+	}
+	
+	private void bootUp(boolean animated) {
+		for (PowerTogglable p : toPowerToggle) p.ready(); //TODO in a different thread?
+		if (!animated){
+			switchOn();
+			return;
+		}
+		OnFinishListener switchOn = new OnFinishListener() {
+			@Override
+			public void onAnimationFinished() {
+				switchOn();
+			}
+		};
+		gui.play(new Animation(gui.getGridWidth(), switchOn, true));
+	}
+	
+	private void shutDown(boolean animated) {
+		for (int i = toPowerToggle.length - 1; i >= 0; i--) {
+			toPowerToggle[i].stop();
+		}
+		if (!animated) {
+			switchOff();
+			return;
+		}
+		OnFinishListener switchOff = new OnFinishListener() {
+			@Override
+			public void onAnimationFinished() {
+				switchOff();
+			}
+		};
+		gui.play(new Animation(gui.getGridWidth(), switchOff, false));
 	}
 	
 	/**
@@ -194,7 +227,7 @@ public class ModeController {
 	 */
 	private void switchOff() {
 		on = false;
-		setMode(new OffMode(this));
+		setMode(makeOffMode());
 		if (toPowerToggle == null) return;
 		for (int i = toPowerToggle.length - 1; i >= 0; i--) {
 			toPowerToggle[i].switchOff();
@@ -218,6 +251,22 @@ public class ModeController {
 					setMode(new ShopBoyMode(ModeController.this));
 				} else {
 					super.onFunctionButtonPress(e);
+				}
+			}
+		};
+	}
+	
+	/**
+	 * Creates a {@link Mode} which calls {@link #setOn} to switch on
+	 * when the OK button is pressed, and ignores all other input.
+	 * @return A mode to represent the Simori-ON's switched off state
+	 */
+	private Mode makeOffMode() {
+		return new Mode(this) {
+			@Override
+			public void onFunctionButtonPress(FunctionButtonEvent e) {
+				if (e.getFunctionButton() == FunctionButton.ON) {
+					getModeController().setOn(true, true);
 				}
 			}
 		};

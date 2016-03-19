@@ -64,10 +64,18 @@ public class SimoriCentrePanel extends JPanel implements PowerTogglable {
 	
 	/** {@inheritDoc} */
 	@Override
+	public void ready() {}
+	
+	/** {@inheritDoc} */
+	@Override
 	public void switchOn() {
 		layout.show(this, LEDS);
 		ledPanel.setGreyedOut(none);
 	}
+	
+	/** {@inheritDoc} */
+	@Override
+	public void stop() {}
 
 	/** {@inheritDoc} */
 	@Override

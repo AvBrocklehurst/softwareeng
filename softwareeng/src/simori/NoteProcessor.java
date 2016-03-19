@@ -8,7 +8,7 @@ import java.util.Observer;
 
 import javax.sound.midi.InvalidMidiDataException;
 import simori.Simori.PowerTogglable;
-import simori.Exceptions.InvalidCoordinatesException;
+import simori.Exceptions.SimoriNonFatalException;
 
 	//TODO error checking for midi.play(layers)
 	//TODO tempo testing, making sure its within bounds of 0<160, and in increments of 10
@@ -26,7 +26,7 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 		private volatile boolean running;
 		private ModeController mode;
 		private MatrixModel model;
-		private SimoriSound midi;
+		private SimoriSoundSystem midi;
 		private Object lock;
 		public Object bpmLock;
 		private Clock clock;
@@ -38,12 +38,13 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 		 * @param model Holds the reference to the MatrixModel
 		 * @param midi Holds the reference to the MIDIPlayer
 		 * @param bbm Beats Per Minute; used to calculate the period
+		 * @throws SimoriNonFatalException 
 		 */
-		public NoteProcessor(ModeController modes, MatrixModel model, SimoriSound midi){
+		public NoteProcessor(ModeController modes, MatrixModel model, MIDISoundSystem player) throws SimoriNonFatalException{
 			running = true;
 			this.mode = modes;
 			this.model = model;
-			this.midi = midi;
+			this.midi = new SimoriSoundSystem(player);
 			lock = new Object();
 			bpmLock = new Object();
 			clock = new Clock(findMaxProcessingTime(), running, model, bpmLock, lock);
@@ -75,7 +76,7 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 				//...assuming that the simori has not been turned off
 				if(!running) break;
 				try{toBePlayed = getNotes();}
-				catch(IllegalArgumentException e) {e.printStackTrace();System.exit(1);}
+				catch(SimoriNonFatalException e) {e.printStackTrace();System.exit(1);}
 				
 				//send a play request to the MIDIPlayer
 				try{
@@ -86,7 +87,12 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 				}catch(InvalidMidiDataException e){e.printStackTrace();System.exit(1);}
 
 				//turn the lights on the current column
-				mode.tickThrough(model.getCurrentColumn());
+				try {
+					mode.tickThrough(model.getCurrentColumn());
+				} catch (SimoriNonFatalException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 
 				//advance to the next column
 				model.incrementColumn();
@@ -100,8 +106,9 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 		 * @author Jurek
 		 * @version 1.0.0
 		 * @return long returns the maximum processing time in milliseconds, rounded up
+		 * @throws SimoriNonFatalException 
 		 */
-		private long findMaxProcessingTime() {
+		private long findMaxProcessingTime() throws SimoriNonFatalException {
 			
 			//create a mock model
 			MatrixModel actualModel = model;
@@ -111,7 +118,7 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 			//populate a single column on each layer of the mock model
 			for(byte z=0;z<16;z++){
 				for(byte y=0;z<16;z++){
-					try{model.updateButton(z, (byte)0, y);}catch(InvalidCoordinatesException e){}
+					model.updateButton(z, (byte)0, y);
 				}
 			}
 			
@@ -141,7 +148,7 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 		 * @return 2D byte Array containing the notes to be played and layer information.
 		 * @throws IllegalArgumentException
 		 */
-		private byte[][] getNotes() throws IllegalArgumentException{
+		private byte[][] getNotes() throws SimoriNonFatalException{
 			List<Byte> activeLayers = model.getLayers();
 			/* make the array the same size as the active layers. */
 			byte[][] layers = new byte[activeLayers.size()][]; 
@@ -249,6 +256,10 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 			return layer;
 		}
 		
+		/** {@inheritDoc} */
+		@Override
+		public void ready() {}
+		
 		/**
 		 * Switches the note processor, and subsequently its clock, on
 		 * @author Matt
@@ -261,21 +272,18 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 			new Thread(this).start();
 		}
 		
-		
-		/**
-		 * Switches the note processor, and subsequently its clock, off
-		 * @author Matt
-		 * @author Adam
-		 * @author Jurek
-		 * @version 1.0.1
-		 */
+		/** {@inheritDoc} */
 		@Override
-		public void switchOff() {
+		public void stop() {
 			running = false;
 			clock.setRunning(running);
 			synchronized(lock){lock.notify();}
 			synchronized(bpmLock){bpmLock.notify();}
 		}
+		
+		/** {@inheritDoc} */
+		@Override
+		public void switchOff() {}
 		
 		/**
 		 * @author Adam
@@ -286,7 +294,7 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 			if(model.getPlaying() == false){
 				try {
 					midi.stopPlay();
-				} catch (InvalidMidiDataException e) {
+				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}

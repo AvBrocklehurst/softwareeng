@@ -5,15 +5,20 @@ import static simori.SwingGui.GuiProperties.SCREEN_PROPORTION;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
+import java.lang.Thread.UncaughtExceptionHandler;
+import java.util.logging.Handler;
 
 import javax.swing.JFrame;
+import javax.swing.Timer;
 
-import simori.FunctionButton;
+import simori.Animation;
 import simori.SimoriGui;
 import simori.Modes.Mode;
 
@@ -67,6 +72,7 @@ public class SimoriJFrame extends JFrame implements SimoriGui, MouseMotionListen
 	 * @param mapping Layout of the keyboard to display for text entry
 	 */
 	public SimoriJFrame(KeyboardMapping mapping) {
+	    //TODO Thread.setDefaultUncaughtExceptionHandler(new Handler());
 		this.mapping = mapping;
 		this.rows = mapping.getRows();
 		this.columns = mapping.getColumns();
@@ -75,7 +81,7 @@ public class SimoriJFrame extends JFrame implements SimoriGui, MouseMotionListen
 		addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				//Remember starting coordinates for mouse drags
+				//Remember starting coordinates for mouse drags 
 				startX = e.getX();
 				startY = e.getY();
 			}
@@ -87,16 +93,6 @@ public class SimoriJFrame extends JFrame implements SimoriGui, MouseMotionListen
 				if (e.getKeyCode() == GuiProperties.EXIT_KEY) System.exit(0);
 			}
 		});
-	}
-	
-	public void testAnimation() { //TODO Improve or remove :P
-		simoriPanel.setGreyedOut(FunctionButton.L2, true);
-		simoriPanel.setGreyedOut(FunctionButton.R3, true);
-		boolean[][] which = new boolean[rows][columns];
-		for (boolean[] row : which) row[5] = true;
-		simoriPanel.setGreyedOut(which);
-		for (boolean[] row : which) row[6] = true;
-		simoriPanel.setGrid(which);
 	}
 	
 	/** {@inheritDoc} */
@@ -124,6 +120,23 @@ public class SimoriJFrame extends JFrame implements SimoriGui, MouseMotionListen
 	}
 	
 	/** {@inheritDoc} */
+	public void play(Animation toPlay) {
+		final Timer timer = new Timer(100, null);
+		timer.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				boolean[][] which = toPlay.next();
+				if (which == null) {
+					timer.stop();
+				} else {
+					simoriPanel.setGreyedOut(which);
+				}
+			}
+		});
+		timer.start();
+	}
+	
+	/** {@inheritDoc} */
 	@Override
 	public int getGridWidth() {
 		return columns;
@@ -137,8 +150,20 @@ public class SimoriJFrame extends JFrame implements SimoriGui, MouseMotionListen
 	
 	/** {@inheritDoc} */
 	@Override
+	public void ready() {
+		simoriPanel.ready();
+	}
+	
+	/** {@inheritDoc} */
+	@Override
 	public void switchOn() {
 		simoriPanel.switchOn();
+	}
+	
+	/** {@inheritDoc} */
+	@Override
+	public void stop() {
+		simoriPanel.stop();
 	}
 	
 	/** {@inheritDoc} */
@@ -248,5 +273,12 @@ public class SimoriJFrame extends JFrame implements SimoriGui, MouseMotionListen
 			setCursor(oldCursor);
 		}
 		couldDragBefore = canDrag;
+	}
+	
+	class Handler implements Thread.UncaughtExceptionHandler {
+		public void uncaughtException(Thread t, Throwable e) {
+			System.out.println(e.toString());
+			System.err.println("Throwable: " + e.getMessage());
+		}
 	}
 }

@@ -1,8 +1,7 @@
 package simori;
 
 import java.io.Serializable;
-
-import simori.Exceptions.InvalidCoordinatesException;
+import simori.Exceptions.SimoriNonFatalException;
 
 /**
  * Class to store the 16x16 grid of 1 layer.
@@ -129,11 +128,11 @@ public class Layer implements Serializable {
 	 * @param row     The row containing the button to change
 	 * @throws InvalidCoordinatesException 
 	 */
-	public void updateButton(byte column, byte row) throws InvalidCoordinatesException{
+	public void updateButton(byte column, byte row) throws SimoriNonFatalException{
 		if(column >= 0 && column < 16 && row >= 0 && row < 16){
 			grid[row][column] = !grid[row][column]; //Inverse the current value to swap.
 		} else {
-			throw new InvalidCoordinatesException("Column or Row not between 1 and 16");
+			throw new SimoriNonFatalException("Column or Row not between 1 and 16");
 		}
 	}
 }

@@ -21,7 +21,7 @@ public abstract class TextEntry implements Changer {
 	private ModeController controller;
 	private KeyboardMapping keyboard;
 	
-	private StringBuilder builder; // For the characters being entered
+	protected StringBuilder builder; // For the characters being entered
 	
 	public TextEntry(ModeController controller) {
 		this.controller = controller;

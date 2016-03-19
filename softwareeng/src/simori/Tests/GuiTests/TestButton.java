@@ -6,7 +6,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import simori.Exceptions.KeyboardException;
+import simori.Exceptions.SimoriNonFatalException;
 import simori.Modes.QwertyKeyboard;
 import simori.SwingGui.Button;
 import simori.SwingGui.SimoriJFrame;
@@ -29,7 +29,7 @@ public class TestButton {
 	private QwertyKeyboard keyboard;
 	
 	@Before 
-	public void setUp() throws KeyboardException{
+	public void setUp() throws SimoriNonFatalException{
 		testbutt = new MockButton();
 		keyboard = new QwertyKeyboard((byte)16,(byte)16);
 		testgui = new MockSimoriJFrame(keyboard);

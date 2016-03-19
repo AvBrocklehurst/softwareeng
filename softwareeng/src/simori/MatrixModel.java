@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Observable;
 
 import simori.Simori.PowerTogglable;
-import simori.Exceptions.InvalidCoordinatesException;
+import simori.Exceptions.SimoriNonFatalException;
 
 /**
  * Class to handle the storage of data for the 16x16 grid.
@@ -27,8 +27,8 @@ public class MatrixModel extends Observable implements Serializable, PowerToggla
 	
 	
 	/**
-	 * Constctuctor that takes no arguments.
-	 * It initalizes the Layer list and creates the first one.
+	 * Constructor that takes no arguments.
+	 * Initialises the Layer list and creates the first one.
 	 * @author  Adam
 	 * @version 1.0.1
 	 */
@@ -196,6 +196,8 @@ public class MatrixModel extends Observable implements Serializable, PowerToggla
 		} else {
 			currentColumn = 0;
 		}
+		setChanged();
+		notifyObservers();
 	}
 	
 	/**
@@ -249,12 +251,11 @@ public class MatrixModel extends Observable implements Serializable, PowerToggla
 	 * @param laynum  the layer to update
 	 * @param col     the column the button is in.
 	 * @param row     the row the layer is in.
-	 * @throws InvalidCoordinatesException
+	 * @throws SimoriNonFatalException 
 	 */
-	public void updateButton(byte laynum, byte col, byte row) throws InvalidCoordinatesException{
+	public void updateButton(byte laynum, byte col, byte row) throws SimoriNonFatalException {
 		layerExists(laynum);
 		layers[laynum].updateButton(col, row);
-		
 	}
 	
 	/**
@@ -270,14 +271,23 @@ public class MatrixModel extends Observable implements Serializable, PowerToggla
 		this.loopPoint = temp.loopPoint;		
 		this.currentColumn = 0;
 	}
+	
+	/** {@inheritDoc} */
+	@Override
+	public void ready() {}
 
+	/** {@inheritDoc} */
 	@Override
 	public void switchOn() {
 		this.layers = new Layer[16]; //make layers 16 long to hold all 16 layers
-
 		this.layers[0] = new Layer(width, height); //instatiate the first layer
 	}
+	
+	/** {@inheritDoc} */
+	@Override
+	public void stop() {}
 
+	/** {@inheritDoc} */
 	@Override
 	public void switchOff() {
 		layers = null;
@@ -285,5 +295,4 @@ public class MatrixModel extends Observable implements Serializable, PowerToggla
 		loopPoint = 15;
 		currentColumn = 0;
 	}
-
 }

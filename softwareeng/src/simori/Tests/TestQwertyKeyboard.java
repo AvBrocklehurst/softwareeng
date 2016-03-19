@@ -8,7 +8,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import simori.Exceptions.KeyboardException;
+import simori.Exceptions.SimoriNonFatalException;
 import simori.Modes.QwertyKeyboard;
 
 /**
@@ -24,7 +24,7 @@ public class TestQwertyKeyboard {
 	private QwertyKeyboard keyboard;
 	
 	@Before
-	public void setUp() throws KeyboardException{
+	public void setUp() throws SimoriNonFatalException{
 		keyboard = new QwertyKeyboard((byte)16,(byte)16);
 	}
 	

@@ -1,7 +1,7 @@
 package simori.Modes;
 
 import simori.SimoriGui.KeyboardMapping;
-import simori.Exceptions.KeyboardException;
+import simori.Exceptions.SimoriNonFatalException;
 
 /**
  * Keyboard mapping implementation which mimics
@@ -31,9 +31,9 @@ public class QwertyKeyboard implements KeyboardMapping {
 	 * the specified dimensions to rows of letters centred within the grid.
 	 * @param rows Width of grid of buttons to size keyboard to
 	 * @param columns Height of grid of buttons to size keyboard to
-	 * @throws KeyboardException If the requested dimensions are insufficient
+	 * @throws SimoriNonFatalException If the requested dimensions are insufficient
 	 */
-	public QwertyKeyboard(byte rows, byte columns) throws KeyboardException {
+	public QwertyKeyboard(byte rows, byte columns) throws SimoriNonFatalException {
 		this.rows = rows;
 		this.columns = columns;
 		keys = new Character[columns][rows]; // Characters are initially null
@@ -44,11 +44,11 @@ public class QwertyKeyboard implements KeyboardMapping {
 	 * Calculates how many buttons away from the edge to begin drawing the
 	 * rows so that the keyboard appears centred vertically, and iterates
 	 * over {@link #ROWS} to place the letters into {@link #keys}.
-	 * @throws KeyboardException If there are too few rows or columns
+	 * @throws SimoriNonFatalException If there are too few rows or columns
 	 */
-	private void placeRows() throws KeyboardException {
+	private void placeRows() throws SimoriNonFatalException {
 		if (ROWS.length > rows) // Not tall enough for number of rows
-			throw new KeyboardException("Requested keyboard too narrow");
+			throw new SimoriNonFatalException("Requested keyboard too narrow");
 		int yOffset = (rows - ROWS.length) / 2;
 		for (int i = 0; i < ROWS.length; i++) {
 			placeLetters(i, yOffset); 
@@ -60,13 +60,13 @@ public class QwertyKeyboard implements KeyboardMapping {
 	 * at such a number of buttons from the edge that it appears centred.
 	 * @param row The index of {@link #ROWS} to place the letters of
 	 * @param yOffset The distance from the bottom edge to draw the bottom row
-	 * @throws KeyboardException If columns does not fit "QWERTYUIOP"
+	 * @throws SimoriNonFatalException If columns does not fit "QWERTYUIOP"
 	 */
-	private void placeLetters(int row, int yOffset) throws KeyboardException {
+	private void placeLetters(int row, int yOffset) throws SimoriNonFatalException {
 		Character[] fromRow = getCharactersForRow(row);
 		if (fromRow == null) return; // Empty row between character rows
 		if (fromRow.length > columns) // Not enough width to fit all letters
-			throw new KeyboardException("Requested keyboard too short");
+			throw new SimoriNonFatalException("Requested keyboard too short");
 		int xOffset = (columns - fromRow.length) / 2; // Centre horizontally
 		System.arraycopy(fromRow, 0,
 							keys[yOffset + row], xOffset, fromRow.length);
