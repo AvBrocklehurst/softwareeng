@@ -49,10 +49,12 @@ public class ShopBoyMode extends PerformanceMode implements Observer {
 	public void onFunctionButtonPress(FunctionButtonEvent e){
 		switch(e.getFunctionButton()){
 		case ON:
-			getModeController().setOn(!getModeController().isOn(), true);
+			getModel().deleteObserver(this);
+			getController().setOn(!getController().isOn(), true);
 			break;
 		case OK:
-			getModeController().setMode(new PerformanceMode(getModeController()));
+			getModel().deleteObserver(this);
+			getController().setMode(new PerformanceMode(getController()));
 			break;  //return to Performance Mode as normal
 		
 		default:
