@@ -56,11 +56,19 @@ public class SimoriEdgeBar extends JPanel implements PowerTogglable {
 	
 	/** {@inheritDoc} */
 	@Override
+	public void ready() {}
+	
+	/** {@inheritDoc} */
+	@Override
 	public void switchOn() {
 		for (Button b : buttons) {
 			b.setGreyedOut(false);
 		}
 	}
+	
+	/** {@inheritDoc} */
+	@Override
+	public void stop() {}
 
 	/** {@inheritDoc} */
 	@Override

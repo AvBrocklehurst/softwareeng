@@ -75,29 +75,18 @@ public class Simori {
 	}
 	
 	/**
-	 * @author Josh
-	 * @author Matt  
-	 * @version 1.0.0
-	 * interface that tells classes that have statuses (that are not needed) to close and open
+	 * TODO rejavadoc
+	 * @author Matt
+	 * @version 2.0.0
 	 */
 	public interface PowerTogglable {
 		
-		/**
-		 * @author Josh
-		 * @author Matt
-		 * @version 1.0.0
-		 * method continues execution.
-		 */
+		public void ready();
+		
 		public void switchOn();
 		
-		/**
-		 * @author Josh
-		 * @author Matt
-		 * @version 1.0.0
-		 * method pauses and resets all functionality
-		 * It should not destroy any instances however
-		 */
+		public void stop();
+		
 		public void switchOff();
 	}
-	
 }
