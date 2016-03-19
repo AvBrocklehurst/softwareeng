@@ -143,7 +143,7 @@ public class ChangerModeFactory {
 	private static Changer makeVoiceChanger(final ModeController controller) {
 		return new Changer() {
 			
-			private Short instrumentNumber;  //the instrument to change to
+			private Short instrumNum;  //the instrument to change to
 			
 			/**
 			 * A method which overrides the interface method in order to
@@ -157,10 +157,11 @@ public class ChangerModeFactory {
 			 */
 			@Override
 			public String getText(Setting s) {
-				InstrumentNamer in = InstrumentNamer.getInstance();     //singleton class
-				instrumentNumber = coordsConverter(s.x, s.y); //translate coordinates to short
-				instrumentNumber = (instrumentNumber.shortValue() > 189 ? null : instrumentNumber);
-				return (instrumentNumber == null ? null : in.getName(instrumentNumber));
+				InstrumentNamer in = InstrumentNamer.getInstance();
+				instrumNum = coordsConverter(s.x, s.y); //translate coordinates to short
+				String name = in.getName(instrumNum);
+				if (name == null) instrumNum = null;
+				return name;
 			}
 			
 			/**
@@ -175,8 +176,8 @@ public class ChangerModeFactory {
 			 */
 			@Override
 			public boolean doThingTo(ModeController controller) {
-				if (instrumentNumber == null) return false;
-				controller.getModel().setInstrument(controller.getDisplayLayer(), instrumentNumber); 
+				if (instrumNum == null) return false;
+				controller.getModel().setInstrument(controller.getDisplayLayer(), instrumNum); 
 				return true;
 			}
 			
