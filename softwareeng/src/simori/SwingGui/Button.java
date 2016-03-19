@@ -70,6 +70,15 @@ public class Button extends PressableCircle {
 		return size;
 	}
 	
+	/** {@inheritDoc} */
+	@Override
+	protected void resized() {
+		// Size is not set manually for keyboard buttons
+		if (!getSize().equals(size)) {
+			sizeAndPositionText(); // Ensure text is sized
+		}
+	}
+	
 	/**
 	 * Draws the {@link #text} on to the button.
 	 * @param g The graphics context to use
@@ -86,12 +95,12 @@ public class Button extends PressableCircle {
 	 * and fills as much of the button's area as possible.
 	 */
 	private void sizeAndPositionText() {
-		Graphics g = new BufferedImage(size.width, size.height,
+		Graphics g = new BufferedImage(getWidth(), getHeight(),
 				BufferedImage.TYPE_INT_ARGB).createGraphics();
 		g.setFont(GuiProperties.getFont());
 		int space = calculateSpace();
 		GuiProperties.sizeFontTo(text, space, space, g);
-		font = g.getFont();
+		font = g.getFont(); // Remember font (size)
 		placeText(g);
 	}
 	
