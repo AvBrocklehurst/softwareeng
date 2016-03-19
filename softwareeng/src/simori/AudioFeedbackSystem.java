@@ -1,11 +1,16 @@
 package simori;
-
 import javax.sound.midi.InvalidMidiDataException;
 
 
 /**
  * @author Josh
  * @author Adam
+ * @version 2.1.1
+ * @see MIDIMessengerSystem
+ * 
+ * Class responsible for playing the audio feedback sounds.
+ * Since these events are dynamic (can play at any time), the class needs to be in its own thread.
+ * This allows it to play noise 'over the top' of the simori
  */
 public class AudioFeedbackSystem extends MIDIMessengerSystem {
 	
@@ -27,15 +32,36 @@ public class AudioFeedbackSystem extends MIDIMessengerSystem {
 	
 	private MatrixModel model;
 	
+	/**
+	 * @author Josh
+	 * @author Adam
+	 * @version 1.0.2
+	 * @param player - MIDISoundSystem (something that can actually play noise)
+	 * @param model - Matrix model
+	 * 
+	 * Constructor for AudioFeedbackSystem.
+	 */
 	public AudioFeedbackSystem(MIDISoundSystem player, MatrixModel model) {
 		super(player);
 		this.model = model;
 	}
 	
-	public enum Sound {
-		WELCOME, GOODBYE, HAPPY, SAD
-	}
+	/**
+	 * 
+	 * @author Josh
+	 * @version 1.0.0
+	 * 
+	 * Enum for different audio's 
+	 */
+	public enum Sound {WELCOME, GOODBYE, HAPPY, SAD}
 	
+	/**
+	 * @author Adam
+	 * @param sound
+	 * @version 1.0.0
+	 * 
+	 * Method that plays a sound (in its own thread).
+	 */
 	public void play(final Sound sound) {
 		new Thread(new Runnable() {
 			@Override
@@ -45,8 +71,17 @@ public class AudioFeedbackSystem extends MIDIMessengerSystem {
 		}).start();
 	}
 	
+	/**
+	 * @author Adam
+	 * @author Josh 
+	 * @param sound
+	 * @version 1.1.0
+	 * 
+	 * Method that plays one of 4 audio sounds, depending on the enum.
+	 * Method also prevents other sound system (the usual simori) from playing noise whilst the audio is being played.
+	 */
 	public void playSynchronous(Sound sound) {
-		model.setPlaying();
+		model.setPlaying(); // tell the usual music player to shut up
 		try {
 			switch(sound){
 			case WELCOME:
@@ -62,15 +97,21 @@ public class AudioFeedbackSystem extends MIDIMessengerSystem {
 				playSadSound();
 				break;
 			}
-			player.stopSound();
+			player.stopSound(); // stop the audio sound being played (in case it is still making noise
 		} catch (InterruptedException e) {
-			
 		} catch (InvalidMidiDataException e) {
-			
 		}
-		model.setPlaying();
+		model.setPlaying(); // tell the usual music player that it can carry on making noise
 	}
 	
+	/**
+	 * @author Josh - I am the music man ...
+	 * @throws InvalidMidiDataException
+	 * @throws InterruptedException
+	 * @version 2.0.0
+	 *  
+	 * "a short, distinctive sequence of notes that fills the user with a sense of joyful anticipation at what is to come."
+	 */
 	private void playWelcomeSound() throws InvalidMidiDataException, InterruptedException {
 		playInstrument(1, C5, VELOCITY, 100, true);
 		playInstrument(1, E5, VELOCITY, 150, true);
@@ -81,9 +122,50 @@ public class AudioFeedbackSystem extends MIDIMessengerSystem {
 		playInstrument(1, E5, VELOCITY, 0, false);
 		playInstrument(1, G5, VELOCITY, 0, false);
 		playInstrument(1, C6, VELOCITY, 0, false);
-		Thread.sleep(2000);
+		Thread.sleep(2000); // keep that end chord to fill the user with excitement.
 	}
 	
+	/**
+	 * @author Josh - I come from down your lane...
+	 * @throws InvalidMidiDataException
+	 * @throws InterruptedException
+	 * @version 1.1.0
+	 * 
+	 * " A short distinctive sequence of notes that fills the user with a carefree satisfaction at what has been done."
+	 * Sounds suspiciously like a lullaby 
+	 */
+	private void playGoodbyeSound() throws InvalidMidiDataException, InterruptedException {
+		playInstrument(1, C6, VELOCITY, 350, false);
+		playInstrument(1, G5, VELOCITY, 400, false);
+		playInstrument(1, E5, VELOCITY, 400, false);
+		playInstrument(1, C5, VELOCITY, 2500, true);
+	}
+	
+	/**
+	 * @author Josh - And i can play...
+	 * @throws InvalidMidiDataException
+	 * @throws InterruptedException
+	 * @version 1.3.0
+	 * 
+	 * "a short, distinctive sequence of notes that gives the user the sense of a treat awarded."
+	 * Congratulations! Here is a trumpet fanfare for using the simori correctly
+	 */
+	private void playHappySound() throws InvalidMidiDataException, InterruptedException {
+		playInstrument(62, C6, VELOCITYHIGH, 250, true);
+		playInstrument(62, C6, VELOCITYHIGH, 150, true);
+		playInstrument(62, C6, VELOCITYHIGH, 150, true);
+		playInstrument(62, G6, VELOCITYHIGH, 1500, true);
+	}
+	
+	/**
+	 * @author Josh - what can you play???
+	 * @throws InvalidMidiDataException
+	 * @throws InterruptedException
+	 * @version 3.0.1
+	 * 
+	 * "A short, distinctive sequences of notes that gives the user the sense of a treat denied."
+	 * DUN DUN DUNNNNNNNNNNNN
+	 */
 	private void playSadSound() throws InvalidMidiDataException, InterruptedException {
 		playInstrument(56, D5, VELOCITYHIGH, 0, false);
 		playInstrument(20, D5, VELOCITYHIGH, 400, true);
@@ -95,20 +177,19 @@ public class AudioFeedbackSystem extends MIDIMessengerSystem {
 		playInstrument(20, F5, VELOCITYHIGH, 2000, true);
 	}
 	
-	private void playGoodbyeSound() throws InvalidMidiDataException, InterruptedException {
-		playInstrument(1, C6, VELOCITY, 350, false);
-		playInstrument(1, G5, VELOCITY, 400, false);
-		playInstrument(1, E5, VELOCITY, 400, false);
-		playInstrument(1, C5, VELOCITY, 2500, true);
-	}
-	
-	private void playHappySound() throws InvalidMidiDataException, InterruptedException {
-		playInstrument(62, C6, VELOCITYHIGH, 250, true);
-		playInstrument(62, C6, VELOCITYHIGH, 150, true);
-		playInstrument(62, C6, VELOCITYHIGH, 150, true);
-		playInstrument(62, G6, VELOCITYHIGH, 1500, true);
-	}
-	
+	/**
+	 * @author Josh
+	 * @param instrument
+	 * @param pitch
+	 * @param velocity
+	 * @param duration
+	 * @param stop
+	 * @throws InvalidMidiDataException
+	 * @throws InterruptedException
+	 * @version 2.0.1
+	 * 
+	 * Method that plays 
+	 */
 	void playInstrument(int instrument, int pitch, int velocity, int duration, boolean stop) throws InvalidMidiDataException, InterruptedException{
 		player.sendCommand(createMessage((byte)0, (byte)(instrument-1)));
 		player.sendCommand(createMessage((byte)0,(byte)pitch, (byte)velocity));
@@ -125,7 +206,7 @@ public class AudioFeedbackSystem extends MIDIMessengerSystem {
 		MIDISoundSystem player = new MIDISoundSystem();
 		MatrixModel model = new MatrixModel(16,16);
 		AudioFeedbackSystem afs = new AudioFeedbackSystem(player, model);
-		afs.play(Sound.WELCOME);
+		afs.play(Sound.GOODBYE);
 		for (int i = 0; i < 6; i ++) {
 			System.out.println(i % 2 == 0 ? "Printing" : "whilst playing");
 			Thread.sleep(200);
