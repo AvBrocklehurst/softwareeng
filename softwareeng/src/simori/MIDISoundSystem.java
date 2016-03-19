@@ -74,15 +74,7 @@ public class MIDISoundSystem implements PowerTogglable {
 	
 	/** {@inheritDoc} */
 	@Override
-	public void ready() {}
-	
-	/**
-	 * @author Josh
-	 * @version 1.0.1
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void switchOn() {
+	public void ready() {
 		try {
 			synth.open();
 			reciever = synth.getReceiver();
@@ -91,14 +83,18 @@ public class MIDISoundSystem implements PowerTogglable {
 	
 	/** {@inheritDoc} */
 	@Override
-	public void stop() {
-		reciever.close();
-		synth.close();
-	}
+	public void switchOn() {}
 	
 	/** {@inheritDoc} */
 	@Override
-	public void switchOff() {}
+	public void stop() {}
+	
+	/** {@inheritDoc} */
+	@Override
+	public void switchOff() {
+		reciever.close();
+		synth.close();
+	}
 	
 	/* FROM INTERFACE
 	 * 	/**
