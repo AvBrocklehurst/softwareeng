@@ -112,6 +112,7 @@ public class SaveAndLoad {
 				if (text.length() == 0) return true;
 				text += SONG_EXTENSION;   //add the .song extension
 				SaveAndLoad.save(controller.getModel(), text);
+				controller.happySound();
 				return true;
 			}
 		};
@@ -135,8 +136,10 @@ public class SaveAndLoad {
 				if (text.length() == 0) return true;
 				text += SONG_EXTENSION;
 				if (SaveAndLoad.load(controller.getModel(), text)) {
+					controller.happySound();
 					return true;
 				} else {
+					controller.sadSound();
 					if (controller.getGui().getText().equals(SONG_NOT_FOUND)) {
 						return true;
 					} else {

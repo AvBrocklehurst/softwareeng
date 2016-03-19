@@ -80,6 +80,7 @@ public class ChangerModeFactory {
 			@Override
 			public boolean doThingTo(ModeController controller) {
 				controller.setDisplayLayer(selectedLayer);
+				controller.happySound();
 				return true; //set current layer
 			}
 			
@@ -120,6 +121,7 @@ public class ChangerModeFactory {
 			@Override
 			public boolean doThingTo(ModeController controller) {
 				controller.getModel().setLoopPoint((byte)selectedColumn);
+				controller.happySound();
 				return true;
 			}
 
@@ -178,6 +180,7 @@ public class ChangerModeFactory {
 			public boolean doThingTo(ModeController controller) {
 				if (instrumNum == null) return false;
 				controller.getModel().setInstrument(controller.getDisplayLayer(), instrumNum); 
+				controller.happySound();
 				return true;
 			}
 			
@@ -248,6 +251,7 @@ public class ChangerModeFactory {
 					return false;
 				}
 				controller.getModel().setVelocity(controller.getDisplayLayer(), selectedVelocity.byteValue()); 
+				controller.happySound();
 				return true;
 			}
 			
@@ -301,6 +305,7 @@ public class ChangerModeFactory {
 					return false;
 				}
 				controller.getModel().setBPM((short)selectedTempo);
+				controller.happySound();
 				return true;
 			}
 			

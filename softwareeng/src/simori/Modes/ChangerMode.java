@@ -13,7 +13,6 @@ import simori.SimoriGui.GridButtonEvent;
  */
 public class ChangerMode extends Mode {
 	
-	private ModeController controller;
 	private Changer changer;
 	private boolean hLine, vLine;
 	private int rows, columns;
@@ -29,7 +28,6 @@ public class ChangerMode extends Mode {
 	public ChangerMode(ModeController controller, Changer changer,
 			boolean verticalLine, boolean horizontalLine) {
 		super(controller);
-		this.controller = controller;
 		this.changer = changer;
 		this.hLine = horizontalLine;
 		this.vLine = verticalLine;
@@ -83,12 +81,11 @@ public class ChangerMode extends Mode {
 			super.onFunctionButtonPress(e);
 			break;
 		case OK:
-			if (changer.doThingTo(controller)) {
-				controller.happySound();
+			if (changer.doThingTo(getController())) {
 				getGui().setText(null); //Clear screen
 				super.onFunctionButtonPress(e);
 			} else {
-				controller.sadSound();
+				getController().sadSound();
 			}
 			break;
 		default:

@@ -262,7 +262,7 @@ public class ModeController {
 			@Override
 			public void onFunctionButtonPress(FunctionButtonEvent e) {
 				if (e.getFunctionButton() == FunctionButton.ON) {
-					getModeController().setOn(true, true);
+					getController().setOn(true, true);
 				}
 			}
 		};

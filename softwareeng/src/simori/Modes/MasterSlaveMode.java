@@ -36,7 +36,7 @@ public class MasterSlaveMode extends Mode implements ScanProgressListener {
 	public void setInitialGrid() {
 		getGui().setGrid(grid);
 		getGui().setText(null);
-		master = getModeController().startNetworkMaster();
+		master = getController().startNetworkMaster();
 		master.setIpScanListener(this);
 	}
 	
