@@ -100,14 +100,5 @@ public class SimoriSoundSystem extends MIDIMessengerSystem {
 		player.sendCommands(convertToMIDIMessages(array)); // take the array and turn it into MIDI messages, then send it to the synth.
 	}
 	
-	/**
-	 * @author Josh
-	 * @version 1.0.1
-	 * 
-	 * Method that provides access for stopping sound (used by rest of the simori system).
-	 */
-	public void stopPlay() throws InvalidMidiDataException{
-		player.stopSound();
-	}
 }
 

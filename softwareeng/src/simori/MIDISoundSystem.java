@@ -21,13 +21,12 @@ import simori.Simori.PowerTogglable;
  * Class that contains all access to playing sound.
  * This class is meant to act as the one place that all sound 'goes through' in order to be played,
  * regardless of whether it is a from a layer in the Simori or from a 'jingle' in the audio feedback.
- * {@link ShortMessage}
  */
 public class MIDISoundSystem implements PowerTogglable {
 
 	final static int TIMESTAMP = -1; // Timestamp of -1 means MIDI messages will be executed immediately.
-	static Synthesizer synth;
-	static Receiver reciever;
+	private Synthesizer synth;
+	private Receiver reciever;
 	
 	/**
 	 * @author Josh
@@ -44,30 +43,39 @@ public class MIDISoundSystem implements PowerTogglable {
 			} catch (MidiUnavailableException e) {e.printStackTrace(); System.exit(1);}
 		if (synth == null){System.exit(1);}
 		if (reciever == null){System.exit(1);}
-		}
+	}
 	
-	public void sendCommand(ShortMessage message){
+	/**
+	 * @author Josh
+	 * @param message
+	 * @version 1.0.0 
+	 * 
+	 * Method takes a MIDIMessage and sends it to the synth.
+	 */
+	void sendCommand(ShortMessage message){
 		reciever.send(message, TIMESTAMP);
 	}
 	
 	/**
-	 * Method takes arrayList of MIDI messages and executes them simultaneously (or near simultaneous).
+	 * @author Josh
 	 * @param toBePlayed
+	 * @version 1.1.0
+	 * 
+	 * Method takes arrayList of MIDI messages and sends them to the synth simultaneously (or near simultaneously).
 	 */
-	public void sendCommands(ShortMessage[] toBePlayed){
+	void sendCommands(ShortMessage[] toBePlayed){
 		for (ShortMessage message : toBePlayed) {
 			sendCommand(message);
 		}
 	}
 	
-	
 	/**
 	 * @author Josh
 	 * @version 1.0.2
-	 * @throws InvalidMidiDataException 
-	 * {@inheritDoc}
+	 * 
+	 * Method that tells the synth to stop making noise ASAP.
 	 */
-	public void stopSound() throws InvalidMidiDataException {
+	void stopSound(){
 		synth.getChannels()[0].allNotesOff();
 		synth.getChannels()[9].allNotesOff();
 	}
@@ -95,18 +103,6 @@ public class MIDISoundSystem implements PowerTogglable {
 		reciever.close();
 		synth.close();
 	}
-	
-	/* FROM INTERFACE
-	 * 	/**
-	 * @author Josh
-	 * @version 1.0.0
-	 * @return void
-	 * 
-	 * Method that takes any playing notes and stops them playing.
-	 * Is expected to be used after a play method.
-	 *
-	public void stopPlay() throws InvalidMidiDataException;
-	 */
 	
 	public static void main(String[] args) throws InvalidMidiDataException, InterruptedException {
 		MIDISoundSystem josh = new MIDISoundSystem();

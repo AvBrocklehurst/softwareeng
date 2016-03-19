@@ -51,7 +51,7 @@ public class AudioFeedbackSystem extends MIDIMessengerSystem {
 	 * @author Josh
 	 * @version 1.0.0
 	 * 
-	 * Enum for different audio feeback
+	 * Enum for different audio feedback
 	 */
 	public enum Sound {WELCOME, GOODBYE, HAPPY, SAD}
 	
@@ -80,7 +80,7 @@ public class AudioFeedbackSystem extends MIDIMessengerSystem {
 	 * Method that plays one of 4 audio sounds, depending on the enum.
 	 * Method also prevents other sound system (the usual simori) from playing noise whilst the audio is being played.
 	 */
-	public void playSynchronous(Sound sound) {
+	private void playSynchronous(Sound sound) {
 		model.setPlaying(); // tell the usual music player to shut up
 		try {
 			switch(sound){
@@ -194,7 +194,7 @@ public class AudioFeedbackSystem extends MIDIMessengerSystem {
 	 * This allows for production of chords (multiple notes at the same time).
 	 * 
 	 */
-	void playInstrument(int instrument, int pitch, int velocity, int duration, boolean stop) throws InvalidMidiDataException, InterruptedException{
+	private void playInstrument(int instrument, int pitch, int velocity, int duration, boolean stop) throws InvalidMidiDataException, InterruptedException{
 		player.sendCommand(createMessage((byte)0, (byte)(instrument-1))); // send the program change message.
 		player.sendCommand(createMessage((byte)0,(byte)pitch, (byte)velocity)); // send the note on message.
 		Thread.sleep(duration);
@@ -213,7 +213,7 @@ public class AudioFeedbackSystem extends MIDIMessengerSystem {
 	 * 
 	 * Same as playInstrument, except with percussion.
 	 */
-	void playPercussion(int percussion, int velocity, int duration, boolean stop ) throws InvalidMidiDataException, InterruptedException{
+	private void playPercussion(int percussion, int velocity, int duration, boolean stop ) throws InvalidMidiDataException, InterruptedException{
 		player.sendCommand(createMessage((byte)9,(byte)percussion,(byte)velocity)); // program change message is unnecessary, only note on message is needed
 		Thread.sleep(duration);
 		if(stop){player.stopSound();}
