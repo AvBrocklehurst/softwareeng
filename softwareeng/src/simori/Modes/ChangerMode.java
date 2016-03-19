@@ -61,7 +61,7 @@ public class ChangerMode extends Mode {
 	 * exists at those coordinates, the selector line(s) are drawn.
 	 */
 	@Override
-	public void onGridButtonPress(GridButtonEvent e) throws SimoriNonFatalException {
+	public void onGridButtonPress(GridButtonEvent e) {
 		Setting setting = new Setting((byte) e.getX(), (byte) e.getY());
 		String text = changer.getText(setting);
 		if (text == null) return;

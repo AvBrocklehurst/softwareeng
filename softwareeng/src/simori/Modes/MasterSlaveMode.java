@@ -2,8 +2,6 @@ package simori.Modes;
 
 import simori.ModeController;
 import simori.SimoriGui.FunctionButtonEvent;
-import simori.SimoriGui.GridButtonEvent;
-import simori.Exceptions.SimoriNonFatalException;
 import simori.Modes.NetworkMaster.ScanProgressListener;
 
 /**
@@ -85,9 +83,4 @@ public class MasterSlaveMode extends Mode implements ScanProgressListener {
 			break;
 		}
 	}
-
-	/** {@inheritDoc} */
-	@Override
-	public void onGridButtonPress(GridButtonEvent e)
-			throws SimoriNonFatalException {} // No grid input in this mode
 }
