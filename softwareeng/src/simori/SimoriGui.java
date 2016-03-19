@@ -66,8 +66,7 @@ public interface SimoriGui extends PowerTogglable {
 	
 	/** Listener interface for {@link GridButtonEvent} */
 	public interface GridButtonListener  {
-		public void onGridButtonPress(GridButtonEvent e)
-				throws SimoriNonFatalException;
+		public void onGridButtonPress(GridButtonEvent e);
 	}
 	
 	/** Listener interface for {@link FunctionButtonEvent} */

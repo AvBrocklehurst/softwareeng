@@ -35,10 +35,6 @@ public class ShopBoyMode extends Mode implements Observer {
 	}
 
 	@Override
-	public void onGridButtonPress(GridButtonEvent e)
-			throws SimoriNonFatalException {} // No grid input in this mode
-	
-	@Override
 	public void onFunctionButtonPress(FunctionButtonEvent e){
 		switch(e.getFunctionButton()){
 		case OK:

@@ -48,7 +48,7 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 	 * @see GridButtonEvent.getX(), GridButtonEvent.getY(), GridButtonEvent.getSource()
 	 * @version 1.1.3
 	 */
-	public void onGridButtonPress(GridButtonEvent e) throws SimoriNonFatalException{
+	public void onGridButtonPress(GridButtonEvent e) {
 		
 		int x = e.getX();            //grid position of button press
 		int y = e.getY();  
@@ -56,7 +56,13 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 		
 		grid[y][x] = !grid[y][x];    //invert grid button
 
-		getModel().updateButton(getDisplayLayer(), (byte) x, (byte) y);   //update the data structure by inverting button at Gui position x,y
+		try {
+			//update the data structure by inverting button at Gui position x,y
+			getModel().updateButton(getDisplayLayer(), (byte) x, (byte) y);
+		} catch (SimoriNonFatalException ex) {
+			// TODO Auto-generated catch block
+			ex.printStackTrace();
+		}
 		sc.setGrid(grid);       //relay the change to the gui
 	}
 	
