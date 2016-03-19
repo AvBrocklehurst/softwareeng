@@ -20,11 +20,16 @@ import simori.Exceptions.SimoriNonFatalException;
  * @see Mode, ModeController
  */
 public class ShopBoyMode extends Mode implements Observer {
+	
+	private File currentFile;
+	private int counter = 0;
+	private File shopboy;
 
 	public ShopBoyMode(ModeController controller) {
 		super(controller);
-		File shopboy = ResourceManager.getResource("ShopBoySongs");
-		
+		shopboy = ResourceManager.getResource("ShopBoySongs");
+		playShopBoy(shopboy);
+		songPlay(currentFile);
 	}
 	
 	@Override
@@ -56,7 +61,8 @@ public class ShopBoyMode extends Mode implements Observer {
 			File[] files = f.listFiles();
 			for(int i=0; i<files.length; i++){
 				getGui().setText(files[i].getName());
-				songPlay(files[i]);
+				currentFile = files[i];
+				if(counter == i) break;
 			}
 		}
 	}
@@ -65,6 +71,7 @@ public class ShopBoyMode extends Mode implements Observer {
 		File[] song = f.listFiles();
 		for(int i=0; i<song.length; i++){
 			SaveAndLoad.load(getModel(), song[i].getName());
+			if(counter == i) break;
 		}
 	}
 
@@ -74,7 +81,9 @@ public class ShopBoyMode extends Mode implements Observer {
 		byte currentcolumn = getModel().getCurrentColumn();
 		
 		if(looppoint == currentcolumn){
-			//next song or next directory
+			counter++;
+			playShopBoy(shopboy);
+			songPlay(currentFile);
 		}
 		
 	}
