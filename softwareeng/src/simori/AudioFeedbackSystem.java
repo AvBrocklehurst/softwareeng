@@ -126,7 +126,7 @@ public class AudioFeedbackSystem extends MIDIMessengerSystem {
 	}
 	
 	/**
-	 * @author Josh - I come from down your lane...
+	 * @author Josh - I come from far away...
 	 * @throws InvalidMidiDataException
 	 * @throws InterruptedException
 	 * @version 1.1.0
