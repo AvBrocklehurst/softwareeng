@@ -256,6 +256,10 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 			return layer;
 		}
 		
+		/** {@inheritDoc} */
+		@Override
+		public void ready() {}
+		
 		/**
 		 * Switches the note processor, and subsequently its clock, on
 		 * @author Matt
@@ -268,21 +272,18 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 			new Thread(this).start();
 		}
 		
-		
-		/**
-		 * Switches the note processor, and subsequently its clock, off
-		 * @author Matt
-		 * @author Adam
-		 * @author Jurek
-		 * @version 1.0.1
-		 */
+		/** {@inheritDoc} */
 		@Override
-		public void switchOff() {
+		public void stop() {
 			running = false;
 			clock.setRunning(running);
 			synchronized(lock){lock.notify();}
 			synchronized(bpmLock){bpmLock.notify();}
 		}
+		
+		/** {@inheritDoc} */
+		@Override
+		public void switchOff() {}
 		
 		/**
 		 * @author Adam

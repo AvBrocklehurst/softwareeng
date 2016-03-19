@@ -168,11 +168,9 @@ public class ModeController {
 	}
 	
 	private void bootUp(boolean animated) {
-		if (!animated) {
-			switchOn();
-			return;
-		}
-		gui.play(new Animation(new OnFinishListener() {
+		for (PowerTogglable p : toPowerToggle) p.ready(); //TODO in a different thread?
+		if (!animated) switchOn();
+		else gui.play(new Animation(new OnFinishListener() {
 			@Override
 			public void onAnimationFinished() {
 				switchOn();
@@ -181,11 +179,11 @@ public class ModeController {
 	}
 	
 	private void shutDown(boolean animated) {
-		if (!animated) {
-			switchOff();
-			return;
+		for (int i = toPowerToggle.length - 1; i >= 0; i--) {
+			toPowerToggle[i].stop();
 		}
-		gui.play(new Animation(new OnFinishListener() {
+		if (!animated) switchOff();
+		else gui.play(new Animation(new OnFinishListener() {
 			@Override
 			public void onAnimationFinished() {
 				switchOff();

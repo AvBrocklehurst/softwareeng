@@ -72,6 +72,9 @@ public class MIDISoundSystem implements PowerTogglable {
 		synth.getChannels()[9].allNotesOff();
 	}
 	
+	/** {@inheritDoc} */
+	@Override
+	public void ready() {}
 	
 	/**
 	 * @author Josh
@@ -85,20 +88,17 @@ public class MIDISoundSystem implements PowerTogglable {
 			reciever = synth.getReceiver();
 		} catch (MidiUnavailableException e) {e.printStackTrace();System.exit(1);}
 	}
-
 	
-	/**
-	 * @author Josh
-	 * @version 1.0.1
-	 * {@inheritDoc}
-	 */
+	/** {@inheritDoc} */
 	@Override
-	public void switchOff() {
+	public void stop() {
 		reciever.close();
-		synth.close();	
+		synth.close();
 	}
 	
-	
+	/** {@inheritDoc} */
+	@Override
+	public void switchOff() {}
 	
 	/* FROM INTERFACE
 	 * 	/**
