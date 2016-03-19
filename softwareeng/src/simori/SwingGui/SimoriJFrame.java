@@ -12,8 +12,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
-import java.lang.Thread.UncaughtExceptionHandler;
-import java.util.logging.Handler;
 
 import javax.swing.JFrame;
 import javax.swing.Timer;
@@ -120,7 +118,7 @@ public class SimoriJFrame extends JFrame implements SimoriGui, MouseMotionListen
 	}
 	
 	/** {@inheritDoc} */
-	public void play(Animation toPlay) {
+	public void play(final Animation toPlay) {
 		final Timer timer = new Timer(100, null);
 		timer.addActionListener(new ActionListener() {
 			@Override
@@ -138,14 +136,8 @@ public class SimoriJFrame extends JFrame implements SimoriGui, MouseMotionListen
 	
 	/** {@inheritDoc} */
 	@Override
-	public int getGridWidth() {
+	public int getGridSize() {
 		return columns;
-	}
-	
-	/** {@inheritDoc} */
-	@Override
-	public int getGridHeight() {
-		return rows;
 	}
 	
 	/** {@inheritDoc} */

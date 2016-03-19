@@ -26,8 +26,8 @@ public class MasterSlaveMode extends Mode implements ScanProgressListener {
 
 	public MasterSlaveMode(ModeController controller) {
 		super(controller);
-		rows = getGui().getGridHeight();
-		columns = getGui().getGridWidth();
+		rows = getGui().getGridSize();
+		columns = getGui().getGridSize();
 		grid = new boolean[rows][columns]; 
 	}
 	
@@ -36,7 +36,7 @@ public class MasterSlaveMode extends Mode implements ScanProgressListener {
 	public void setInitialGrid() {
 		getGui().setGrid(grid);
 		getGui().setText(null);
-		master = getModeController().startNetworkMaster();
+		master = getController().startNetworkMaster();
 		master.setIpScanListener(this);
 	}
 	
@@ -68,7 +68,13 @@ public class MasterSlaveMode extends Mode implements ScanProgressListener {
 	/** {@inheritDoc} */
 	@Override
 	public void onCompletion(boolean success) {
-		getGui().setText(success ? FINISH_SUCCESS : FINISH_FAILURE);
+		if (success) {
+			getController().happySound();
+			getGui().setText(FINISH_SUCCESS);
+		} else {
+			getController().sadSound();
+			getGui().setText(FINISH_FAILURE);
+		}
 	}
 	
 	/** {@inheritDoc} */
@@ -79,7 +85,9 @@ public class MasterSlaveMode extends Mode implements ScanProgressListener {
 		case OK :
 			master.setIpScanListener(null);
 			super.onFunctionButtonPress(e);
-		default: // Ignore all other function buttons
+			break;
+		default:
+			getController().sadSound();
 			break;
 		}
 	}

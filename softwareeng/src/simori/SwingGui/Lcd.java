@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.image.BufferedImage;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
@@ -99,7 +100,8 @@ public class Lcd extends JLabel {
 	 */
 	private void makeFontFit(Dimension size, String text) {
 		setFont(GuiProperties.getFont());
-		Graphics g = getComponentGraphics(getGraphics());
+		Graphics g = new BufferedImage(size.width, size.height,
+				BufferedImage.TYPE_INT_ARGB).createGraphics();
 		g.setFont(getFont());
 		GuiProperties.sizeFontTo(text, size.width, size.height, g);
 		setFont(g.getFont());

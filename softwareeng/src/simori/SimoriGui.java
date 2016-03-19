@@ -52,11 +52,11 @@ public interface SimoriGui extends PowerTogglable {
 	/** @param Animation which will be played on the GUI's buttons */
 	public void play(Animation toPlay);
 	
-	/** @return Number of columns in the LED grid */
-	public int getGridWidth();
+	/** @return Number of rows / columns in the LED grid */
+	public int getGridSize();
 	
-	/** @return Number of rows in the LED grid */
-	public int getGridHeight();
+	/** @param true if the GUI should be visible */
+	public void setVisible(boolean visible);
 	
 	/** Sets the listener to receive {@link GridButtonEvent}s */
 	public void setGridButtonListener(GridButtonListener l);

@@ -92,10 +92,10 @@ public class SimoriPanel extends JPanel implements PowerTogglable {
 		Dimension topBarSize, sideBarSize;
 		sideBarSize = GuiProperties.ratioOf(0.1f, 0.8f, simoriSize);
 		topBarSize = GuiProperties.ratioOf(1f, 0.1f, simoriSize);
-		leftBar.setPreferredSize(sideBarSize);
-		rightBar.setPreferredSize(sideBarSize);
-		topBar.setPreferredSize(topBarSize);
-		bottomBar.setPreferredSize(topBarSize);
+		leftBar.setDefiniteSize(sideBarSize);
+		rightBar.setDefiniteSize(sideBarSize);
+		topBar.setDefiniteSize(topBarSize);
+		bottomBar.setDefiniteSize(topBarSize);
 	}
 	
 	/**

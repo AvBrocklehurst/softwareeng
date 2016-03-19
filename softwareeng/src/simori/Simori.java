@@ -2,8 +2,6 @@ package simori;
 
 import java.io.IOException;
 
-import javax.sound.midi.MidiUnavailableException;
-
 import simori.Exceptions.SimoriNonFatalException;
 import simori.Modes.QwertyKeyboard;
 import simori.SwingGui.SimoriJFrame;
@@ -21,57 +19,52 @@ import simori.SwingGui.SimoriJFrame;
  */
 public class Simori {
 	
-	private static final byte GRID_WIDTH = 16, GRID_HEIGHT = 16;
+	private static final int MIN_SPLASH_TIME = 3000;
 	private static final int PORT = 20160;
+	private static final byte GRID_SIZE = 16;
 	
 	/**
-	 * The main method to run the whole Simori system. If MIDI is unavailable
-	 * an exception is caught.
+	 * The main method to run the whole Simori system.
 	 * @author Adam
 	 * @author James
 	 * @author Josh
 	 * @author Jurek
 	 * @author Matt
-	 * @param args
-	 * @version 3.0.0
+	 * @version 4.5.0
+	 * @throws SimoriNonFatalException which is displayed in an error dialog
 	 */
-	public static void main(String[] args) {
-		InstrumentNamer.getInstance();
-		try {
-			new Simori();
-		} catch (MidiUnavailableException e) {
-			e.printStackTrace();
-		} catch (SimoriNonFatalException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	public static void main(String[] args) throws SimoriNonFatalException {
+		new Simori();
 	}
 	
 	/**
-	 * Constructs an instance of a Simori. 
-	 * 
 	 * @author Adam
 	 * @author James
 	 * @author Josh
 	 * @author Jurek
 	 * @author Matt
 	 * @version 2.1.0
-	 * @throws MidiUnavailableException If this system does not have MIDI
-	 * @throws SimoriNonFatalException If the grid does not fit a QWERTY keyboard
 	 * @throws IOException 
 	 */
-	public Simori() throws MidiUnavailableException, SimoriNonFatalException, IOException {
-		MatrixModel model = new MatrixModel(GRID_WIDTH, GRID_HEIGHT);
-		QwertyKeyboard keyboard = new QwertyKeyboard(GRID_WIDTH, GRID_HEIGHT);
+	public Simori() throws SimoriNonFatalException {
+		SplashScreen splash = new SplashScreen();
+		InstrumentNamer.getInstance();
+		splash.swapFor(assembleSimori(), MIN_SPLASH_TIME);
+		splash = null;
+	}
+	
+	private SimoriGui assembleSimori() throws SimoriNonFatalException {
+		MatrixModel model = new MatrixModel(GRID_SIZE, GRID_SIZE);
+		QwertyKeyboard keyboard = new QwertyKeyboard(GRID_SIZE, GRID_SIZE);
 		SimoriJFrame gui = new SimoriJFrame(keyboard);
 		MIDISoundSystem player = new MIDISoundSystem();
-		ModeController modes = new ModeController(gui, model, PORT,player);
+		AudioFeedbackSystem afs = new AudioFeedbackSystem(player, model);
+		ModeController modes = new ModeController(gui, model, afs, PORT);
 		NoteProcessor clock = new NoteProcessor(modes, model, player);
 		model.addObserver(clock);
 		modes.setComponentsToPowerToggle(model, player, gui, clock);
 		modes.setOn(false, false);
-		gui.setVisible(true);
+		return gui;
 	}
 	
 	/**

@@ -68,7 +68,10 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 	
 	/** {@inheritDoc} */
 	public void onFunctionButtonPress(FunctionButtonEvent e) {
-		if (e.getFunctionButton().equals(FunctionButton.OK)) return;
+		if (e.getFunctionButton().equals(FunctionButton.OK)) {
+			getController().sadSound();
+			return;
+		}
 		super.onFunctionButtonPress(e); // Default behaviour except for OK
 	}
 	
@@ -85,8 +88,6 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 	 */
 	@Override
 	public void tickerLight(byte col) throws SimoriNonFatalException {
-		
-		
 		makeGridCopy(getDisplayLayer());   //copy the grid
 		grid[0][col] = true;
 		grid[5][col] = true;

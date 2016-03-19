@@ -10,7 +10,9 @@ import java.awt.event.MouseListener;
 import java.awt.geom.Ellipse2D;
 import java.util.ArrayList;
 
+import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JToggleButton;
 
 import simori.Exceptions.SimoriNonFatalException;
 import simori.SwingGui.OnPressListenerMaker.OnPressListener;
@@ -166,15 +168,13 @@ public abstract class PressableCircle
 		}
 	}
 	
-	/** Informs the registered {@link OnPressListener}s of a press 
-	 * @throws SimoriNonFatalException */
+	/** Informs the registered {@link OnPressListener}s of a press */
 	protected void pressed() {
 		if (greyedOut) return;
 		for (OnPressListener l : listeners) {
 			try {
 				l.onPress(this);
 			} catch (SimoriNonFatalException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

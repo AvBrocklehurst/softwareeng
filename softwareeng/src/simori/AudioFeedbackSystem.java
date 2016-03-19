@@ -1,8 +1,19 @@
 package simori;
-
 import javax.sound.midi.InvalidMidiDataException;
 
+
+/**
+ * @author Josh
+ * @author Adam
+ * @version 2.1.1
+ * @see MIDIMessengerSystem
+ * 
+ * Class responsible for playing the audio feedback sounds.
+ * Since these events are dynamic (can play at any time), the class needs to be in its own thread.
+ * This allows it to play noise 'over the top' of the simori
+ */
 public class AudioFeedbackSystem extends MIDIMessengerSystem {
+	
 	// see http://www.midimountain.com/midi/midi_note_numbers.html
 	final static int B4 = 59;
 	final static int C5 = 60;
@@ -16,16 +27,92 @@ public class AudioFeedbackSystem extends MIDIMessengerSystem {
 	final static int CS6 = 73;
 	final static int G6 = 79;
 	
-	
 	final static int VELOCITY = 80;
+	final static int VELOCITYHIGH = 127;
 	
-	public AudioFeedbackSystem(MIDISoundSystem player) {
+	private MatrixModel model;
+	
+	/**
+	 * @author Josh
+	 * @author Adam
+	 * @version 1.0.2
+	 * @param player - MIDISoundSystem (something that can actually play noise)
+	 * @param model - Matrix model
+	 * 
+	 * Constructor for AudioFeedbackSystem.
+	 */
+	public AudioFeedbackSystem(MIDISoundSystem player, MatrixModel model) {
 		super(player);
+		this.model = model;
 	}
 	
-
+	/**
+	 * 
+	 * @author Josh
+	 * @version 1.0.0
+	 * 
+	 * Enum for different audio feedback
+	 */
+	public enum Sound {WELCOME, GOODBYE, HAPPY, SAD}
 	
-	public void welcomeSound() throws InvalidMidiDataException, InterruptedException{
+	/**
+	 * @author Adam
+	 * @param sound
+	 * @version 1.0.0
+	 * 
+	 * Method that plays a sound (in its own thread).
+	 */
+	public void play(final Sound sound) {
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				playSynchronous(sound);
+			}
+		}).start();
+	}
+	
+	/**
+	 * @author Adam
+	 * @author Josh 
+	 * @param sound
+	 * @version 1.1.0
+	 * 
+	 * Method that plays one of 4 audio sounds, depending on the enum.
+	 * Method also prevents other sound system (the usual simori) from playing noise whilst the audio is being played.
+	 */
+	private void playSynchronous(Sound sound) {
+		model.setPlaying(); // tell the usual music player to shut up
+		try {
+			switch(sound){
+			case WELCOME:
+				playWelcomeSound();
+				break;
+			case GOODBYE:
+				playGoodbyeSound();
+				break;
+			case HAPPY:
+				playHappySound();
+				break;
+			case SAD:
+				playSadSound();
+				break;
+			}
+			player.stopSound(); // stop the audio sound being played (in case it is still making noise
+		} catch (InterruptedException e) {
+		} catch (InvalidMidiDataException e) {
+		}
+		model.setPlaying(); // tell the usual music player that it can carry on making noise
+	}
+	
+	/**
+	 * @author Josh - I am the music man ...
+	 * @throws InvalidMidiDataException
+	 * @throws InterruptedException
+	 * @version 2.0.0
+	 *  
+	 * "a short, distinctive sequence of notes that fills the user with a sense of joyful anticipation at what is to come."
+	 */
+	private void playWelcomeSound() throws InvalidMidiDataException, InterruptedException {
 		playInstrument(1, C5, VELOCITY, 100, true);
 		playInstrument(1, E5, VELOCITY, 150, true);
 		playInstrument(1, G5, VELOCITY, 150, true);
@@ -35,65 +122,111 @@ public class AudioFeedbackSystem extends MIDIMessengerSystem {
 		playInstrument(1, E5, VELOCITY, 0, false);
 		playInstrument(1, G5, VELOCITY, 0, false);
 		playInstrument(1, C6, VELOCITY, 0, false);
-		Thread.sleep(2000);
-		player.stopSound();
+		Thread.sleep(2000); // keep that end chord to fill the user with excitement.
 	}
 	
-	public void goodbyeSound() throws InvalidMidiDataException, InterruptedException{
+	/**
+	 * @author Josh - I come from down your lane...
+	 * @throws InvalidMidiDataException
+	 * @throws InterruptedException
+	 * @version 1.1.0
+	 * 
+	 * " A short distinctive sequence of notes that fills the user with a carefree satisfaction at what has been done."
+	 * Sounds suspiciously like a lullaby 
+	 */
+	private void playGoodbyeSound() throws InvalidMidiDataException, InterruptedException {
 		playInstrument(1, C6, VELOCITY, 350, false);
 		playInstrument(1, G5, VELOCITY, 400, false);
 		playInstrument(1, E5, VELOCITY, 400, false);
 		playInstrument(1, C5, VELOCITY, 2500, true);
-		player.stopSound();
 	}
 	
-	public void happySound() throws InvalidMidiDataException, InterruptedException{
-		playInstrument(62, C6, 127, 250, true);
-		playInstrument(62, C6, 127, 150, true);
-		playInstrument(62, C6, 127, 150, true);
-		playInstrument(62, G6, 127, 1500, true);
-		player.stopSound();
-		//System.out.println("hello");
+	/**
+	 * @author Josh - And i can play...
+	 * @throws InvalidMidiDataException
+	 * @throws InterruptedException
+	 * @version 1.3.0
+	 * 
+	 * "a short, distinctive sequence of notes that gives the user the sense of a treat awarded."
+	 * Congratulations! Here is a trumpet fanfare for using the simori correctly
+	 */
+	private void playHappySound() throws InvalidMidiDataException, InterruptedException {
+		playInstrument(62, C6, VELOCITYHIGH, 250, true);
+		playInstrument(62, C6, VELOCITYHIGH, 150, true);
+		playInstrument(62, C6, VELOCITYHIGH, 150, true);
+		playInstrument(62, G6, VELOCITYHIGH, 1500, true);
 	}
 	
-	public void sadSound() throws InvalidMidiDataException, InterruptedException{
-		playInstrument(56, D5, 127, 0, false);
-		playInstrument(20, D5, 127, 400, true);
+	/**
+	 * @author Josh - what can you play???
+	 * @throws InvalidMidiDataException
+	 * @throws InterruptedException
+	 * @version 3.0.1
+	 * 
+	 * "A short, distinctive sequences of notes that gives the user the sense of a treat denied."
+	 * DUN DUN DUNNNNNNNNNNNN
+	 */
+	private void playSadSound() throws InvalidMidiDataException, InterruptedException {
+		playInstrument(56, D5, VELOCITYHIGH, 0, false);
+		playInstrument(20, D5, VELOCITYHIGH, 400, true);
 		
-		playInstrument(56, B4, 127, 0, false);
-		playInstrument(20, B4, 127, 600, true);
+		playInstrument(56, B4, VELOCITYHIGH, 0, false);
+		playInstrument(20, B4, VELOCITYHIGH, 600, true);
 		
-		playInstrument(56, F5, 127, 0, false);
-		playInstrument(20, F5, 127, 2000, true);
-		player.stopSound();
+		playInstrument(56, F5, VELOCITYHIGH, 0, false);
+		playInstrument(20, F5, VELOCITYHIGH, 2000, true);
 	}
 	
-
-	
-	void playInstrument(int instrument, int pitch, int velocity, int duration, boolean stop) throws InvalidMidiDataException, InterruptedException{
-		player.sendCommand(createMessage((byte)0, (byte)(instrument-1)));
-		player.sendCommand(createMessage((byte)0,(byte)pitch, (byte)velocity));
+	/**
+	 * @author Josh
+	 * @param instrument - midi number (1-128)
+	 * @param pitch
+	 * @param velocity
+	 * @param duration - Length to play in millseconds
+	 * @param stop - should the instrument stop making noise after the duration has ended?
+	 * @throws InvalidMidiDataException
+	 * @throws InterruptedException
+	 * @version 2.0.1
+	 * 
+	 * Method that plays an instrument for some amount of time.
+	 * If stop is true then this note is stopped after the duration is finished.
+	 * Note: If the duration is zero and stop is false then this basically means 'play and immediately move on'.
+	 * This allows for production of chords (multiple notes at the same time).
+	 * 
+	 */
+	private void playInstrument(int instrument, int pitch, int velocity, int duration, boolean stop) throws InvalidMidiDataException, InterruptedException{
+		player.sendCommand(createMessage((byte)0, (byte)(instrument-1))); // send the program change message.
+		player.sendCommand(createMessage((byte)0,(byte)pitch, (byte)velocity)); // send the note on message.
 		Thread.sleep(duration);
 		if(stop){player.stopSound();}
 	}
-	void playPercussion(int percussion, int velocity, int duration, boolean stop ) throws InvalidMidiDataException, InterruptedException{
-		player.sendCommand(createMessage((byte)9,(byte)percussion,(byte)velocity));
+	
+	/**
+	 * @author Josh
+	 * @param percussion
+	 * @param velocity
+	 * @param duration
+	 * @param stop
+	 * @throws InvalidMidiDataException
+	 * @throws InterruptedException
+	 * @version 2.0.0
+	 * 
+	 * Same as playInstrument, except with percussion.
+	 */
+	private void playPercussion(int percussion, int velocity, int duration, boolean stop ) throws InvalidMidiDataException, InterruptedException{
+		player.sendCommand(createMessage((byte)9,(byte)percussion,(byte)velocity)); // program change message is unnecessary, only note on message is needed
 		Thread.sleep(duration);
 		if(stop){player.stopSound();}
 	}
 	
 	public static void main(String[] args) throws InvalidMidiDataException, InterruptedException {
 		MIDISoundSystem player = new MIDISoundSystem();
-		AudioFeedbackSystem afs = new AudioFeedbackSystem(player);
-		afs.welcomeSound();
-		afs.goodbyeSound();
-		
-		afs.happySound();
-		
-		afs.sadSound();
-		
-		
-		System.out.println("done");
+		MatrixModel model = new MatrixModel(16,16);
+		AudioFeedbackSystem afs = new AudioFeedbackSystem(player, model);
+		afs.play(Sound.HAPPY);
+		for (int i = 0; i < 6; i ++) {
+			System.out.println(i % 2 == 0 ? "Printing" : "whilst playing");
+			Thread.sleep(200);
+		}
 	}
-	
 }

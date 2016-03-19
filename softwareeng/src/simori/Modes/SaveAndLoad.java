@@ -112,6 +112,7 @@ public class SaveAndLoad {
 				if (text.length() == 0) return true;
 				text += SONG_EXTENSION;   //add the .song extension
 				SaveAndLoad.save(controller.getModel(), text);
+				controller.happySound();
 				return true;
 			}
 		};
@@ -119,7 +120,7 @@ public class SaveAndLoad {
 	
 	/**
 	 * This implementation of the Changer interface allows a user to input
-	 * unix and windows compatible symbols and letters in order to produce
+	 * Unix and Windows compatible symbols and letters in order to produce
 	 * a filename to load a simori configuration from.
 	 * 
 	 * @author James
@@ -135,8 +136,10 @@ public class SaveAndLoad {
 				if (text.length() == 0) return true;
 				text += SONG_EXTENSION;
 				if (SaveAndLoad.load(controller.getModel(), text)) {
+					controller.happySound();
 					return true;
 				} else {
+					controller.sadSound();
 					if (controller.getGui().getText().equals(SONG_NOT_FOUND)) {
 						return true;
 					} else {
