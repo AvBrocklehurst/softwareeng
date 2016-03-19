@@ -85,7 +85,9 @@ public class MasterSlaveMode extends Mode implements ScanProgressListener {
 		case OK :
 			master.setIpScanListener(null);
 			super.onFunctionButtonPress(e);
-		default: // Ignore all other function buttons
+			break;
+		default:
+			getController().sadSound();
 			break;
 		}
 	}

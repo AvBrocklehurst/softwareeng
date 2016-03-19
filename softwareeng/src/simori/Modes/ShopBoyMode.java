@@ -46,6 +46,7 @@ public class ShopBoyMode extends Mode implements Observer {
 			super.onFunctionButtonPress(e);  //return to Performance Mode as normal
 		
 		default:
+			getController().sadSound();
 			break; //ignore all other function buttons
 		}
 	}
