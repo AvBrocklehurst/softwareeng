@@ -120,6 +120,7 @@ public class MatrixModel extends Observable implements Serializable, PowerToggla
 	}
 	
 	public void setPlaying(){
+		System.out.println("changing play");
 		this.playing = !this.playing;
 		setChanged(); //change the state of observable to changed.
 	    notifyObservers(); //notify all observers.

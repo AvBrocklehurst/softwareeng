@@ -30,6 +30,7 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 		private Object lock;
 		public Object bpmLock;
 		private Clock clock;
+		private boolean audibal;
 		
 		/**
 		 * Constructor for the class
@@ -48,6 +49,7 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 			lock = new Object();
 			bpmLock = new Object();
 			clock = new Clock(findMaxProcessingTime(), running, model, bpmLock, lock);
+			this.audibal = true;
 		}
 
 		/**
@@ -81,7 +83,7 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 				//send a play request to the MIDIPlayer
 				try{
 					if(played) {midi.stopPlay(); played = false;}
-					if(toBePlayed.length!=0) {midi.play(toBePlayed); played = true;}
+					if(toBePlayed.length!=0 && audibal) {midi.play(toBePlayed); played = true;}
 					else played = false;
 				//if MIDIPlayer throws an error, print it out and stop the JVM
 				}catch(InvalidMidiDataException e){e.printStackTrace();System.exit(1);}
@@ -291,13 +293,17 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 		@Override
 		public void update(Observable a, Object b) {
 			clock.updateBPM(model.getBPM());	
+			System.out.println(model.getPlaying());
 			if(model.getPlaying() == false){
 				try {
 					midi.stopPlay();
+					this.audibal = false;
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+			} else {
+				this.audibal = true;
 			}
 		}
 }
