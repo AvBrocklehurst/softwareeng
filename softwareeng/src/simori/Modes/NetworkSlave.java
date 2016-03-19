@@ -59,14 +59,20 @@ public class NetworkSlave implements Runnable, PowerTogglable{
 			
 		}
 	}
-
+	
+	/** {@inheritDoc} */
+	@Override
+	public void ready() {}
+	
+	/** {@inheritDoc} */
 	@Override
 	public void switchOn() {
 		new Thread(this).start();
 	}
-
+	
+	/** {@inheritDoc} */
 	@Override
-	public void switchOff() {
+	public void stop() {
 		try {
 			if (serverSocket != null) serverSocket.close();
 		} catch (IOException e) {
@@ -74,6 +80,10 @@ public class NetworkSlave implements Runnable, PowerTogglable{
 		}
 		Thread.currentThread().interrupt();
 	}
+
+	/** {@inheritDoc} */
+	@Override
+	public void switchOff() {}
 	
 
 	/**

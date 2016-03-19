@@ -152,8 +152,20 @@ public class SimoriJFrame extends JFrame implements SimoriGui, MouseMotionListen
 	
 	/** {@inheritDoc} */
 	@Override
+	public void ready() {
+		simoriPanel.ready();
+	}
+	
+	/** {@inheritDoc} */
+	@Override
 	public void switchOn() {
 		simoriPanel.switchOn();
+	}
+	
+	/** {@inheritDoc} */
+	@Override
+	public void stop() {
+		simoriPanel.stop();
 	}
 	
 	/** {@inheritDoc} */

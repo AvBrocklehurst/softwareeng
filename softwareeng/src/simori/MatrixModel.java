@@ -27,8 +27,8 @@ public class MatrixModel extends Observable implements Serializable, PowerToggla
 	
 	
 	/**
-	 * Constctuctor that takes no arguments.
-	 * It initalizes the Layer list and creates the first one.
+	 * Constructor that takes no arguments.
+	 * Initialises the Layer list and creates the first one.
 	 * @author  Adam
 	 * @version 1.0.1
 	 */
@@ -271,14 +271,23 @@ public class MatrixModel extends Observable implements Serializable, PowerToggla
 		this.loopPoint = temp.loopPoint;		
 		this.currentColumn = 0;
 	}
+	
+	/** {@inheritDoc} */
+	@Override
+	public void ready() {}
 
+	/** {@inheritDoc} */
 	@Override
 	public void switchOn() {
 		this.layers = new Layer[16]; //make layers 16 long to hold all 16 layers
-
 		this.layers[0] = new Layer(width, height); //instatiate the first layer
 	}
+	
+	/** {@inheritDoc} */
+	@Override
+	public void stop() {}
 
+	/** {@inheritDoc} */
 	@Override
 	public void switchOff() {
 		layers = null;
@@ -286,5 +295,4 @@ public class MatrixModel extends Observable implements Serializable, PowerToggla
 		loopPoint = 15;
 		currentColumn = 0;
 	}
-
 }
