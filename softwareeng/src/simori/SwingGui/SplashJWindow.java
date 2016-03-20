@@ -1,6 +1,7 @@
 package simori.SwingGui;
 
 import java.awt.Point;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -19,7 +20,7 @@ import simori.SimoriGui.SplashScreen;
  * Features a static image with an indeterminate progress bar.
  * The splash can optionally be moved by clicking and dragging.
  * @author Matt
- * @version 2.0.0
+ * @version 2.0.2
  */
 public class SplashJWindow extends JWindow implements SplashScreen {
 	
@@ -74,10 +75,17 @@ public class SplashJWindow extends JWindow implements SplashScreen {
 	}
 	
 	/**
-	 * Disposes of splash screen and shows GUI instead
+	 * Disposes of splash screen and shows GUI instead.
+	 * If the GUI is a Java Swing Window, its location
+	 * is set relative to the splash screen, so that it
+	 * opens roughly where the splash was dragged to.
 	 * @param gui to display after this splash screen
 	 */
 	private void swap(SimoriGui gui) {
+		if (gui instanceof Window) { // Is gui a Swing implementation?
+			// If so, it can easily be made to open in the same location
+			((Window) gui).setLocationRelativeTo(this);
+		}
 		gui.setVisible(true);
 		setVisible(false);
 		dispose();

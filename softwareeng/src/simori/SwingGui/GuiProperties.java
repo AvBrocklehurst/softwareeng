@@ -65,6 +65,9 @@ public class GuiProperties {
 	/** Smallest ratio by which {@link SplashJWindow} image may be resized */
 	public static final float SPLASH_MIN_RESIZE = 0.2f;
 	
+	/** Proportion of backup {@link SplashImage} box to fill with text */
+	public static final float SPLASH_TEXT_PROPORTION = 0.8f;
+	
 	/**
 	 * Colour to fill the window (behind the rounded rectangle outline).
 	 * @see SimoriJFrame
@@ -122,6 +125,15 @@ public class GuiProperties {
 	/** Colour to draw the text of the {@link Lcd} */
 	public static final Color LCD_TEXT = Color.BLACK;
 	
+	/** Colour to draw backup {@link SplashImage} text */
+	public static final Color SPLASH_BACKUP = Color.WHITE;
+	
+	/** Centre colour for backup {@link SplashImage} radial gradient */
+	public static final Color SPLASH_BACKUP_CENTRE = Color.GRAY;
+	
+	/** Outer colour for backup {@link SplashImage} radial gradient */
+	public static final Color SPLASH_BACKUP_EDGE = Color.BLACK;
+	
 	/**
 	 * Standard cursor for the Simori-ON application
 	 * @see LedPanel
@@ -134,6 +146,9 @@ public class GuiProperties {
 	
 	/** Cursor to indicate that the {@link SimoriJFrame} can be dragged */
 	public static final Cursor MOVE_CURSOR = new Cursor(Cursor.MOVE_CURSOR);
+	
+	/** Text to display on backup {@link SplashImage} */
+	public static final String SPLASH_BACKUP_TEXT = "Simori-ON by Team H";
 	
 	/** Name of the image resource to display on the {@link SplashJWindow} */
 	public static final String SPLASH_IMAGE = "Silicon Splash.png";
