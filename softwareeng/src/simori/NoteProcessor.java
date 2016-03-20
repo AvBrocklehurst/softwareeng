@@ -1,12 +1,12 @@
 package simori;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
 import javax.sound.midi.InvalidMidiDataException;
+
 import simori.Simori.PowerTogglable;
 import simori.Exceptions.SimoriNonFatalException;
 
@@ -30,7 +30,7 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 		private Object lock;
 		public Object bpmLock;
 		private Clock clock;
-		private boolean audibal;
+		private boolean audible;
 		
 		/**
 		 * Constructor for the class
@@ -49,7 +49,7 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 			lock = new Object();
 			bpmLock = new Object();
 			clock = new Clock(findMaxProcessingTime(), running, model, bpmLock, lock);
-			this.audibal = true;
+			this.audible = true;
 		}
 
 		/**
@@ -83,7 +83,7 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 				//send a play request to the MIDIPlayer
 				try{
 					if(played) {midi.stopPlay(); played = false;}
-					if(toBePlayed.length!=0 && audibal) {midi.play(toBePlayed); played = true;}
+					if(toBePlayed.length!=0 && audible) {midi.play(toBePlayed); played = true;}
 					else played = false;
 				//if MIDIPlayer throws an error, print it out and stop the JVM
 				}catch(InvalidMidiDataException e){e.printStackTrace();System.exit(1);}
@@ -297,13 +297,13 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 			if(model.getPlaying() == false){
 				try {
 					midi.stopPlay();
-					this.audibal = false;
+					this.audible = false;
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			} else {
-				this.audibal = true;
+				this.audible = true;
 			}
 		}
 }
