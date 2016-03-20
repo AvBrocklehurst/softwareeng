@@ -5,6 +5,7 @@ import java.io.IOException;
 import simori.Exceptions.SimoriNonFatalException;
 import simori.Modes.QwertyKeyboard;
 import simori.SwingGui.SimoriJFrame;
+import simori.SwingGui.SplashScreen;
 
 /**
  * The main Simori class, runs the the whole Simori system.

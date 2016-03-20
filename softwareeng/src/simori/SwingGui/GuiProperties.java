@@ -49,6 +49,19 @@ public class GuiProperties {
 	/** Number of times longer the {@link Lcd} is in its long dimension */
 	public static final float LCD_EDGE_RATIO = 5f;
 	
+	/** Splash image long side may only be this many times screen long side */
+	public static final float SPLASH_MAX_PROPORTION =
+			(float) Math.pow(GuiProperties.SCREEN_PROPORTION, 2);
+	
+	/** Splash image long side must be this many times screen short side */
+	public static final float SPLASH_MIN_PROPORTION = 0.3f;
+	
+	/** Greatest ratio by which {@link SplashScreen} image may be resized */
+	public static final float SPLASH_MAX_RESIZE = 5f;
+	
+	/** Smallest ratio by which {@link SplashScreen} image may be resized */
+	public static final float SPLASH_MIN_RESIZE = 0.2f;
+	
 	/**
 	 * Colour to fill the window (behind the rounded rectangle outline).
 	 * @see SimoriJFrame
@@ -60,6 +73,9 @@ public class GuiProperties {
 	
 	/** Colour to fill the square background area of the {@link LedPanel} */
 	public static final Color LED_PANEL_BACKGROUND = Color.WHITE;
+	
+	/** Colour to fill the background of the {@link SplashScreen} */
+	public static final Color SPLASH_BACKGROUND = WINDOW_BACKGROUND;
 	
 	/** Colour to draw the circular border of an {@link Led} */
 	public static final Color LED_BORDER = Color.BLACK;
@@ -107,7 +123,8 @@ public class GuiProperties {
 	 * Standard cursor for the Simori-ON application
 	 * @see LedPanel
 	 */
-	public static final Cursor NORMAL_CURSOR = new Cursor(Cursor.DEFAULT_CURSOR);
+	public static final Cursor NORMAL_CURSOR =
+										new Cursor(Cursor.DEFAULT_CURSOR);
 	
 	/** Cursor to indicate that a {@link PressableCircle} can be clicked */
 	public static final Cursor HAND_CURSOR = new Cursor(Cursor.HAND_CURSOR);
@@ -115,6 +132,9 @@ public class GuiProperties {
 	/** Cursor to indicate that the {@link SimoriJFrame} can be dragged */
 	public static final Cursor MOVE_CURSOR = new Cursor(Cursor.MOVE_CURSOR);
 	
+	/** Name of the image resource to display on the {@link SplashScreen} */
+	public static final String SPLASH_IMAGE = "Silicon Splash.png";
+
 	/**
 	 * Name of the image file to use as the icon for the window.
 	 * @see SimoriJFrame

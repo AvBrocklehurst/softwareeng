@@ -3,7 +3,6 @@ package simori;
 import java.util.EventObject;
 
 import simori.Simori.PowerTogglable;
-import simori.Exceptions.SimoriNonFatalException;
 
 /**
  * Interface setting out the constraints that any implementation
