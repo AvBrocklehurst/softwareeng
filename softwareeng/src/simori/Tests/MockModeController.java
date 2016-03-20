@@ -1,9 +1,9 @@
 package simori.Tests;
 
+import simori.AudioFeedbackSystem;
 import simori.MatrixModel;
 import simori.SimoriGui;
 import simori.Modes.Mode;
-import simori.Modes.NetworkMaster;
 
 import simori.ModeController;
 
@@ -12,13 +12,14 @@ import simori.ModeController;
  * getters and setters required in testing.
  *
  * @author James
- * @version 1.0.0
+ * @author Jurek
+ * @version 1.0.1
  * @see Modecontroller.java, TestModeController 
  */
 public class MockModeController extends ModeController{
 	
-	public MockModeController(SimoriGui gui, MatrixModel model, int port, NetworkMaster master) {
-		super(gui, model, port);
+	public MockModeController(SimoriGui gui, MatrixModel model, AudioFeedbackSystem audio, int port) {
+		super(gui, model, audio, port);
 	}
 	
 	public Mode getMode(){

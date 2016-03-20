@@ -14,7 +14,6 @@ import simori.SimoriGui.FunctionButtonEvent;
 import simori.SimoriGui.FunctionButtonListener;
 import simori.SimoriGui.GridButtonEvent;
 import simori.SimoriGui.GridButtonListener;
-import simori.Exceptions.InvalidCoordinatesException;
 import simori.Exceptions.SimoriNonFatalException;
 import simori.SwingGui.Button;
 import simori.SwingGui.OnPressListenerMaker;
@@ -24,7 +23,8 @@ import simori.SwingGui.PressableCircle;
 /**
  * Tests {@link OnPressListenerMaker} to 100% coverage.
  * @author Matt
- * @version 1.0.1
+ * @author Jurek
+ * @version 1.0.2
  */
 public class TestOnPressListenerMaker {
 	
@@ -71,13 +71,13 @@ public class TestOnPressListenerMaker {
 	 * pressed are recorded in {@link #pressX} and {@link #pressY}.
 	 * If the x coordinate is less than zero, an exception is thrown,
 	 * simulating the effect of trying to update a non-existent LED.
+	 * TODO have a second look and stuff
 	 */
 	private GridButtonListener getRecordGbListener() {
 		return new GridButtonListener() {
 			@Override
-			public void onGridButtonPress(GridButtonEvent e)
-					throws InvalidCoordinatesException {
-				if (e.getX() < 0) throw new InvalidCoordinatesException();
+			public void onGridButtonPress(GridButtonEvent e) {
+				//if (e.getX() < 0) throw new SimoriNonFatalException();
 				pressX = e.getX();
 				pressY = e.getY();
 			}

@@ -7,6 +7,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import simori.AudioFeedbackSystem;
+import simori.MIDISoundSystem;
 import simori.MatrixModel;
 import simori.ModeController;
 import simori.Exceptions.SimoriNonFatalException;
@@ -15,29 +17,40 @@ import simori.Modes.QwertyKeyboard;
 import simori.Modes.ShopBoyMode;
 import simori.Tests.GuiTests.MockSimoriJFrame;
 
+/**
+ * 
+ * @author Jurek
+ *
+ */
 public class TestShopBoyMode {
 
 	private MockSimoriJFrame gui;
 	private MatrixModel model;
 	private ModeController mode;
 	private ShopBoyMode sbmode;
+	private MIDISoundSystem midi;
+	private AudioFeedbackSystem audio;
 	
 	@Before
 	public void setUp() throws SimoriNonFatalException {
 		gui = new MockSimoriJFrame(new QwertyKeyboard((byte)16, (byte)16));
 		model = new MatrixModel(16, 16);
-		mode = new ModeController(gui, model, 20160);
+		midi = new MIDISoundSystem();
+		audio = new AudioFeedbackSystem(midi, model);
+		mode = new ModeController(gui, model, audio, 20160);
 		mode.setComponentsToPowerToggle(model, gui);
 		sbmode = new ShopBoyMode(mode);
-		mode.setOn(true);
+		mode.setOn(true, false); //TODO
 	}
 	
 	@After
 	public void tearDown() {
-		mode.setOn(false);
+		mode.setOn(false, false);
 		gui = null;
 		model = null;
-		mode = new ModeController(gui, model, 20160);
+		mode = null;
+		audio = null;
+		midi = null;
 	}
 	
 	@Test
@@ -51,6 +64,6 @@ public class TestShopBoyMode {
 		}
 	}
 	
-	
+	//TODO finish
 	
 }

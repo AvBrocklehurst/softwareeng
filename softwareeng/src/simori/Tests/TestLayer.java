@@ -6,10 +6,11 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import simori.Exceptions.InvalidCoordinatesException;
+import simori.Exceptions.SimoriNonFatalException;
 import simori.Layer;
 /**
  * @author Adam
+ * @author Jurek
  */
 public class TestLayer {
 	Layer testlayer;
@@ -42,13 +43,13 @@ public class TestLayer {
 		assertEquals(8, testlayer.getChannel());
 	}
 	
-	@Test (expected=InvalidCoordinatesException.class)
-	public void buttonInvalidCoordsTest() throws InvalidCoordinatesException {
+	@Test (expected=SimoriNonFatalException.class)
+	public void buttonInvalidCoordsTest() throws SimoriNonFatalException {
 		testlayer.updateButton((byte)-1, (byte)0);
 	}
 	
 	@Test
-	public void testCol() throws InvalidCoordinatesException{
+	public void testCol() throws SimoriNonFatalException{
 		testlayer.updateButton((byte)0, (byte)0);
 		testlayer.updateButton((byte)0, (byte)2);
 		testlayer.updateButton((byte)0, (byte)4);
@@ -68,7 +69,7 @@ public class TestLayer {
 	}
 	
 	@Test
-	public void testGrid() throws InvalidCoordinatesException{
+	public void testGrid() throws SimoriNonFatalException{
 		testlayer.updateButton((byte)0, (byte)0);
 		testlayer.updateButton((byte)2, (byte)2);
 		testlayer.updateButton((byte)4, (byte)4);

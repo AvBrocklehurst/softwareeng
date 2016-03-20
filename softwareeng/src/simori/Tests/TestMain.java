@@ -18,6 +18,7 @@ import simori.Exceptions.SimoriNonFatalException;
  * Tests the main method and consequently Simori's constructor.
  * @author Matt
  * @author James
+ * @author Jurek
  * @version 2.0.0
  * @see Simori
  */
@@ -51,9 +52,10 @@ public class TestMain {
 	/**
 	 * Runs the main method to check for exceptions.
 	 * Makes the code coverage report look better.
+	 * @throws SimoriNonFatalException 
 	 */
 	@Test
-	public void testMainMethod() throws MidiUnavailableException {
+	public void testMainMethod() throws MidiUnavailableException, SimoriNonFatalException {
 		Simori.main(null);
 	}
 }

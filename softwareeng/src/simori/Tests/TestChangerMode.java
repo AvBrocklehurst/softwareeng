@@ -11,12 +11,13 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import simori.AudioFeedbackSystem;
 import simori.FunctionButton;
+import simori.MIDISoundSystem;
 import simori.MatrixModel;
 import simori.ModeController;
 import simori.SimoriGui.FunctionButtonEvent;
 import simori.SimoriGui.GridButtonEvent;
-import simori.Exceptions.InvalidCoordinatesException;
 import simori.Exceptions.SimoriNonFatalException;
 import simori.Modes.ChangerMode;
 import simori.Modes.ChangerMode.Changer;
@@ -34,7 +35,8 @@ import simori.SwingGui.SimoriJFrame;
  * test accurately.
  * 
  * @author James
- * @version 1.0.0
+ * @author Jurek
+ * @version 1.0.1
  * @see ChangerMode.java
  *
  */
@@ -50,6 +52,8 @@ public class TestChangerMode {
 	private FunctionButtonEvent fbevent;
 	private FunctionButton fb;
 	private GridButtonEvent gbevent;
+	private AudioFeedbackSystem testaudio;
+	private MIDISoundSystem testmidi;
 	
 	private Changer testChanger(){
 		return new Changer(){
@@ -81,7 +85,9 @@ public class TestChangerMode {
 		keyboard = new QwertyKeyboard((byte)16,(byte)16);
 		testgui = new SimoriJFrame(keyboard);
 		testmodel = new MatrixModel(16, 16);
-		testcontroller = new ModeController(testgui, testmodel, 0);
+		testmidi = new MIDISoundSystem();
+		testaudio = new AudioFeedbackSystem(testmidi, testmodel);
+		testcontroller = new ModeController(testgui, testmodel, testaudio, 0);
 		testslave = new NetworkSlave(0, testcontroller);
 		testmaster = new NetworkMaster(0, testcontroller, testslave);
 		testcmode = new ChangerMode(testcontroller, testChanger(), true, true);
@@ -104,6 +110,8 @@ public class TestChangerMode {
 		fb = null;
 		fbevent = null;
 		gbevent = null;
+		testaudio = null;
+		testmidi = null;
 	}
 	
 	/**onFunctionButtonPress is tested in Mode, and ChangerMode simply calls super to Mode. Therefore there is little
@@ -115,7 +123,7 @@ public class TestChangerMode {
 	}
 	
 	@Test
-	public void test_onGridButtonPress() throws InvalidCoordinatesException{
+	public void test_onGridButtonPress() {
 		testcmode.onGridButtonPress(gbevent);    //coverage call
 		Setting s = new Setting((byte)gbevent.getX(), (byte)gbevent.getY());  //replicate method functionality
 		String t = testChanger().getText(s);

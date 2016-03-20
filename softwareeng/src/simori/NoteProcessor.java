@@ -41,7 +41,7 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 		 * @param bbm Beats Per Minute; used to calculate the period
 		 * @throws SimoriNonFatalException 
 		 */
-		public NoteProcessor(ModeController modes, MatrixModel model, MIDISoundSystem player) throws SimoriNonFatalException{
+		public NoteProcessor(ModeController modes, MatrixModel model, MIDISoundSystem player) {
 			running = true;
 			this.mode = modes;
 			this.model = model;
@@ -110,7 +110,7 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 		 * @return long returns the maximum processing time in milliseconds, rounded up
 		 * @throws SimoriNonFatalException 
 		 */
-		private long findMaxProcessingTime() throws SimoriNonFatalException {
+		private long findMaxProcessingTime() {
 			
 			//create a mock model
 			MatrixModel actualModel = model;
@@ -120,13 +120,13 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 			//populate a single column on each layer of the mock model
 			for(byte z=0;z<16;z++){
 				for(byte y=0;z<16;z++){
-					model.updateButton(z, (byte)0, y);
+					try{model.updateButton(z, (byte)0, y);}catch(SimoriNonFatalException e){}
 				}
 			}
 			
 			//play the mock object to determine max delay
 			long time = System.currentTimeMillis();
-			getNotes();
+			try{getNotes();}catch(Exception e){e.printStackTrace();System.exit(1);} //exception should never be reached
 			long endTime = System.currentTimeMillis();
 			long maxTime = endTime - time;
 			maxTime = (long) (Math.ceil(maxTime/10)*10);

@@ -15,11 +15,11 @@ import simori.MatrixModel;
 import simori.ModeController;
 import simori.SimoriGui.FunctionButtonEvent;
 import simori.SimoriGui.GridButtonEvent;
-import simori.Exceptions.InvalidCoordinatesException;
+//import simori.Exceptions.InvalidCoordinatesException;
 import simori.Exceptions.SimoriNonFatalException;
 import simori.Modes.NetworkMaster;
 import simori.Modes.NetworkSlave;
-import simori.Modes.OffMode;
+//import simori.Modes.OffMode;
 import simori.Modes.QwertyKeyboard;
 import simori.SwingGui.SimoriJFrame;
 
@@ -27,8 +27,12 @@ import simori.SwingGui.SimoriJFrame;
  * A class to test OffMode.
  * 
  * @author James
- * @version 1.0.0
+ * @author Jurek
+ * @version 1.0.1B
  * @see OffMode.java
+ * @deprecated since OffMode no longer exists
+ * 			   as such all errors are commented out
+ * 			   instead of being fixed
  *
  */
 public class TestOffMode {
@@ -38,7 +42,7 @@ public class TestOffMode {
 	private FunctionButtonEvent fbevent;
 	private SimoriJFrame testgui;
 	private QwertyKeyboard keyboard;
-	private OffMode testoffmode;
+//	private OffMode testoffmode;
 	private ModeController mockcontroller;
 	private MatrixModel testmodel;
 	private NetworkMaster testmaster;
@@ -57,8 +61,8 @@ public class TestOffMode {
 		testmodel = new MatrixModel(16,16);
 		testslave = new NetworkSlave(0, mockcontroller);
 		testmaster = new NetworkMaster(0, mockcontroller, testslave);
-		mockcontroller = new MockModeController(testgui, testmodel, 0, testmaster);
-		testoffmode = new OffMode(mockcontroller);
+//		mockcontroller = new MockModeController(testgui, testmodel, 0, testmaster);
+//		testoffmode = new OffMode(mockcontroller);
 	}
 	
 	@After
@@ -74,19 +78,19 @@ public class TestOffMode {
 		testslave = null;
 		testmaster = null;
 		mockcontroller = null;
-		testoffmode = null;
+//		testoffmode = null;
 	}
 	
 	
 	
-	@Test
-	public void call_onGridButtonPress() throws InvalidCoordinatesException{
-		testoffmode.onGridButtonPress(gb);   //method does nothing, coverage call
-	}
+//	@Test
+//	public void call_onGridButtonPress() throws InvalidCoordinatesException{
+//		testoffmode.onGridButtonPress(gb);   //method does nothing, coverage call
+//	}
 	
 	@Test
 	public void test_onFunctionButtonPress(){
-		testoffmode.onFunctionButtonPress(fbevent);
+//		testoffmode.onFunctionButtonPress(fbevent);
 		assertEquals("The simori was not changed!", true, mockcontroller.isOn());
 	}
 }

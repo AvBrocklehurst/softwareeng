@@ -9,10 +9,11 @@ import org.junit.Before;
 import org.junit.Test;
 
 import simori.MatrixModel;
-import simori.Exceptions.InvalidCoordinatesException;
+import simori.Exceptions.SimoriNonFatalException;
 /**
  * 
  * @author Adam
+ * @author Jurek
  *
  */
 public class TestMatrixModel {
@@ -53,7 +54,7 @@ public class TestMatrixModel {
 	}
 	
 	@Test
-	public void testUpdateButton() throws InvalidCoordinatesException{
+	public void testUpdateButton() throws SimoriNonFatalException{
 		model.updateButton((byte) 0, (byte)0, (byte)0);
 		assertEquals(true, model.getCol((byte)0)[0]);
 	}
@@ -89,7 +90,7 @@ public class TestMatrixModel {
 	}
 	
 	@Test
-	public void testGrid() throws InvalidCoordinatesException{
+	public void testGrid() throws SimoriNonFatalException{
 		model.updateButton((byte) 0,(byte)0, (byte)0);
 		model.updateButton((byte) 0,(byte)2, (byte)2);
 		model.updateButton((byte) 0,(byte)4, (byte)4);

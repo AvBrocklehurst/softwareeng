@@ -3,12 +3,11 @@ package simori.Tests;
 import static org.junit.Assert.*;
 import org.junit.*;
 
-import simori.FunctionButton;
+import simori.AudioFeedbackSystem;
+import simori.MIDISoundSystem;
 import simori.MatrixModel;
 import simori.ModeController;
-import simori.SimoriGui.FunctionButtonEvent;
 import simori.SimoriGui.GridButtonEvent;
-import simori.Exceptions.InvalidCoordinatesException;
 import simori.Exceptions.SimoriNonFatalException;
 import simori.Modes.MasterSlaveMode;
 import simori.Modes.QwertyKeyboard;
@@ -25,23 +24,29 @@ public class TestMasterSlaveMode {
 	private MatrixModel model;
 	private ModeController mode;
 	private MasterSlaveMode msmode;
+	private AudioFeedbackSystem audio;
+	private MIDISoundSystem midi;
 	
 	@Before
 	public void setUp() throws SimoriNonFatalException {
 		gui = new MockSimoriJFrame(new QwertyKeyboard((byte)16, (byte)16));
 		model = new MatrixModel(16, 16);
-		mode = new ModeController(gui, model, 20160);
+		midi = new MIDISoundSystem();
+		audio = new AudioFeedbackSystem(midi, model);
+		mode = new ModeController(gui, model, audio, 20160);
 		mode.setComponentsToPowerToggle(model, gui);
 		msmode = new MasterSlaveMode(mode);
-		mode.setOn(true);
+		mode.setOn(true, false);
 	}
 	
 	@After
 	public void tearDown() {
-		mode.setOn(false);
+		mode.setOn(false, false);
 		gui = null;
 		model = null;
-		mode = new ModeController(gui, model, 20160);
+		mode = null;
+		audio = null;
+		midi = null;
 	}
 	
 	@Test
@@ -76,15 +81,14 @@ public class TestMasterSlaveMode {
 	}
 	
 	/**
-	 * Empty test clause that ensures the exception
-	 * doesn't get thrown
+	 * Empty test clause that ensures no exception is thrown
 	 * @author Jurek
 	 */
 	@Test
 	public void testOnGridButtonPress() {
 		try {
 			msmode.onGridButtonPress(new GridButtonEvent(gui, 0, 0));
-		} catch (InvalidCoordinatesException e) {
+		} catch (Exception e) {
 			fail();
 		}
 	}

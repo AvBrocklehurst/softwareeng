@@ -31,7 +31,8 @@ import simori.SwingGui.SimoriPanel;
 /**
  * Uses mock versions of subcomponents to expose them for testing.
  * @author Matt
- * @version 3.0.0
+ * @author Jurek
+ * @version 3.0.1
  */
 public class MockSimoriJFrame extends SimoriJFrame {
 	
@@ -229,7 +230,8 @@ public class MockSimoriJFrame extends SimoriJFrame {
 	 * class with getters and setters.
 	 * 
 	 * @author James
-	 * @version 1.0.0
+	 * @author Jurek
+	 * @version 1.0.1
 	 * @see Button
 	 *
 	 */
@@ -238,10 +240,6 @@ public class MockSimoriJFrame extends SimoriJFrame {
 		@Override
 		public Color getFillColour(){
 			return super.getFillColour();
-		}
-		
-		public boolean getResized(){
-			return resized;
 		}
 		
 		@Override

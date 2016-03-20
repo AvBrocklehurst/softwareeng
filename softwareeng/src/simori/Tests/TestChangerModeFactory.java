@@ -10,7 +10,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import simori.AudioFeedbackSystem;
 import simori.FunctionButton;
+import simori.MIDISoundSystem;
 import simori.MatrixModel;
 import simori.SimoriGui.FunctionButtonEvent;
 import simori.Exceptions.SimoriNonFatalException;
@@ -25,7 +27,8 @@ import simori.SwingGui.SimoriJFrame;
  * A class to test ChangerModeFactory.
  * 
  * @author James
- * @version 1.0.0
+ * @author Jurek
+ * @version 1.0.1
  * @see ChangerModeFactory.java
  *
  */
@@ -39,6 +42,8 @@ public class TestChangerModeFactory {
 	private NetworkMaster testmaster;
 	private NetworkSlave testslave;
 	private QwertyKeyboard keyboard;
+	private AudioFeedbackSystem testaudio;
+	private MIDISoundSystem testmidi;
 	
 	@Before
 	public void setUp() throws SimoriNonFatalException, IOException{
@@ -47,7 +52,9 @@ public class TestChangerModeFactory {
 		testmodel = new MatrixModel(16, 16);
 		testslave = new NetworkSlave(0, mockcontroller);
 		testmaster = new NetworkMaster(0, mockcontroller, testslave);
-		mockcontroller = new MockModeController(testgui, testmodel, 0, testmaster);
+		testmidi = new MIDISoundSystem();
+		testaudio = new AudioFeedbackSystem(testmidi, testmodel);
+		mockcontroller = new MockModeController(testgui, testmodel, testaudio, 20160);
 		fb = FunctionButton.L1;
 		fbevent = new FunctionButtonEvent(testgui, fb);
 	}
@@ -64,6 +71,8 @@ public class TestChangerModeFactory {
 		mockcontroller = null;
 		fb = null;
 		fbevent = null;
+		testaudio = null;
+		testmidi = null;
 	}
 
 	@Test

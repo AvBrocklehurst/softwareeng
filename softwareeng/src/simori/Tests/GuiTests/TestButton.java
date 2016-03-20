@@ -18,7 +18,8 @@ import simori.Tests.GuiTests.MockSimoriJFrame.MockButton;
  * it is redundant to test some of the methods in this class.
  * 
  * @author James
- * @version 1.0.1
+ * @author Jurek
+ * @version 1.0.2
  * @see Button.java
  *
  */
@@ -42,11 +43,11 @@ public class TestButton {
 		testgui = null;
 	}
 	
-	@Test
-	public void test_resized(){
-		testbutt.resized();
-		assertEquals("Resized was not set to true!", true, testbutt.getResized());
-	}
+//	@Test
+//	public void test_resized(){
+//		testbutt.resized();
+//		assertEquals("Resized was not set to true!", true, testbutt.getResized());
+//	}
 	
 	@Test
 	public void test_set_get_Text(){

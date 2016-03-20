@@ -10,13 +10,14 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import simori.AudioFeedbackSystem;
 import simori.FunctionButton;
+import simori.MIDISoundSystem;
 import simori.MatrixModel;
 import simori.ModeController;
 import simori.SimoriGui;
 import simori.SimoriGui.FunctionButtonEvent;
 import simori.SimoriGui.GridButtonEvent;
-import simori.Exceptions.InvalidCoordinatesException;
 import simori.Exceptions.SimoriNonFatalException;
 import simori.Modes.Mode;
 import simori.Modes.NetworkMaster;
@@ -30,7 +31,8 @@ import simori.SwingGui.SimoriJFrame;
  * Mode for Mode's general functionality.
  * 
  * @author James
- * @version 1.0.0
+ * @author Jurek
+ * @version 1.0.1
  * @see Mode.java
  *
  */
@@ -49,13 +51,16 @@ public class TestMode{
 	private FunctionButtonEvent testfbevent2;
 	private FunctionButton testfb3;
 	private FunctionButtonEvent testfbevent3;
+	private AudioFeedbackSystem testaudio;
+	private MIDISoundSystem testmidi;
 	
 	/**
 	 * An implementation of Mode with method overrides to 
 	 * allow thorough testing of Mode.
 	 * 
 	 * @author James
-	 * @version 1.0.0
+	 * @author Jurek
+	 * @version 1.0.1
 	 * @see Mode
 	 *
 	 */
@@ -66,9 +71,7 @@ public class TestMode{
 		}
 
 		@Override
-		public void onGridButtonPress(GridButtonEvent e)
-				throws InvalidCoordinatesException {
-		}
+		public void onGridButtonPress(GridButtonEvent e) {}
 		
 		@Override 
 		public ModeController getController(){
@@ -104,7 +107,9 @@ public class TestMode{
 		testfbevent2 = new FunctionButtonEvent(testgui, testfb2);
 		testfbevent3 = new FunctionButtonEvent(testgui, testfb3);
 		testmodel = new MatrixModel(16, 16);
-		mockcontroller = new MockModeController(testgui, testmodel, 0, testmaster);
+		testmidi = new MIDISoundSystem();
+		testaudio = new AudioFeedbackSystem(testmidi, testmodel);
+		mockcontroller = new MockModeController(testgui, testmodel, testaudio, 20160);
 		testslave = new NetworkSlave(0, mockcontroller);
 		testmaster = new NetworkMaster(0, mockcontroller, testslave);
 		testermode = new TesterMode(mockcontroller);
@@ -128,6 +133,8 @@ public class TestMode{
 		testermode = null;
 		testmaster.stopRunning();
 		testslave.switchOff();
+		testaudio = null;
+		testmidi = null;
 	}
 	
 	@Test

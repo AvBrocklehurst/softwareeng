@@ -10,6 +10,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import simori.AudioFeedbackSystem;
+import simori.MIDISoundSystem;
 import simori.MatrixModel;
 import simori.ModeController;
 import simori.Exceptions.SimoriNonFatalException;
@@ -24,7 +26,8 @@ import simori.SwingGui.SimoriJFrame;
  * A class to test ModeController.
  * 
  * @author James
- * @version 1.0.0
+ * @author Jurek
+ * @version 1.0.1
  * @see ModeController.java
  *
  */
@@ -36,6 +39,8 @@ public class TestModeController{
 	private QwertyKeyboard keyboard;
 	private NetworkSlave testslave;
 	private NetworkMaster testmaster;
+	private AudioFeedbackSystem testaudio;
+	private MIDISoundSystem testmidi;
 	
 	@Before
 	public void setUp() throws SimoriNonFatalException, IOException{
@@ -44,7 +49,9 @@ public class TestModeController{
 		testmodel = new MatrixModel(16, 16);
 		testslave = new NetworkSlave(0, mockcontroller);
 		testmaster = new NetworkMaster(0, mockcontroller, testslave);
-		mockcontroller = new MockModeController(testgui, testmodel, 0, testmaster);
+		testmidi = new MIDISoundSystem();
+		testaudio = new AudioFeedbackSystem(testmidi, testmodel);
+		mockcontroller = new MockModeController(testgui, testmodel, testaudio, 0);
 	}
 	
 	@After
@@ -56,6 +63,8 @@ public class TestModeController{
 		testgui = null;
 		testmodel = null;
 		mockcontroller = null;
+		testaudio = null;
+		testmidi = null;
 	}
 	
 	@Test 
@@ -94,13 +103,13 @@ public class TestModeController{
 	@Test
 	public void test_setOnFalse(){
 		mockcontroller.setComponentsToPowerToggle(testmodel); //need a component to toggle
-		mockcontroller.setOn(false);
+		mockcontroller.setOn(false, false);
 		assertEquals("The simori was not turned off", false, mockcontroller.getOn());
 	}
 	
 	@Test
 	public void test_setOnFalse_noToggles(){
-		mockcontroller.setOn(false);
+		mockcontroller.setOn(false, false);
 		assertEquals("The simori was not turned off", false, mockcontroller.getOn());
 	}
 	
@@ -108,7 +117,7 @@ public class TestModeController{
 	public void test_setOn(){
 		mockcontroller.setComponentsToPowerToggle(testmodel);   
 		mockcontroller.setFalseOn();
-		mockcontroller.setOn(true);
+		mockcontroller.setOn(true, false);
 		assertEquals("The simori was not turned on", true, mockcontroller.getOn());
 	}
 

@@ -8,10 +8,11 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import simori.AudioFeedbackSystem;
+import simori.MIDISoundSystem;
 import simori.MatrixModel;
 import simori.ModeController;
 import simori.SimoriGui.GridButtonEvent;
-import simori.Exceptions.InvalidCoordinatesException;
 import simori.Exceptions.SimoriNonFatalException;
 import simori.Modes.NetworkMaster;
 import simori.Modes.NetworkSlave;
@@ -24,7 +25,8 @@ import simori.SwingGui.SimoriJFrame;
 /**
  * The class for testing Performance Mode - unfinished.
  * @author James
- * @version 1.1.0
+ * @author Jurek
+ * @version 1.1.1
  * @see simori.Modes.PerformanceMode
  *
  */
@@ -37,6 +39,8 @@ public class TestPerformanceMode {
 	private PerformanceMode testpm;
 	private GridButtonEvent testgb;
 	private QwertyKeyboard keyboard;
+	private AudioFeedbackSystem testaudio;
+	private MIDISoundSystem testmidi;
 	
 	
 	@Before
@@ -44,7 +48,9 @@ public class TestPerformanceMode {
 		keyboard = new QwertyKeyboard((byte)16,(byte)16);
 		testmodel = new MatrixModel(16, 16);
 		testgui = new SimoriJFrame(keyboard);
-		mockcontroller = new ModeController(testgui, testmodel, 0);
+		testmidi = new MIDISoundSystem();
+		testaudio = new AudioFeedbackSystem(testmidi, testmodel);
+		mockcontroller = new ModeController(testgui, testmodel, testaudio, 20160);
 		mockcontroller.setMode(new PerformanceMode(mockcontroller));
 		testpm = new PerformanceMode(mockcontroller);
 		testgb = new GridButtonEvent(testgui, 5, 5);
@@ -57,10 +63,12 @@ public class TestPerformanceMode {
 		testgui = null;
 		mockcontroller = null;
 		testpm = null;
+		testaudio = null;
+		testmidi = null;
 	}
 	
 	@Test
-	public void testOnGridButtonPress() throws InvalidCoordinatesException{
+	public void testOnGridButtonPress() {
 		testpm.onGridButtonPress(testgb);
 		boolean changedgridcoords = testpm.getModifiedGrid()[5][5];
 		assertEquals("The grid button was not inverted!", true, changedgridcoords);
@@ -69,7 +77,7 @@ public class TestPerformanceMode {
 	}
 	
 	@Test
-	public void test_onGridButtonPress_false() throws InvalidCoordinatesException{
+	public void test_onGridButtonPress_false() {
 		testpm.onGridButtonPress(testgb); //invert to true
 		testpm.onGridButtonPress(testgb); //invert to false
 		boolean changedgridcoords = testpm.getModifiedGrid()[5][5];
@@ -79,7 +87,7 @@ public class TestPerformanceMode {
 	
 	
 	@Test
-	public void test_tickerLight() throws InvalidCoordinatesException{
+	public void test_tickerLight() throws SimoriNonFatalException {
 		
 		testpm.tickerLight((byte)0); 
 		boolean tickeredgridcoords = testpm.getModifiedGrid()[5][0];

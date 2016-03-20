@@ -11,9 +11,10 @@ import javax.sound.midi.MidiUnavailableException;
 
 import simori.NoteProcessor;
 import simori.SimoriSoundSystem;
+import simori.AudioFeedbackSystem;
+import simori.MIDISoundSystem;
 import simori.MatrixModel;
 import simori.ModeController;
-import simori.Exceptions.InvalidCoordinatesException;
 import simori.Exceptions.SimoriNonFatalException;
 import simori.Modes.QwertyKeyboard;
 import simori.SwingGui.SimoriJFrame;
@@ -34,6 +35,8 @@ public class TestNoteProcessor {
 	private NoteProcessor clock;
 	private Thread thread;
 	private Throwable e;
+	private MIDISoundSystem midisystem;
+	private AudioFeedbackSystem audio;
 	
 	/**
 	 * 
@@ -74,19 +77,21 @@ public class TestNoteProcessor {
 	 * @throws IOException 
 	 */
 	@Before
-	public void setUp() throws MidiUnavailableException, InvalidCoordinatesException, SimoriNonFatalException, IOException {
+	public void setUp() throws MidiUnavailableException, SimoriNonFatalException, IOException {
 		model = new MatrixModel(16, 16);
 		keyboard = new QwertyKeyboard((byte)16, (byte)16);
 		gui = new SimoriJFrame(keyboard);
-		midi = new SimoriSoundSystem();
-		modes = new ModeController(gui, model, 20160);
-		clock = new NoteProcessor(modes, model, midi);
+		midisystem = new MIDISoundSystem();
+		midi = new SimoriSoundSystem(midisystem);
+		audio = new AudioFeedbackSystem(midisystem, model);
+		modes = new ModeController(gui, model, audio, 20160);
+		clock = new NoteProcessor(modes, model, midisystem);
 		model.addObserver(clock);
-		modes.setComponentsToPowerToggle(model, midi, gui, clock);
-		modes.setOn(false);
+		modes.setComponentsToPowerToggle(model, midisystem, gui, clock);
+		modes.setOn(false, false);
 		e = null;
         System.setSecurityManager(new NoExitSecurityManager());
-		modes.setOn(true);
+		modes.setOn(true, false);
 	}
 	
 	/**
@@ -94,7 +99,7 @@ public class TestNoteProcessor {
 	 */
 	@After
 	public void tearDown() {
-		modes.setOn(false);
+		modes.setOn(false, false);
 		model = null;
 		keyboard = null;
 		gui = null;
@@ -108,11 +113,12 @@ public class TestNoteProcessor {
 	
 	/**
 	 * @author Jurek
+	 * @throws SimoriNonFatalException 
 	 */
-	private void setUpThread(ModeController modes, MatrixModel model, SimoriSoundSystem midi) {
+	private void setUpThread(ModeController modes, MatrixModel model, MIDISoundSystem midisystem) {
 		clock.switchOff();
 		model.deleteObserver(clock);
-		clock = new NoteProcessor(modes, model, midi);
+		clock = new NoteProcessor(modes, model, midisystem);
 		model.addObserver(clock);
 		model.setBPM((short) 88);
 		
@@ -145,7 +151,7 @@ public class TestNoteProcessor {
 	@Test
 	public void testRun() throws MidiUnavailableException {
 		
-		setUpThread(modes, model, midi);
+		setUpThread(modes, model, midisystem);
 		
 		letRun(2000);
 		
@@ -158,7 +164,7 @@ public class TestNoteProcessor {
 	 */
 	@Test (expected=NullPointerException.class)
 	public void testRunNullModel() throws MidiUnavailableException {
-		setUpThread(modes, null, midi);
+		setUpThread(modes, null, midisystem);
 		letRun(2000);
 	}
 	
@@ -182,7 +188,7 @@ public class TestNoteProcessor {
 	@Test
 	public void testRunNullMode() throws MidiUnavailableException {
 		
-		setUpThread(null, model, midi);
+		setUpThread(null, model, midisystem);
 		
 		letRun(2000);
 
@@ -196,7 +202,7 @@ public class TestNoteProcessor {
 	@Test
 	public void testRunZeroBpm() throws MidiUnavailableException {
 		
-		setUpThread(modes, model, midi);
+		setUpThread(modes, model, midisystem);
 		
 		letRun(1000);
 		model.setBPM((short) 0);
@@ -216,7 +222,7 @@ public class TestNoteProcessor {
 	 */
 	@Test
 	public void testRunLowerBpm() throws MidiUnavailableException {
-		setUpThread(modes, model, midi);
+		setUpThread(modes, model, midisystem);
 		
 		letRun(1000);
 		model.setBPM((short) 1);
@@ -236,7 +242,7 @@ public class TestNoteProcessor {
 	@Test
 	public void testRunRestart() throws MidiUnavailableException {
 		
-		setUpThread(modes, model, midi);
+		setUpThread(modes, model, midisystem);
 		
 		letRun(2000);
 		clock.switchOff();
@@ -249,12 +255,12 @@ public class TestNoteProcessor {
 	/**
 	 * @author Jurek
 	 * @throws MidiUnavailableException
-	 * @throws InvalidCoordinatesException
+	 * @throws SimoriNonFatalException 
 	 */
 	@Test
-	public void testRunPercussion() throws MidiUnavailableException, InvalidCoordinatesException {
+	public void testRunPercussion() throws MidiUnavailableException, SimoriNonFatalException {
 		
-		setUpThread(modes, model, midi);
+		setUpThread(modes, model, midisystem);
 		
 		letRun(1000);
 		model.setInstrument((byte)0, (short)175);
@@ -270,11 +276,11 @@ public class TestNoteProcessor {
 	
 	/**
 	 * @author Jurek
-	 * @throws InvalidCoordinatesException
+	 * @throws SimoriNonFatalException
 	 */
 	@Test
-	public void testRunBoundaryInstrument() throws InvalidCoordinatesException {
-		setUpThread(modes, model, midi);
+	public void testRunBoundaryInstrument() throws SimoriNonFatalException {
+		setUpThread(modes, model, midisystem);
 		
 		letRun(1000);
 		
@@ -295,11 +301,11 @@ public class TestNoteProcessor {
 
 	/**
 	 * @author Jurek
-	 * @throws InvalidCoordinatesException
+	 * @throws SimoriNonFatalException 
 	 */
 	@Test
-	public void testRunBoundaryVelocity() throws InvalidCoordinatesException {
-		setUpThread(modes, model, midi);
+	public void testRunBoundaryVelocity() throws SimoriNonFatalException {
+		setUpThread(modes, model, midisystem);
 		
 		letRun(1000);
 		
@@ -322,11 +328,11 @@ public class TestNoteProcessor {
 
 	/**
 	 * @author Jurek
-	 * @throws InvalidCoordinatesException
+	 * @throws SimoriNonFatalException
 	 */
 	@Test
-	public void testRunBoundaryPitch() throws InvalidCoordinatesException {
-		setUpThread(modes, model, midi);
+	public void testRunBoundaryPitch() throws SimoriNonFatalException {
+		setUpThread(modes, model, midisystem);
 		
 		letRun(1000);
 		
@@ -341,11 +347,11 @@ public class TestNoteProcessor {
 
 	/**
 	 * @author Jurek
-	 * @throws InvalidCoordinatesException
+	 * @throws SimoriNonFatalException 
 	 */
 	@Test
-	public void testRunExtreme() throws InvalidCoordinatesException {
-		setUpThread(modes, model, midi);
+	public void testRunExtreme() throws SimoriNonFatalException {
+		setUpThread(modes, model, midisystem);
 		
 		letRun(1000);
 		
@@ -366,7 +372,7 @@ public class TestNoteProcessor {
 	
 	@Test (expected=IllegalArgumentException.class)
 	public void testRunTempoNegative() throws MidiUnavailableException {
-		setUpThread(modes, model, midi);
+		setUpThread(modes, model, midisystem);
 		letRun(1000);
 		model.setBPM((byte)-1);
 	}

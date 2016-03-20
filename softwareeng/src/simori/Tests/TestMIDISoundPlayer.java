@@ -10,10 +10,12 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import simori.MIDISoundSystem;
 import simori.SimoriSoundSystem;
 
 /**
  * @author Josh
+ * @author Jurek
  * @version 2.0.1
  * {@link simori.SimoriSound}
  * {@link simori.SimoriSoundSystem}
@@ -28,6 +30,7 @@ import simori.SimoriSoundSystem;
  *
  */
 public class TestMIDISoundPlayer {
+	MIDISoundSystem midi;
 	SimoriSoundSystem player; // declare a MIDISoundPlayer.
 	byte[][] array; // declare an array to be used with play(array) tests.
 	
@@ -67,14 +70,16 @@ public class TestMIDISoundPlayer {
 	
 	/**
 	 * @author Josh
-	 * @version 1.0.0
+	 * @author Jurek
+	 * @version 1.0.1
 	 * 
 	 * method is called before after any Junit test.
 	 * @throws MidiUnavailableException 
 	 */
 	@Before
-	public void setupUp() throws MidiUnavailableException{
-		player = new SimoriSoundSystem(); // Instantiate player.
+	public void setUp() throws MidiUnavailableException{
+		midi = new MIDISoundSystem();
+		player = new SimoriSoundSystem(midi); // Instantiate player.
 		// no need to instantiate array as it will need to have different data (and length) depending on test.
 	}
 	
@@ -87,7 +92,8 @@ public class TestMIDISoundPlayer {
 	 */
 	@After
 	public void tearDown(){
-		player.switchOff();
+		midi.switchOff();
+		midi = null;
 		player = null; //remove player.
 		array = null; // remove array.
 		}
@@ -200,7 +206,8 @@ public class TestMIDISoundPlayer {
 	
 	/**
 	 * @author Josh
-	 * @version 1.0.0
+	 * @author Jurek
+	 * @version 1.0.1
 	 * @throws InvalidMidiDataException 
 	 * 
 	 * ArbitarySoundTest
@@ -211,13 +218,14 @@ public class TestMIDISoundPlayer {
 		array = new byte[1][];
 		array[0] = singleNote;
 		player.play(array); 
-		player.switchOff();
+		midi.switchOff();
 		assertNotNull(player); // we do not want the sound player to be destroyed when it is switched off.
 	}
 	
 	/**
 	 * @author Josh
-	 * @version 1.0.0
+	 * @author Jurek
+	 * @version 1.0.1
 	 * @throws InvalidMidiDataException
 	 * 
 	 * ArbitarySoundTest
@@ -228,14 +236,15 @@ public class TestMIDISoundPlayer {
 		array = new byte[1][];
 		array[0] = singleNote;
 		player.play(array); 
-		player.switchOff();
+		midi.switchOff();
 		player.play(array); // should fail is synth and reciever are closed
 	}
 	
 	
 	/**
 	 * @author Josh
-	 * @version 1.0.0
+	 * @author Jurek
+	 * @version 1.0.1
 	 * @throws InvalidMidiDataException 
 	 * 
 	 * ArbitarySoundTest
@@ -245,8 +254,8 @@ public class TestMIDISoundPlayer {
 	public void testSwitchOn() throws InvalidMidiDataException {
 		array = new byte[1][];
 		array[0] = singleNote;
-		player.switchOff();
-		player.switchOn();
+		midi.switchOff();
+		midi.switchOn();
 		player.play(array); 
 	}
 	

@@ -11,11 +11,13 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import simori.AudioFeedbackSystem;
+import simori.MIDISoundSystem;
 import simori.MatrixModel;
 import simori.ModeController;
 import simori.SimoriGui.KeyboardMapping;
 import simori.Modes.Mode;
-import simori.Modes.OffMode;
+import simori.Modes.PerformanceMode;
 import simori.Modes.QwertyKeyboard;
 
 /**
@@ -134,11 +136,13 @@ public class TestSimoriJFrame {
 	@Test
 	public void testSetAndGetGridButtonListener() {
 		MatrixModel model = new MatrixModel(16, 16);
-		ModeController mc = new ModeController(jframe, model, 20160);
-		Mode mode = new OffMode(mc);
+		MIDISoundSystem midi = new MIDISoundSystem();
+		AudioFeedbackSystem audio = new AudioFeedbackSystem(midi, model);
+		ModeController mc = new ModeController(jframe, model, audio, 20160);
+		Mode mode = new PerformanceMode(mc);
 		jframe.setGridButtonListener(mode);
 		assertEquals(mode, jframe.getGridButtonListener());
-		mc.setOn(false);
+		mc.setOn(false, false);
 	}
 	
 	/**
@@ -147,11 +151,13 @@ public class TestSimoriJFrame {
 	@Test
 	public void testSetAndGetFunctionButtonListener() {
 		MatrixModel model = new MatrixModel(16, 16);
-		ModeController mc = new ModeController(jframe, model, 20160);
-		Mode mode = new OffMode(mc);
+		MIDISoundSystem midi = new MIDISoundSystem();
+		AudioFeedbackSystem audio = new AudioFeedbackSystem(midi, model);
+		ModeController mc = new ModeController(jframe, model, audio, 20160);
+		Mode mode = new PerformanceMode(mc);
 		jframe.setFunctionButtonListener(mode);
 		assertEquals(mode, jframe.getFunctionButtonListener());
-		mc.setOn(false);
+		mc.setOn(false, false);
 	}
 	
 	/**
