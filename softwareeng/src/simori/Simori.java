@@ -73,6 +73,7 @@ public class Simori {
 		model.addObserver(clock);
 		modes.setComponentsToPowerToggle(model, player, gui, clock);
 		modes.setOn(false, false); // Initially off without animation
+		Thread.setDefaultUncaughtExceptionHandler(gui.getExceptionHandler());
 		return gui; // Splash screen will swap itself for this
 	}
 	

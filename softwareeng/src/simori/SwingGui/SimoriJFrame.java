@@ -12,37 +12,28 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
+import java.lang.Thread.UncaughtExceptionHandler;
 
 import javax.swing.JFrame;
 import javax.swing.Timer;
 
 import simori.Animation;
 import simori.SimoriGui;
-import simori.Modes.Mode;
 
 /**
- * Creates the user interface for the Simori-ON.
- * Uses a mixture of Swing components and AWT layouts.
- * This is a thin / dumb GUI in that it forwards all
- * inputs to the {@link Mode} to handle the logic.
- * Button presses are reported as events, and LEDs are
- * set using {@link #setPattern}. There is currently no
- * way to toggle a single {@link LED} on or off.
- * Also features a {@link Lcd} which can be used to
- * display text using {@link #setText}. The {@link JFrame}
- * rendered is undecorated, but can be moved around the
- * screen by clicking and dragging. It is initially
- * positioned in the centre, and scaled to take up a certain
- * proportion of the screen size. Due to Swing/AWT limitations,
- * there is no way for the user to resize the frame, as the
- * aspect ratio would have to be maintained. The window can
- * be exited and the Simori-ON closed by pressing the key
+ * Swing / AWT implementation of a Simori-ON GUI.
+ * This class manages the window. Most of the implementation can be found in
+ * its subcomponents, so many calls are forwarded to a {@link SimoriPanel}.
+ * The {@link JFrame} rendered is undecorated, but can be moved around the
+ * screen by clicking and dragging. It is initially positioned in the centre,
+ * and scaled to take up a certain proportion of the screen size.
+ * Due to Swing/AWT limitations, there is no way for the user to resize the
+ * frame, as the aspect ratio would have to be maintained.
+ * The window can be exited and the Simori-ON closed by pressing the key
  * corresponding to {@link GuiProperties#EXIT_KEY}.
- * 
  * @see GuiProperties
- * @see simori.ModeController
  * @author Matt
- * @version 2.3.8
+ * @version 2.5.0
  */
 public class SimoriJFrame extends JFrame implements SimoriGui, MouseMotionListener {
 	
@@ -70,7 +61,6 @@ public class SimoriJFrame extends JFrame implements SimoriGui, MouseMotionListen
 	 * @param mapping Layout of the keyboard to display for text entry
 	 */
 	public SimoriJFrame(KeyboardMapping mapping) {
-	    //TODO Thread.setDefaultUncaughtExceptionHandler(new Handler());
 		this.mapping = mapping;
 		this.rows = mapping.getRows();
 		this.columns = mapping.getColumns();
@@ -198,6 +188,12 @@ public class SimoriJFrame extends JFrame implements SimoriGui, MouseMotionListen
 		return mapping;
 	}
 	
+	/** {@inheritDoc} */
+	@Override
+	public UncaughtExceptionHandler getExceptionHandler() {
+		return new ExceptionReporter();
+	}
+	
 	/**
 	 * Sets the desired properties of the {@link JFrame}.
 	 * These include the window icon, title, close operation
@@ -267,10 +263,13 @@ public class SimoriJFrame extends JFrame implements SimoriGui, MouseMotionListen
 		couldDragBefore = canDrag;
 	}
 	
-	class Handler implements Thread.UncaughtExceptionHandler {
+	private class ExceptionReporter implements UncaughtExceptionHandler {
+		
+		/** {@inheritDoc} */
+		@Override
 		public void uncaughtException(Thread t, Throwable e) {
 			System.out.println(e.toString());
-			System.err.println("Throwable: " + e.getMessage());
+			System.err.println("Throwable: " + e.getMessage()); //TODO make better!
 		}
 	}
 }

@@ -1,14 +1,29 @@
 package simori;
 
+import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.EventObject;
 
+import simori.Modes.Mode;
 import simori.Simori.PowerTogglable;
 
 /**
- * Interface setting out the constraints that any implementation
- * of a graphical user interface for the Simori-ON must comply to.
+ * Interface setting out the constraints that any implementation of a graphical
+ * user interface for the Simori-ON must adhere to. It is a thin / dumb GUI in
+ * that it forwards all inputs to the {@link Mode} to handle the logic.
+ * Button presses are reported as events, and LEDs are set using
+ * {@link #setPattern}. There is currently no way to toggle a single LED on.
+ * Also features an LCD screen which can display {@link #setText}.
+ * The grid is capable of displaying a keyboard, which can be customised with a
+ * {@link KeyboardMapping}. All buttons can be animated with {@link #play}.
+ * Methods inherited from {@link PowerTogglable} should be used to grey out
+ * buttons when the Simori-ON is switched off. Provides a
+ * {@link Thread.UncaughtExceptionHandler} which should display any uncaught
+ * exceptions in error dialogs. {@link SplashScreen} defines a splash screen
+ * which may be displayed when the program is started, until the Simori-ON is
+ * ready to use, at which point {@link SplashScreen#swapFor} can be used to
+ * hide the splash screen and show the SimoriGui via its {@link #setVisible}.
  * @author Matt
- * @version 2.6.0
+ * @version 3.3.0
  */
 public interface SimoriGui extends PowerTogglable {
 	
@@ -56,6 +71,13 @@ public interface SimoriGui extends PowerTogglable {
 	
 	/** @param true if the GUI should be visible */
 	public void setVisible(boolean visible);
+	
+	/**
+	 * Returns an exception handler which
+	 * will display error messages in the GUI.
+	 * @return To be {@link Thread#setDefaultUncaughtExceptionHandler}
+	 */
+	public UncaughtExceptionHandler getExceptionHandler();
 	
 	/** Sets the listener to receive {@link GridButtonEvent}s */
 	public void setGridButtonListener(GridButtonListener l);
