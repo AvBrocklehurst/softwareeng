@@ -9,11 +9,15 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
+import javax.swing.JProgressBar;
 import javax.swing.Timer;
 
 public class SplashScreen extends JFrame {
 	
 	private static final String SPLASH_IMAGE = "Splash Image.png";
+	
+	private static final float MAX_RESIZE = 5f;
+	private static final float MIN_RESIZE = 0.2f;
 	
 	private Image img;
 	private long activated;
@@ -22,6 +26,9 @@ public class SplashScreen extends JFrame {
 		activated = System.currentTimeMillis();
 		img = readImage();
 		if (img == null) return;
+		JProgressBar bar = new JProgressBar();
+		bar.setIndeterminate(true);
+		add(bar);
 		setSize(img.getWidth(this), img.getHeight(this));
 		setLocationRelativeTo(null);
 		setUndecorated(true);
