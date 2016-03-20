@@ -14,6 +14,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.lang.Thread.UncaughtExceptionHandler;
 
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.Timer;
 
@@ -268,6 +269,7 @@ public class SimoriJFrame extends JFrame implements SimoriGui, MouseMotionListen
 		/** {@inheritDoc} */
 		@Override
 		public void uncaughtException(Thread t, Throwable e) {
+			JDialog d = new JDialog();
 			System.out.println(e.toString());
 			System.err.println("Throwable: " + e.getMessage()); //TODO make better!
 		}

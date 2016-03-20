@@ -57,16 +57,16 @@ public class SplashImage extends JComponent {
 		Dimension pic =
 				new Dimension(image.getWidth(this), image.getHeight(this));
 		Dimension screen = getToolkit().getScreenSize();
-		Float ratio = null;
+		float ratio = 1f;
 		float scrnShortSide = Math.min(screen.width, screen.height);
 		float imgLongestSide = Math.max(pic.width, pic.height);
 		float minLen = scrnShortSide * GuiProperties.SPLASH_MIN_PROPORTION;
 		float maxLen = scrnShortSide * GuiProperties.SPLASH_MAX_PROPORTION;
 		if (imgLongestSide < minLen) ratio = minLen / imgLongestSide;
 		if (imgLongestSide > maxLen) ratio = maxLen / imgLongestSide;
-		if (ratio < GuiProperties.SPLASH_MIN_RESIZE) ratio = null;
-		if (ratio > GuiProperties.SPLASH_MAX_RESIZE) ratio = null;
-		if (ratio != null) {
+		if (ratio < GuiProperties.SPLASH_MIN_RESIZE) ratio = 1f;
+		if (ratio > GuiProperties.SPLASH_MAX_RESIZE) ratio = 1f;
+		if (ratio != 1f) {
 			Dimension newPic = GuiProperties.ratioOf(ratio, ratio, pic);
 			image = image.getScaledInstance(newPic.width,
 										newPic.height, Image.SCALE_FAST);
