@@ -97,6 +97,7 @@ public class SimoriSoundSystem extends MIDIMessengerSystem {
 	 * Method that takes a simori layer array, converts it into MIDIMessages and then plays those notes.
 	 */
 	public void play(byte[][] array) throws InvalidMidiDataException {
+		System.out.println(array[0][3]);
 		player.sendCommands(convertToMIDIMessages(array)); // take the array and turn it into MIDI messages, then send it to the synth.
 	}
 	

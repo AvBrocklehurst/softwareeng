@@ -1,10 +1,14 @@
 package simori;
 
+import java.io.File;
+import java.io.IOException;
+
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiSystem;
 import javax.sound.midi.MidiUnavailableException;
 import javax.sound.midi.Receiver;
 import javax.sound.midi.ShortMessage;
+import javax.sound.midi.Soundbank;
 import javax.sound.midi.Synthesizer;
 
 import simori.Simori.PowerTogglable;
@@ -39,6 +43,27 @@ public class MIDISoundSystem implements PowerTogglable {
 		try {
 			synth = MidiSystem.getSynthesizer();
 			synth.open();
+			
+			synth.unloadAllInstruments(synth.getDefaultSoundbank());
+			Soundbank sb;
+			try {
+				
+				sb = MidiSystem.getSoundbank(ResourceManager.getResource("goodSoundbank.SF2"));
+				System.out.println(sb.toString());
+				synth.loadAllInstruments(sb);
+				System.out.println("Soundbank Loaded");
+			} catch (InvalidMidiDataException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			
+			
+			
+			
 			reciever = synth.getReceiver();
 			} catch (MidiUnavailableException e) {e.printStackTrace(); System.exit(1);}
 		if (synth == null){System.exit(1);}

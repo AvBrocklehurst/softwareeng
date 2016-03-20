@@ -242,7 +242,7 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 		 * @throws IllegalArgumentException
 		 */
 		private byte[] setInstrument(byte layerNumber, byte layerLength) throws IllegalArgumentException {
-			short instrument = model.getInstrument(layerNumber);
+			short instrument = (short) (model.getInstrument(layerNumber) - 1);
 			if(instrument<0||instrument>175) 
 				throw new IllegalArgumentException();
 			byte[] layer = new byte[layerLength];
@@ -293,7 +293,6 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 		@Override
 		public void update(Observable a, Object b) {
 			clock.updateBPM(model.getBPM());	
-			System.out.println(model.getPlaying());
 			if(model.getPlaying() == false){
 				try {
 					midi.stopPlay();
