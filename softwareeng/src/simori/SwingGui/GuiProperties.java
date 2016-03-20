@@ -56,6 +56,9 @@ public class GuiProperties {
 	/** Splash image long side must be this many times screen short side */
 	public static final float SPLASH_MIN_PROPORTION = 0.3f;
 	
+	/** Proportion of {@link SplashImage} height the progress bar should be */
+	public static final float SPLASH_BAR_PROPORTION = 1f / 15f;
+	
 	/** Greatest ratio by which {@link SplashJWindow} image may be resized */
 	public static final float SPLASH_MAX_RESIZE = 5f;
 	
