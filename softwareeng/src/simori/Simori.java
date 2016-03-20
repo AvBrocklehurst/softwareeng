@@ -2,10 +2,11 @@ package simori;
 
 import java.io.IOException;
 
+import simori.SimoriGui.SplashScreen;
 import simori.Exceptions.SimoriNonFatalException;
 import simori.Modes.QwertyKeyboard;
 import simori.SwingGui.SimoriJFrame;
-import simori.SwingGui.SplashScreen;
+import simori.SwingGui.SplashJWindow;
 
 /**
  * The main Simori class, runs the the whole Simori system.
@@ -48,7 +49,7 @@ public class Simori {
 	 * @throws IOException 
 	 */
 	public Simori() throws SimoriNonFatalException {
-		SplashScreen splash = new SplashScreen();
+		SplashScreen splash = new SplashJWindow();
 		InstrumentNamer.getInstance();
 		splash.swapFor(assembleSimori(), MIN_SPLASH_TIME);
 		splash = null;

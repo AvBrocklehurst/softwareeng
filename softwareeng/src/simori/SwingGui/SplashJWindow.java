@@ -15,13 +15,15 @@ import javax.swing.JWindow;
 import javax.swing.Timer;
 
 import simori.SimoriGui;
+import simori.SimoriGui.SplashScreen;
 
-public class SplashScreen extends JWindow implements MouseMotionListener {
+public class SplashJWindow extends JWindow
+							implements SplashScreen, MouseMotionListener {
 	
 	private int startX, startY;
 	private long appeared;
 	
-	public SplashScreen() {
+	public SplashJWindow() {
 		setUpWindow();
 		addMouseMotionListener(this);
 		addMouseListener(new MouseAdapter() {
@@ -43,6 +45,8 @@ public class SplashScreen extends JWindow implements MouseMotionListener {
 		appeared = System.currentTimeMillis();
 	}
 	
+	/** {@inheritDoc} */
+	@Override
 	public void swapFor(final SimoriGui gui, int after) {
 		long now = System.currentTimeMillis();
 		if (now - appeared >= after) {
@@ -52,7 +56,7 @@ public class SplashScreen extends JWindow implements MouseMotionListener {
 			Timer timer = new Timer(after, new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					SplashScreen.this.setVisible(false);
+					SplashJWindow.this.setVisible(false);
 					gui.setVisible(true);
 				}
 			});

@@ -167,4 +167,24 @@ public interface SimoriGui extends PowerTogglable {
 		 */
 		public Character getLetterOn(byte x, byte y);
 	}
+	
+	/**
+	 * A splash screen which should be displayed on screen as soon as
+	 * it is constructed, to indicate that the Simori-ON is starting up.
+	 * Once the main {@link SimoriGui} is ready to be shown,
+	 * {@link SplashScreen#swapFor} can be called to open it.
+	 * @author Matt
+	 * @version 1.2.0
+	 */
+	public interface SplashScreen {
+		
+		/**
+		 * Hides the splash screen and shows the given Simori-ON GUI.
+		 * If the splash has not already been on display for the specified
+		 * amount of time, the remained of that time interval is waited first.
+		 * @param gui Constructed and ready for {@link SimoriGui#setVisible}
+		 * @param after Minimum total time splash screen should be displayed
+		 */
+		public void swapFor(SimoriGui gui, int after);
+	}
 }

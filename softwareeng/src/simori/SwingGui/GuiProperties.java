@@ -56,10 +56,10 @@ public class GuiProperties {
 	/** Splash image long side must be this many times screen short side */
 	public static final float SPLASH_MIN_PROPORTION = 0.3f;
 	
-	/** Greatest ratio by which {@link SplashScreen} image may be resized */
+	/** Greatest ratio by which {@link SplashJWindow} image may be resized */
 	public static final float SPLASH_MAX_RESIZE = 5f;
 	
-	/** Smallest ratio by which {@link SplashScreen} image may be resized */
+	/** Smallest ratio by which {@link SplashJWindow} image may be resized */
 	public static final float SPLASH_MIN_RESIZE = 0.2f;
 	
 	/**
@@ -74,7 +74,7 @@ public class GuiProperties {
 	/** Colour to fill the square background area of the {@link LedPanel} */
 	public static final Color LED_PANEL_BACKGROUND = Color.WHITE;
 	
-	/** Colour to fill the background of the {@link SplashScreen} */
+	/** Colour to fill the background of the {@link SplashJWindow} */
 	public static final Color SPLASH_BACKGROUND = WINDOW_BACKGROUND;
 	
 	/** Colour to draw the circular border of an {@link Led} */
@@ -132,7 +132,7 @@ public class GuiProperties {
 	/** Cursor to indicate that the {@link SimoriJFrame} can be dragged */
 	public static final Cursor MOVE_CURSOR = new Cursor(Cursor.MOVE_CURSOR);
 	
-	/** Name of the image resource to display on the {@link SplashScreen} */
+	/** Name of the image resource to display on the {@link SplashJWindow} */
 	public static final String SPLASH_IMAGE = "Silicon Splash.png";
 
 	/**

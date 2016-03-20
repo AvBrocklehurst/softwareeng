@@ -75,6 +75,6 @@ public class SplashImage extends JComponent {
 	
 	private Image makeBackupImage() {
 		System.out.println("Defaulting to backup");
-		return null; //TODO
+		return null; //TODO create a BufferedImage or whatnot
 	}
 }
