@@ -110,7 +110,7 @@ public class SimoriJFrame extends JFrame implements SimoriGui, MouseMotionListen
 	
 	/** {@inheritDoc} */
 	public void play(final Animation toPlay) {
-		final Timer timer = new Timer(100, null);
+		final Timer timer = new Timer(300, null);
 		timer.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
