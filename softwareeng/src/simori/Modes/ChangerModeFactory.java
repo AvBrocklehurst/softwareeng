@@ -48,7 +48,7 @@ public class ChangerModeFactory {
 	 * @see ChangerMode.Changer
 	 * @version 1.2.1
 	 */
-	private static Changer makeLayerChanger(final ModeController controller) {
+	protected static Changer makeLayerChanger(final ModeController controller) {
 		return new Changer() {
 			
 			private byte selectedLayer;    //the layer to change to

@@ -1,9 +1,11 @@
 package simori.Tests;
 
-import java.io.IOException;
-
 import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThat;
+
+import java.io.IOException;
 
 import org.junit.After;
 import org.junit.Before;
@@ -22,7 +24,6 @@ import simori.Modes.ChangerModeFactory;
 import simori.Modes.NetworkMaster;
 import simori.Modes.NetworkSlave;
 import simori.Modes.QwertyKeyboard;
-import simori.Modes.SaveAndLoad;
 import simori.SwingGui.SimoriJFrame;
 
 /**
@@ -106,16 +107,12 @@ public class TestChangerModeFactory {
 	}
 
 	@Test 
-	public void testGetChangerL1(){
-		try {
-			fb = FunctionButton.L1;
-			MockChangerMode cmode = (MockChangerMode) ChangerModeFactory.getChanger(fb, mockcontroller);
-			assertEquals(cmode.getChanger().getText(new Setting((byte)8, (byte)8)), "Closed Hi-Hat");
-			assertNull(cmode);
-		} catch (SimoriNonFatalException e) {
-			fail();
-		}
+	public void testGetChangerL1() throws SimoriNonFatalException{
+		fb = FunctionButton.L1;
+		ChangerMode cmode = ChangerModeFactory.getChanger(fb, mockcontroller);
+		assertNull("The default case of the switch statement was not evaluated!", cmode);
 	}
+	
 
 	@Test 
 	public void testGetChangerL2(){
@@ -164,6 +161,12 @@ public class TestChangerModeFactory {
 		fb = FunctionButton.R4;
 		ChangerMode cmode = ChangerModeFactory.getChanger(fb, mockcontroller);
 		assertNull("The default case of the switch statement was not evaluated!", cmode);
+	}
+	
+	@Test
+	public void testMakeLayerChanger_getText() throws SimoriNonFatalException{
+		fb = FunctionButton.L1;
+
 	}
 	
 }
