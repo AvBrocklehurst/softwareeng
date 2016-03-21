@@ -74,6 +74,15 @@ public class GuiProperties {
 	/** Proportion of {@link SimoriJFrame} width for {@link ErrorDialog} */
 	public static final float ERROR_HEIGHT_PROPORTION = 0.4f;
 	
+	/** Total proportion of {@link ErrorDialog} height which is padding */
+	public static final float ERROR_PADDING_PROPORTION = 0.1f;
+	
+	/** Proportion of {@link ErrorDialog} height for top section */
+	public static final float ERROR_TOP_PROPORTION = 0.25f;
+	
+	/** Proportion of {@link ErrorDialog} height for bottom section */
+	public static final float ERROR_BOTTOM_PROPORTION = 0.1f;
+	
 	/**
 	 * Colour to fill the window (behind the rounded rectangle outline).
 	 * @see SimoriJFrame

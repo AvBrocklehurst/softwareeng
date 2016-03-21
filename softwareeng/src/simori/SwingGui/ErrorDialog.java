@@ -1,6 +1,9 @@
 package simori.SwingGui;
 
 import java.awt.Dimension;
+import java.awt.datatransfer.StringSelection;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -17,16 +20,19 @@ import javax.swing.WindowConstants;
 
 import simori.SimoriGui.OnErrorDismissListener;
 
+//TODO javadoc
 public class ErrorDialog extends JDialog {
 	
-	private static final float TOP_PROPORTION = 0.25f;
-	private static final float BOTTOM_PROPORTION = 0.1f;
-	private static final float PADDING_PROPORTION = 0.1f;
+	private JLabel label; // Formattable area for short summary
+	private JTextArea textArea; // Scrollable area for long message
+	private OnErrorDismissListener listener; // To notify on close
 	
-	private JLabel label;
-	private JTextArea textArea;
-	private OnErrorDismissListener listener;
-	
+	/**
+	 * Creates but does not display a dialog.
+	 * Information can be entered by calling setters,
+	 * and displayed with {@link #setVisible}.
+	 * @param frame The parent SimoriGui which created this dialog
+	 */
 	public ErrorDialog(SimoriJFrame frame) {
 		setUpWindow();
 		sortSize(frame);
@@ -34,6 +40,7 @@ public class ErrorDialog extends JDialog {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosed(WindowEvent e) {
+				// Dialog dismissed, so notify listener
 				if (listener != null) listener.onErrorDismiss();
 			}
 		});
@@ -81,24 +88,55 @@ public class ErrorDialog extends JDialog {
 		setLocationRelativeTo(frame); // Size is known, so align centres
 	}
 	
+	/**
+	 * Calculates the proportion of frame height to allocate to the top
+	 * (icon and summary), middle (scrollable long message) and bottom
+	 * (buttons) sections as well as the vertical padding, then calls
+	 * {@link #addSections} to add the components. Note: The calculated
+	 * vertical padding is also used as the horizontal padding.
+	 * @see GuiProperties#ERROR_PADDING_PROPORTION
+	 * @see GuiProperties#ERROR_TOP_PROPORTION
+	 * @see GuiProperties#ERROR_BOTTOM_PROPORTION
+	 */
 	private void addStuff() {
-		float height = getContentPane().getHeight();
-		float onePaddingProportion = PADDING_PROPORTION / 4f;
-		int padding = (int) (height * onePaddingProportion);
-		int topHeight = (int) (height * TOP_PROPORTION);
-		int bottomHeight = (int) (height * BOTTOM_PROPORTION);
-		int middleHeight = (int) height - topHeight - bottomHeight - 3 * padding;
-		setLayout(new BoxLayout(getContentPane(), BoxLayout.PAGE_AXIS));
-		add(Box.createVerticalStrut(padding));
-		add(makeTopBit(topHeight, padding));
-		add(Box.createVerticalStrut(padding));
-		add(makeMiddleBit(middleHeight, padding));
-		add(Box.createVerticalStrut(padding / 2));
-		add(makeBottomBit(bottomHeight, padding));
-		add(Box.createVerticalStrut(padding / 2));
+		float height = getContentPane().getHeight(); // Not including OS' bar
+		float onePadProp = GuiProperties.ERROR_PADDING_PROPORTION / 4f;
+		int pad = (int) (height * onePadProp); // Padding between components
+		int topHght = (int) (height * GuiProperties.ERROR_TOP_PROPORTION);
+		int btmHght = (int) (height * GuiProperties.ERROR_BOTTOM_PROPORTION);
+		int midHght = (int) height - topHght - btmHght - 3 * pad; // The rest
+		addSections(pad, topHght, btmHght, midHght);
 	}
 	
-	private JComponent makeTopBit(int height, int padding) {
+	/**
+	 * Adds the top, middle and bottom sections of the dialog to the frame.
+	 * Applies padding between each of the sections, and between the top and
+	 * bottom sections and the top and bottom of the content pane.
+	 * @param padding Distance apart to place components
+	 * @param topHeight Height of top section (summary message)
+	 * @param bottomHeight Height of bottom section (buttons)
+	 * @param midHeight Height of middle section (scrollable text)
+	 */
+	private void addSections(int padding, int topHeight,
+								int bottomHeight, int midHeight) {
+		setLayout(new BoxLayout(getContentPane(), BoxLayout.PAGE_AXIS));
+		add(Box.createVerticalStrut(padding)); // Between top section and edge
+		add(makeTopSection(topHeight, padding));
+		add(Box.createVerticalStrut(padding)); // Between top & middle sections
+		add(makeMiddleSection(midHeight, padding));
+		add(Box.createVerticalStrut(padding / 2)); // Between buttons & middle
+		add(makeBottomSection(bottomHeight, padding));
+		add(Box.createVerticalStrut(padding / 2)); // Between buttons & bottom
+	}
+	
+	/**
+	 * Creates a panel for the top section of the error dialog.
+	 * This contains an icon and the summary text.
+	 * @param height Exact height to make the section
+	 * @param padding Horizontal space between components and edges
+	 * @return The top section, ready to be added
+	 */
+	private JPanel makeTopSection(int height, int padding) {
 		JPanel topBit = new JPanel();
 		topBit.setLayout(new BoxLayout(topBit, BoxLayout.LINE_AXIS));
 		topBit.add(Box.createRigidArea(new Dimension(padding, height)));
@@ -109,7 +147,14 @@ public class ErrorDialog extends JDialog {
 		return topBit;
 	}
 	
-	private JComponent makeMiddleBit(int height, int padding) {
+	/**
+	 * Creates a panel for the middle section of the error dialog.
+	 * This contains the scrollable text area.
+	 * @param height Exact height to make the section
+	 * @param padding Horizontal space between component and edges
+	 * @return The middle section, ready to be added
+	 */
+	private JComponent makeMiddleSection(int height, int padding) {
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.LINE_AXIS));
 		panel.add(Box.createRigidArea(new Dimension(padding, height)));
@@ -118,14 +163,22 @@ public class ErrorDialog extends JDialog {
 		return panel;
 	}
 	
-	private JComponent makeBottomBit(int height, int padding) {
+	/**
+	 * Creates a panel for the buttons section of the error dialog.
+	 * @param height Exact height to make the section
+	 * @param padding Horizontal space between components and edges
+	 * @return The bottom section, ready to be added
+	 */
+	private JComponent makeBottomSection(int height, int padding) {
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.LINE_AXIS));
 		panel.add(Box.createRigidArea(new Dimension(padding, height)));
 		panel.add(Box.createHorizontalGlue());
-		panel.add(new JButton("Copy"));
+		panel.add(makeExitButton());
 		panel.add(Box.createHorizontalGlue());
-		panel.add(new JButton("Okay"));
+		panel.add(makeCopyButton());
+		panel.add(Box.createHorizontalGlue());
+		panel.add(makeOkButton());
 		panel.add(Box.createHorizontalGlue());
 		panel.add(Box.createRigidArea(new Dimension(padding, height)));
 		return panel;
@@ -149,5 +202,43 @@ public class ErrorDialog extends JDialog {
 		textArea.setEditable(false);
 		textArea.setLineWrap(true);
 		return new JScrollPane(textArea);
+	}
+	
+	/** @return button which calls System.exit(1) when pressed */
+	private JButton makeExitButton() {
+		JButton button = new JButton("Exit");
+		button.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.exit(1);
+			}
+		});
+		return button;
+	}
+	
+	/** @return button which copies long message to clipboard when pressed */
+	private JButton makeCopyButton() {
+		JButton button = new JButton("Copy");
+		button.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				StringSelection str = new StringSelection(textArea.getText());
+				getToolkit().getSystemClipboard().setContents(str, null);
+			}
+		});
+		return button;
+	}
+	
+	/** @return button which dismisses dialog when pressed */
+	private JButton makeOkButton() {
+		JButton button = new JButton("OK");
+		button.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ErrorDialog.this.setVisible(false);
+				ErrorDialog.this.dispose();
+			}
+		});
+		return button;
 	}
 }
