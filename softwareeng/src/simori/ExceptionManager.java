@@ -114,16 +114,16 @@ public class ExceptionManager implements UncaughtExceptionHandler,
 		
 		if(fatal){
 			title = "Simori Fatal Exception";
-			shortMsg = "<html><b>A Non Fatal Exception has been thrown!"
-					+ "<br>No worries though, the Simori will continue to"
-					+ " function. If something will no longer work, it will"
-					+ " be mentioned in the error message below.</b></html>";
-		} else {
-			title = "Simori Non Fatal Exception";
 			shortMsg = "<html><b>A Fatal Exception has been thrown!"
 					+ "<br>Fatal Errors cause the Simori to be unusable."
 					+ " Please contact the Developers and send them"
 					+ " the infromation provided below.</b></html>";
+		} else {
+			title = "Simori Non Fatal Exception";
+			shortMsg = "<html><b>A Non Fatal Exception has been thrown!"
+					+ "<br>No worries though, the Simori will continue to"
+					+ " function. If something will no longer work, it will"
+					+ " be mentioned in the error message below.</b></html>";
 		}
 		
 		dialogOpen = true;
