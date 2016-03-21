@@ -5,8 +5,8 @@ import simori.Exceptions.SimoriNonFatalException;
 public class Animation {
 	
 	private boolean isStartup;
-	private int size, phase;
-	private boolean[][] which;
+	protected int size, phase;
+	protected boolean[][] which;
 	private OnFinishListener listener;
 	
 	public Animation(int size, OnFinishListener listener, boolean isStartup) {
