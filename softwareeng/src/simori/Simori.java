@@ -55,6 +55,8 @@ public class Simori {
 		InstrumentNamer.getInstance(); // Proved costly to initialise later
 		splash.swapFor(assembleSimori(), MIN_SPLASH_TIME); // Takes a while
 		splash = null; // Allow garbage collector to reclaim splash screen
+		
+		throw new SimoriNonFatalException("Hey, this is my message");
 	}
 	
 	/**
