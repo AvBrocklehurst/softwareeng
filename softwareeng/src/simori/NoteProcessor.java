@@ -252,7 +252,7 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 			} else {
 				layer[0] = 9; //make the chanel 9 (percussion) 
 				/* Subtract 94 from number to get percussion insturment value */
-				instrument = (short) (instrument - 94);
+				instrument = (short) (instrument - 93);
 			}
 			layer[1] = (byte) instrument;
 			
