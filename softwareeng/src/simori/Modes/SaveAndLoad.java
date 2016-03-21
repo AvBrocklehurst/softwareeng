@@ -52,16 +52,17 @@ public class SaveAndLoad {
 		
 	/**
 	 * Static method to load a model into the Simori-ON.
+	 * It searches for the ShopBoySongs folder for use
+	 * in the shopboy mode.
 	 * @author Adam
+	 * 
 	 * @author Matt
 	 * @param model     Model to replace.
 	 * @param filename  Filename of where to load the saved model from.
 	 */
 	public static boolean loadShop(MatrixModel model, String filename){
 		try {
-			System.out.println(filename);
-			File file = ResourceManager.getResource(filename);
-			System.out.println(file);
+			File file = ResourceManager.getResource("ShopBoySongs");
 			if (!file.exists()){
 				System.out.println("file doesn't exist");
 				return false;
