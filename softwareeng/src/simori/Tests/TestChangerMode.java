@@ -79,7 +79,7 @@ public class TestChangerMode {
 	}
 	
 	@Before
-	public void setUp() throws SimoriNonFatalException, IOException{
+	public void setUp() throws IOException{
 		keyboard = new QwertyKeyboard((byte)16,(byte)16);
 		testgui = new SimoriJFrame(keyboard);
 		testmodel = new MatrixModel(16, 16);
@@ -117,30 +117,20 @@ public class TestChangerMode {
 	 */
 	@Test
 	public void call_onFunctionButtonPress(){
-		try {
-			testcmode.onFunctionButtonPress(fbevent);
-		} catch (SimoriNonFatalException e) {
-			fail();
-		}
+		testcmode.onFunctionButtonPress(fbevent);
 	}
 	
 	@Test
 	public void test_onGridButtonPress() {
-		try{
-			testcmode.onGridButtonPress(gbevent);    //coverage call
-			Setting s = new Setting((byte)gbevent.getX(), (byte)gbevent.getY());  //replicate method functionality
-			String t = testChanger().getText(s);
-			assertEquals("The method functionality did not behave as expected!", "Hello World!", t);
-		} catch (SimoriNonFatalException e) {fail();}
+		testcmode.onGridButtonPress(gbevent);    //coverage call
+		Setting s = new Setting((byte)gbevent.getX(), (byte)gbevent.getY());  //replicate method functionality
+		String t = testChanger().getText(s);
+		assertEquals("The method functionality did not behave as expected!", "Hello World!", t);
 	}
 	
 	@Test
 	public void test_setInitialGrid(){
-		try {
-			testcmode.setInitialGrid();
-		} catch (SimoriNonFatalException e) {
-			fail();
-		}  //coverage call
+		testcmode.setInitialGrid(); //coverage call
 		Setting current = testChanger().getCurrentSetting(); //again the only way to test here was to replicate a degree of functionality
 		assertNull("The current setting passed should be null!", current);
 		
@@ -149,20 +139,12 @@ public class TestChangerMode {
 	@Test
 	public void test_getText(){
 		Setting s = new Setting((byte)0, (byte)0);
-		try {
-			assertEquals("The text should be Hello World!", "Hello World!", testChanger().getText(s));
-		} catch (SimoriNonFatalException e) {
-			fail();
-		}
+		assertEquals("The text should be Hello World!", "Hello World!", testChanger().getText(s));
 	}
 	
 	@Test
 	public void test_doThingTo(){
-		try {
-			assertEquals("A thing was not done!", false, testChanger().doThingTo(testcontroller));
-		} catch (SimoriNonFatalException e) {
-			fail();
-		}
+		assertEquals("A thing was not done!", false, testChanger().doThingTo(testcontroller));
 	}
 	
 	@Test
