@@ -98,7 +98,6 @@ public class ShopBoyMode extends PerformanceMode implements Observer {
 	 */
 	private void songPlay(File f){
 		song = f.listFiles();      //list all files in a single song subdirectory
-		System.out.println(song[partCounter].getName());
 		SaveAndLoad.loadShop(getModel(), song[partCounter].getName());       //load in a part
 	}
 
@@ -109,7 +108,6 @@ public class ShopBoyMode extends PerformanceMode implements Observer {
 	 */
 	@Override
 	public void update(Observable o, Object arg) {
-		System.out.println("in update");
 		byte looppoint = getModel().getLoopPoint();
 		byte currentcolumn = getModel().getCurrentColumn();
 		
