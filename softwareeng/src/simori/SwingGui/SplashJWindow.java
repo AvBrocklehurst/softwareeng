@@ -12,6 +12,8 @@ import javax.swing.JProgressBar;
 import javax.swing.JWindow;
 import javax.swing.Timer;
 
+import simori.AudioFeedbackSystem;
+import simori.ExceptionManager;
 import simori.SimoriGui;
 import simori.SimoriGui.SplashScreen;
 
@@ -25,6 +27,10 @@ import simori.SimoriGui.SplashScreen;
 public class SplashJWindow extends JWindow implements SplashScreen {
 	
 	private long appeared; // Records system time splash became visible
+	
+	// To inform the uncaught exception handler when the GUI becomes visible
+	private ExceptionManager errors;
+	private AudioFeedbackSystem afs;
 	
 	/** Immediately displays a draggable splash screen */
 	public SplashJWindow() {
@@ -46,6 +52,14 @@ public class SplashJWindow extends JWindow implements SplashScreen {
 		}
 		setVisible(true);
 		appeared = System.currentTimeMillis();
+	}
+	
+	/** {@inheritDoc} */
+	public void swapFor(SimoriGui gui, int after,
+			ExceptionManager errors, AudioFeedbackSystem afs) {
+		this.errors = errors;
+		this.afs = afs;
+		swapFor(gui, after);
 	}
 	
 	/** {@inheritDoc} */
@@ -90,6 +104,9 @@ public class SplashJWindow extends JWindow implements SplashScreen {
 		gui.setVisible(true);
 		setVisible(false);
 		dispose();
+		
+		// Inform uncaught exception handler that GUI can now display errors
+		if (errors != null) errors.simoriReady(gui, afs);
 	}
 	
 	/** Adds components and customises the look of the window. */

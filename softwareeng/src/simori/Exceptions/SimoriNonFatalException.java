@@ -1,10 +1,10 @@
 package simori.Exceptions;
 
 /**
- * Thrown by {@link simori.Modes.QwertyKeyboard} to indicate that the requested
- * dimensions do not produce enough buttons to mimic a QWERTY-style keyboard.
- * @author Matt
- * @version 1.0.0
+ * General Exception for all non fatal problems in the simori.
+ * Extends RuntimeExcpetion so that it can go unchecked and get
+ * caught by the universal exception handler.
+ * @author Adam
  */
 public class SimoriNonFatalException extends RuntimeException {
 	
