@@ -1,6 +1,5 @@
 package simori;
 
-import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.EventObject;
 
 import simori.Simori.PowerTogglable;
@@ -16,12 +15,14 @@ import simori.Modes.Mode;
  * The grid is capable of displaying a keyboard, which can be customised with a
  * {@link KeyboardMapping}. All buttons can be animated with {@link #play}.
  * Methods inherited from {@link PowerTogglable} should be used to grey out
- * buttons when the Simori-ON is switched off. Provides a
- * {@link Thread.UncaughtExceptionHandler} which should display any uncaught
- * exceptions in error dialogs. {@link SplashScreen} defines a splash screen
- * which may be displayed when the program is started, until the Simori-ON is
- * ready to use, at which point {@link SplashScreen#swapFor} can be used to
- * hide the splash screen and show the SimoriGui via its {@link #setVisible}.
+ * buttons when the Simori-ON is switched off. {@link SplashScreen} defines a
+ * splash screen which may be displayed when the program is started, until the
+ * Simori-ON is ready to use, at which point {@link SplashScreen#swapFor} can
+ * be used to hide the splash screen and show the SimoriGui (by calling its
+ * {@link #setVisible}). GUIs should be able to display error information as
+ * specified in {@link #reportError} for the user to view. When an error
+ * message is dismissed, its {@link OnErrorDismissListener} is notified.
+ * 
  * @author Matt
  * @version 3.3.0
  */
@@ -67,9 +68,9 @@ public interface SimoriGui extends PowerTogglable {
 	public void play(Animation toPlay);
 	
 	/**
-	 * Reports an error TODO here and at the top
-	 * @param shortMessage User-friendly summary of error
-	 * @param longMessage Long text detailing error
+	 * Displays the given information as an error message.
+	 * @param shortMessage User-friendly summary of error (optionally HTML)
+	 * @param longMessage Long text detailing error (no formatting)
 	 * @param title Title for error dialog
 	 * @param l To receive callback when the user dismisses the error
 	 */
@@ -223,12 +224,14 @@ public interface SimoriGui extends PowerTogglable {
 	}
 	
 	/**
-	 * Interface for receiving callbacks when the user dismisses an error reported via TODO
+	 * Interface for receiving callbacks when the user dismisses
+	 * an error reported through {@link SimoriGui#reportError}.
 	 * @author Matt
 	 * @version 1.0.0
 	 */
 	public interface OnErrorDismissListener {
 		
+		/** Called when the error is dismissed by whatever means */
 		public void onErrorDismiss();
 	}
 }
