@@ -20,15 +20,32 @@ import javax.swing.JComponent;
 import simori.ResourceManager;
 
 /**
- * Component which displays the splash screen image,
+ * Component which displays an image from the res folder,
  * or a dynamically-created backup that cannot be found.
+ * Two options for sizing are available:
+ * Fixed sizing resizes the image to a specified width and height.
+ * Flexible sizing displays the image in its native resolution unless its
+ * longest side lies outside a minimum and maximum proportion of the
+ * screen's shortest side and could be resized to fit the range without
+ * the scale factor falling outside an allowed range.
  * @author Matt
- * @version 2.0.0
+ * @version 3.0.0
  */
 public class ImageComponent extends JComponent {
 	
 	private Image image;
 	
+	/**
+	 * Displays the image from the specified resource file or
+	 * a generated backup image with the specified text, resized
+	 * if necessary and possible, to meet the given constraints.
+	 * @param fileName Name of image resource to display
+	 * @param backupText Text to draw if image is not found
+	 * @param minScrProp Image must take up this proportion of screen
+	 * @param maxScrProp Image may only take up this proportion of screen
+	 * @param minResize Smallest factor by which size may be multiplied
+	 * @param maxResize Greatest factor by which size may be multiplied
+	 */
 	public ImageComponent(String fileName, String backupText,
 							float minScrProp, float maxScrProp,
 								float minResize, float maxResize) {
@@ -40,6 +57,14 @@ public class ImageComponent extends JComponent {
 		sizeImage(minScrProp, maxScrProp, minResize, maxResize);
 	}
 	
+	/**
+	 * Displays the image from the specified resource file or a generated
+	 * backup image with the specified text, sized to the specified dimensions.
+	 * @param fileName Name of image resource to display
+	 * @param backupText Text to draw if image is not found
+	 * @param width Width to resize image to
+	 * @param height Height to resize image to
+	 */
 	public ImageComponent(String fileName, String backupText,
 										int width, int height) {
 		setOpaque(false);
@@ -142,8 +167,13 @@ public class ImageComponent extends JComponent {
 	}
 	
 	/**
-	 * Creates an image of the given dimensions, featuring the given text
-	 * on a radial gradient background.
+	 * Creates an image of the given dimensions,
+	 * featuring the given text on a radial gradient background.
+	 * The colours used are defined in {@link GuiProperties}.
+	 * @see GuiProperties#IMAGE_BACKUP_TEXT
+	 * @see GuiProperties#IMAGE_BACKUP_TEXT_PROPORTION
+	 * @see GuiProperties#IMAGE_BACKUP_CENTRE
+	 * @see GuiProperties#IMAGE_BACKUP_EDGE
 	 * @param text Text for the desired image
 	 * @param width Width of the desired image
 	 * @param height Height of the desired image
@@ -158,7 +188,7 @@ public class ImageComponent extends JComponent {
 				 GuiProperties.IMAGE_BACKUP_EDGE);
 		drawText(text, g, new Dimension(width, height),
 				 GuiProperties.getFont(),
-				 GuiProperties.IMG_BACKUP_TEXT_PROPORTION,
+				 GuiProperties.IMAGE_BACKUP_TEXT_PROPORTION,
 				 GuiProperties.IMAGE_BACKUP_TEXT);
 		return backup;
 	}
