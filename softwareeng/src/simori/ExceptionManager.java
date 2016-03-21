@@ -127,7 +127,7 @@ public class ExceptionManager implements UncaughtExceptionHandler,
 		}
 		
 		dialogOpen = true;
-		gui.reportError(shortMsg, longMessage, title, this);
+		gui.reportError(shortMsg, longMessage, title, this, fatal);
 	}
 	
 	
