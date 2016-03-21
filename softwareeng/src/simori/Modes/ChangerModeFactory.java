@@ -108,7 +108,7 @@ public class ChangerModeFactory {
 	 * @version 1.0.0
 	 * @return Changer
 	 */
-	private static Changer makePointChanger(final ModeController controller) {
+	protected static Changer makePointChanger(final ModeController controller) {
 		return new Changer() {
 			
 			private int selectedColumn;   //the column to loop to
@@ -143,7 +143,7 @@ public class ChangerModeFactory {
 	 * @see ChangerMode.Changer
 	 * @version 1.2.1
 	 */
-	private static Changer makeVoiceChanger(final ModeController controller) {
+	protected static Changer makeVoiceChanger(final ModeController controller) {
 		return new Changer() {
 			
 			private Short instrumNum;  //the instrument to change to
@@ -215,7 +215,7 @@ public class ChangerModeFactory {
 	 * @see ChangerMode.Changer
 	 * @version 1.0.0
 	 */
-	private static Changer makeVelocityChanger(final ModeController controller){
+	protected static Changer makeVelocityChanger(final ModeController controller){
 		return new Changer(){
 
 			private Short selectedVelocity;   //the velocity to change to
@@ -282,7 +282,7 @@ public class ChangerModeFactory {
 	 * @version 1.0.1
 	 * @return Changer
 	 */
-	private static Changer makeSpeedChanger(final ModeController controller){
+	protected static Changer makeSpeedChanger(final ModeController controller){
 		return new Changer(){
 			
 			private Short selectedTempo;   //the speed of the ticker in BPM
@@ -335,7 +335,7 @@ public class ChangerModeFactory {
 	 * @return short
 	 * @version 1.1.0
 	 */
-	private static short coordsConverter(int x, int y){
+	public static short coordsConverter(int x, int y){
 		short counter = 1;  //the short eventually output when incremented
 		while(y != 0){
 			y--;
@@ -359,7 +359,7 @@ public class ChangerModeFactory {
 	 * @return byte[]
 	 * @version 1.1.0
 	 */
-	private static byte[] convertBack(short s){
+	public static byte[] convertBack(short s){
 		byte x = 0;  //coordinates
 		byte y = 0;
 		s--;  //account for margin
