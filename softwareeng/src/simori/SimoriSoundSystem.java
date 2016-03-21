@@ -5,8 +5,8 @@ import javax.sound.midi.ShortMessage;
 /**
  * @author Josh aka the music man
  * @version 8.1.0
- * {@link simori.SimoriSound}
- * {@link ShortMessage}
+ * @see MIDIMessengerSystem
+ * @see MIDISoundSystem
  * 
  * Class that converts information from the Simori layers into midi messages (which in turn make noise).
  * NOTE: This class is designed to have the lowest overhead as possible.
@@ -97,7 +97,6 @@ public class SimoriSoundSystem extends MIDIMessengerSystem {
 	 * Method that takes a simori layer array, converts it into MIDIMessages and then plays those notes.
 	 */
 	public void play(byte[][] array) {
-		System.out.println(array[0][3]);
 		player.sendCommands(convertToMIDIMessages(array)); // take the array and turn it into MIDI messages, then send it to the synth.
 	}
 	

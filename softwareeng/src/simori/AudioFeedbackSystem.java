@@ -1,6 +1,5 @@
 package simori;
 import javax.sound.midi.InvalidMidiDataException;
-
 import simori.Exceptions.SimoriNonFatalException;
 
 
@@ -9,10 +8,11 @@ import simori.Exceptions.SimoriNonFatalException;
  * @author Adam
  * @version 2.1.1
  * @see MIDIMessengerSystem
+ * @see MIDISoundSystem
  * 
  * Class responsible for playing the audio feedback sounds.
  * Since these events are dynamic (can play at any time), the class needs to be in its own thread.
- * This allows it to play noise 'over the top' of the simori
+ * This allows it to play noise 'over the top' of the Simori.
  */
 public class AudioFeedbackSystem extends MIDIMessengerSystem {
 	
@@ -80,7 +80,7 @@ public class AudioFeedbackSystem extends MIDIMessengerSystem {
 	 * @version 1.1.0
 	 * 
 	 * Method that plays one of 4 audio sounds, depending on the enum.
-	 * Method also prevents other sound system (the usual simori) from playing noise whilst the audio is being played.
+	 * Method also prevents other sound system (the usual Simori) from playing noise whilst the audio is being played.
 	 */
 	private void playSynchronous(Sound sound) {
 		model.setPlaying(); // tell the usual music player to shut up
@@ -99,13 +99,13 @@ public class AudioFeedbackSystem extends MIDIMessengerSystem {
 				playSadSound();
 				break;
 			}
-			player.stopSound(); // stop the audio sound being played (in case it is still making noise
+			player.stopSound(); // stop the audio sound being played (in case it is still making noise).
 		} catch (InterruptedException e) {
 			throw new SimoriNonFatalException("Audio Thread was inturrupted.");
 		} catch (InvalidMidiDataException e) {
 			throw new SimoriNonFatalException("Invalid Midi data send to the reciever.");
 		}
-		model.setPlaying(); // tell the usual music player that it can carry on making noise
+		model.setPlaying(); // tell the usual music player that it can carry on making noise.
 	}
 	
 	/**
@@ -136,7 +136,7 @@ public class AudioFeedbackSystem extends MIDIMessengerSystem {
 	 * @version 1.1.0
 	 * 
 	 * " A short distinctive sequence of notes that fills the user with a carefree satisfaction at what has been done."
-	 * Sounds suspiciously like a lullaby 
+	 * Sounds suspiciously like a lullaby.
 	 */
 	private void playGoodbyeSound() throws InvalidMidiDataException, InterruptedException {
 		playInstrument(1, C6, VELOCITY, 350, false);
@@ -152,7 +152,7 @@ public class AudioFeedbackSystem extends MIDIMessengerSystem {
 	 * @version 1.3.0
 	 * 
 	 * "a short, distinctive sequence of notes that gives the user the sense of a treat awarded."
-	 * Congratulations! Here is a trumpet fanfare for using the simori correctly
+	 * Congratulations! Here is a trumpet fanfare for using the Simori correctly.
 	 */
 	private void playHappySound() throws InvalidMidiDataException, InterruptedException {
 		playInstrument(62, C6, VELOCITYHIGH, 250, true);
@@ -168,7 +168,7 @@ public class AudioFeedbackSystem extends MIDIMessengerSystem {
 	 * @version 3.0.1
 	 * 
 	 * "A short, distinctive sequences of notes that gives the user the sense of a treat denied."
-	 * DUN DUN DUNNNNNNNNNNNN
+	 * DUN DUN DUNNNNNNNNNNNN.
 	 */
 	private void playSadSound() throws InvalidMidiDataException, InterruptedException {
 		playInstrument(56, D5, VELOCITYHIGH, 0, false);
@@ -198,21 +198,10 @@ public class AudioFeedbackSystem extends MIDIMessengerSystem {
 	 * This allows for production of chords (multiple notes at the same time).
 	 * 
 	 */
-	private void playInstrument(int instrument, int pitch, int velocity, int duration, boolean stop) throws InvalidMidiDataException, InterruptedException{
+	private void playInstrument(int instrument, int pitch, int velocity, int duration, boolean stop) throws InterruptedException{
 		player.sendCommand(createMessage((byte)0, (byte)(instrument-1))); // send the program change message.
 		player.sendCommand(createMessage((byte)0,(byte)pitch, (byte)velocity)); // send the note on message.
 		Thread.sleep(duration);
 		if(stop){player.stopSound();}
-	}
-	
-	public static void main(String[] args) throws InvalidMidiDataException, InterruptedException {
-		MIDISoundSystem player = new MIDISoundSystem();
-		MatrixModel model = new MatrixModel(16,16);
-		AudioFeedbackSystem afs = new AudioFeedbackSystem(player, model);
-		afs.play(Sound.HAPPY);
-		for (int i = 0; i < 6; i ++) {
-			System.out.println(i % 2 == 0 ? "Printing" : "whilst playing");
-			Thread.sleep(200);
-		}
 	}
 }

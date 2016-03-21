@@ -37,7 +37,7 @@ public class SaveAndLoad {
 	 * @param filename  The file to save it to.
 	 * @throws SimoriNonFatalException 
 	 */
-	public static void save(MatrixModel model, String filename) throws SimoriNonFatalException{
+	public static void save(MatrixModel model, String filename) {
 		try {
 			File file = getLocationFor(filename);
 	        FileOutputStream fos = new FileOutputStream(file);
@@ -61,7 +61,7 @@ public class SaveAndLoad {
 	 * @param filename  Filename of where to load the saved model from.
 	 * @throws SimoriNonFatalException 
 	 */
-	public static boolean loadShop(MatrixModel model, String filename) throws SimoriNonFatalException{
+	public static boolean loadShop(MatrixModel model, String filename) {
 		try {
 			File file = new File(filename);
 			if (!file.exists()){
@@ -99,11 +99,10 @@ public class SaveAndLoad {
 	        model.convertModel(tempModel);
 	        return true;
 		} catch (IOException e){
-			e.printStackTrace();
-			return false;
+			 throw new SimoriNonFatalException("Unable to save file.");
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
-			return false;
+			throw new SimoriNonFatalException("Unable to save file.");
 		}
 	}
 	
@@ -138,7 +137,7 @@ public class SaveAndLoad {
 	protected static Changer makeSaveChanger(final ModeController controller){
 		return new TextEntry(controller) {
 			@Override
-			protected boolean useText(String text) throws SimoriNonFatalException {
+			protected boolean useText(String text) {
 				if (text.length() == 0) return true;
 				text += SONG_EXTENSION;   //add the .song extension
 				SaveAndLoad.save(controller.getModel(), text);
