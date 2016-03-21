@@ -2,6 +2,7 @@ package simori.Tests;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
 
 import org.junit.After;
 import org.junit.Before;
@@ -55,12 +56,16 @@ public class TestShopBoyMode {
 	
 	@Test
 	public void testSetInitialGrid() {
-		sbmode.setInitialGrid();
-		assertNull(gui.getText());
-		for(byte x=0;x<16;x++) {
-			for(byte y=0;y<16;y++){
-				assertFalse(gui.getLedPanel().getLed(x, y).getIlluminated());
+		try {
+			sbmode.setInitialGrid();
+			assertNull(gui.getText());
+			for(byte x=0;x<16;x++) {
+				for(byte y=0;y<16;y++){
+					assertFalse(gui.getLedPanel().getLed(x, y).getIlluminated());
+				}
 			}
+		} catch (SimoriNonFatalException e) {
+			fail();
 		}
 	}
 	

@@ -70,10 +70,14 @@ public class TestTextEntry {
 	}
 	@Test
 	public void testDoThingTo() {
-		test = true;
-		assertTrue(text.doThingTo(mode));
-		test = false;
-		assertFalse(text.doThingTo(mode));
+		try {
+			test = true;
+			assertTrue(text.doThingTo(mode));
+			test = false;
+			assertFalse(text.doThingTo(mode));
+		} catch (SimoriNonFatalException e) {
+			fail();
+		}
 	}
 	
 	@Test

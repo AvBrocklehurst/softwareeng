@@ -1,12 +1,16 @@
 package simori.Tests;
 
+import static org.junit.Assert.fail;
+
 import org.junit.Test;
 
 import simori.MatrixModel;
+import simori.Exceptions.SimoriNonFatalException;
 import simori.Modes.SaveAndLoad;
 
 /**
  * @author adam
+ * @author Jurek
  */
 public class TestSaveAndLoad {
 
@@ -15,8 +19,12 @@ public class TestSaveAndLoad {
 	 */
 	@Test
 	public void testSave() {
-		MatrixModel model = new MatrixModel(16,16);
-		SaveAndLoad.save(model, "test.song");
+		try {
+			MatrixModel model = new MatrixModel(16,16);
+			SaveAndLoad.save(model, "test.song");
+		} catch (SimoriNonFatalException e) {
+			fail();
+		}
 	}
 	
 	
@@ -26,8 +34,12 @@ public class TestSaveAndLoad {
 	 */
 	@Test
 	public void testSaveExtreme() {
-		MatrixModel model = new MatrixModel(16,16);
-		SaveAndLoad.save(model, "test__ 1231!@~Sadasd2141414nd||QE.song");
+		try {
+			MatrixModel model = new MatrixModel(16,16);
+			SaveAndLoad.save(model, "test__ 1231!@~Sadasd2141414nd||QE.song");
+		} catch (SimoriNonFatalException e) {
+			fail();
+		}
 	}
 	
 	/**
