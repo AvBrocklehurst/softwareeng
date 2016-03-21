@@ -52,7 +52,7 @@ public class SimoriSoundSystem extends MIDIMessengerSystem {
 	 * For example an array of arrays [[0,110,80,60]] would contain 2 commands.
 	 * As a result it possible to calculate the length of the ShortMessage array (so dont need arrayList).
 	 */
-	private ShortMessage[] convertToMIDIMessages(byte[][] simoriLayers) throws InvalidMidiDataException{
+	private ShortMessage[] convertToMIDIMessages(byte[][] simoriLayers) {
 		ShortMessage message;
 		ShortMessage[] toBePlayedArray = new ShortMessage[calculateMIDIArraySize(simoriLayers)]; // create an array of that length
 		
@@ -96,7 +96,7 @@ public class SimoriSoundSystem extends MIDIMessengerSystem {
 	 * 
 	 * Method that takes a simori layer array, converts it into MIDIMessages and then plays those notes.
 	 */
-	public void play(byte[][] array) throws InvalidMidiDataException {
+	public void play(byte[][] array) {
 		System.out.println(array[0][3]);
 		player.sendCommands(convertToMIDIMessages(array)); // take the array and turn it into MIDI messages, then send it to the synth.
 	}

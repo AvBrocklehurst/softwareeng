@@ -58,7 +58,7 @@ public abstract class Mode implements FunctionButtonListener,
 	 * Default behaviour switches off every LED and clears the LCD screen.
 	 * @throws SimoriNonFatalException 
 	 */
-	public void setInitialGrid() throws SimoriNonFatalException {
+	public void setInitialGrid() {
 		getGui().clearGrid();
 		getGui().setText(null);
 	}
@@ -67,7 +67,7 @@ public abstract class Mode implements FunctionButtonListener,
 	 * Called when the clock hand changes column
 	 * @param col The column the clock hand has just entered
 	 */
-	public void tickerLight(byte col) throws SimoriNonFatalException {}
+	public void tickerLight(byte col) {}
 	
 	/**
 	 * Gets the function button pressed and the source GUI and then
@@ -80,7 +80,7 @@ public abstract class Mode implements FunctionButtonListener,
 	 * @throws SimoriNonFatalException 
 	 * @see FunctionButton.getFunctionButton(), SimoriGui.getSource(), SimoriGui.setMode()
 	 */
-	public void onFunctionButtonPress(FunctionButtonEvent e) throws SimoriNonFatalException{
+	public void onFunctionButtonPress(FunctionButtonEvent e){
 		FunctionButton fb = e.getFunctionButton();
 		switch (fb) {
 		case OK:
@@ -99,5 +99,5 @@ public abstract class Mode implements FunctionButtonListener,
 	
 	/** Modes which do not ignore grid buttons may override this. 
 	 * @throws SimoriNonFatalException */
-	public void onGridButtonPress(GridButtonEvent e) throws SimoriNonFatalException {}
+	public void onGridButtonPress(GridButtonEvent e) {}
 }

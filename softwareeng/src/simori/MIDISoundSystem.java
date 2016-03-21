@@ -115,7 +115,9 @@ public class MIDISoundSystem implements PowerTogglable {
 		try {
 			synth.open();
 			reciever = synth.getReceiver();
-		} catch (MidiUnavailableException e) {e.printStackTrace();System.exit(1);}
+		} catch (MidiUnavailableException e) {
+			throw new SimoriNonFatalException("Midi Player was unable to be opened.");
+		}
 	}
 	
 	/** {@inheritDoc} 

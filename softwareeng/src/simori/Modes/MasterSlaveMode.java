@@ -81,7 +81,7 @@ public class MasterSlaveMode extends Mode implements ScanProgressListener {
 	/** {@inheritDoc} 
 	 * @throws SimoriNonFatalException */
 	@Override
-	public void onFunctionButtonPress(FunctionButtonEvent e) throws SimoriNonFatalException {
+	public void onFunctionButtonPress(FunctionButtonEvent e) {
 		switch (e.getFunctionButton()) {
 		case ON : // ON and OK exit the mode
 		case OK :

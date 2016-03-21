@@ -160,7 +160,7 @@ public class ChangerModeFactory {
 			 * @throws SimoriNonFatalException 
 			 */
 			@Override
-			public String getText(Setting s) throws SimoriNonFatalException {
+			public String getText(Setting s) {
 				InstrumentNamer in = InstrumentNamer.getInstance();
 				instrumNum = coordsConverter(s.x, s.y); //translate coordinates to short
 				String name = in.getName(instrumNum);

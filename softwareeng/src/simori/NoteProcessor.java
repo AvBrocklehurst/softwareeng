@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.sound.midi.InvalidMidiDataException;
-
 import simori.Simori.PowerTogglable;
 import simori.Exceptions.SimoriNonFatalException;
 
@@ -60,6 +58,7 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 		 * the mode.
 		 * The thread waits through the majority of a tick before processing data.
 		 * @author Jurek
+		 * @author Adam
 		 * @version 1.5.2
 		 */
 		@Override
@@ -77,25 +76,24 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 				//reach out for and process the notes...
 				//...assuming that the simori has not been turned off
 				if(!running) break;
-				try{toBePlayed = getNotes();}
-				catch(SimoriNonFatalException e) {e.printStackTrace();System.exit(1);}
 				
-				//send a play request to the MIDIPlayer
-				try{
-					if(played) {midi.stopPlay(); played = false;}
-					System.out.println(audible);
-					if(toBePlayed.length!=0 && audible) {midi.play(toBePlayed); played = true;}
-					else played = false;
-				//if MIDIPlayer throws an error, print it out and stop the JVM
-				}catch(InvalidMidiDataException e){e.printStackTrace();System.exit(1);}
-
-				//turn the lights on the current column
-				try {
-					mode.tickThrough(model.getCurrentColumn());
-				} catch (SimoriNonFatalException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				toBePlayed = getNotes();
+				
+				if(played) {
+					midi.stopPlay(); 
+					played = false;
+					
 				}
+				if(toBePlayed.length!=0 && audible) {
+					midi.play(toBePlayed); 
+					played = true;
+				} else {
+					played = false;
+				}
+				
+				//turn the lights on the current column
+			
+				mode.tickThrough(model.getCurrentColumn());
 
 				//advance to the next column
 				model.incrementColumn();

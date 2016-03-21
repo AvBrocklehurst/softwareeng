@@ -65,7 +65,7 @@ public class ModeController {
 	 * @param column x coordinate at which to draw clock hand
 	 * @throws SimoriNonFatalException 
 	 */
-	public void tickThrough(byte column) throws SimoriNonFatalException {
+	public void tickThrough(byte column) {
 			mode.tickerLight(column);
 	}
 	
@@ -119,7 +119,7 @@ public class ModeController {
 	 * @param mode A mode to switch to
 	 * @throws SimoriNonFatalException 
 	 */
-	public void setMode(Mode mode) throws SimoriNonFatalException {
+	public void setMode(Mode mode){
 		if (mode == null || mode.equals(this.mode)) return;
 		this.mode = mode;
 		gui.setGridButtonListener(mode);
@@ -149,7 +149,7 @@ public class ModeController {
 	 * @param num The number of the instrument to show the name of
 	 * @throws SimoriNonFatalException 
 	 */
-	public void showInstrumentName(int num) throws SimoriNonFatalException {
+	public void showInstrumentName(int num) {
 		if (mode instanceof PerformanceMode) {
 			String name = InstrumentNamer.getInstance().getName(num);
 			getGui().setText(name);
@@ -169,7 +169,7 @@ public class ModeController {
 	 * @param on true to switch on, or false to switch off
 	 * @throws SimoriNonFatalException 
 	 */
-	public void setOn(boolean on, boolean animated) throws SimoriNonFatalException {
+	public void setOn(boolean on, boolean animated) {
 		if (this.on == on) return;
 		if (on) {
 			bootUp(animated);
@@ -178,7 +178,7 @@ public class ModeController {
 		}
 	}
 	
-	private void bootUp(boolean animated) throws SimoriNonFatalException {
+	private void bootUp(boolean animated) {
 		for (PowerTogglable p : toPowerToggle) p.ready(); //TODO in a different thread?
 		if (!animated){
 			switchOn();
@@ -187,14 +187,14 @@ public class ModeController {
 		afs.play(AudioFeedbackSystem.Sound.WELCOME);
 		OnFinishListener switchOn = new OnFinishListener() {
 			@Override
-			public void onAnimationFinished() throws SimoriNonFatalException {
+			public void onAnimationFinished() {
 				switchOn();
 			}
 		};
 		gui.play(new Animation(gui.getGridSize(), switchOn, true));
 	}
 	
-	private void shutDown(boolean animated) throws SimoriNonFatalException {
+	private void shutDown(boolean animated) {
 		for (int i = toPowerToggle.length - 1; i >= 0; i--) {
 			toPowerToggle[i].stop();
 		}
@@ -205,14 +205,14 @@ public class ModeController {
 		afs.play(AudioFeedbackSystem.Sound.GOODBYE);
 		OnFinishListener switchOff = new OnFinishListener() {
 			@Override
-			public void onAnimationFinished() throws SimoriNonFatalException {
+			public void onAnimationFinished() {
 				switchOff();
 			}
 		};
 		gui.play(new Animation(gui.getGridSize(), switchOff, false));
 	}
 	
-	private void switchOn() throws SimoriNonFatalException {
+	private void switchOn() {
 		for (PowerTogglable t : toPowerToggle) t.switchOn();
 		on = true;	
 		setMode(makeInitialPerformanceMode());
@@ -227,7 +227,7 @@ public class ModeController {
 		slave.switchOn();
 	}
 	
-	private void switchOff() throws SimoriNonFatalException {
+	private void switchOff() {
 		on = false;
 		setMode(makeOffMode());
 		if (toPowerToggle == null) return;
@@ -249,7 +249,6 @@ public class ModeController {
 		return new PerformanceMode(this) {
 			@Override
 			public void onFunctionButtonPress(FunctionButtonEvent e) {
-				try {
 					if (e.getFunctionButton().equals(FunctionButton.OK)) {
 					
 						setMode(new ShopBoyMode(ModeController.this));
@@ -257,10 +256,6 @@ public class ModeController {
 					} else {
 						super.onFunctionButtonPress(e);
 					}
-				} catch (SimoriNonFatalException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
 			}
 		};
 	}
@@ -273,7 +268,7 @@ public class ModeController {
 	private Mode makeOffMode() {
 		return new Mode(this) {
 			@Override
-			public void onFunctionButtonPress(FunctionButtonEvent e) throws SimoriNonFatalException {
+			public void onFunctionButtonPress(FunctionButtonEvent e) {
 				if (e.getFunctionButton() == FunctionButton.ON) {
 					getController().setOn(true, true);
 				}
