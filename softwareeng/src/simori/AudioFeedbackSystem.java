@@ -2,7 +2,6 @@ package simori;
 import javax.sound.midi.InvalidMidiDataException;
 import simori.Exceptions.SimoriNonFatalException;
 
-
 /**
  * @author Josh
  * @author Adam
