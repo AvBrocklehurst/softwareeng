@@ -59,10 +59,12 @@ public class MIDISoundSystem implements PowerTogglable {
 		Soundbank sb = null;
 		File file = ResourceManager.getResource("goodSoundbank.SF2");
 		if (file == null) {
-			throw new SimoriNonFatalException("Could not find Res Folder.");
+			System.err.println("Could not find Res Folder.");
+			return;
 		}
 		if (!file.exists()) {
-			throw new SimoriNonFatalException("Could not find Sound bank.");
+			System.err.println("Could not find Sound bank.");
+			return;
 		}
 		try {
 			sb = MidiSystem.getSoundbank(file);
