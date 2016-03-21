@@ -49,7 +49,7 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 	 * @version 1.1.3
 	 * @throws SimoriNonFatalException 
 	 */
-	public void onGridButtonPress(GridButtonEvent e) throws SimoriNonFatalException {
+	public void onGridButtonPress(GridButtonEvent e) {
 		
 		int x = e.getX();            //grid position of button press
 		int y = e.getY();  
@@ -62,7 +62,7 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 	
 	/** {@inheritDoc} 
 	 * @throws SimoriNonFatalException */
-	public void onFunctionButtonPress(FunctionButtonEvent e) throws SimoriNonFatalException {
+	public void onFunctionButtonPress(FunctionButtonEvent e) {
 		if (e.getFunctionButton().equals(FunctionButton.OK)) {
 			getController().sadSound();
 			return;
@@ -82,7 +82,7 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 	 * @version 2.0.1
 	 */
 	@Override
-	public void tickerLight(byte col) throws SimoriNonFatalException {
+	public void tickerLight(byte col) {
 		makeGridCopy(getDisplayLayer());   //copy the grid
 		grid[0][col] = true;
 		grid[5][col] = true;
@@ -136,7 +136,7 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 	 * @throws SimoriNonFatalException 
 	 */
 	@Override
-	public void setInitialGrid() throws SimoriNonFatalException {
+	public void setInitialGrid() {
 		short instr = getModel().getInstrument(getDisplayLayer());  //initial instrument
 		getGui().setText(InstrumentNamer.getInstance().getName(instr));
 		tickerLight((byte) (getModel().getCurrentColumn()));
