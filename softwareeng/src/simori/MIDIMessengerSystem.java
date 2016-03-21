@@ -8,6 +8,7 @@ import simori.Exceptions.SimoriNonFatalException;
 /**
  * @author Josh
  * @version 3.2.0
+ * @see ShortMessage
  * 
  * Class that provides methods for constructing MIDIMessages
  */
@@ -33,7 +34,7 @@ abstract class MIDIMessengerSystem {
 	 * @throws InvalidMidiDataException
 	 * @version 1.0.1
 	 * 
-	 * Method that creates a program change message.
+	 * Method that creates a PROGRAM_CHANGE message.
 	 */
 	ShortMessage createMessage(byte channel, byte instrument) {
 		ShortMessage message = new ShortMessage();
@@ -53,7 +54,7 @@ abstract class MIDIMessengerSystem {
 	 * @throws InvalidMidiDataException
 	 * @version 1.0.1
 	 * 
-	 * Method that creates a note on message.
+	 * Method that creates a NOTE_ON message.
 	 */
 	ShortMessage createMessage(byte channel, byte pitch, byte velocity) {
 		ShortMessage message = new ShortMessage();

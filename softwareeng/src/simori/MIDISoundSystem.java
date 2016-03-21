@@ -15,6 +15,7 @@ import simori.Exceptions.SimoriNonFatalException;
 import simori.Simori.PowerTogglable;
 
 /**
+ * TODO CHANGE THIS IF IT DOES WORK IN BLUE ROOM DUE TO NEW SOUNDBANK!
  * Please note: As discussed with Dave the Blue Room doesn't correctly play percussion instruments.
  * As a result this code works with multiple laptops,PC's etc but doesnt work properly in blue room.
  * (It just plays a clicking noise)
@@ -44,17 +45,21 @@ public class MIDISoundSystem implements PowerTogglable {
 		try {
 			synth = MidiSystem.getSynthesizer();
 			synth.open();
-			
-			synth.unloadAllInstruments(synth.getDefaultSoundbank());
-			setSoundbank();
+			synth.unloadAllInstruments(synth.getDefaultSoundbank()); 
+			setSoundbank(); // change to new sound bank.
 			reciever = synth.getReceiver();
-		} catch (MidiUnavailableException e) {
-			throw new SimoriNonFatalException("Invalid data was sent to the Midi.");
-		}
+			
+		} catch (MidiUnavailableException e) {throw new SimoriNonFatalException("MidiSystem is unavailable. You will be unable to play sound.");}
 		if (synth == null) System.exit(1);
 		if (reciever == null) System.exit(1);
 	}
 	
+	/**
+	 * @author Josh
+	 * @version 1.0.2
+	 * 
+	 * Method that loads in a soundbank (This means music will play ok in the blue room).
+	 */
 	private void setSoundbank() {
 		Soundbank sb = null;
 		File file = ResourceManager.getResource("bestSoundbank.SF2");
@@ -118,13 +123,11 @@ public class MIDISoundSystem implements PowerTogglable {
 			synth.open();
 			reciever = synth.getReceiver();
 		} catch (MidiUnavailableException e) {
-			throw new SimoriNonFatalException("Midi Player was unable to be opened.");
+			throw new SimoriNonFatalException("Midi Player was unable to be opened. You will be unable to play sound.");
 		}
 	}
 	
-	/** {@inheritDoc} 
-	 * @author Jurek
-	 */
+	/** {@inheritDoc}  */
 	@Override
 	public void switchOn() {
 		ready();
