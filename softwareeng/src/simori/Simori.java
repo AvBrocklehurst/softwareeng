@@ -40,35 +40,22 @@ public class Simori {
 	}
 	
 	/**
-	 * Displays a splash screen, then performs the lengthly
-	 * operations necessary to construct a working Simori-ON,
-	 * and displays this at least {@link #MIN_SPLASH_TIME} later.
+	 * Displays a splash screen, then constructs and connects
+	 * the various components of the Simori-ON system.
 	 * @author Adam
 	 * @author James
 	 * @author Josh
 	 * @author Jurek
 	 * @author Matt
-	 * @version 3.0.0
-	 * @throws SimoriNonFatalException to be displayed as error
+	 * @version 4.0.0
 	 */
 	public Simori() {
+		ExceptionManager errors = new ExceptionManager(); //Start catching
 		SplashScreen splash = new SplashJWindow(); // Displays immediately
 		InstrumentNamer.getInstance(); // Proved costly to initialise later
-		splash.swapFor(assembleSimori(), MIN_SPLASH_TIME); // Takes a while
-		splash = null; // Allow garbage collector to reclaim splash screen
-
-	}
-	
-	/**
-	 * Constructs and connects the various components of the Simori-ON system.
-	 * @return For the {@link SplashScreen} to set visible
-	 * @throws SimoriNonFatalException to display as error
-	 */
-	private SimoriGui assembleSimori() {
 		MatrixModel model = new MatrixModel(GRID_SIZE, GRID_SIZE);
 		QwertyKeyboard keyboard = new QwertyKeyboard(GRID_SIZE, GRID_SIZE);
 		SimoriJFrame gui = new SimoriJFrame(keyboard); // Swing implementation
-		Thread.setDefaultUncaughtExceptionHandler(gui.getExceptionHandler());
 		MIDISoundSystem player = new MIDISoundSystem();
 		AudioFeedbackSystem afs = new AudioFeedbackSystem(player, model);
 		ModeController modes = new ModeController(gui, model, afs, PORT);
@@ -76,10 +63,12 @@ public class Simori {
 		model.addObserver(clock);
 		modes.setComponentsToPowerToggle(model, player, gui, clock);
 		modes.setOn(false, false); // Initially off without animation
+		splash.swapFor(gui, MIN_SPLASH_TIME, errors, afs); // GUI and errors
+		splash = null; // Allow garbage collector to reclaim splash screen
 		
-		return gui; // Splash screen will swap itself for this
+		throw new SimoriNonFatalException("This is a test!");
 	}
-	
+
 	/**
 	 * Interface for components to be notified of startup and
 	 * shutdown events, so that they may perform the required actions.
