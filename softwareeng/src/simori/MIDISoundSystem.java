@@ -29,7 +29,6 @@ import simori.Simori.PowerTogglable;
  * regardless of whether it is a from a layer in the Simori or from a 'jingle' in the audio feedback.
  */
 public class MIDISoundSystem implements PowerTogglable {
-
 	final static int TIMESTAMP = -1; // Timestamp of -1 means MIDI messages will be executed immediately.
 	private Synthesizer synth;
 	private Receiver reciever;
@@ -72,7 +71,7 @@ public class MIDISoundSystem implements PowerTogglable {
 			return;
 		}
 		try {
-			sb = MidiSystem.getSoundbank(file);
+			sb = MidiSystem.getSoundbank(file); // Make the MidiSystem use this loaded in soundbank
 		} catch (InvalidMidiDataException e) {
 			throw new SimoriNonFatalException("Invalid data was sent to the Midi.");
 		} catch (IOException e) {
@@ -112,7 +111,7 @@ public class MIDISoundSystem implements PowerTogglable {
 	 * Method that tells the synth to stop making noise ASAP.
 	 */
 	void stopSound(){
-		synth.getChannels()[0].allNotesOff();
+		synth.getChannels()[0].allNotesOff(); // these are the only channels that are ever used.
 		synth.getChannels()[9].allNotesOff();
 	}
 	
