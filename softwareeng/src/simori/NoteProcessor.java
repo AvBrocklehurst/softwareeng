@@ -83,6 +83,7 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 				//send a play request to the MIDIPlayer
 				try{
 					if(played) {midi.stopPlay(); played = false;}
+					System.out.println(audible);
 					if(toBePlayed.length!=0 && audible) {midi.play(toBePlayed); played = true;}
 					else played = false;
 				//if MIDIPlayer throws an error, print it out and stop the JVM
