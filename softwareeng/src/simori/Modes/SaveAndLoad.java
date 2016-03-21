@@ -11,6 +11,7 @@ import simori.MatrixModel;
 import simori.ModeController;
 import simori.ResourceManager;
 import simori.Modes.ChangerMode.Changer;
+import simori.Exceptions.*;
 
 
 /**
@@ -34,8 +35,9 @@ public class SaveAndLoad {
 	 * @version 1.0.0
 	 * @param model     The model to serialize.
 	 * @param filename  The file to save it to.
+	 * @throws SimoriNonFatalException 
 	 */
-	public static void save(MatrixModel model, String filename){
+	public static void save(MatrixModel model, String filename) throws SimoriNonFatalException{
 		try {
 			File file = getLocationFor(filename);
 	        FileOutputStream fos = new FileOutputStream(file);
@@ -46,7 +48,7 @@ public class SaveAndLoad {
 	        fos.close();
 	        oos.close();
 		} catch (Exception ex){
-	        System.out.println(("Exception thrown during test: " + ex.toString()));
+	        throw new SimoriNonFatalException("Unable to save file.");
 	    }
 	}
 		
@@ -59,10 +61,11 @@ public class SaveAndLoad {
 	 * @author Matt
 	 * @param model     Model to replace.
 	 * @param filename  Filename of where to load the saved model from.
+	 * @throws SimoriNonFatalException 
 	 */
-	public static boolean loadShop(MatrixModel model, String filename){
+	public static boolean loadShop(MatrixModel model, String filename) throws SimoriNonFatalException{
 		try {
-			File file = ResourceManager.getResource("ShopBoySongs");
+			File file = new File(filename);
 			if (!file.exists()){
 				System.out.println("file doesn't exist");
 				return false;
@@ -74,12 +77,8 @@ public class SaveAndLoad {
 	        oos.close();
 	        model.convertModel(tempModel);
 	        return true;
-		} catch (IOException e){
-			e.printStackTrace();
-			return false;
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-			return false;
+		} catch (Exception e){
+			  throw new SimoriNonFatalException("Unable to save file.");
 		}
 	}
 		
@@ -141,7 +140,7 @@ public class SaveAndLoad {
 	protected static Changer makeSaveChanger(final ModeController controller){
 		return new TextEntry(controller) {
 			@Override
-			protected boolean useText(String text) {
+			protected boolean useText(String text) throws SimoriNonFatalException {
 				if (text.length() == 0) return true;
 				text += SONG_EXTENSION;   //add the .song extension
 				SaveAndLoad.save(controller.getModel(), text);
