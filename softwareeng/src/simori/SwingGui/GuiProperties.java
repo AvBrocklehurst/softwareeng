@@ -162,6 +162,18 @@ public class GuiProperties {
 	/** Cursor to indicate that the {@link SimoriJFrame} can be dragged */
 	public static final Cursor MOVE_CURSOR = new Cursor(Cursor.MOVE_CURSOR);
 	
+	/** Default title for {@link ErrorDialog} */
+	public static final String ERROR_DEFAULT_TITLE = "Error!";
+	
+	/** Text on {@link ErrorDialog} button which exits system */
+	public static final String ERROR_EXIT_BUTTON = "Exit";
+	
+	/** Text on button which copies {@link ErrorDialog} long message */
+	public static final String ERROR_COPY_BUTTON = "Copy";
+	
+	/** Text on button which closes {@link ErrorDialog} */
+	public static final String ERROR_DISMISS_BUTTON = "OK";
+	
 	/** Text to display if {@link #SPLASH_IMAGE} cannot be loaded */
 	public static final String SPLASH_BACKUP_TEXT = "Simori-ON by Team H";
 	

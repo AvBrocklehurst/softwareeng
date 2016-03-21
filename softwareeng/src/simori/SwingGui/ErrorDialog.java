@@ -20,9 +20,16 @@ import javax.swing.WindowConstants;
 
 import simori.SimoriGui.OnErrorDismissListener;
 
-//TODO javadoc
+/**
+ * A JDialog which displays an error with an icon, a customisable title,
+ * short summary message and long scrolling message. The options to exit
+ * the system, copy the long message or dismiss the error are presented.
+ * @author Matt
+ * @version 1.3.0
+ */
 public class ErrorDialog extends JDialog {
 	
+	private boolean fatal;
 	private JLabel label; // Formattable area for short summary
 	private JTextArea textArea; // Scrollable area for long message
 	private OnErrorDismissListener listener; // To notify on close
@@ -31,9 +38,14 @@ public class ErrorDialog extends JDialog {
 	 * Creates but does not display a dialog.
 	 * Information can be entered by calling setters,
 	 * and displayed with {@link #setVisible}.
+	 * The options of exiting the system, copying the long message
+	 * or dismissing the error are presented, unless the error is
+	 * fatal, in which case it cannot be dismissed without exiting.
 	 * @param frame The parent SimoriGui which created this dialog
+	 * @param true if the error was fatal
 	 */
-	public ErrorDialog(SimoriJFrame frame) {
+	public ErrorDialog(SimoriJFrame frame, boolean fatal) {
+		this.fatal = fatal;
 		setUpWindow();
 		sortSize(frame);
 		addStuff();
@@ -63,12 +75,14 @@ public class ErrorDialog extends JDialog {
 	
 	/** Customises the properties of the dialog window */
 	private void setUpWindow() {
-		setTitle("Error"); // Default title may be overwritten
+		setTitle(GuiProperties.ERROR_DEFAULT_TITLE);
 		setIconImage(GuiProperties.getIcon());
 		setUndecorated(false); // Has OS skin
 		setResizable(false);
 		setModalityType(ModalityType.APPLICATION_MODAL); // Covers GUI window
-		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(fatal ?
+				WindowConstants.DO_NOTHING_ON_CLOSE :  // Cannot be closed
+				WindowConstants.DISPOSE_ON_CLOSE);    // "x" button closes it
 	}
 	
 	/**
@@ -140,9 +154,9 @@ public class ErrorDialog extends JDialog {
 		JPanel topBit = new JPanel();
 		topBit.setLayout(new BoxLayout(topBit, BoxLayout.LINE_AXIS));
 		topBit.add(Box.createRigidArea(new Dimension(padding, height)));
-		topBit.add(makeImageBit(height, padding));
+		topBit.add(makeImage(height, padding));
 		topBit.add(Box.createRigidArea(new Dimension(padding * 2, height)));
-		topBit.add(makeLabelBit(height, padding));
+		topBit.add(makeLabel(height, padding));
 		topBit.add(Box.createRigidArea(new Dimension(padding, height)));
 		return topBit;
 	}
@@ -158,7 +172,7 @@ public class ErrorDialog extends JDialog {
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.LINE_AXIS));
 		panel.add(Box.createRigidArea(new Dimension(padding, height)));
-		panel.add(makeTextAreaBit(height, padding));
+		panel.add(makeTextArea(height, padding));
 		panel.add(Box.createRigidArea(new Dimension(padding, height)));
 		return panel;
 	}
@@ -184,20 +198,40 @@ public class ErrorDialog extends JDialog {
 		return panel;
 	}
 	
-	private JComponent makeLabelBit(int height, int padding) {
+	/**
+	 * Creates {@link #label}, taking up the remaining horizontal space.
+	 * @param height Height to make label
+	 * @param padding Horizontal space between components on this row
+	 */
+	private JComponent makeLabel(int height, int padding) {
 		label = new JLabel();
-		label.setPreferredSize(new Dimension(getContentPane().getWidth() - height - 4 * padding, height));
+		int width = getContentPane().getWidth() - height - 4 * padding;
+		label.setPreferredSize(new Dimension(width, height));
 		return label;
 	}
 	
-	private JComponent makeImageBit(int height, int padding) {
+	/**
+	 * Creates a component which displays the error dialog icon,
+	 * or a backup image if that cannot be loaded.
+	 * @see GuiProperties#ERROR_ICON
+	 * @see GuiProperties#ERROR_BACKUP_TEXT
+	 * @param height Width and height to make icon
+	 * @param padding Space to leave on left and right
+	 */
+	private ImageComponent makeImage(int height, int padding) {
 		return new ImageComponent(
 				GuiProperties.ERROR_ICON,
 				GuiProperties.ERROR_BACKUP_TEXT,
 				height, height);
 	}
 	
-	private JComponent makeTextAreaBit(int height, int padding) {
+	/**
+	 * Creates {@link #textArea}.
+	 * @param height Height to fill
+	 * @param padding Space to leave between edges
+	 * @return The text area, wrapped in a scroll pane
+	 */
+	private JScrollPane makeTextArea(int height, int padding) {
 		textArea = new JTextArea();
 		textArea.setEditable(false);
 		textArea.setLineWrap(true);
@@ -206,7 +240,7 @@ public class ErrorDialog extends JDialog {
 	
 	/** @return button which calls System.exit(1) when pressed */
 	private JButton makeExitButton() {
-		JButton button = new JButton("Exit");
+		JButton button = new JButton(GuiProperties.ERROR_EXIT_BUTTON);
 		button.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -218,7 +252,7 @@ public class ErrorDialog extends JDialog {
 	
 	/** @return button which copies long message to clipboard when pressed */
 	private JButton makeCopyButton() {
-		JButton button = new JButton("Copy");
+		JButton button = new JButton(GuiProperties.ERROR_COPY_BUTTON);
 		button.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -231,7 +265,7 @@ public class ErrorDialog extends JDialog {
 	
 	/** @return button which dismisses dialog when pressed */
 	private JButton makeOkButton() {
-		JButton button = new JButton("OK");
+		JButton button = new JButton(GuiProperties.ERROR_DISMISS_BUTTON);
 		button.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -239,6 +273,7 @@ public class ErrorDialog extends JDialog {
 				ErrorDialog.this.dispose();
 			}
 		});
+		if (fatal) button.setEnabled(false);
 		return button;
 	}
 }
