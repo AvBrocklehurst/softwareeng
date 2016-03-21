@@ -25,14 +25,26 @@ import simori.ResourceManager;
  * @author Matt
  * @version 2.0.0
  */
-public class SplashImage extends JComponent {
+public class ImageComponent extends JComponent {
 	
 	private Image image;
 	
-	public SplashImage() {
+	public ImageComponent(String fileName, String backupText,
+							float minScrProp, float maxScrProp,
+								float minResize, float maxResize) {
+		Dimension screen = getToolkit().getScreenSize();
+		int backupWidth = (int) (screen.width * minScrProp);
+		int backupHeight = (int) (screen.height * maxScrProp);
 		setOpaque(false);
-		loadImage();
-		sizeImage();
+		loadImage(fileName, backupText, backupWidth, backupHeight);
+		sizeImage(minScrProp, maxScrProp, minResize, maxResize);
+	}
+	
+	public ImageComponent(String fileName, String backupText,
+										int width, int height) {
+		setOpaque(false);
+		loadImage(fileName, backupText, width, height);
+		image = image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
 	}
 	
 	/** {@inheritDoc} */
@@ -66,28 +78,29 @@ public class SplashImage extends JComponent {
 	}
 	
 	/**
-	 * Attempts to load {@link GuiProperties#SPLASH_IMAGE}.
-	 * If the res folder cannot be located, the file does not exist
-	 * within the res folder, or an error occurs reading the file,
-	 * the result of {@link #makeBackupImage} is returned instead.
+	 * Attempts to load {@link #image} from res/fileName.
+	 * If this cannot be done, a backup image with the given text is drawn.
+	 * @param fileName Name (including extension) of image to load
+	 * @param backupText Text to draw as backup if image cannot be loaded
 	 */
-	private void loadImage() {
-		File file = ResourceManager.getResource(GuiProperties.SPLASH_IMAGE);
+	private void loadImage(String fileName, String backupText,
+								int backupWidth, int backupHeight) {
+		File file = ResourceManager.getResource(fileName);
 		if (file == null) {
 			System.err.println("Cannot find res folder!");
-			image = makeBackupImage();
+			image = makeBackupImage(backupText, backupWidth, backupHeight);
 			return;
 		}
 		if (!file.exists()) {
 			System.err.println("Cannot find splash screen image!");
-			image = makeBackupImage();
+			image = makeBackupImage(backupText, backupWidth, backupHeight);
 			return;
 		}
 		try {
 			image = ImageIO.read(file);
 		} catch (IOException e) {
 			System.err.println("Unknown error with splash screen.");
-			image = makeBackupImage();
+			image = makeBackupImage(backupText, backupWidth, backupHeight);
 			return;
 		}
 	}
@@ -102,24 +115,25 @@ public class SplashImage extends JComponent {
 	 * than the minimum proportion it may be transformed to, or greater than
 	 * the maximum, the image is treated as if it is within the range of
 	 * allowable sizes, and allowed to remain in its native resolution.
-	 * @see GuiProperties#SPLASH_MAX_PROPORTION
-	 * @see GuiProperties#SPLASH_MIN_PROPORTION
-	 * @see GuiProperties#SPLASH_MAX_RESIZE
-	 * @see GuiProperties#SPLASH_MIN_RESIZE
+	 * @param minScrProp Image may be enlarged to this proportion of screen
+	 * @param maxScrProp Image may be shrunk to this proportion of screen
+	 * @param minResize Image may only be shrunk to this many times its size
+	 * @param maxResize Image may only be enlarged to this many times its size
 	 */
-	private void sizeImage() {
+	private void sizeImage(float minScrProp, float maxScrProp,
+								float minResize, float maxResize) {
 		Dimension pic =
 				new Dimension(image.getWidth(this), image.getHeight(this));
 		Dimension screen = getToolkit().getScreenSize();
 		float ratio = 1f; // Do not scale unless it violates size limits
 		float scrnShortSide = Math.min(screen.width, screen.height);
 		float imgLongestSide = Math.max(pic.width, pic.height);
-		float minLen = scrnShortSide * GuiProperties.SPLASH_MIN_PROPORTION;
-		float maxLen = scrnShortSide * GuiProperties.SPLASH_MAX_PROPORTION;
+		float minLen = scrnShortSide * minScrProp;
+		float maxLen = scrnShortSide * maxScrProp;
 		if (imgLongestSide < minLen) ratio = minLen / imgLongestSide;
 		if (imgLongestSide > maxLen) ratio = maxLen / imgLongestSide;
-		if (ratio < GuiProperties.SPLASH_MIN_RESIZE) ratio = 1f;
-		if (ratio > GuiProperties.SPLASH_MAX_RESIZE) ratio = 1f;
+		if (ratio < minResize) ratio = 1f;
+		if (ratio > maxResize) ratio = 1f;
 		if (ratio != 1f) { // Resizing is necessary and possible
 			Dimension newPic = GuiProperties.ratioOf(ratio, ratio, pic);
 			image = image.getScaledInstance(newPic.width,
@@ -128,25 +142,24 @@ public class SplashImage extends JComponent {
 	}
 	
 	/**
-	 * Draws an image with text and a radial gradient,
-	 * of the minimum allowable size for a splash screen.
-	 * @return to use in place of missing splash screen image
+	 * Creates an image of the given dimensions, featuring the given text
+	 * on a radial gradient background.
+	 * @param text Text for the desired image
+	 * @param width Width of the desired image
+	 * @param height Height of the desired image
+	 * @return to be used in place of image which could not be loaded
 	 */
-	private Image makeBackupImage() {
-		Dimension screen = getToolkit().getScreenSize();
-		int w = (int) (screen.width * GuiProperties.SPLASH_MIN_PROPORTION);
-		int h = (int) (screen.height * GuiProperties.SPLASH_MIN_PROPORTION);
+	private Image makeBackupImage(String text, int width, int height) {
 		int type = BufferedImage.TYPE_INT_ARGB;
-		BufferedImage backup = new BufferedImage(w, h, type);
+		BufferedImage backup = new BufferedImage(width, height, type);
 		Graphics2D g = backup.createGraphics();
-		drawBackground(w, h, g,
-				 GuiProperties.SPLASH_BACKUP_CENTRE,
-				 GuiProperties.SPLASH_BACKUP_EDGE);
-		drawText(g, new Dimension(w, h),
+		drawBackground(width, height, g,
+				 GuiProperties.IMAGE_BACKUP_CENTRE,
+				 GuiProperties.IMAGE_BACKUP_EDGE);
+		drawText(text, g, new Dimension(width, height),
 				 GuiProperties.getFont(),
-				 GuiProperties.SPLASH_BACKUP_TEXT,
-				 GuiProperties.SPLASH_TEXT_PROPORTION,
-				 GuiProperties.SPLASH_BACKUP);
+				 GuiProperties.IMG_BACKUP_TEXT_PROPORTION,
+				 GuiProperties.IMAGE_BACKUP_TEXT);
 		return backup;
 	}
 	
@@ -177,8 +190,8 @@ public class SplashImage extends JComponent {
 	 * @param colour The colour to draw the text
 	 * @param g The graphics context to use
 	 */
-	private void drawText(Graphics2D g, Dimension imgSize, Font font,
-								String text, float ratio, Color colour) {
+	private void drawText(String text, Graphics2D g, Dimension imgSize,
+									Font font, float ratio, Color colour) {
 		// Determine maximum font size for area within margins
 		Dimension textArea = GuiProperties.ratioOf(ratio, ratio, imgSize);
 		g.setFont(font);

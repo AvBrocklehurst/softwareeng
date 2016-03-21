@@ -1,13 +1,7 @@
 package simori.SwingGui;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Image;
-import java.io.File;
-import java.io.IOException;
 
-import javax.imageio.ImageIO;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -19,15 +13,13 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.WindowConstants;
 
-import simori.ResourceManager;
-
 public class ErrorDialog extends JDialog {
 	
 	private static final float TOP_PROPORTION = 0.25f;
 	private static final float BOTTOM_PROPORTION = 0.1f;
 	private static final float PADDING_PROPORTION = 0.1f;
 	
-	private static final String IPSUM = "Watch it, Goldie. Do you mind if we park for a while? Welcome to my latest experiment. It's the one I've been waiting for all my life. Wrecked? Thank god I still got my hair. What on Earth is that thing I'm wearing? whoa, whoa Doc, stuck here, I can't be stuck here, I got a life in 1985. I got a girl. Can't be. This is nuts. Aw, c'mon. you guys look great. Mom, you look so thin. He's absolutely right, Marty. the last thing you need is headaches. A bolt of lightning, unfortunately, you never know when or where it's ever gonna strike. No no no, Doc, I just got here, okay, Jennifer's here, we're gonna take the new truck for a spin. Um, yeah well I might have sort of ran into my parents. Shut your filthy mouth, I'm not that kind of girl. Marty, you're beginning to sound just like my mother. Watch it, Goldie. My name's Lorraine, Lorraine Baines. Ahh. Watch this. Not me, the car, the car. My calculations are correct, when this baby hits eighty-eight miles per hour, your gonna see some serious shit. Watch this, watch this. Ha, what did I tell you, eighty-eight miles per hour. The temporal displacement occurred at exactly 1:20 a.m. and zero seconds. Yes, definitely, god-dammit George, swear. Okay, so now, you come up, you punch me in the stomach, I'm out for the count, right? And you and Lorraine live happily ever after. I will. Keys? This is more serious than I thought. Apparently your mother is amorously infatuated with you instead of your father. C'mon, more, dammit. Jeez. Holy shit. Let's see if you bastards can do ninety. Uh, I think so. No, why, what's a matter? What about George? Ah well, sort of. One point twenty-one gigawatts. One point twenty-one gigawatts. Great Scott. Marty, you made it. I can't play. I think it's terrible. Girls chasing boys. When I was your age I never chased a boy, or called a boy, or sat in a parked car with a boy. That's true, Marty, I think you should spend the night. I think you're our responsibility. Marty, why are you so nervous? Uh, well, I gotta go. And where's my reports? Doc, wait. No, bastards. Marty, you interacted with anybody else today, besides me? How could I have been so careless. One point twenty-one gigawatts. Tom, how am I gonna generate that kind of power, it can't be done, it can't. So tell me, future boy, who's president of the United States in 1985? George. George. Dear Doctor Brown, on the night that I go back in time, you will be shot by terrorists. Please take whatever precautions are necessary to prevent this terrible disaster. Your friend, Marty. You want it, you know you want it, and you know you want me to give it to you. Like I always told you, if you put your mind to it you could accomplish anything. What were you doing in the middle of the street, a kid your age. I hope so. Please note that Einstein's clock is in complete synchronization with my control watch. I hope you don't mind but George asked if he could take me home. Then how am I supposed to ever meet anybody. Nothing. Oh, hi , Marty. I didn't hear you come in. Fascinating device, this video unit.";
+	private static final String IPSUM = "Its good. Doc, you don't just walk into a store and ask for plutonium. Did you rip this off? Are those my clocks I hear? Why thank you, Marty. George. Good morning, sleepyhead, Good morning, Dave, Lynda No, I refuse to except the responsibility. Right check, Doc. C'mon, more, dammit. Jeez. Holy shit. Let's see if you bastards can do ninety. Let him go, Biff, you're drunk. My equipment, that reminds me, Marty, you better not hook up to the amplifier. There's a slight possibility for overload. Thanks a lot, kid. Well, this is a radiation suit. What? Leave me alone. I had a horrible nightmare, dreamed I went back in time, it was terrible. Let's get you into a radiation suit, we must prepare to reload. No wait, Doc, the bruise, the bruise on your head, I know how that happened, you told me the whole story. you were standing on your toilet and you were hanging a clock, and you fell, and you hit your head on the sink, and that's when you came up with the idea for the flux capacitor, which makes time travel possible. Roads? Where we're going we don't need roads. Ah. Nothing. That Biff, what a character. Always trying to get away with something. Been on top of Biff ever since high school. Although, if it wasn't for him- Good, I'll see you tonight. Don't forget, now, 1:15 a.m., Twin Pines Mall. Lorraine, are you up there? I'm really gonna miss you. Doc, about the future- I said the keys are in here. Good, there's somebody I'd like you to meet. Lorraine. Well, I guess that's everything. I just wanna use the phone. whoa, this is it, this is the part coming up, Doc. Excuse me. George, help me, please. Yeah, exactly. Marty, is that you? You too. Hey man, the dance is over. Unless you know someone else who could play the guitar. Oh. What about George? Doc. Marty you gotta come back with me. Never mind that now, never mind that now. Whoa, whoa, Biff, what's that? Marty, why are you so nervous? This Saturday night, mostly clear, with some scattered clouds. Lows in the upper forties. Uh listen, do you know where Riverside Drive is? Yeah, well history is gonna change. Yeah, I'm- mayor. Now that's a good idea. I could run for mayor. I'll call you tonight. This is more serious than I thought. Apparently your mother is amorously infatuated with you instead of your father. Listen, Doc, you know there's something I haven't told you about the night we made that tape. oh yeah, all you gotta do is go over there and ask her. Uncle Jailbird Joey?";	
 	
 	public ErrorDialog(SimoriJFrame frame) {
 		setTitle("Error");
@@ -101,7 +93,10 @@ public class ErrorDialog extends JDialog {
 	}
 	
 	private JComponent makeImageBit(int height, int padding) {
-		return new ImageComponent("Chunbori-ON.png", height, height); //or a replacement
+		return new ImageComponent(
+				GuiProperties.ERROR_ICON,
+				GuiProperties.ERROR_BACKUP_TEXT,
+				height, height);
 	}
 	
 	private JComponent makeTextAreaBit(int height, int padding) {
@@ -109,30 +104,5 @@ public class ErrorDialog extends JDialog {
 		text.setEditable(false);
 		text.setLineWrap(true);
 		return new JScrollPane(text);
-	}
-	
-	private class ImageComponent extends JComponent {
-		
-		Image image;
-		
-		public ImageComponent(String file, int width, int height) {
-			File icon = ResourceManager.getResource(file);
-			setSize(width, height);
-			try {
-				image = ImageIO.read(icon).getScaledInstance(width, height, Image.SCALE_SMOOTH);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		
-		@Override
-		public void paintComponent(Graphics g) {
-			g.drawImage(image, 0, 0, this);
-		}
-		
-		@Override
-		public Dimension getPreferredSize() {
-			return new Dimension(image.getWidth(this), image.getHeight(this));
-		}
 	}
 }

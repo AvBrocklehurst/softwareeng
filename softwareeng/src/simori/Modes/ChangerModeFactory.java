@@ -294,7 +294,8 @@ public class ChangerModeFactory {
 			public String getText(Setting s) {
 				selectedTempo = coordsConverter(s.x, s.y);
 				selectedTempo = (selectedTempo < 161 ? selectedTempo : null);
-				return selectedTempo == null ? null : String.valueOf(selectedTempo);
+				if (selectedTempo == null) return null;
+				return String.valueOf(selectedTempo) + " BPM";
 			}
 			
 			/**
