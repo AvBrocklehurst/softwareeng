@@ -3,6 +3,7 @@ package simori.Tests;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 
 import java.io.IOException;
 
@@ -27,7 +28,7 @@ import simori.SwingGui.SimoriJFrame;
  * 
  * @author James
  * @author Jurek
- * @version 1.0.1
+ * @version 1.0.2
  * @see ModeController.java
  *
  */
@@ -96,29 +97,45 @@ public class TestModeController{
 	
 	@Test
 	public void test_setMode(){
-		mockcontroller.setMode(new PerformanceMode(mockcontroller));
-		assertThat("The mode was not retrieved correctly", mockcontroller.getMode(), instanceOf(Mode.class));
+		try {
+			mockcontroller.setMode(new PerformanceMode(mockcontroller));
+			assertThat("The mode was not retrieved correctly", mockcontroller.getMode(), instanceOf(Mode.class));
+		} catch (SimoriNonFatalException e) {
+			fail();
+		}
 	}
 	
 	@Test
 	public void test_setOnFalse(){
-		mockcontroller.setComponentsToPowerToggle(testmodel); //need a component to toggle
-		mockcontroller.setOn(false, false);
-		assertEquals("The simori was not turned off", false, mockcontroller.getOn());
+		try {
+			mockcontroller.setComponentsToPowerToggle(testmodel); //need a component to toggle
+			mockcontroller.setOn(false, false);
+			assertEquals("The simori was not turned off", false, mockcontroller.getOn());
+		} catch (SimoriNonFatalException e) {
+			fail();
+		}
 	}
 	
 	@Test
 	public void test_setOnFalse_noToggles(){
-		mockcontroller.setOn(false, false);
-		assertEquals("The simori was not turned off", false, mockcontroller.getOn());
+		try {
+			mockcontroller.setOn(false, false);
+			assertEquals("The simori was not turned off", false, mockcontroller.getOn());
+		} catch (SimoriNonFatalException e) {
+			fail();
+		}
 	}
 	
 	@Test
 	public void test_setOn(){
-		mockcontroller.setComponentsToPowerToggle(testmodel);   
-		mockcontroller.setFalseOn();
-		mockcontroller.setOn(true, false);
-		assertEquals("The simori was not turned on", true, mockcontroller.getOn());
+		try {
+			mockcontroller.setComponentsToPowerToggle(testmodel);   
+			mockcontroller.setFalseOn();
+			mockcontroller.setOn(true, false);
+			assertEquals("The simori was not turned on", true, mockcontroller.getOn());
+		} catch (SimoriNonFatalException e) {
+			fail();
+		}
 	}
 
 }

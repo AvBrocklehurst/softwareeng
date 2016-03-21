@@ -96,9 +96,10 @@ public class TestNoteProcessor {
 	
 	/**
 	 * @author Jurek
+	 * @throws SimoriNonFatalException 
 	 */
 	@After
-	public void tearDown() {
+	public void tearDown() throws SimoriNonFatalException {
 		modes.setOn(false, false);
 		model = null;
 		keyboard = null;

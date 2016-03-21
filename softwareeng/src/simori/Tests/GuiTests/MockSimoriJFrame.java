@@ -17,6 +17,7 @@ import java.awt.Graphics;
 import simori.FunctionButton;
 import simori.Exceptions.SimoriNonFatalException;
 import simori.Modes.QwertyKeyboard;
+import simori.Simori.PowerTogglable;
 import simori.SimoriGui.KeyboardMapping;
 import simori.SwingGui.Button;
 import simori.SwingGui.Led;
@@ -102,6 +103,8 @@ public class MockSimoriJFrame extends SimoriJFrame {
 			leftBar = new MockSimoriEdgeBar(true, false, maker, L1, L2, L3, L4);
 			rightBar = new MockSimoriEdgeBar(true, false, maker, R1, R2, R3, R4);
 			bottomBar = new MockSimoriEdgeBar(false, true, maker, OK);
+			components = new PowerTogglable[]
+					{centrePanel, leftBar, rightBar, bottomBar}; // Exclude topBar
 		}
 		
 		public MockSimoriEdgeBar getTopBar() {

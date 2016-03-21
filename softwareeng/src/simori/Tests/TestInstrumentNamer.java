@@ -7,10 +7,12 @@ import org.junit.Before;
 import org.junit.Test;
 
 import simori.InstrumentNamer;
+import simori.Exceptions.SimoriNonFatalException;
 /**
  * 
  * @author Josh
- * @version 1.1.7
+ * @author Jurek
+ * @version 1.1.8
  * {@link simori.InstrumentNamer}
  * 
  * JUnit tests for the InstrumentNamer Class.
@@ -33,75 +35,105 @@ public class TestInstrumentNamer {
 
 	/**
 	 * @author Josh
-	 * @version 1.0.0
+	 * @author Jurek
+	 * @version 1.0.1
 	 * 
 	 * test to see if an instance can be created.
 	 */
 	@Test
 	public void testGetInstanceOnce() {
-		instrumentNamer = InstrumentNamer.getInstance();
-		assertNotNull(instrumentNamer);
+		try {
+			instrumentNamer = InstrumentNamer.getInstance();
+			assertNotNull(instrumentNamer);
+		} catch (SimoriNonFatalException e) {
+			fail();
+		}
 	}
 	
 	/**
 	 * @author Josh
-	 * @version 1.0.0
+	 * @author Jurek
+	 * @version 1.0.1
 	 * 
 	 * test to see if an instance can be created, but not multiple times.
 	 */
 	@Test
 	public void testGetInstanceTwice() {
-		instrumentNamer = InstrumentNamer.getInstance();
-		instrumentNamer = InstrumentNamer.getInstance();
-		assertNotNull(instrumentNamer);  
+		try {
+			instrumentNamer = InstrumentNamer.getInstance();
+			instrumentNamer = InstrumentNamer.getInstance();
+			assertNotNull(instrumentNamer);  
+		} catch (SimoriNonFatalException e) {
+			fail();
+		}
 	}
 	
 	/**
 	 * @author Josh
-	 * @version 1.0.0
+	 * @author Jurek
+	 * @version 1.0.1
 	 * 
 	 * test to see if we get the correct instrument
 	 */
 	@Test
 	public void testGetInstrument() {
-		instrumentName = InstrumentNamer.getInstance().getName(110);
-		assertEquals("Bagpipe", instrumentName);
+		try {
+			instrumentName = InstrumentNamer.getInstance().getName(110);
+			assertEquals("Bagpipe", instrumentName);
+		} catch (SimoriNonFatalException e) {
+			fail();
+		}
 	}
 	
 	/**
 	 * @author Josh
-	 * @version 1.0.0
+	 * @author Jurek
+	 * @version 1.0.1
 	 * 
 	 * test to see if we get the correct percussion instrument
 	 */
 	@Test
 	public void testGetPercussionInstrument() {
-		instrumentName = InstrumentNamer.getInstance().getName(133);
-		assertEquals("Hand Clap", instrumentName);
+		try {
+			instrumentName = InstrumentNamer.getInstance().getName(133);
+			assertEquals("Hand Clap", instrumentName);
+		} catch (SimoriNonFatalException e) {
+			fail();
+		}
 	}
 	
 	/**
 	 * @author Josh
-	 * @version 1.0.0
+	 * @author Jurek
+	 * @version 1.0.1
 	 * 
 	 * since there is no instrument zero, we shouldnt get a value
 	 */
 	@Test
 	public void testGetInstrumentZero() {
-		instrumentName = InstrumentNamer.getInstance().getName(0);
-		assertNull(instrumentName);
+		try {
+			instrumentName = InstrumentNamer.getInstance().getName(0);
+			assertNull(instrumentName);
+		} catch (SimoriNonFatalException e) {
+			fail();
+		}
 	}
 	
 	/**
 	 * @author Josh
-	 * @version 1.0.0
+	 * @author Jurek
+	 * @version 1.0.1
 	 * 
 	 * since there is no instrument 500, we shouldnt get a value
 	 */
 	@Test
 	public void testGetInstrument500() {
-		instrumentName = InstrumentNamer.getInstance().getName(500);
-		assertNull(instrumentName);
+		try {
+			instrumentName = InstrumentNamer.getInstance().getName(500);
+			assertNull(instrumentName);
+		} catch (SimoriNonFatalException e) {
+			fail();
+		}
 	}
 	
 	

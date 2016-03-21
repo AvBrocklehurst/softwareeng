@@ -3,6 +3,7 @@ package simori.Tests;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 
 import java.io.IOException;
 
@@ -32,7 +33,7 @@ import simori.SwingGui.SimoriJFrame;
  * 
  * @author James
  * @author Jurek
- * @version 1.0.1
+ * @version 1.0.2
  * @see Mode.java
  *
  */
@@ -160,20 +161,32 @@ public class TestMode{
 	
 	@Test
 	public void test_onFunctionButtonPress_Ok(){
-		testermode.onFunctionButtonPress(testfbevent);
-		assertThat("The mode was not set to performance mode", mockcontroller.getMode(), instanceOf(PerformanceMode.class));
+		try {
+			testermode.onFunctionButtonPress(testfbevent);
+			assertThat("The mode was not set to performance mode", mockcontroller.getMode(), instanceOf(PerformanceMode.class));
+		} catch (SimoriNonFatalException e) {
+			fail();
+		}
 	}
 	
 	@Test
 	public void test_onFunctionButtonPress_On(){
-		testermode.onFunctionButtonPress(testfbevent3);
-		assertEquals("Simori was not turned off as expected", false, testermode.getController().isOn());
+		try {
+			testermode.onFunctionButtonPress(testfbevent3);
+			assertEquals("Simori was not turned off as expected", false, testermode.getController().isOn());
+		} catch (SimoriNonFatalException e) {
+			fail();
+		}
 	}
 	
 	@Test
 	public void test_onFunctionButtonPress_Changer(){
-		testermode.onFunctionButtonPress(testfbevent2);
-		assertThat("Mode was not changed to Change Voice as expected!", mockcontroller.getMode(), instanceOf(Mode.class));
+		try {
+			testermode.onFunctionButtonPress(testfbevent2);
+			assertThat("Mode was not changed to Change Voice as expected!", mockcontroller.getMode(), instanceOf(Mode.class));
+		} catch (SimoriNonFatalException e) {
+			fail();
+		}
 	}
 
 }

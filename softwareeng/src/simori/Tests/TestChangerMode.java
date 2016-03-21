@@ -1,9 +1,7 @@
 package simori.Tests;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 
 import java.io.IOException;
 
@@ -36,7 +34,7 @@ import simori.SwingGui.SimoriJFrame;
  * 
  * @author James
  * @author Jurek
- * @version 1.0.1
+ * @version 1.0.2
  * @see ChangerMode.java
  *
  */
@@ -119,20 +117,30 @@ public class TestChangerMode {
 	 */
 	@Test
 	public void call_onFunctionButtonPress(){
-		testcmode.onFunctionButtonPress(fbevent);
+		try {
+			testcmode.onFunctionButtonPress(fbevent);
+		} catch (SimoriNonFatalException e) {
+			fail();
+		}
 	}
 	
 	@Test
 	public void test_onGridButtonPress() {
-		testcmode.onGridButtonPress(gbevent);    //coverage call
-		Setting s = new Setting((byte)gbevent.getX(), (byte)gbevent.getY());  //replicate method functionality
-		String t = testChanger().getText(s);
-		assertEquals("The method functionality did not behave as expected!", "Hello World!", t);
+		try{
+			testcmode.onGridButtonPress(gbevent);    //coverage call
+			Setting s = new Setting((byte)gbevent.getX(), (byte)gbevent.getY());  //replicate method functionality
+			String t = testChanger().getText(s);
+			assertEquals("The method functionality did not behave as expected!", "Hello World!", t);
+		} catch (SimoriNonFatalException e) {fail();}
 	}
 	
 	@Test
 	public void test_setInitialGrid(){
-		testcmode.setInitialGrid();  //coverage call
+		try {
+			testcmode.setInitialGrid();
+		} catch (SimoriNonFatalException e) {
+			fail();
+		}  //coverage call
 		Setting current = testChanger().getCurrentSetting(); //again the only way to test here was to replicate a degree of functionality
 		assertNull("The current setting passed should be null!", current);
 		
@@ -141,7 +149,11 @@ public class TestChangerMode {
 	@Test
 	public void test_getText(){
 		Setting s = new Setting((byte)0, (byte)0);
-		assertEquals("The text should be Hello World!", "Hello World!", testChanger().getText(s));
+		try {
+			assertEquals("The text should be Hello World!", "Hello World!", testChanger().getText(s));
+		} catch (SimoriNonFatalException e) {
+			fail();
+		}
 	}
 	
 	@Test

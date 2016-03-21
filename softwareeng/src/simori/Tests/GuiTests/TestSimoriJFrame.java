@@ -16,9 +16,11 @@ import simori.MIDISoundSystem;
 import simori.MatrixModel;
 import simori.ModeController;
 import simori.SimoriGui.KeyboardMapping;
+import simori.Exceptions.SimoriNonFatalException;
 import simori.Modes.Mode;
 import simori.Modes.PerformanceMode;
 import simori.Modes.QwertyKeyboard;
+import simori.SwingGui.SimoriJFrame;
 
 /**
  * Class that tests SimoriJFrame
@@ -94,7 +96,9 @@ public class TestSimoriJFrame {
 	 */
 	@Test
 	public void testSwitchOn() {
+		System.out.println("hi");
 		jframe.switchOn();
+		System.out.println("why u no work");
 		//bottom buttons
 		assertThat(new Color(0xDDDDDD), not(jframe.getBottomBar().getButton(0).getFillColour()));
 		//left buttons
@@ -135,14 +139,18 @@ public class TestSimoriJFrame {
 	 */
 	@Test
 	public void testSetAndGetGridButtonListener() {
-		MatrixModel model = new MatrixModel(16, 16);
-		MIDISoundSystem midi = new MIDISoundSystem();
-		AudioFeedbackSystem audio = new AudioFeedbackSystem(midi, model);
-		ModeController mc = new ModeController(jframe, model, audio, 20160);
-		Mode mode = new PerformanceMode(mc);
-		jframe.setGridButtonListener(mode);
-		assertEquals(mode, jframe.getGridButtonListener());
-		mc.setOn(false, false);
+		try {
+			MatrixModel model = new MatrixModel(16, 16);
+			MIDISoundSystem midi = new MIDISoundSystem();
+			AudioFeedbackSystem audio = new AudioFeedbackSystem(midi, model);
+			ModeController mc = new ModeController(jframe, model, audio, 20160);
+			Mode mode = new PerformanceMode(mc);
+			jframe.setGridButtonListener(mode);
+			assertEquals(mode, jframe.getGridButtonListener());
+			mc.setOn(false, false);
+		} catch (SimoriNonFatalException e) {
+			fail();
+		}
 	}
 	
 	/**
@@ -150,14 +158,18 @@ public class TestSimoriJFrame {
 	 */
 	@Test
 	public void testSetAndGetFunctionButtonListener() {
-		MatrixModel model = new MatrixModel(16, 16);
-		MIDISoundSystem midi = new MIDISoundSystem();
-		AudioFeedbackSystem audio = new AudioFeedbackSystem(midi, model);
-		ModeController mc = new ModeController(jframe, model, audio, 20160);
-		Mode mode = new PerformanceMode(mc);
-		jframe.setFunctionButtonListener(mode);
-		assertEquals(mode, jframe.getFunctionButtonListener());
-		mc.setOn(false, false);
+		try {
+			MatrixModel model = new MatrixModel(16, 16);
+			MIDISoundSystem midi = new MIDISoundSystem();
+			AudioFeedbackSystem audio = new AudioFeedbackSystem(midi, model);
+			ModeController mc = new ModeController(jframe, model, audio, 20160);
+			Mode mode = new PerformanceMode(mc);
+			jframe.setFunctionButtonListener(mode);
+			assertEquals(mode, jframe.getFunctionButtonListener());
+			mc.setOn(false, false);
+		} catch (SimoriNonFatalException e) {
+			fail();
+		}
 	}
 	
 	/**

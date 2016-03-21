@@ -1,6 +1,7 @@
 package simori.Tests;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import java.io.IOException;
 
@@ -26,7 +27,7 @@ import simori.SwingGui.SimoriJFrame;
  * The class for testing Performance Mode - unfinished.
  * @author James
  * @author Jurek
- * @version 1.1.1
+ * @version 1.1.2
  * @see simori.Modes.PerformanceMode
  *
  */
@@ -69,19 +70,27 @@ public class TestPerformanceMode {
 	
 	@Test
 	public void testOnGridButtonPress() {
-		testpm.onGridButtonPress(testgb);
-		boolean changedgridcoords = testpm.getModifiedGrid()[5][5];
-		assertEquals("The grid button was not inverted!", true, changedgridcoords);
+		try {
+			testpm.onGridButtonPress(testgb);
+			boolean changedgridcoords = testpm.getModifiedGrid()[5][5];
+			assertEquals("The grid button was not inverted!", true, changedgridcoords);
+		} catch (SimoriNonFatalException e) {
+			fail();
+		}
 		
 		
 	}
 	
 	@Test
 	public void test_onGridButtonPress_false() {
-		testpm.onGridButtonPress(testgb); //invert to true
-		testpm.onGridButtonPress(testgb); //invert to false
-		boolean changedgridcoords = testpm.getModifiedGrid()[5][5];
-		assertEquals("The grid button was not inverted back to false!", false, changedgridcoords);
+		try {
+			testpm.onGridButtonPress(testgb);
+			testpm.onGridButtonPress(testgb); //invert to false
+			boolean changedgridcoords = testpm.getModifiedGrid()[5][5];
+			assertEquals("The grid button was not inverted back to false!", false, changedgridcoords);
+		} catch (SimoriNonFatalException e) {
+			fail();
+		} //invert to true
 	}
 	
 	

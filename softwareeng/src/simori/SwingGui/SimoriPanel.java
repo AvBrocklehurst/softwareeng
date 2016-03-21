@@ -38,7 +38,7 @@ public class SimoriPanel extends JPanel implements PowerTogglable {
 	protected SimoriEdgeBar topBar, bottomBar;
 	
 	// List of subcomponents to switch on / off
-	private PowerTogglable[] components;
+	protected PowerTogglable[] components;
 	
 	/**
 	 * @param map Layout of the keyboard for text entry
@@ -120,7 +120,9 @@ public class SimoriPanel extends JPanel implements PowerTogglable {
 	/** {@inheritDoc} */
 	@Override
 	public void switchOn() {
-		for (PowerTogglable p : components) p.switchOn();
+		System.out.println("hello from the in side");
+		System.out.println(components.length);
+		for (PowerTogglable p : components) {System.out.println("trying to turn on!");p.switchOn();}
 	}
 	
 	/** {@inheritDoc} */

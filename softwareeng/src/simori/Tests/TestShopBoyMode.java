@@ -44,7 +44,7 @@ public class TestShopBoyMode {
 	}
 	
 	@After
-	public void tearDown() {
+	public void tearDown() throws SimoriNonFatalException {
 		mode.setOn(false, false);
 		gui = null;
 		model = null;
