@@ -48,7 +48,7 @@ public class TestChangerModeFactory {
 	private MockChangerModeFactory mockfactory;
 	
 	@Before
-	public void setUp() throws SimoriNonFatalException, IOException{
+	public void setUp() throws IOException{
 		keyboard = new QwertyKeyboard((byte)16,(byte)16);
 		testgui = new SimoriJFrame(keyboard);
 		testmodel = new MatrixModel(16, 16);
