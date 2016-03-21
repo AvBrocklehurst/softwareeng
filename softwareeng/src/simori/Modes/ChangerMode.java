@@ -169,8 +169,9 @@ public class ChangerMode extends Mode {
 		 * and model, to allow changes to be made where applicable.
 		 * @param controller upon which to make the relevant changes
 		 * @return true if the changes were applied successfully
+		 * @throws SimoriNonFatalException 
 		 */
-		public boolean doThingTo(ModeController controller);
+		public boolean doThingTo(ModeController controller) throws SimoriNonFatalException;
 		
 		/**
 		 * Allows the current setting of a property to be specified.
