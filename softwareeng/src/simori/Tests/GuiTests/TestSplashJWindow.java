@@ -19,8 +19,7 @@ public class TestSplashJWindow {
 	
 	@Before
 	public void setUp() throws SimoriNonFatalException {
-		jframe = new SimoriJFrame(new QwertyKeyboard((byte)16, (byte)16));
-		jwindow = new SplashJWindow();
+
 	}
 
 	@Before
@@ -30,11 +29,14 @@ public class TestSplashJWindow {
 	}
 	
 	@Test
-	public void testSwapFor() {
+	public void testSwapFor() throws SimoriNonFatalException, InterruptedException {
+		jframe = new SimoriJFrame(new QwertyKeyboard((byte)16, (byte)16));
+		jwindow = new SplashJWindow();
 		// TODO untestable?
 		// the splash screen disappears and nullifies before it can be tested :/
 		System.out.println(jwindow.toString());
 		jwindow.swapFor(jframe, 2000);
+		Thread.sleep(3000);
 		
 	}
 }
