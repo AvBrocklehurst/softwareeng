@@ -45,29 +45,35 @@ public class MIDISoundSystem implements PowerTogglable {
 			synth.open();
 			
 			synth.unloadAllInstruments(synth.getDefaultSoundbank());
-			Soundbank sb;
-			try {
-				
-				sb = MidiSystem.getSoundbank(ResourceManager.getResource("goodSoundbank.SF2"));
-				System.out.println(sb.toString());
-				synth.loadAllInstruments(sb);
-				System.out.println("Soundbank Loaded");
-			} catch (InvalidMidiDataException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-			
-			
-			
-			
+			setSoundbank();
 			reciever = synth.getReceiver();
-			} catch (MidiUnavailableException e) {e.printStackTrace(); System.exit(1);}
-		if (synth == null){System.exit(1);}
-		if (reciever == null){System.exit(1);}
+		} catch (MidiUnavailableException e) {
+			e.printStackTrace();
+			System.exit(1);
+		}
+		if (synth == null) System.exit(1);
+		if (reciever == null) System.exit(1);
+	}
+	
+	private void setSoundbank() {
+		Soundbank sb = null;
+		File file = ResourceManager.getResource("goodSoundbank.SF2");
+		if (file == null) {
+			System.err.println("Could not find res folder!");
+			return;
+		}
+		if (!file.exists()) {
+			System.err.println("Could not find soundbank file!");
+			return;
+		}
+		try {
+			sb = MidiSystem.getSoundbank(file);
+		} catch (InvalidMidiDataException e) {
+		} catch (IOException e) {
+		}
+		synth.loadAllInstruments(sb);
+		System.out.println(sb.toString());
+		System.out.println("Soundbank Loaded");
 	}
 	
 	/**

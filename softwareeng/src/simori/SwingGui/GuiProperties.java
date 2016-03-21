@@ -68,6 +68,12 @@ public class GuiProperties {
 	/** Proportion of backup {@link SplashImage} box to fill with text */
 	public static final float SPLASH_TEXT_PROPORTION = 0.8f;
 	
+	/** Proportion of {@link SimoriJFrame} width for {@link ErrorDialog} */
+	public static final float ERROR_WIDTH_PROPORTION = 0.7f;
+	
+	/** Proportion of {@link SimoriJFrame} width for {@link ErrorDialog} */
+	public static final float ERROR_HEIGHT_PROPORTION = 0.4f;
+	
 	/**
 	 * Colour to fill the window (behind the rounded rectangle outline).
 	 * @see SimoriJFrame
