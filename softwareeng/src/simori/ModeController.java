@@ -217,6 +217,7 @@ public class ModeController {
 		on = true;	
 		setMode(makeInitialPerformanceMode());
 		model.setBPM(DEFAULT_BPM);
+		model.setPlaying();
 		slave = new NetworkSlave(port, this);
 		try {
 			master = new NetworkMaster(port, this, slave);
