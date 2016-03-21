@@ -195,8 +195,14 @@ public class SimoriJFrame extends JFrame implements SimoriGui, MouseMotionListen
 	
 	/** {@inheritDoc} */
 	@Override
-	public UncaughtExceptionHandler getExceptionHandler() {
-		return new ExceptionReporter();
+	public void reportError(String shortMessage, String longMessage,
+								String title, OnErrorDismissListener l) {
+		ErrorDialog d = new ErrorDialog(this);
+		d.setTitle(title);
+		d.setOnDismissListener(l);
+		d.setShortMessage(shortMessage);
+		d.setLongMessage(longMessage);
+		d.setVisible(true);
 	}
 	
 	/**
@@ -266,15 +272,5 @@ public class SimoriJFrame extends JFrame implements SimoriGui, MouseMotionListen
 			setCursor(oldCursor);
 		}
 		couldDragBefore = canDrag;
-	}
-	
-	private class ExceptionReporter implements UncaughtExceptionHandler {
-		
-		/** {@inheritDoc} */
-		@Override
-		public void uncaughtException(Thread t, Throwable e) {
-			ErrorDialog d = new ErrorDialog(SimoriJFrame.this);
-			d.setVisible(true);
-		}
 	}
 }

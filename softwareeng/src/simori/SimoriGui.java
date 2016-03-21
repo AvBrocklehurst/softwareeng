@@ -3,9 +3,8 @@ package simori;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.EventObject;
 
-import simori.Modes.Mode;
 import simori.Simori.PowerTogglable;
-import simori.Exceptions.SimoriNonFatalException;
+import simori.Modes.Mode;
 
 /**
  * Interface setting out the constraints that any implementation of a graphical
@@ -67,18 +66,21 @@ public interface SimoriGui extends PowerTogglable {
 	/** @param Animation which will be played on the GUI's buttons */
 	public void play(Animation toPlay);
 	
+	/**
+	 * Reports an error TODO here and at the top
+	 * @param shortMessage User-friendly summary of error
+	 * @param longMessage Long text detailing error
+	 * @param title Title for error dialog
+	 * @param l To receive callback when the user dismisses the error
+	 */
+	public void reportError(String shortMessage, String longMessage,
+								String title, OnErrorDismissListener l);
+	
 	/** @return Number of rows / columns in the LED grid */
 	public int getGridSize();
 	
 	/** @param true if the GUI should be visible */
 	public void setVisible(boolean visible);
-	
-	/**
-	 * Returns an exception handler which
-	 * will display error messages in the GUI.
-	 * @return To be {@link Thread#setDefaultUncaughtExceptionHandler}
-	 */
-	public UncaughtExceptionHandler getExceptionHandler();
 	
 	/** Sets the listener to receive {@link GridButtonEvent}s */
 	public void setGridButtonListener(GridButtonListener l);
@@ -209,5 +211,24 @@ public interface SimoriGui extends PowerTogglable {
 		 * @param after Minimum total time splash screen should be displayed
 		 */
 		public void swapFor(SimoriGui gui, int after);
+		
+		/**
+		 * The same as {@link #swapFor(SimoriGui, int)}.
+		 * Additionally calls {@link ExceptionManager#simoriReady}
+		 * on the given ExceptionManager, passing it the GUI
+		 * and the given AudioFeedbackSystem.
+		 */
+		public void swapFor(SimoriGui gui, int after,
+				ExceptionManager errors, AudioFeedbackSystem afs);
+	}
+	
+	/**
+	 * Interface for receiving callbacks when the user dismisses an error reported via TODO
+	 * @author Matt
+	 * @version 1.0.0
+	 */
+	public interface OnErrorDismissListener {
+		
+		public void onErrorDismiss();
 	}
 }
