@@ -137,4 +137,5 @@ public class MIDISoundSystem implements PowerTogglable {
 		synth.close();
 	}
 	
+
 }
