@@ -43,7 +43,6 @@ public class MIDISoundSystem implements PowerTogglable {
 		try {
 			synth = MidiSystem.getSynthesizer();
 			synth.open();
-			
 			synth.unloadAllInstruments(synth.getDefaultSoundbank());
 			setSoundbank();
 			reciever = synth.getReceiver();
@@ -57,7 +56,7 @@ public class MIDISoundSystem implements PowerTogglable {
 	
 	private void setSoundbank() {
 		Soundbank sb = null;
-		File file = ResourceManager.getResource("goodSoundbank.SF2");
+		File file = ResourceManager.getResource("bestSoundbank.SF2");
 		if (file == null) {
 			System.err.println("Could not find res folder!");
 			return;
