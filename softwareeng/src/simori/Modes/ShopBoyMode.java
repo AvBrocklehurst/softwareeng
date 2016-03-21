@@ -99,7 +99,7 @@ public class ShopBoyMode extends PerformanceMode implements Observer {
 	private void songPlay(File f){
 		song = f.listFiles();      //list all files in a single song subdirectory
 		System.out.println(song[partCounter].getName());
-		SaveAndLoad.load(getModel(), song[partCounter].getName());       //load in a part
+		SaveAndLoad.loadShop(getModel(), song[partCounter].getName());       //load in a part
 	}
 
 	/**{@inheritDoc}*/

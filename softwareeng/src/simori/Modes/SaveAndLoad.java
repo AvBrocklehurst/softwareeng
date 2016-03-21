@@ -9,6 +9,7 @@ import java.io.ObjectOutputStream;
 
 import simori.MatrixModel;
 import simori.ModeController;
+import simori.ResourceManager;
 import simori.Modes.ChangerMode.Changer;
 
 
@@ -48,8 +49,39 @@ public class SaveAndLoad {
 	        System.out.println(("Exception thrown during test: " + ex.toString()));
 	    }
 	}
-	
-	
+		
+	/**
+	 * Static method to load a model into the Simori-ON.
+	 * @author Adam
+	 * @author Matt
+	 * @param model     Model to replace.
+	 * @param filename  Filename of where to load the saved model from.
+	 */
+	public static boolean loadShop(MatrixModel model, String filename){
+		try {
+			System.out.println(filename);
+			File file = ResourceManager.getResource(filename);
+			System.out.println(file);
+			if (!file.exists()){
+				System.out.println("file doesn't exist");
+				return false;
+			}
+	        FileInputStream fos = new FileInputStream(file);
+	        ObjectInputStream oos = new ObjectInputStream(fos);
+	        MatrixModel tempModel = (MatrixModel)oos.readObject();
+	        fos.close();
+	        oos.close();
+	        model.convertModel(tempModel);
+	        return true;
+		} catch (IOException e){
+			e.printStackTrace();
+			return false;
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+		
 	/**
 	 * Static method to load a model into the Simori-ON.
 	 * @author Adam
