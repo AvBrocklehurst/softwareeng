@@ -54,10 +54,9 @@ public class NetworkSlave implements Runnable, PowerTogglable{
 				Thread t = new Thread( new NetworkObjectReader(s, controller) );
 				t.start();
 			}
-			serverSocket.close();
+			serverSocket.close();			
 		} catch(IOException e){
-			throw new SimoriNonFatalException("Unable to open Network Socket. Master and Slave mode"
-					+ " will be unavailable.");
+			
 		}
 	}
 	
@@ -82,9 +81,7 @@ public class NetworkSlave implements Runnable, PowerTogglable{
 	public void switchOff() {
 		try {
 			if (serverSocket != null) {
-				System.out.println("closing server socket");
 				serverSocket.close();
-				System.out.println("server socket closed");
 			}
 		} catch (IOException e) {
 			throw new SimoriNonFatalException("Unable to close the server Socket.");
