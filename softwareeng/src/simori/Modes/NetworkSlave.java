@@ -45,8 +45,7 @@ public class NetworkSlave implements Runnable, PowerTogglable{
 	 * @author Adam
 	 */
 	public void run() {
-		try{
-			
+		try{		
 			serverSocket = new ServerSocket(port); //open the server socket.
 			while(true && !Thread.currentThread().isInterrupted()){
 				
@@ -75,17 +74,23 @@ public class NetworkSlave implements Runnable, PowerTogglable{
 	/** {@inheritDoc} */
 	@Override
 	public void stop() {
-		try {
-			if (serverSocket != null) serverSocket.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		Thread.currentThread().interrupt();
+
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public void switchOff() {}
+	public void switchOff() {
+		try {
+			if (serverSocket != null) {
+				System.out.println("closing server socket");
+				serverSocket.close();
+				System.out.println("server socket closed");
+			}
+		} catch (IOException e) {
+			throw new SimoriNonFatalException("Unable to close the server Socket.");
+		}
+		Thread.currentThread().interrupt();
+	}
 	
 
 	/**
