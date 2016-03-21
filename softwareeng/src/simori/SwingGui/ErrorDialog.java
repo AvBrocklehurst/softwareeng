@@ -28,19 +28,9 @@ public class ErrorDialog extends JDialog {
 	private OnErrorDismissListener listener;
 	
 	public ErrorDialog(SimoriJFrame frame) {
-		setModalityType(ModalityType.APPLICATION_MODAL);
-		setTitle("Error");
-		setIconImage(GuiProperties.getIcon());
-		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-		setResizable(false);
-		setUndecorated(false);
-		float width, height;
-		width = frame.getWidth() * GuiProperties.ERROR_WIDTH_PROPORTION;
-		height = frame.getHeight() * GuiProperties.ERROR_HEIGHT_PROPORTION;
-		getContentPane().setPreferredSize(new Dimension((int) width, (int) height));
-		pack();
+		setUpWindow();
+		sortSize(frame);
 		addStuff();
-		setLocationRelativeTo(frame);
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosed(WindowEvent e) {
@@ -49,16 +39,46 @@ public class ErrorDialog extends JDialog {
 		});
 	}
 	
+	/** @param to register for callback when dialog is dismissed */
 	public void setOnDismissListener(OnErrorDismissListener l) {
 		this.listener = l;
 	}
 	
+	/** @param Optionally HTML formatted short summary message */
 	public void setShortMessage(String msg) {
 		label.setText(msg);
 	}
 	
+	/** @param Message to display in scrollable text area */
 	public void setLongMessage(String msg) {
 		textArea.setText(msg);
+	}
+	
+	/** Customises the properties of the dialog window */
+	private void setUpWindow() {
+		setTitle("Error"); // Default title may be overwritten
+		setIconImage(GuiProperties.getIcon());
+		setUndecorated(false); // Has OS skin
+		setResizable(false);
+		setModalityType(ModalityType.APPLICATION_MODAL); // Covers GUI window
+		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+	}
+	
+	/**
+	 * Sets the size of the content pane to the correct proportion of the
+	 * given SimoriJFrame's size, and aligns the windows' centres.
+	 * @see GuiProperties#ERROR_WIDTH_PROPORTION
+	 * @see GuiProperties#ERROR_HEIGHT_PROPORTION
+	 * @param frame The parent SimoriGui which created this dialog
+	 */
+	private void sortSize(SimoriJFrame frame) {
+		float width, height;
+		width = frame.getWidth() * GuiProperties.ERROR_WIDTH_PROPORTION;
+		height = frame.getHeight() * GuiProperties.ERROR_HEIGHT_PROPORTION;
+		Dimension size = new Dimension((int) width, (int) height);
+		getContentPane().setPreferredSize(size);
+		pack(); // Expand frame to fit content pane
+		setLocationRelativeTo(frame); // Size is known, so align centres
 	}
 	
 	private void addStuff() {

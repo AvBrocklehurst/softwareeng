@@ -373,11 +373,17 @@ public class TestNoteProcessor {
 		assertNull(e);
 	}
 	
-	@Test (expected=SimoriNonFatalException.class)
+	@Test
 	public void testRunTempoNegative() {
 		setUpThread(modes, model, midisystem);
 		letRun(1000);
-		model.setBPM((byte)-1);
+		try{
+			model.setBPM((byte)-1);
+		} catch (SimoriNonFatalException e) {
+			assertEquals(e.getMessage(), "Incorrect BPM:-1; acceptable 0-160"); //ensure the Exception is of the correct type
+			return;
+		}
+		fail();
 	}
 	
 }
