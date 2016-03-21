@@ -6,7 +6,7 @@ package simori.Exceptions;
  * @author Matt
  * @version 1.0.0
  */
-public class SimoriNonFatalException extends Exception {
+public class SimoriNonFatalException extends RuntimeException {
 	
 	//Parameterless Constructor
     public SimoriNonFatalException() {}

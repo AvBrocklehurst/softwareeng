@@ -44,12 +44,12 @@ public class Animation {
 		}
 	}
 	
-	public void finished() throws SimoriNonFatalException {
+	public void finished() {
 		if (listener != null) listener.onAnimationFinished();
 	}
 	
 	public interface OnFinishListener {
 		
-		public void onAnimationFinished() throws SimoriNonFatalException;
+		public void onAnimationFinished();
 	}
 }

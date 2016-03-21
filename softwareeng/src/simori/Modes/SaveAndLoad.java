@@ -57,8 +57,6 @@ public class SaveAndLoad {
 	 * It searches for the ShopBoySongs folder for use
 	 * in the shopboy mode.
 	 * @author Adam
-	 * 
-	 * @author Matt
 	 * @param model     Model to replace.
 	 * @param filename  Filename of where to load the saved model from.
 	 * @throws SimoriNonFatalException 

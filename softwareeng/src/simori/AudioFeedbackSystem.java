@@ -1,6 +1,8 @@
 package simori;
 import javax.sound.midi.InvalidMidiDataException;
 
+import simori.Exceptions.SimoriNonFatalException;
+
 
 /**
  * @author Josh
@@ -99,7 +101,9 @@ public class AudioFeedbackSystem extends MIDIMessengerSystem {
 			}
 			player.stopSound(); // stop the audio sound being played (in case it is still making noise
 		} catch (InterruptedException e) {
+			throw new SimoriNonFatalException("Audio Thread was inturrupted.");
 		} catch (InvalidMidiDataException e) {
+			throw new SimoriNonFatalException("Invalid Midi data send to the reciever.");
 		}
 		model.setPlaying(); // tell the usual music player that it can carry on making noise
 	}
@@ -197,24 +201,6 @@ public class AudioFeedbackSystem extends MIDIMessengerSystem {
 	private void playInstrument(int instrument, int pitch, int velocity, int duration, boolean stop) throws InvalidMidiDataException, InterruptedException{
 		player.sendCommand(createMessage((byte)0, (byte)(instrument-1))); // send the program change message.
 		player.sendCommand(createMessage((byte)0,(byte)pitch, (byte)velocity)); // send the note on message.
-		Thread.sleep(duration);
-		if(stop){player.stopSound();}
-	}
-	
-	/**
-	 * @author Josh
-	 * @param percussion
-	 * @param velocity
-	 * @param duration
-	 * @param stop
-	 * @throws InvalidMidiDataException
-	 * @throws InterruptedException
-	 * @version 2.0.0
-	 * 
-	 * Same as playInstrument, except with percussion.
-	 */
-	private void playPercussion(int percussion, int velocity, int duration, boolean stop ) throws InvalidMidiDataException, InterruptedException{
-		player.sendCommand(createMessage((byte)9,(byte)percussion,(byte)velocity)); // program change message is unnecessary, only note on message is needed
 		Thread.sleep(duration);
 		if(stop){player.stopSound();}
 	}

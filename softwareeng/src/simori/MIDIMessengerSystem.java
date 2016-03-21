@@ -3,6 +3,8 @@ package simori;
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.ShortMessage;
 
+import simori.Exceptions.SimoriNonFatalException;
+
 /**
  * @author Josh
  * @version 3.2.0
@@ -33,9 +35,13 @@ abstract class MIDIMessengerSystem {
 	 * 
 	 * Method that creates a program change message.
 	 */
-	ShortMessage createMessage(byte channel, byte instrument) throws InvalidMidiDataException{
+	ShortMessage createMessage(byte channel, byte instrument) {
 		ShortMessage message = new ShortMessage();
-		message.setMessage(ShortMessage.PROGRAM_CHANGE, channel, instrument, 0);
+		try {
+			message.setMessage(ShortMessage.PROGRAM_CHANGE, channel, instrument, 0);
+		} catch (InvalidMidiDataException e) {
+			throw new SimoriNonFatalException("Invalid data was sent to the Midi.");
+		}
 		return message;
 	}
 	
@@ -49,9 +55,13 @@ abstract class MIDIMessengerSystem {
 	 * 
 	 * Method that creates a note on message.
 	 */
-	ShortMessage createMessage(byte channel, byte pitch, byte velocity) throws InvalidMidiDataException{
+	ShortMessage createMessage(byte channel, byte pitch, byte velocity) {
 		ShortMessage message = new ShortMessage();
-		message.setMessage(ShortMessage.NOTE_ON, channel, pitch, velocity);
+		try {
+			message.setMessage(ShortMessage.NOTE_ON, channel, pitch, velocity);
+		} catch (InvalidMidiDataException e) {
+			throw new SimoriNonFatalException("Invalid data was sent to the Midi.");
+		}
 		return message;
 	}
 	
@@ -61,7 +71,7 @@ abstract class MIDIMessengerSystem {
 	 * 
 	 * Method that provides access for stopping sound (used by rest of the simori system).
 	 */
-	public void stopPlay() throws InvalidMidiDataException{
+	public void stopPlay() {
 		player.stopSound();
 	}
 	

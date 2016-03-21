@@ -254,7 +254,7 @@ public class MatrixModel extends Observable implements Serializable, PowerToggla
 	 * @param row     the row the layer is in.
 	 * @throws SimoriNonFatalException 
 	 */
-	public void updateButton(byte laynum, byte col, byte row) throws SimoriNonFatalException {
+	public void updateButton(byte laynum, byte col, byte row) {
 		layerExists(laynum);
 		layers[laynum].updateButton(col, row);
 	}
