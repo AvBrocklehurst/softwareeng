@@ -2,9 +2,8 @@ package simori.Tests;
 
 import java.io.IOException;
 
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThat;
 import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.junit.Assert.*;
 
 import org.junit.After;
 import org.junit.Before;
@@ -14,13 +13,16 @@ import simori.AudioFeedbackSystem;
 import simori.FunctionButton;
 import simori.MIDISoundSystem;
 import simori.MatrixModel;
+import simori.ModeController;
 import simori.SimoriGui.FunctionButtonEvent;
 import simori.Exceptions.SimoriNonFatalException;
 import simori.Modes.ChangerMode;
+import simori.Modes.ChangerMode.Setting;
 import simori.Modes.ChangerModeFactory;
 import simori.Modes.NetworkMaster;
 import simori.Modes.NetworkSlave;
 import simori.Modes.QwertyKeyboard;
+import simori.Modes.SaveAndLoad;
 import simori.SwingGui.SimoriJFrame;
 
 /**
@@ -33,6 +35,21 @@ import simori.SwingGui.SimoriJFrame;
  *
  */
 public class TestChangerModeFactory {
+	
+	/**
+	 * Mock ChangerMode so that the Changer can be extracted
+	 * @author Jurek
+	 */
+	private class MockChangerMode extends ChangerMode {
+		public MockChangerMode(ModeController controller, Changer changer, boolean verticalLine,
+				boolean horizontalLine) {
+			super(controller, changer, verticalLine, horizontalLine);
+		}
+
+		public Changer getChanger() {
+			return changer;
+		}
+	}
 	
 	private MockModeController mockcontroller;
 	private FunctionButton fb;
@@ -87,6 +104,66 @@ public class TestChangerModeFactory {
 		ChangerMode cmode = ChangerModeFactory.getChanger(fb, mockcontroller);
 		assertNull("The default case of the switch statement was not evaluated!", cmode);
 	}
-	
+
+	@Test 
+	public void testGetChangerL1(){
+		try {
+			fb = FunctionButton.L1;
+			MockChangerMode cmode = (MockChangerMode) ChangerModeFactory.getChanger(fb, mockcontroller);
+			assertEquals(cmode.getChanger().getText(new Setting((byte)8, (byte)8)), "Closed Hi-Hat");
+			assertNull(cmode);
+		} catch (SimoriNonFatalException e) {
+			fail();
+		}
+	}
+
+	@Test 
+	public void testGetChangerL2(){
+		fb = FunctionButton.L2;
+		ChangerMode cmode = ChangerModeFactory.getChanger(fb, mockcontroller);
+		assertNull("The default case of the switch statement was not evaluated!", cmode);
+	}
+
+	@Test 
+	public void testGetChangerL3(){
+		fb = FunctionButton.L3;
+		ChangerMode cmode = ChangerModeFactory.getChanger(fb, mockcontroller);
+		assertNull("The default case of the switch statement was not evaluated!", cmode);
+	}
+
+	@Test 
+	public void testGetChangerL4(){
+		fb = FunctionButton.L4;
+		ChangerMode cmode = ChangerModeFactory.getChanger(fb, mockcontroller);
+		assertNull("The default case of the switch statement was not evaluated!", cmode);
+	}
+
+	@Test 
+	public void testGetChangerR1(){
+		fb = FunctionButton.R1;
+		ChangerMode cmode = ChangerModeFactory.getChanger(fb, mockcontroller);
+		assertNull("The default case of the switch statement was not evaluated!", cmode);
+	}
+
+	@Test 
+	public void testGetChangerR2(){
+		fb = FunctionButton.R2;
+		ChangerMode cmode = ChangerModeFactory.getChanger(fb, mockcontroller);
+		assertNull("The default case of the switch statement was not evaluated!", cmode);
+	}
+
+	@Test 
+	public void testGetChangerR3(){
+		fb = FunctionButton.R3;
+		ChangerMode cmode = ChangerModeFactory.getChanger(fb, mockcontroller);
+		assertNull("The default case of the switch statement was not evaluated!", cmode);
+	}
+
+	@Test 
+	public void testGetChangerR4(){
+		fb = FunctionButton.R4;
+		ChangerMode cmode = ChangerModeFactory.getChanger(fb, mockcontroller);
+		assertNull("The default case of the switch statement was not evaluated!", cmode);
+	}
 	
 }

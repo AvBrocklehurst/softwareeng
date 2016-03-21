@@ -11,7 +11,8 @@ import simori.SwingGui.Lcd;
 /**
  * 
  * @author Josh
- * @version 1.0.7
+ * @author Jurek
+ * @version 1.0.8
  * 
  * class that tests Lcd class.
  */
@@ -40,7 +41,7 @@ public class TestLcd {
 	
 	@Test
 	public void testSetShorterSide() throws InterruptedException, SimoriNonFatalException{
-		lcd.setShorterSize(2);
+		lcd.setShorterSize(10);
 		assertEquals(2, lcd.getHeight());
 	}
 	

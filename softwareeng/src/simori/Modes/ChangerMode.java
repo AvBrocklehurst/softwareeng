@@ -14,7 +14,7 @@ import simori.Exceptions.SimoriNonFatalException;
  */
 public class ChangerMode extends Mode {
 	
-	private Changer changer;
+	protected Changer changer;
 	private boolean hLine, vLine;
 	private int rows, columns;
 	

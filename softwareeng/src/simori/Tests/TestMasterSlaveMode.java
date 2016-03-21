@@ -34,8 +34,8 @@ public class TestMasterSlaveMode {
 		midi = new MIDISoundSystem();
 		audio = new AudioFeedbackSystem(midi, model);
 		mode = new ModeController(gui, model, audio, 20160);
-		mode.setComponentsToPowerToggle(model, gui);
 		msmode = new MasterSlaveMode(mode);
+		mode.setComponentsToPowerToggle(model, gui);
 		mode.setOn(true, false);
 	}
 	
@@ -69,7 +69,7 @@ public class TestMasterSlaveMode {
 	@Test
 	public void testOnRangeChanged() {
 		msmode.onRangeChanged("test");
-		assertEquals(gui.getText(), "Scanning tests IP range...");
+		assertEquals(gui.getText(), "Scanning test IP range...");
 	}
 	
 	@Test

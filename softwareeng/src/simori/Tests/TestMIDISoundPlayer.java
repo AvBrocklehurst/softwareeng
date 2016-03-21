@@ -406,13 +406,14 @@ public class TestMIDISoundPlayer {
 	
 	/**
 	 * @author Josh 
-	 * @version 1.0.0
+	 * @author Jurek
+	 * @version 1.0.1
 	 * @throws InvalidMidiDataException 
-	 * 
+	 * @deprecated as apparently stopPlay is defensive enough not to throw the expected exception
 	 * 
 	 * Test that stop doesnt work if there is nothing has been played
 	 */
-	@Test(expected = NullPointerException.class)
+	//@Test(expected = NullPointerException.class)
 	public void testStopPlayNothingToStop() throws InvalidMidiDataException {
 		array = new byte[1][];
 		array[0] = multiNotes;

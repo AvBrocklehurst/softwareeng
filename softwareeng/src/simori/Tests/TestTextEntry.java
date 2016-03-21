@@ -66,7 +66,7 @@ public class TestTextEntry {
 	@Test
 	public void testGetText() {
 		StringBuilder builder = text.getBuilder();
-		assertEquals(builder.toString(), text.getText(new Setting((byte)0, (byte)0)));
+		assertEquals(builder.toString(), text.getText(new Setting((byte)1, (byte)1)));
 	}
 	@Test
 	public void testDoThingTo() {

@@ -173,8 +173,11 @@ public class TestOnPressListenerMaker {
 	 * with a invalid x coordinate so that an
 	 * {@link InvalidCoordinatesException} and checks that when the
 	 * {@link GridButtonListener} throws, this is caught.
+	 * @deprecated InvalidCoordinatesException is no longer a thing
+	 * 			   Additionally, setGridButtonListener no longer throws an exception
+	 * TODO redo
 	 */
-	@Test
+	//@Test
 	public void testInvalidCoordsCatch() {
 		gui.setGridButtonListener(getRecordGbListener());
 		Integer x = -1;

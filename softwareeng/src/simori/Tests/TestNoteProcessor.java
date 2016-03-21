@@ -286,17 +286,19 @@ public class TestNoteProcessor {
 		letRun(1000);
 		
 		//lower-bound
-		model.setInstrument((byte)0, (short)0);
+		model.setInstrument((byte)0, (short)1);
 		for(int i=0; i<16; i++) {
 			model.updateButton((byte)0, (byte)i, (byte)4);
 		}
 		letRun(1000);
 		
 		//upper-bound
-		model.setInstrument((byte)0, (short)127);
+		model.setInstrument((byte)0, (short)128);
 		for(int i=0; i<16; i++) {
 			model.updateButton((byte)0, (byte)i, (byte)4);
 		}
+		letRun(1000);
+		
 		assertNull(e);
 	}
 

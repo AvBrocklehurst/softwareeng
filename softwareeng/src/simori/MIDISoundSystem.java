@@ -120,9 +120,13 @@ public class MIDISoundSystem implements PowerTogglable {
 		} catch (MidiUnavailableException e) {e.printStackTrace();System.exit(1);}
 	}
 	
-	/** {@inheritDoc} */
+	/** {@inheritDoc} 
+	 * @author Jurek
+	 */
 	@Override
-	public void switchOn() {}
+	public void switchOn() {
+		ready();
+	}
 	
 	/** {@inheritDoc} */
 	@Override
