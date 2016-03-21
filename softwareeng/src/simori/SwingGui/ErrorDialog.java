@@ -24,10 +24,10 @@ import simori.ResourceManager;
 public class ErrorDialog extends JDialog {
 	
 	private static final float TOP_PROPORTION = 0.25f;
-	private static final float BOTTOM_PROPORTION = 0.15f;
-	private static final float MIDDLE_PROPORTION = 1 - TOP_PROPORTION - BOTTOM_PROPORTION;
+	private static final float BOTTOM_PROPORTION = 0.1f;
+	private static final float PADDING_PROPORTION = 0.1f;
 	
-	private static final String ipsum = "Crop circles are Chuck Norris' way of telling the world that sometimes corn needs to lie down, When Chuck Norris sends in his taxes, he sends blank forms and includes only a picture of himself, crouched and ready to attack. Chuck Norris has not had to pay taxes, ever. The chief export of Chuck Norris is Pain Clouds are formed by the evaporation of water, what Meteorologists don't realize is it happens at the same time Chuck Norris goes swimming. Chuck Norris does not get frostbite. Chuck Norris bites frost, Chuck Norris has two speeds. Walk, and Kill The only reason people can win something is because Chuck Norris didn't take part. Chuck Norris is the reason why Waldo is hiding Chuck Norris is the reason why Waldo is hiding Chuck Norris can win a game of Connect Four in only three moves Santa delivers to Chuck Norris' house first Chuck Norris is currently suing NBC, claiming Law and Order are trademarked names for his left and right legs There is no theory of evolution. Just a list of animals Chuck Norris allows to live If you ask Chuck Norris what time it is, he always says, Two seconds 'til. After you ask, Two seconds 'til what? he roundhouse kicks you in the face. Most people have 23 pairs of chromosomes. Chuck Norris has 72... and they're all poisonous Chuck Norris can answer a 'missed call' Chuck Norris is not in this world to live up to your expectations. You are only to watch his movies and weep with fear. Chuck Norris can get to the Tootsie Roll center of a Tootsie Pop without touching it. Chuck Norris is the reason why Waldo is hiding. When the Boogeyman goes to sleep every night, he checks his closet for Chuck Norris. Remember the Soviet Union? They decided to quit after watching a DeltaForce marathon on Satellite TV CNN was originally created as the Chuck Norris Network to update Americans with on-the-spot ass kicking in real-time Contrary to popular belief, Chuck Norris, not the box jellyfish of northern Australia, is the most venomous creature on earth. Chuck Norris doesn't churn butter. He roundhouse kicks the cows and the butter comes straight out. Chuck Norris gets everything on the internet for free. His computer is too afraid to ask for his personal information, Chuck Norris drives an ice cream truck covered in human skulls. The Great Wall of China was originally created to keep Chuck Norris out. It failed miserably, There is no theory of evolution. Just a list of animals Chuck Norris allows to live The Great Wall of China was originally created to keep Chuck Norris out. It failed miserably, Remember the Soviet Union? They decided to quit after watching a DeltaForce marathon on Satellite TV Chuck Norris' hand is the only hand that can beat a Royal Flush If you ask Chuck Norris what time it is, he always says, Two seconds 'til. After you ask, Two seconds 'til what? he roundhouse kicks you in the face. Chuck Norris invented Kentucky Fried Chicken's famous secret recipe, with eleven herbs and spices. But nobody ever mentions the twelfth ingredient: Fear. Chuck Norris is currently suing NBC, claiming Law and Order are trademarked names for his left and right legs. There is no theory of evolution. Just a list of animals Chuck Norris allows to live The square root of Pain is Chuck Norris, Chuck Norris doesn't wash his clothes, he disembowels them There is no chin behind Chuck Norris' beard. There is only another fist. Someone once videotaped Chuck Norris getting pissed off. It was called Walker: Texas Chain Saw Massacre. Chuck Norris does not sleep. He waits. Chuck Norris sawThe Ring video, then watched it again the week later. When Chuck Norris does a pushup, he isn't lifting himself up, he's pushing the Earth down Chuck Norris is my Homeboy Chuck Norris uses pepper spray to spice up his steaks, Chuck Norris is my Homeboy, Chuck Norris is ten feet tall, weighs two-tons, breathes fire, and could eat a hammer and take a shotgun blast standing. Chuck Norris does not get frostbite. Chuck Norris bites frost Chuck Norris does not get frostbite. Chuck Norris bites frost." ;
+	private static final String IPSUM = "Watch it, Goldie. Do you mind if we park for a while? Welcome to my latest experiment. It's the one I've been waiting for all my life. Wrecked? Thank god I still got my hair. What on Earth is that thing I'm wearing? whoa, whoa Doc, stuck here, I can't be stuck here, I got a life in 1985. I got a girl. Can't be. This is nuts. Aw, c'mon. you guys look great. Mom, you look so thin. He's absolutely right, Marty. the last thing you need is headaches. A bolt of lightning, unfortunately, you never know when or where it's ever gonna strike. No no no, Doc, I just got here, okay, Jennifer's here, we're gonna take the new truck for a spin. Um, yeah well I might have sort of ran into my parents. Shut your filthy mouth, I'm not that kind of girl. Marty, you're beginning to sound just like my mother. Watch it, Goldie. My name's Lorraine, Lorraine Baines. Ahh. Watch this. Not me, the car, the car. My calculations are correct, when this baby hits eighty-eight miles per hour, your gonna see some serious shit. Watch this, watch this. Ha, what did I tell you, eighty-eight miles per hour. The temporal displacement occurred at exactly 1:20 a.m. and zero seconds. Yes, definitely, god-dammit George, swear. Okay, so now, you come up, you punch me in the stomach, I'm out for the count, right? And you and Lorraine live happily ever after. I will. Keys? This is more serious than I thought. Apparently your mother is amorously infatuated with you instead of your father. C'mon, more, dammit. Jeez. Holy shit. Let's see if you bastards can do ninety. Uh, I think so. No, why, what's a matter? What about George? Ah well, sort of. One point twenty-one gigawatts. One point twenty-one gigawatts. Great Scott. Marty, you made it. I can't play. I think it's terrible. Girls chasing boys. When I was your age I never chased a boy, or called a boy, or sat in a parked car with a boy. That's true, Marty, I think you should spend the night. I think you're our responsibility. Marty, why are you so nervous? Uh, well, I gotta go. And where's my reports? Doc, wait. No, bastards. Marty, you interacted with anybody else today, besides me? How could I have been so careless. One point twenty-one gigawatts. Tom, how am I gonna generate that kind of power, it can't be done, it can't. So tell me, future boy, who's president of the United States in 1985? George. George. Dear Doctor Brown, on the night that I go back in time, you will be shot by terrorists. Please take whatever precautions are necessary to prevent this terrible disaster. Your friend, Marty. You want it, you know you want it, and you know you want me to give it to you. Like I always told you, if you put your mind to it you could accomplish anything. What were you doing in the middle of the street, a kid your age. I hope so. Please note that Einstein's clock is in complete synchronization with my control watch. I hope you don't mind but George asked if he could take me home. Then how am I supposed to ever meet anybody. Nothing. Oh, hi , Marty. I didn't hear you come in. Fascinating device, this video unit.";
 	
 	public ErrorDialog(SimoriJFrame frame) {
 		setTitle("Error");
@@ -45,51 +45,82 @@ public class ErrorDialog extends JDialog {
 	}
 	
 	private void addStuff() {
-		setLayout(new BorderLayout(0,0)); //TODO add vertical padding
-		add(makeTopBit(), BorderLayout.PAGE_START);
-		add(makeMiddleBit(), BorderLayout.CENTER);
-		add(makeBottomBit(), BorderLayout.PAGE_END);
+		float height = getContentPane().getHeight();
+		float onePaddingProportion = PADDING_PROPORTION / 4f;
+		int padding = (int) (height * onePaddingProportion);
+		int topHeight = (int) (height * TOP_PROPORTION);
+		int bottomHeight = (int) (height * BOTTOM_PROPORTION);
+		int middleHeight = (int) height - topHeight - bottomHeight - 3 * padding;
+		setLayout(new BoxLayout(getContentPane(), BoxLayout.PAGE_AXIS));
+		add(Box.createVerticalStrut(padding));
+		add(makeTopBit(topHeight, padding));
+		add(Box.createVerticalStrut(padding));
+		add(makeMiddleBit(middleHeight, padding));
+		add(Box.createVerticalStrut(padding / 2));
+		add(makeBottomBit(bottomHeight, padding));
+		add(Box.createVerticalStrut(padding / 2));
 	}
 	
-	private JComponent makeTopBit() {
+	private JComponent makeTopBit(int height, int padding) {
 		JPanel topBit = new JPanel();
 		topBit.setLayout(new BoxLayout(topBit, BoxLayout.LINE_AXIS));
-		int sectionHeight = (int) (getHeight() * TOP_PROPORTION);
-		topBit.add(Box.createVerticalStrut(sectionHeight));
-		File icon = ResourceManager.getResource("Chunbori-ON.png");
-		if (icon != null && icon.exists()) {
-			int length = (int) (sectionHeight * 0.9f);
-			topBit.add(new ImageComponent(icon, length, length));
-		}
-		topBit.add(new JLabel("Some text here!"));
+		topBit.add(Box.createRigidArea(new Dimension(padding, height)));
+		topBit.add(makeImageBit(height, padding));
+		topBit.add(Box.createRigidArea(new Dimension(padding * 2, height)));
+		topBit.add(makeLabelBit(height, padding));
+		topBit.add(Box.createRigidArea(new Dimension(padding, height)));
 		return topBit;
 	}
 	
-	private JComponent makeMiddleBit() {
-		JTextArea text = new JTextArea(ipsum);
+	private JComponent makeMiddleBit(int height, int padding) {
+		JPanel panel = new JPanel();
+		panel.setLayout(new BoxLayout(panel, BoxLayout.LINE_AXIS));
+		panel.add(Box.createRigidArea(new Dimension(padding, height)));
+		panel.add(makeTextAreaBit(height, padding));
+		panel.add(Box.createRigidArea(new Dimension(padding, height)));
+		return panel;
+	}
+	
+	private JComponent makeBottomBit(int height, int padding) {
+		JPanel panel = new JPanel();
+		panel.setLayout(new BoxLayout(panel, BoxLayout.LINE_AXIS));
+		panel.add(Box.createRigidArea(new Dimension(padding, height)));
+		panel.add(Box.createHorizontalGlue());
+		panel.add(new JButton("Copy"));
+		panel.add(Box.createHorizontalGlue());
+		panel.add(new JButton("Okay"));
+		panel.add(Box.createHorizontalGlue());
+		panel.add(Box.createRigidArea(new Dimension(padding, height)));
+		return panel;
+	}
+	
+	private JComponent makeLabelBit(int height, int padding) {
+		JLabel label = new JLabel("<html><p><b>Some text here!</b></p><p>In fact this could get rather long so yeah.</p></html>");
+		label.setPreferredSize(new Dimension(getContentPane().getWidth() - height - 4 * padding, height));
+		return label;
+	}
+	
+	private JComponent makeImageBit(int height, int padding) {
+		return new ImageComponent("Chunbori-ON.png", height, height); //or a replacement
+	}
+	
+	private JComponent makeTextAreaBit(int height, int padding) {
+		JTextArea text = new JTextArea(IPSUM);
 		text.setEditable(false);
 		text.setLineWrap(true);
 		return new JScrollPane(text);
-	}
-	
-	private JComponent makeBottomBit() {
-		JPanel panel = new JPanel();
-		panel.setLayout(new BoxLayout(panel, BoxLayout.LINE_AXIS));
-		panel.add(new JButton("Copy"));
-		panel.add(new JButton("Okay"));
-		return panel;
 	}
 	
 	private class ImageComponent extends JComponent {
 		
 		Image image;
 		
-		public ImageComponent(File icon, int width, int height) {
+		public ImageComponent(String file, int width, int height) {
+			File icon = ResourceManager.getResource(file);
 			setSize(width, height);
 			try {
 				image = ImageIO.read(icon).getScaledInstance(width, height, Image.SCALE_SMOOTH);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
