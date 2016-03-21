@@ -246,7 +246,7 @@ public class TestNoteProcessor {
 		setUpThread(modes, model, midisystem);
 		
 		letRun(2000);
-		clock.switchOff();
+		clock.stop();
 		clock.switchOn();
 		letRun(2000);
 		
