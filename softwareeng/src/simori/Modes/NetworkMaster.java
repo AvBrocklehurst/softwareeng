@@ -1,6 +1,7 @@
 package simori.Modes;
 
 import java.io.BufferedReader;
+
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.ObjectOutputStream;
@@ -13,6 +14,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import simori.ModeController;
+import simori.Exceptions.SimoriNonFatalException;
 
 /**
  * Class to act as the master in the master slave mode.
@@ -111,6 +113,7 @@ public class NetworkMaster implements Runnable {
 	 * @author Adam
 	 * @param ip  The IP range to iterate over
 	 * @return  boolean, true if an exception IP was found
+	 * @throws SimoriNonFatalException 
 	 */
 	private boolean closestRangeIP(String ip) {
 		rangeUnderScan = ip.substring(0, ip.length() - 1);
@@ -124,7 +127,9 @@ public class NetworkMaster implements Runnable {
 		        	checkSocket(ip + i);
 		        	running = false;
 		        	return true;
-		        } catch (IOException e){}
+		        } catch (IOException e){
+		        	
+		        }
 			} else {
 				break;
 			}
@@ -164,7 +169,7 @@ public class NetworkMaster implements Runnable {
 	 * @throws UnknownHostException 
 	 * @throws IOException 
 	 */
-	private String getIP() throws UnknownHostException, IOException {
+	private String getIP() throws IOException {
 		Socket s;
 		String betterIP;
 		try {

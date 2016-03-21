@@ -4,7 +4,7 @@ import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
-
+import simori.Exceptions.SimoriNonFatalException;
 /**
  * 
  * @author Josh
@@ -27,13 +27,18 @@ public class InstrumentNamer {
 	 * 
 	 * Constructor for Instrument namer.
 	 * Takes csv file and puts information stored it into a map you quicker access later on.
+	 * @throws SimoriNonFatalException 
 	 */
-	private InstrumentNamer() {
+	private InstrumentNamer() throws SimoriNonFatalException {
 		map = new HashMap<Integer, String>();
 		Scanner scanner = null;
 		try {
 			scanner = new Scanner(ResourceManager.getResource(CSV_NAME)); //get the csv file.
-		} catch (FileNotFoundException e) {e.printStackTrace();}
+		} catch (FileNotFoundException e) {
+			throw new SimoriNonFatalException("Couldn't find instrument name file,"
+					+ " instrument names will be unable to be shown.");
+			
+		}
 		
 		
 		while(scanner.hasNext()){
@@ -59,8 +64,9 @@ public class InstrumentNamer {
 	 * @author Josh
 	 * @version 1.1.1
 	 * @return InstrumentNamer  instance of class
+	 * @throws SimoriNonFatalException 
 	 */
-	public static InstrumentNamer getInstance(){
+	public static InstrumentNamer getInstance() throws SimoriNonFatalException{
 		if(instance == null){
 			instance = new InstrumentNamer(); // if we dont have an instance of instrument namer then get one.
 		}

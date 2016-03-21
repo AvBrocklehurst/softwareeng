@@ -8,6 +8,7 @@ import java.net.Socket;
 import simori.MatrixModel;
 import simori.ModeController;
 import simori.Simori.PowerTogglable;
+import simori.Exceptions.SimoriNonFatalException;
 
 /**
  * Class that listens for incoming connections on a given port.
@@ -128,6 +129,9 @@ public class NetworkSlave implements Runnable, PowerTogglable{
 				controller.showInstrumentName(num);
 			} catch (ClassNotFoundException e1) {
 				System.err.println("Class sent wasn't a MatrixModel");
+			} catch (SimoriNonFatalException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 			out.close();
 			in.close();

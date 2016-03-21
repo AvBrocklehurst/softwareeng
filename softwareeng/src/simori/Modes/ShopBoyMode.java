@@ -44,9 +44,10 @@ public class ShopBoyMode extends PerformanceMode implements Observer {
 		songPlay(currentFile);
 	}
 	
-	/**{@inheritDoc}*/
+	/**{@inheritDoc}
+	 * @throws SimoriNonFatalException */
 	@Override
-	public void onFunctionButtonPress(FunctionButtonEvent e){
+	public void onFunctionButtonPress(FunctionButtonEvent e) throws SimoriNonFatalException{
 		switch(e.getFunctionButton()){
 		case ON:
 			getModel().deleteObserver(this);

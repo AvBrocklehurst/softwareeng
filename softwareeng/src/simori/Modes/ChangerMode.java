@@ -3,6 +3,7 @@ package simori.Modes;
 import simori.ModeController;
 import simori.SimoriGui.FunctionButtonEvent;
 import simori.SimoriGui.GridButtonEvent;
+import simori.Exceptions.SimoriNonFatalException;
 
 /**
  * Mode which implements the common functionality of modes such as
@@ -56,9 +57,10 @@ public class ChangerMode extends Mode {
 	 * which corresponds to the coordinates of the button pressed.
 	 * If text exists, it is displayed on the LCD screen. If a setting
 	 * exists at those coordinates, the selector line(s) are drawn.
+	 * @throws SimoriNonFatalException 
 	 */
 	@Override
-	public void onGridButtonPress(GridButtonEvent e) {
+	public void onGridButtonPress(GridButtonEvent e) throws SimoriNonFatalException {
 		Setting setting = new Setting((byte) e.getX(), (byte) e.getY());
 		String text = changer.getText(setting);
 		e.getSource().setText(text);
@@ -73,9 +75,10 @@ public class ChangerMode extends Mode {
 	 * If the setting is valid, {@link Changer#doThingTo} is called
 	 * to apply the change, and the standard behaviour of returning
 	 * to {@link PerformanceMode} is allowed to proceed.
+	 * @throws SimoriNonFatalException 
 	 */
 	@Override
-	public void onFunctionButtonPress(FunctionButtonEvent e) {
+	public void onFunctionButtonPress(FunctionButtonEvent e) throws SimoriNonFatalException {
 		switch (e.getFunctionButton()) {
 		case ON:
 			super.onFunctionButtonPress(e);
@@ -100,9 +103,10 @@ public class ChangerMode extends Mode {
 	 * allows for the current setting to be shown to the user
 	 * when the mode is entered. If the Changer does not
 	 * provide an initial setting, the grid is simply cleared.
+	 * @throws SimoriNonFatalException 
 	 */
 	@Override
-	public void setInitialGrid() {
+	public void setInitialGrid() throws SimoriNonFatalException {
 		Setting current = changer.getCurrentSetting();
 		if (current == null) {
 			getGui().clearGrid();
@@ -150,8 +154,9 @@ public class ChangerMode extends Mode {
 		 * be null, which will result in no selector line(s) being drawn.
 		 * @param setting Containing the coordinates of the button pressed
 		 * @return A description of the setting, or null if none exists
+		 * @throws SimoriNonFatalException 
 		 */
-		public String getText(Setting setting);
+		public String getText(Setting setting) throws SimoriNonFatalException;
 		
 		/**
 		 * Called when the OK button is pressed and the changes are to

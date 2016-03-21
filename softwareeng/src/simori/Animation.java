@@ -1,5 +1,7 @@
 package simori;
 
+import simori.Exceptions.SimoriNonFatalException;
+
 public class Animation {
 	
 	private boolean isStartup;
@@ -19,7 +21,7 @@ public class Animation {
 		}
 	}
 	
-	public boolean[][] next() {
+	public boolean[][] next() throws SimoriNonFatalException {
 		boolean endA =  isStartup && phase >= size / 2;
 		boolean endB = !isStartup && phase <  0;
 		if (endA || endB) {
@@ -42,12 +44,12 @@ public class Animation {
 		}
 	}
 	
-	public void finished() {
+	public void finished() throws SimoriNonFatalException {
 		if (listener != null) listener.onAnimationFinished();
 	}
 	
 	public interface OnFinishListener {
 		
-		public void onAnimationFinished();
+		public void onAnimationFinished() throws SimoriNonFatalException;
 	}
 }

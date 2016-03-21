@@ -20,6 +20,7 @@ import javax.swing.Timer;
 
 import simori.Animation;
 import simori.SimoriGui;
+import simori.Exceptions.SimoriNonFatalException;
 
 /**
  * Swing / AWT implementation of a Simori-ON GUI.
@@ -114,11 +115,15 @@ public class SimoriJFrame extends JFrame implements SimoriGui, MouseMotionListen
 		timer.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				try {
 				boolean[][] which = toPlay.next();
-				if (which == null) {
-					timer.stop();
-				} else {
-					simoriPanel.setGreyedOut(which);
+					if (which == null) {
+						timer.stop();
+					} else {
+						simoriPanel.setGreyedOut(which);
+					} 
+				} catch (SimoriNonFatalException ex){
+					ex.printStackTrace();
 				}
 			}
 		});

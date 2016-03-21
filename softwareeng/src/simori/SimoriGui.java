@@ -5,6 +5,7 @@ import java.util.EventObject;
 
 import simori.Modes.Mode;
 import simori.Simori.PowerTogglable;
+import simori.Exceptions.SimoriNonFatalException;
 
 /**
  * Interface setting out the constraints that any implementation of a graphical
@@ -87,12 +88,12 @@ public interface SimoriGui extends PowerTogglable {
 	
 	/** Listener interface for {@link GridButtonEvent} */
 	public interface GridButtonListener  {
-		public void onGridButtonPress(GridButtonEvent e);
+		public void onGridButtonPress(GridButtonEvent e) throws SimoriNonFatalException;
 	}
 	
 	/** Listener interface for {@link FunctionButtonEvent} */
 	public interface FunctionButtonListener {
-		public void onFunctionButtonPress(FunctionButtonEvent e);
+		public void onFunctionButtonPress(FunctionButtonEvent e) throws SimoriNonFatalException;
 	}
 	
 	/**

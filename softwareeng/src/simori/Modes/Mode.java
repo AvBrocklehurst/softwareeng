@@ -56,8 +56,9 @@ public abstract class Mode implements FunctionButtonListener,
 	 * Called when a mode comes into effect,
 	 * so that it can apply the desired initial pattern and text.
 	 * Default behaviour switches off every LED and clears the LCD screen.
+	 * @throws SimoriNonFatalException 
 	 */
-	public void setInitialGrid() {
+	public void setInitialGrid() throws SimoriNonFatalException {
 		getGui().clearGrid();
 		getGui().setText(null);
 	}
@@ -76,9 +77,10 @@ public abstract class Mode implements FunctionButtonListener,
 	 * mode or switch it on
 	 * @author James
 	 * @version 2.0.0
+	 * @throws SimoriNonFatalException 
 	 * @see FunctionButton.getFunctionButton(), SimoriGui.getSource(), SimoriGui.setMode()
 	 */
-	public void onFunctionButtonPress(FunctionButtonEvent e){
+	public void onFunctionButtonPress(FunctionButtonEvent e) throws SimoriNonFatalException{
 		FunctionButton fb = e.getFunctionButton();
 		switch (fb) {
 		case OK:
@@ -95,6 +97,7 @@ public abstract class Mode implements FunctionButtonListener,
 		}
 	}
 	
-	/** Modes which do not ignore grid buttons may override this. */
-	public void onGridButtonPress(GridButtonEvent e) {}
+	/** Modes which do not ignore grid buttons may override this. 
+	 * @throws SimoriNonFatalException */
+	public void onGridButtonPress(GridButtonEvent e) throws SimoriNonFatalException {}
 }

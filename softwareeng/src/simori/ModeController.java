@@ -117,8 +117,9 @@ public class ModeController {
 	 * The existing mode will subsequently be garbage collected.
 	 * The GUI is automatically set to pass events to the new mode.
 	 * @param mode A mode to switch to
+	 * @throws SimoriNonFatalException 
 	 */
-	public void setMode(Mode mode) {
+	public void setMode(Mode mode) throws SimoriNonFatalException {
 		if (mode == null || mode.equals(this.mode)) return;
 		this.mode = mode;
 		gui.setGridButtonListener(mode);
@@ -146,8 +147,9 @@ public class ModeController {
 	 * Displays the name of the given instrument in the LCD screen.
 	 * If the current mode is not PerformanceMode, this has no effect.
 	 * @param num The number of the instrument to show the name of
+	 * @throws SimoriNonFatalException 
 	 */
-	public void showInstrumentName(int num) {
+	public void showInstrumentName(int num) throws SimoriNonFatalException {
 		if (mode instanceof PerformanceMode) {
 			String name = InstrumentNamer.getInstance().getName(num);
 			getGui().setText(name);
@@ -165,8 +167,9 @@ public class ModeController {
 	/**
 	 * Sets the power state of the Simori-ON.
 	 * @param on true to switch on, or false to switch off
+	 * @throws SimoriNonFatalException 
 	 */
-	public void setOn(boolean on, boolean animated) {
+	public void setOn(boolean on, boolean animated) throws SimoriNonFatalException {
 		if (this.on == on) return;
 		if (on) {
 			bootUp(animated);
@@ -175,7 +178,7 @@ public class ModeController {
 		}
 	}
 	
-	private void bootUp(boolean animated) {
+	private void bootUp(boolean animated) throws SimoriNonFatalException {
 		for (PowerTogglable p : toPowerToggle) p.ready(); //TODO in a different thread?
 		if (!animated){
 			switchOn();
@@ -184,14 +187,14 @@ public class ModeController {
 		afs.play(AudioFeedbackSystem.Sound.WELCOME);
 		OnFinishListener switchOn = new OnFinishListener() {
 			@Override
-			public void onAnimationFinished() {
+			public void onAnimationFinished() throws SimoriNonFatalException {
 				switchOn();
 			}
 		};
 		gui.play(new Animation(gui.getGridSize(), switchOn, true));
 	}
 	
-	private void shutDown(boolean animated) {
+	private void shutDown(boolean animated) throws SimoriNonFatalException {
 		for (int i = toPowerToggle.length - 1; i >= 0; i--) {
 			toPowerToggle[i].stop();
 		}
@@ -202,14 +205,14 @@ public class ModeController {
 		afs.play(AudioFeedbackSystem.Sound.GOODBYE);
 		OnFinishListener switchOff = new OnFinishListener() {
 			@Override
-			public void onAnimationFinished() {
+			public void onAnimationFinished() throws SimoriNonFatalException {
 				switchOff();
 			}
 		};
 		gui.play(new Animation(gui.getGridSize(), switchOff, false));
 	}
 	
-	private void switchOn() {
+	private void switchOn() throws SimoriNonFatalException {
 		for (PowerTogglable t : toPowerToggle) t.switchOn();
 		on = true;	
 		setMode(makeInitialPerformanceMode());
@@ -217,11 +220,13 @@ public class ModeController {
 		slave = new NetworkSlave(port, this);
 		try {
 			master = new NetworkMaster(port, this, slave);
-		} catch (IOException e) {}
+		} catch (IOException e) {
+			
+		}
 		slave.switchOn();
 	}
 	
-	private void switchOff() {
+	private void switchOff() throws SimoriNonFatalException {
 		on = false;
 		setMode(makeOffMode());
 		if (toPowerToggle == null) return;
@@ -243,10 +248,17 @@ public class ModeController {
 		return new PerformanceMode(this) {
 			@Override
 			public void onFunctionButtonPress(FunctionButtonEvent e) {
-				if (e.getFunctionButton().equals(FunctionButton.OK)) {
-					setMode(new ShopBoyMode(ModeController.this));
-				} else {
-					super.onFunctionButtonPress(e);
+				try {
+					if (e.getFunctionButton().equals(FunctionButton.OK)) {
+					
+						setMode(new ShopBoyMode(ModeController.this));
+					
+					} else {
+						super.onFunctionButtonPress(e);
+					}
+				} catch (SimoriNonFatalException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
 			}
 		};
@@ -260,7 +272,7 @@ public class ModeController {
 	private Mode makeOffMode() {
 		return new Mode(this) {
 			@Override
-			public void onFunctionButtonPress(FunctionButtonEvent e) {
+			public void onFunctionButtonPress(FunctionButtonEvent e) throws SimoriNonFatalException {
 				if (e.getFunctionButton() == FunctionButton.ON) {
 					getController().setOn(true, true);
 				}

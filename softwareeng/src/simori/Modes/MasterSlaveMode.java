@@ -2,6 +2,7 @@ package simori.Modes;
 
 import simori.ModeController;
 import simori.SimoriGui.FunctionButtonEvent;
+import simori.Exceptions.SimoriNonFatalException;
 import simori.Modes.NetworkMaster.ScanProgressListener;
 
 /**
@@ -77,9 +78,10 @@ public class MasterSlaveMode extends Mode implements ScanProgressListener {
 		}
 	}
 	
-	/** {@inheritDoc} */
+	/** {@inheritDoc} 
+	 * @throws SimoriNonFatalException */
 	@Override
-	public void onFunctionButtonPress(FunctionButtonEvent e) {
+	public void onFunctionButtonPress(FunctionButtonEvent e) throws SimoriNonFatalException {
 		switch (e.getFunctionButton()) {
 		case ON : // ON and OK exit the mode
 		case OK :

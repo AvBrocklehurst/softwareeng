@@ -3,6 +3,7 @@ package simori.Modes;
 import simori.FunctionButton;
 import simori.InstrumentNamer;
 import simori.ModeController;
+import simori.Exceptions.SimoriNonFatalException;
 import simori.Modes.ChangerMode.Changer;
 import simori.Modes.ChangerMode.Setting;
 
@@ -156,9 +157,10 @@ public class ChangerModeFactory {
 			 * @author Adam
 			 * @see Changer.getText(), InstrumentNamer.getInstance(), coordsConverter(), InstrumentNamer.getName()
 			 * @version 1.0.1
+			 * @throws SimoriNonFatalException 
 			 */
 			@Override
-			public String getText(Setting s) {
+			public String getText(Setting s) throws SimoriNonFatalException {
 				InstrumentNamer in = InstrumentNamer.getInstance();
 				instrumNum = coordsConverter(s.x, s.y); //translate coordinates to short
 				String name = in.getName(instrumNum);

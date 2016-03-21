@@ -132,7 +132,8 @@ public class Layer implements Serializable {
 		if(column >= 0 && column < 16 && row >= 0 && row < 16){
 			grid[row][column] = !grid[row][column]; //Inverse the current value to swap.
 		} else {
-			throw new SimoriNonFatalException("Column or Row not between 1 and 16");
+			throw new SimoriNonFatalException("A Button was updated that does not exist within the model."
+					+ " The previous button click will have not effect.");
 		}
 	}
 }

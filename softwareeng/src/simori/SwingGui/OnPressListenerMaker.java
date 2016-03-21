@@ -55,7 +55,7 @@ public class OnPressListenerMaker {
 	public OnPressListener getListener(final FunctionButton btn) {
 		return new OnPressListener() {
 			@Override
-			public void onPress(PressableCircle circle) {
+			public void onPress(PressableCircle circle) throws SimoriNonFatalException {
 				gui.getFunctionButtonListener().onFunctionButtonPress(
 						new FunctionButtonEvent(gui, btn));
 			}

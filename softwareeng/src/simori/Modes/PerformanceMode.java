@@ -47,27 +47,22 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 	 * @see SimoriGuiEvents$GridButtonEvent, SimoriGuiEvents.GridButtonListener, Layer.updateButton, SimoriGui.setGrid
 	 * @see GridButtonEvent.getX(), GridButtonEvent.getY(), GridButtonEvent.getSource()
 	 * @version 1.1.3
+	 * @throws SimoriNonFatalException 
 	 */
-	public void onGridButtonPress(GridButtonEvent e) {
+	public void onGridButtonPress(GridButtonEvent e) throws SimoriNonFatalException {
 		
 		int x = e.getX();            //grid position of button press
 		int y = e.getY();  
 		SimoriGui sc = e.getSource();
 		
 		grid[y][x] = !grid[y][x];    //invert grid button
-
-		try {
-			//update the data structure by inverting button at Gui position x,y
-			getModel().updateButton(getDisplayLayer(), (byte) x, (byte) y);
-		} catch (SimoriNonFatalException ex) {
-			// TODO Auto-generated catch block
-			ex.printStackTrace();
-		}
+		getModel().updateButton(getDisplayLayer(), (byte) x, (byte) y);
 		sc.setGrid(grid);       //relay the change to the gui
 	}
 	
-	/** {@inheritDoc} */
-	public void onFunctionButtonPress(FunctionButtonEvent e) {
+	/** {@inheritDoc} 
+	 * @throws SimoriNonFatalException */
+	public void onFunctionButtonPress(FunctionButtonEvent e) throws SimoriNonFatalException {
 		if (e.getFunctionButton().equals(FunctionButton.OK)) {
 			getController().sadSound();
 			return;
@@ -138,13 +133,12 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 	 * @author Matt
 	 * @author James (end of line comments)
 	 * @version 2.0.1
+	 * @throws SimoriNonFatalException 
 	 */
 	@Override
-	public void setInitialGrid() {
+	public void setInitialGrid() throws SimoriNonFatalException {
 		short instr = getModel().getInstrument(getDisplayLayer());  //initial instrument
 		getGui().setText(InstrumentNamer.getInstance().getName(instr));
-		try {
-			tickerLight((byte) (getModel().getCurrentColumn()));
-		} catch (SimoriNonFatalException e) {}
+		tickerLight((byte) (getModel().getCurrentColumn()));
 	}
 }
