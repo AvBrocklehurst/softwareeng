@@ -158,7 +158,11 @@ public class TestChangerMode {
 	
 	@Test
 	public void test_doThingTo(){
-		assertEquals("A thing was not done!", false, testChanger().doThingTo(testcontroller));
+		try {
+			assertEquals("A thing was not done!", false, testChanger().doThingTo(testcontroller));
+		} catch (SimoriNonFatalException e) {
+			fail();
+		}
 	}
 	
 	@Test
