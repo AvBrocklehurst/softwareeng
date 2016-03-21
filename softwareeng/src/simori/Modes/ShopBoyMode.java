@@ -35,9 +35,10 @@ public class ShopBoyMode extends PerformanceMode implements Observer {
 	/**
 	 * @author James
 	 * @version 1.0.0
+	 * @throws SimoriNonFatalException 
 	 */
 	@Override
-	public void setInitialGrid() {
+	public void setInitialGrid() throws SimoriNonFatalException {
 		getModel().addObserver(this);
 		getGui().clearGrid();
 		playShopBoy(shopboy);      //begin the first song
@@ -95,11 +96,11 @@ public class ShopBoyMode extends PerformanceMode implements Observer {
 	 * @version 2.0.0
 	 * @see java.io.File, SaveAndLoad.load()
 	 * @param f   A single song to process
+	 * @throws SimoriNonFatalException 
 	 */
-	private void songPlay(File f){
+	private void songPlay(File f) throws SimoriNonFatalException{
 		song = f.listFiles();      //list all files in a single song subdirectory
-		System.out.println(song[partCounter].getName());
-		SaveAndLoad.loadShop(getModel(), song[partCounter].getName());       //load in a part
+		SaveAndLoad.loadShop(getModel(), song[partCounter].getPath());       //load in a part
 	}
 
 	/**{@inheritDoc}*/
@@ -109,7 +110,6 @@ public class ShopBoyMode extends PerformanceMode implements Observer {
 	 */
 	@Override
 	public void update(Observable o, Object arg) {
-		System.out.println("in update");
 		byte looppoint = getModel().getLoopPoint();
 		byte currentcolumn = getModel().getCurrentColumn();
 		
@@ -120,12 +120,20 @@ public class ShopBoyMode extends PerformanceMode implements Observer {
 				partCounter = 0;
 				counter++;                //next song subdirectory
 				playShopBoy(shopboy);
-				songPlay(currentFile);
+				try {
+					songPlay(currentFile);
+				} catch (SimoriNonFatalException e) {
+					e.printStackTrace();
+				}
 			}
 			
 			else{
 				playShopBoy(shopboy);       //continue to play
-				songPlay(currentFile);
+				try {
+					songPlay(currentFile);
+				} catch (SimoriNonFatalException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 		
