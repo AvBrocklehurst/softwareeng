@@ -14,4 +14,5 @@ public class SimoriFatalException extends RuntimeException {
     public SimoriFatalException(String message) {
        super(message);
     }
+
 }
