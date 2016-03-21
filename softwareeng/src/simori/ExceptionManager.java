@@ -1,5 +1,7 @@
 package simori;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.ArrayList;
 import java.util.List;
@@ -98,12 +100,21 @@ public class ExceptionManager implements UncaughtExceptionHandler,
 	 * @param errors The errors to report in the dialog
 	 */
 	private void openDialog(Throwable[] errors) {
-		//TODO Assemble one or more throwables into a message. As nice as possible, please!
 		playExceptionNoise();
-		String shortMsg = "<html><b><u>T</u>wo</b><br>lines</html>";
-		String title = null;
+		String shortMsg = "";
+		String title = "";
+		String longMessage = "";
+		for(Throwable error : errors){
+			title = error.getClass().getSimpleName();
+			shortMsg = "<html><b>" + error.getMessage() + "</b></html>";
+			StringWriter sw = new StringWriter();
+			error.printStackTrace(new PrintWriter(sw));
+			String exceptionAsString = sw.toString();
+			longMessage += exceptionAsString;
+			longMessage += " \n\n";
+		}
 		dialogOpen = true;
-		gui.reportError(shortMsg, PLACEHOLDER + PLACEHOLDER, title, this);
+		gui.reportError(shortMsg, longMessage, title, this);
 	}
 	
 	/** Plays a sound to accompany the error dialog */
@@ -115,6 +126,4 @@ public class ExceptionManager implements UncaughtExceptionHandler,
 		 * TODO Ask afs whether its receiver is open before attempting to play!
 		 */
 	}
-	
-	private static final String PLACEHOLDER = "Hodor hodor - hodor hodor; hodor hodor... Hodor hodor hodor?! Hodor hodor - hodor... Hodor hodor hodor. Hodor hodor; hodor hodor; hodor hodor, hodor, hodor hodor. Hodor, hodor. Hodor. Hodor, hodor, hodor. Hodor hodor hodor hodor, hodor, hodor hodor. Hodor hodor hodor? Hodor! Hodor hodor, hodor... Hodor hodor hodor hodor! Hodor! Hodor hodor, hodor; hodor HODOR hodor, hodor hodor... Hodor hodor hodor? Hodor, hodor. Hodor. Hodor, hodor... Hodor hodor HODOR hodor, hodor hodor... Hodor hodor hodor?!";
 }
