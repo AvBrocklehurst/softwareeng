@@ -1,6 +1,7 @@
 package simori.Modes;
 
 import java.io.File;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -57,6 +58,8 @@ public class ShopBoyMode extends PerformanceMode implements Observer {
 		case OK:
 			getModel().deleteObserver(this);
 			getController().setMode(new PerformanceMode(getController()));
+			File blank = ResourceManager.getResource("BLANK.song");
+			SaveAndLoad.loadShop(getModel(), blank.getPath());
 			break;  //return to Performance Mode as normal
 		
 		default:
@@ -64,6 +67,10 @@ public class ShopBoyMode extends PerformanceMode implements Observer {
 			break; //ignore all other function buttons
 		}
 	}
+	
+	/**{@inheritDoc}*/
+	@Override
+	public void onGridButtonPress(GridButtonEvent e){}
 	
 	/**
 	 * This method sets the current LCD text to a found subdirectory or song
