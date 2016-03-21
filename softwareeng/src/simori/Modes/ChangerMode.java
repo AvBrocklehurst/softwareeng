@@ -60,7 +60,7 @@ public class ChangerMode extends Mode {
 	 * @throws SimoriNonFatalException 
 	 */
 	@Override
-	public void onGridButtonPress(GridButtonEvent e) throws SimoriNonFatalException {
+	public void onGridButtonPress(GridButtonEvent e) {
 		Setting setting = new Setting((byte) e.getX(), (byte) e.getY());
 		String text = changer.getText(setting);
 		e.getSource().setText(text);
@@ -78,7 +78,7 @@ public class ChangerMode extends Mode {
 	 * @throws SimoriNonFatalException 
 	 */
 	@Override
-	public void onFunctionButtonPress(FunctionButtonEvent e) throws SimoriNonFatalException {
+	public void onFunctionButtonPress(FunctionButtonEvent e) {
 		switch (e.getFunctionButton()) {
 		case ON:
 			super.onFunctionButtonPress(e);
@@ -106,7 +106,7 @@ public class ChangerMode extends Mode {
 	 * @throws SimoriNonFatalException 
 	 */
 	@Override
-	public void setInitialGrid() throws SimoriNonFatalException {
+	public void setInitialGrid() {
 		Setting current = changer.getCurrentSetting();
 		if (current == null) {
 			getGui().clearGrid();
@@ -156,7 +156,7 @@ public class ChangerMode extends Mode {
 		 * @return A description of the setting, or null if none exists
 		 * @throws SimoriNonFatalException 
 		 */
-		public String getText(Setting setting) throws SimoriNonFatalException;
+		public String getText(Setting setting);
 		
 		/**
 		 * Called when the OK button is pressed and the changes are to
@@ -171,7 +171,7 @@ public class ChangerMode extends Mode {
 		 * @return true if the changes were applied successfully
 		 * @throws SimoriNonFatalException 
 		 */
-		public boolean doThingTo(ModeController controller) throws SimoriNonFatalException;
+		public boolean doThingTo(ModeController controller);
 		
 		/**
 		 * Allows the current setting of a property to be specified.

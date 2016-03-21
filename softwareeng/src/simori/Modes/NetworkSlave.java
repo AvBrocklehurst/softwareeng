@@ -57,7 +57,8 @@ public class NetworkSlave implements Runnable, PowerTogglable{
 			}
 			serverSocket.close();
 		} catch(IOException e){
-			
+			throw new SimoriNonFatalException("Unable to open Network Socket. Master and Slave mode"
+					+ " will be unavailable.");
 		}
 	}
 	
@@ -128,16 +129,13 @@ public class NetworkSlave implements Runnable, PowerTogglable{
 				int num = ours.getInstrument(controller.getDisplayLayer());
 				controller.showInstrumentName(num);
 			} catch (ClassNotFoundException e1) {
-				System.err.println("Class sent wasn't a MatrixModel");
-			} catch (SimoriNonFatalException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+				throw new SimoriNonFatalException("Matrix Model Class not loaded in.");
+			} 
 			out.close();
 			in.close();
 			s.close();
 		} catch (IOException e) {
-			System.err.println("Input / output stream can't be found");
+			throw new SimoriNonFatalException("Cannot open the obect input stream.");
 		}
 	  }
 	}

@@ -3,6 +3,8 @@ package simori;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import simori.Exceptions.SimoriNonFatalException;
+
 /**
  * Class implementing Runnable which keeps track of the timing. It handles when the note processor
  * should process data, and also any bpm/tempo changes.
@@ -114,9 +116,7 @@ public class Clock implements Runnable {
 	public void updateBPM(short newBPM){
 		//check if bpm within 0-160 range
 		if(newBPM<0||newBPM>160) {
-			throw new IllegalArgumentException("Incorrect BPM:" + newBPM + "; acceptable 0-160");
-			//System.out.println("Incorrect BPM:" + newBPM + "; acceptable 0-160");
-			//System.exit(1);
+			throw new SimoriNonFatalException("Incorrect BPM:" + newBPM + "; acceptable 0-160");
 		}
 		//if the clock is only just started, actually start it
 		if(bpm==-1) new Thread(this).start();

@@ -11,6 +11,7 @@ import javax.sound.midi.ShortMessage;
 import javax.sound.midi.Soundbank;
 import javax.sound.midi.Synthesizer;
 
+import simori.Exceptions.SimoriNonFatalException;
 import simori.Simori.PowerTogglable;
 
 /**
@@ -48,8 +49,7 @@ public class MIDISoundSystem implements PowerTogglable {
 			setSoundbank();
 			reciever = synth.getReceiver();
 		} catch (MidiUnavailableException e) {
-			e.printStackTrace();
-			System.exit(1);
+			throw new SimoriNonFatalException("Invalid data was sent to the Midi.");
 		}
 		if (synth == null) System.exit(1);
 		if (reciever == null) System.exit(1);
@@ -59,21 +59,21 @@ public class MIDISoundSystem implements PowerTogglable {
 		Soundbank sb = null;
 		File file = ResourceManager.getResource("goodSoundbank.SF2");
 		if (file == null) {
-			System.err.println("Could not find res folder!");
+			System.err.println("Could not find Res Folder.");
 			return;
 		}
 		if (!file.exists()) {
-			System.err.println("Could not find soundbank file!");
+			System.err.println("Could not find Sound bank.");
 			return;
 		}
 		try {
 			sb = MidiSystem.getSoundbank(file);
 		} catch (InvalidMidiDataException e) {
+			throw new SimoriNonFatalException("Invalid data was sent to the Midi.");
 		} catch (IOException e) {
+			throw new SimoriNonFatalException("Could not open an I/O Stream.");
 		}
 		synth.loadAllInstruments(sb);
-		System.out.println(sb.toString());
-		System.out.println("Soundbank Loaded");
 	}
 	
 	/**
@@ -117,7 +117,9 @@ public class MIDISoundSystem implements PowerTogglable {
 		try {
 			synth.open();
 			reciever = synth.getReceiver();
-		} catch (MidiUnavailableException e) {e.printStackTrace();System.exit(1);}
+		} catch (MidiUnavailableException e) {
+			throw new SimoriNonFatalException("Midi Player was unable to be opened.");
+		}
 	}
 	
 	/** {@inheritDoc} 
@@ -139,10 +141,5 @@ public class MIDISoundSystem implements PowerTogglable {
 		synth.close();
 	}
 	
-	public static void main(String[] args) throws InvalidMidiDataException, InterruptedException {
-		MIDISoundSystem josh = new MIDISoundSystem();
-		ShortMessage message = new ShortMessage(ShortMessage.NOTE_ON,0,60,80);
-		josh.sendCommand(message);
-		Thread.sleep(1000);
-	}
+
 }

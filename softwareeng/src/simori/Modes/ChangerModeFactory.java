@@ -160,7 +160,7 @@ public class ChangerModeFactory {
 			 * @throws SimoriNonFatalException 
 			 */
 			@Override
-			public String getText(Setting s) throws SimoriNonFatalException {
+			public String getText(Setting s) {
 				InstrumentNamer in = InstrumentNamer.getInstance();
 				instrumNum = coordsConverter(s.x, s.y); //translate coordinates to short
 				String name = in.getName(instrumNum);
@@ -294,7 +294,8 @@ public class ChangerModeFactory {
 			public String getText(Setting s) {
 				selectedTempo = coordsConverter(s.x, s.y);
 				selectedTempo = (selectedTempo < 161 ? selectedTempo : null);
-				return selectedTempo == null ? null : String.valueOf(selectedTempo);
+				if (selectedTempo == null) return null;
+				return String.valueOf(selectedTempo) + " BPM";
 			}
 			
 			/**

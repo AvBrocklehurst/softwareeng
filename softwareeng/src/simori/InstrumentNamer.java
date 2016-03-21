@@ -29,7 +29,7 @@ public class InstrumentNamer {
 	 * Takes csv file and puts information stored it into a map you quicker access later on.
 	 * @throws SimoriNonFatalException 
 	 */
-	private InstrumentNamer() throws SimoriNonFatalException {
+	private InstrumentNamer() {
 		map = new HashMap<Integer, String>();
 		Scanner scanner = null;
 		try {
@@ -66,7 +66,7 @@ public class InstrumentNamer {
 	 * @return InstrumentNamer  instance of class
 	 * @throws SimoriNonFatalException 
 	 */
-	public static InstrumentNamer getInstance() throws SimoriNonFatalException{
+	public static InstrumentNamer getInstance(){
 		if(instance == null){
 			instance = new InstrumentNamer(); // if we dont have an instance of instrument namer then get one.
 		}

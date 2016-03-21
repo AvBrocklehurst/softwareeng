@@ -56,7 +56,7 @@ public class GuiProperties {
 	/** Splash image long side must be this many times screen short side */
 	public static final float SPLASH_MIN_PROPORTION = 0.3f;
 	
-	/** Proportion of {@link SplashImage} height the progress bar should be */
+	/** Proportion of {@link SplashJWindow} height progress bar should add */
 	public static final float SPLASH_BAR_PROPORTION = 1f / 15f;
 	
 	/** Greatest ratio by which {@link SplashJWindow} image may be resized */
@@ -65,8 +65,8 @@ public class GuiProperties {
 	/** Smallest ratio by which {@link SplashJWindow} image may be resized */
 	public static final float SPLASH_MIN_RESIZE = 0.2f;
 	
-	/** Proportion of backup {@link SplashImage} box to fill with text */
-	public static final float SPLASH_TEXT_PROPORTION = 0.8f;
+	/** Proportion of backup {@link ImageComponent} box to fill with text */
+	public static final float IMAGE_BACKUP_TEXT_PROPORTION = 0.8f;
 	
 	/** Proportion of {@link SimoriJFrame} width for {@link ErrorDialog} */
 	public static final float ERROR_WIDTH_PROPORTION = 0.7f;
@@ -131,14 +131,14 @@ public class GuiProperties {
 	/** Colour to draw the text of the {@link Lcd} */
 	public static final Color LCD_TEXT = Color.BLACK;
 	
-	/** Colour to draw backup {@link SplashImage} text */
-	public static final Color SPLASH_BACKUP = Color.WHITE;
+	/** Colour to draw backup {@link ImageComponent} text */
+	public static final Color IMAGE_BACKUP_TEXT = Color.WHITE;
 	
-	/** Centre colour for backup {@link SplashImage} radial gradient */
-	public static final Color SPLASH_BACKUP_CENTRE = Color.GRAY;
+	/** Centre colour for backup {@link ImageComponent} radial gradient */
+	public static final Color IMAGE_BACKUP_CENTRE = Color.GRAY;
 	
-	/** Outer colour for backup {@link SplashImage} radial gradient */
-	public static final Color SPLASH_BACKUP_EDGE = Color.BLACK;
+	/** Outer colour for backup {@link ImageComponent} radial gradient */
+	public static final Color IMAGE_BACKUP_EDGE = Color.BLACK;
 	
 	/**
 	 * Standard cursor for the Simori-ON application
@@ -153,11 +153,17 @@ public class GuiProperties {
 	/** Cursor to indicate that the {@link SimoriJFrame} can be dragged */
 	public static final Cursor MOVE_CURSOR = new Cursor(Cursor.MOVE_CURSOR);
 	
-	/** Text to display on backup {@link SplashImage} */
+	/** Text to display if {@link #SPLASH_IMAGE} cannot be loaded */
 	public static final String SPLASH_BACKUP_TEXT = "Simori-ON by Team H";
+	
+	/** Text to display if {@link #ERROR_ICON} cannot be loaded */
+	public static final String ERROR_BACKUP_TEXT = "Error!";
 	
 	/** Name of the image resource to display on the {@link SplashJWindow} */
 	public static final String SPLASH_IMAGE = "Silicon Splash.png";
+	
+	/** Name of image resource to display in {@link ErrorDialog} */
+	public static final String ERROR_ICON = "Chunbori-ON.png";
 
 	/**
 	 * Name of the image file to use as the icon for the window.

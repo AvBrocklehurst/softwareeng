@@ -94,7 +94,13 @@ public class SplashJWindow extends JWindow implements SplashScreen {
 	
 	/** Adds components and customises the look of the window. */
 	private void setUpWindow() {
-		SplashImage img = new SplashImage();
+		ImageComponent img = new ImageComponent(
+				GuiProperties.SPLASH_IMAGE,
+				GuiProperties.SPLASH_BACKUP_TEXT,
+				GuiProperties.SPLASH_MIN_PROPORTION,
+				GuiProperties.SPLASH_MAX_PROPORTION,
+				GuiProperties.SPLASH_MIN_RESIZE,
+				GuiProperties.SPLASH_MAX_RESIZE);
 		JProgressBar bar = makeProgressBar(img);
 		setLayout(new BoxLayout(getContentPane(), BoxLayout.PAGE_AXIS));
 		add(img);
@@ -110,7 +116,7 @@ public class SplashJWindow extends JWindow implements SplashScreen {
 	 * @param img to display a progress bar at the bottom of
 	 * @return Indeterminate progress bar of the correct size
 	 */
-	private JProgressBar makeProgressBar(SplashImage img) {
+	private JProgressBar makeProgressBar(ImageComponent img) {
 		JProgressBar bar = new JProgressBar();
 		float width = img.getWidth();
 		float prop = GuiProperties.SPLASH_BAR_PROPORTION;
