@@ -35,7 +35,7 @@ public class Simori {
 	 * and an error message is displayed in a dialog.
 	 * @version 4.5.0
 	 */
-	public static void main(String[] args) throws SimoriNonFatalException {
+	public static void main(String[] args) {
 		new Simori();
 	}
 	
@@ -51,13 +51,12 @@ public class Simori {
 	 * @version 3.0.0
 	 * @throws SimoriNonFatalException to be displayed as error
 	 */
-	public Simori() throws SimoriNonFatalException {
+	public Simori() {
 		SplashScreen splash = new SplashJWindow(); // Displays immediately
 		InstrumentNamer.getInstance(); // Proved costly to initialise later
 		splash.swapFor(assembleSimori(), MIN_SPLASH_TIME); // Takes a while
 		splash = null; // Allow garbage collector to reclaim splash screen
-		
-		throw new SimoriNonFatalException("Hey, this is my message");
+
 	}
 	
 	/**
@@ -65,10 +64,11 @@ public class Simori {
 	 * @return For the {@link SplashScreen} to set visible
 	 * @throws SimoriNonFatalException to display as error
 	 */
-	private SimoriGui assembleSimori() throws SimoriNonFatalException {
+	private SimoriGui assembleSimori() {
 		MatrixModel model = new MatrixModel(GRID_SIZE, GRID_SIZE);
 		QwertyKeyboard keyboard = new QwertyKeyboard(GRID_SIZE, GRID_SIZE);
 		SimoriJFrame gui = new SimoriJFrame(keyboard); // Swing implementation
+		Thread.setDefaultUncaughtExceptionHandler(gui.getExceptionHandler());
 		MIDISoundSystem player = new MIDISoundSystem();
 		AudioFeedbackSystem afs = new AudioFeedbackSystem(player, model);
 		ModeController modes = new ModeController(gui, model, afs, PORT);
@@ -76,7 +76,7 @@ public class Simori {
 		model.addObserver(clock);
 		modes.setComponentsToPowerToggle(model, player, gui, clock);
 		modes.setOn(false, false); // Initially off without animation
-		Thread.setDefaultUncaughtExceptionHandler(gui.getExceptionHandler());
+		
 		return gui; // Splash screen will swap itself for this
 	}
 	
