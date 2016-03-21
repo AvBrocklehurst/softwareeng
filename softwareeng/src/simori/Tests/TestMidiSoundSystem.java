@@ -1,8 +1,6 @@
 package simori.Tests;
 
 import static org.junit.Assert.*;
-//package simori.Tests;
-
 import javax.sound.midi.ShortMessage;
 import org.junit.After;
 import org.junit.Before;
