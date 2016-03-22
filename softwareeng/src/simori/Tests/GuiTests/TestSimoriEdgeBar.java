@@ -108,12 +108,11 @@ public class TestSimoriEdgeBar {
 	@Test
 	public void testSetGreyedOutValid() {
 		assertTrue(edgeBarLeft.setGreyedOut(FunctionButton.L1, true));
-		
+		assertEquals(edgeBarLeft.getButtons()[0].getCursor(), GuiProperties.NORMAL_CURSOR);
 	} 
 	
 	@Test
 	public void testSetGreyedOutInvalid() {
-		assertTrue(edgeBarLeft.setGreyedOut(FunctionButton.ON, true));
-		
+		assertFalse(edgeBarLeft.setGreyedOut(FunctionButton.ON, true));
 	}
 }
