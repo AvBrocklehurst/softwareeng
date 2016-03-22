@@ -112,4 +112,13 @@ public class TestMidiSoundSystem {
 	//Test stop
 	@Test
 	public void testStop(){midi.stop();}
+	
+	//Test to make sure you cant send a message when turned off
+	@Test(expected = IllegalStateException.class)
+	public void testSwitchOffSendMessage() {
+		midi.switchOff();
+		assertFalse(midi.isSynthOn());
+		assertFalse(midi.hasActiveReceivers());
+		midi.sendCommand(message);
+	}
 }
