@@ -221,6 +221,7 @@ public class ModeController {
 		};
 		Animation shutDown =
 				new GreyCentreWipe(false, false, false, false, gui.getGridSize());
+		gui.setText(null);
 		gui.play(shutDown, SHUTDOWN_DURATION, switchOff);
 		animating = true;
 	}
