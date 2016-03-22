@@ -12,7 +12,7 @@ import simori.MatrixModel;
 /**
  * 
  * @author Josh
- * @version 1.0.0
+ * @version 1.3.2
  * 
  * Class that tests AudioFeedback System.
  * Since this class extends (and implements) the abstract class MIDIMessengerSystem those methods will also be tested.
