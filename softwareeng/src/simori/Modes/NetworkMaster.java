@@ -74,15 +74,15 @@ public class NetworkMaster implements Runnable {
 	/** @author Adam */
 	@Override
 	public void run() {
-		try {
 			slave.switchOff();
-			this.ip = getIP();
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		findSlave();
+			try {
+				this.ip = getIP();
+			} catch (IOException e) {
+				throw new SimoriNonFatalException("Unable to access"
+						+ " network drivers for ip searching."
+						+ " Slave master mode unavailable.");
+			}
+			findSlave();
 	}
 	
 	/**
@@ -128,7 +128,7 @@ public class NetworkMaster implements Runnable {
 		        	running = false;
 		        	return true;
 		        } catch (IOException e){
-		        	
+
 		        }
 			} else {
 				break;
@@ -145,7 +145,7 @@ public class NetworkMaster implements Runnable {
 	 * @param ip  The IP to attempt a connection with.
 	 * @throws IOException
 	 */
-	private void checkSocket(String ip) throws IOException{
+	private void checkSocket(String ip) throws IOException {
 		Socket socket = new Socket();
 		
 		/* attempt socket connection with 100ms timeout */
@@ -166,7 +166,6 @@ public class NetworkMaster implements Runnable {
 	 * Method to return the systems local IP address.
 	 * @author Adam
 	 * @return  A string containing the current systems local IP. 
-	 * @throws UnknownHostException 
 	 * @throws IOException 
 	 */
 	private String getIP() throws IOException {
