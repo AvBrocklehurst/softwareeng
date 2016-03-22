@@ -127,7 +127,7 @@ public class TestSimoriSoundSystem {
 	}
 	
 	//Test all 16 layers
-	@Test(timeout = 5000) // dont want it to take too long to play all the notes simultaneously, otherwise it will go out of sync!
+	@Test(timeout = 1000) // dont want it to take too long to play all the notes simultaneously, otherwise it will go out of sync!
 	public void testPlayMaximumLayersAndNotes() throws InvalidMidiDataException {
 		player.play(maximumLayersAndNotes); 
 	}

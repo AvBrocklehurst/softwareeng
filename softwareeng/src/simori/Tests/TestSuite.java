@@ -15,7 +15,6 @@ import simori.Tests.GuiTests.GuiTestSuite;
 	GuiTestSuite.class, //Must be first (see TestGuiProperties)
 	TestLayer.class,
 	TestMatrixModel.class,
-	TestMIDISoundPlayer.class,
 	TestPerformanceMode.class,
 	TestInstrumentNamer.class,
 	TestSimoriGui.class,
@@ -29,10 +28,9 @@ import simori.Tests.GuiTests.GuiTestSuite;
 	
 	TestMidiSoundSystem.class,
 	TestMIDIMessengerSystem.class,
-	TestSimoriSoundSystem.class,
+	TestAudioFeedbackSystem.class,
+	TestSimoriSoundSystem.class
 	
-	
-	
-	TestAudioFeedbackSystem.class // I would leave this one til last due to its thread.sleeps.
+
 })
 public class TestSuite {}

@@ -55,7 +55,7 @@ public class TestAudioFeedbackSystem {
 		Thread.sleep(3700); 
 	}
 	
-	//Test that we can play multiple tunes ok.
+	//Test that we can play multiple tunes ok (if the user spammed a button or something similar)
 	@Test public void testPlayMultiple() throws InterruptedException {
 		afs.play(Sound.WELCOME);
 		afs.play(Sound.HAPPY);
