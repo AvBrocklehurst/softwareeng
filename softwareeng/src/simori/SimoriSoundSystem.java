@@ -99,6 +99,4 @@ public class SimoriSoundSystem extends MIDIMessengerSystem {
 	public void play(byte[][] array) {
 		player.sendCommands(convertToMIDIMessages(array)); // take the array and turn it into MIDI messages, then send it to the synth.
 	}
-	
 }
-

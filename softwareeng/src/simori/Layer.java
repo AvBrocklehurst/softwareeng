@@ -5,8 +5,6 @@ import simori.Exceptions.SimoriNonFatalException;
 
 /**
  * Class to store the 16x16 grid of 1 layer.
- * <p> 
- *
  * @author  Adam
  * @version 1.1.1
  */
@@ -46,7 +44,6 @@ public class Layer implements Serializable {
 		for(int i = 0; i < width; i++) { //For each row of the grid.
 			col[i] = grid[i][column]; // Add the requested column value to the array col.
 		}
-		
 		return col;
 	}
 	

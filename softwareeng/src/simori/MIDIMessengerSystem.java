@@ -75,6 +75,4 @@ abstract class MIDIMessengerSystem {
 	public void stopPlay() {
 		player.stopSound();
 	}
-	
-	
 }

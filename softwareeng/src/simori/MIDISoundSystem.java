@@ -20,7 +20,6 @@ import simori.Simori.PowerTogglable;
  * As a result this code works with multiple laptops,PC's etc but doesnt work properly in blue room.
  * (It just plays a clicking noise)
  * 
- * 
  * @author Josh aka the music man
  * @version 2.2.1
  *
@@ -142,6 +141,4 @@ public class MIDISoundSystem implements PowerTogglable {
 		reciever.close();
 		synth.close();
 	}
-	
-
 }

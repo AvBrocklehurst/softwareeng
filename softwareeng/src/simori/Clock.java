@@ -7,7 +7,7 @@ import simori.Exceptions.SimoriNonFatalException;
 
 /**
  * Class implementing Runnable which keeps track of the timing. It handles when the note processor
- * should process data, and also any bpm/tempo changes.
+ * should process data, and also any BPM / tempo changes.
  * @author Jurek
  * @author Adam
  * @version 1.1.0
@@ -107,7 +107,7 @@ public class Clock implements Runnable {
 	/**
 	 * Method that gets called by parent observer when the bpm is changed.
 	 * It sets the bpm for the clock to follow and forces it out of the loop
-	 * so that it can update the bpm immediatly. 
+	 * so that it can update the bpm immediately. 
 	 * @author Adam
 	 * @author Jurek
 	 * @param newBPM  the bpm to change the clock too.
