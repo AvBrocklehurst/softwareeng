@@ -105,7 +105,7 @@ public class ShopBoyMode extends PerformanceMode implements Observer {
 	 * @param f   A single song to process
 	 * @throws SimoriNonFatalException 
 	 */
-	private void songPlay(File f) throws SimoriNonFatalException{
+	private void songPlay(File f) {
 		song = f.listFiles();      //list all files in a single song subdirectory
 		SaveAndLoad.loadShop(getModel(), song[partCounter].getPath());       //load in a part
 	}
