@@ -9,7 +9,7 @@ import simori.MatrixModel;
 /**
  * 
  * @author Josh
- * @version 1.0.0
+ * @version 1.2.0
  * 
  * Class that increases visibility of MIDISoundSystem.
  * Used for testing.

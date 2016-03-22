@@ -11,7 +11,6 @@ import simori.SwingGui.Lcd;
 /**
  * 
  * @author Josh
- * @author Jurek
  * @version 1.0.8
  * 
  * class that tests Lcd class.
@@ -43,7 +42,6 @@ public class TestLcd {
 	public void testSetText() throws InterruptedException, SimoriNonFatalException{
 		lcd.setText("hello world!");
 		String text = lcd.getText();
-		
 		assertEquals("hello world!", text);
 		
 	}
