@@ -41,7 +41,7 @@ public class TestShopBoyMode {
 	public void setUp() throws SimoriNonFatalException {
 		gui = new MockSimoriJFrame(new QwertyKeyboard((byte)16, (byte)16));
 		model = new MatrixModel(16, 16);
-		midi = new MIDISoundSystem();
+		midi = new MIDISoundSystem(false);
 		audio = new AudioFeedbackSystem(midi, model);
 		mode = new MockModeController(gui, model, audio, 20160);
 		mode.setComponentsToPowerToggle(model, gui);
@@ -61,38 +61,26 @@ public class TestShopBoyMode {
 	
 	@Test
 	public void testSetInitialGrid() {
-		try {
-			sbmode.setInitialGrid();
-			//assertEquals(gui.getText(), <MusicMan>);
-			for(byte x=0;x<16;x++) {
-				for(byte y=0;y<16;y++){
-					assertFalse(gui.getLedPanel().getLed(x, y).getIlluminated());
-				}
+		sbmode.setInitialGrid();
+		//assertEquals(gui.getText(), <MusicMan>);
+		for(byte x=0;x<16;x++) {
+			for(byte y=0;y<16;y++){
+				assertFalse(gui.getLedPanel().getLed(x, y).getIlluminated());
 			}
-		} catch (SimoriNonFatalException e) {
-			fail();
 		}
 	}
 	
 	@Test
 	public void testOnFunctionButtonPressON() {
-		try {
-			boolean current = mode.isOn();
-			sbmode.onFunctionButtonPress(new FunctionButtonEvent(gui, FunctionButton.ON));
-			assertEquals(mode.isOn(), !current);
-		} catch (SimoriNonFatalException e) {
-			fail();
-		}
+		boolean current = mode.isOn();
+		sbmode.onFunctionButtonPress(new FunctionButtonEvent(gui, FunctionButton.ON));
+		assertEquals(mode.isOn(), !current);
 	}
 
 	@Test
 	public void testOnFunctionButtonPressOK() {
-		try {
-			sbmode.onFunctionButtonPress(new FunctionButtonEvent(gui, FunctionButton.OK));
-			assertEquals(mode.getMode().getClass(), PerformanceMode.class);
-		} catch (SimoriNonFatalException e) {
-			fail();
-		}
+		sbmode.onFunctionButtonPress(new FunctionButtonEvent(gui, FunctionButton.OK));
+		assertEquals(mode.getMode().getClass(), PerformanceMode.class);
 	}
 	
 	@Test

@@ -15,11 +15,11 @@ public class TestErrorDialog {
 	@Test
 	public void testErrorDialog() throws SimoriNonFatalException {
 		jframe = new SimoriJFrame(new QwertyKeyboard((byte)16, (byte)16));
-		error = new ErrorDialog(jframe);
+		error = new ErrorDialog(jframe, false);
 	}
 	
 	@Test (expected=NullPointerException.class)
 	public void testErrorDialogNull() throws SimoriNonFatalException {
-		error = new ErrorDialog(null);
+		error = new ErrorDialog(null, false);
 	}
 }
