@@ -235,7 +235,7 @@ public class ModeController {
 		try {
 			master = new NetworkMaster(port, this, slave);
 		} catch (IOException e) {
-			
+			throw new SimoriNonFatalException("Can't start network master. Master slave mde unavailable.");
 		}
 		slave.switchOn();
 	}

@@ -108,9 +108,10 @@ public class TestMode{
 		testfbevent2 = new FunctionButtonEvent(testgui, testfb2);
 		testfbevent3 = new FunctionButtonEvent(testgui, testfb3);
 		testmodel = new MatrixModel(16, 16);
-		testmidi = new MIDISoundSystem();
+		testmidi = new MIDISoundSystem(false);
 		testaudio = new AudioFeedbackSystem(testmidi, testmodel);
 		mockcontroller = new MockModeController(testgui, testmodel, testaudio, 20160);
+		mockcontroller.setComponentsToPowerToggle(testgui, testmodel);
 		testslave = new NetworkSlave(0, mockcontroller);
 		testmaster = new NetworkMaster(0, mockcontroller, testslave);
 		testermode = new TesterMode(mockcontroller);
@@ -126,14 +127,13 @@ public class TestMode{
 		testfb = null;
 		testfb2 = null;
 		testfb3 = null;
-		testslave = null;
 		testmodel = null;
 		mockcontroller = null;
+		testslave.switchOff();
 		testslave = null;
+		testmaster.stopRunning();
 		testmaster = null;
 		testermode = null;
-		testmaster.stopRunning();
-		testslave.switchOff();
 		testaudio = null;
 		testmidi = null;
 	}
@@ -161,32 +161,22 @@ public class TestMode{
 	
 	@Test
 	public void test_onFunctionButtonPress_Ok(){
-		try {
-			testermode.onFunctionButtonPress(testfbevent);
-			assertThat("The mode was not set to performance mode", mockcontroller.getMode(), instanceOf(PerformanceMode.class));
-		} catch (SimoriNonFatalException e) {
-			fail();
-		}
+		testermode.onFunctionButtonPress(testfbevent);
+		assertThat("The mode was not set to performance mode", mockcontroller.getMode(), instanceOf(PerformanceMode.class));
+		
 	}
 	
 	@Test
 	public void test_onFunctionButtonPress_On(){
-		try {
-			testermode.onFunctionButtonPress(testfbevent3);
-			assertEquals("Simori was not turned off as expected", false, testermode.getController().isOn());
-		} catch (SimoriNonFatalException e) {
-			fail();
-		}
+		testermode.onFunctionButtonPress(testfbevent3);
+		assertEquals("Simori was not turned on as expected", true, testermode.getController().isOn());
 	}
 	
 	@Test
 	public void test_onFunctionButtonPress_Changer(){
-		try {
-			testermode.onFunctionButtonPress(testfbevent2);
-			assertThat("Mode was not changed to Change Voice as expected!", mockcontroller.getMode(), instanceOf(Mode.class));
-		} catch (SimoriNonFatalException e) {
-			fail();
-		}
+		testermode.onFunctionButtonPress(testfbevent2);
+		assertThat("Mode was not changed to Change Voice as expected!", mockcontroller.getMode(), instanceOf(Mode.class));
+		
 	}
 
 }

@@ -2,14 +2,18 @@ package simori.Tests;
 
 import static org.junit.Assert.*;
 import org.junit.*;
+import static org.hamcrest.CoreMatchers.*;
 
 import simori.AudioFeedbackSystem;
+import simori.FunctionButton;
 import simori.MIDISoundSystem;
 import simori.MatrixModel;
 import simori.ModeController;
+import simori.SimoriGui.FunctionButtonEvent;
 import simori.SimoriGui.GridButtonEvent;
 import simori.Exceptions.SimoriNonFatalException;
 import simori.Modes.MasterSlaveMode;
+import simori.Modes.Mode;
 import simori.Modes.QwertyKeyboard;
 import simori.Tests.GuiTests.MockSimoriJFrame;
 
@@ -22,7 +26,7 @@ public class TestMasterSlaveMode {
 
 	private MockSimoriJFrame gui;
 	private MatrixModel model;
-	private ModeController mode;
+	private MockModeController mode;
 	private MasterSlaveMode msmode;
 	private AudioFeedbackSystem audio;
 	private MIDISoundSystem midi;
@@ -31,12 +35,14 @@ public class TestMasterSlaveMode {
 	public void setUp() throws SimoriNonFatalException {
 		gui = new MockSimoriJFrame(new QwertyKeyboard((byte)16, (byte)16));
 		model = new MatrixModel(16, 16);
-		midi = new MIDISoundSystem();
+		midi = new MIDISoundSystem(false);
 		audio = new AudioFeedbackSystem(midi, model);
-		mode = new ModeController(gui, model, audio, 20160);
+		mode = new MockModeController(gui, model, audio, 20160);
 		msmode = new MasterSlaveMode(mode);
 		mode.setComponentsToPowerToggle(model, gui);
+		mode.setOn(false, false);
 		mode.setOn(true, false);
+		mode.setMode(msmode);
 	}
 	
 	@After
@@ -44,9 +50,10 @@ public class TestMasterSlaveMode {
 		mode.setOn(false, false);
 		gui = null;
 		model = null;
-		mode = null;
-		audio = null;
 		midi = null;
+		audio = null;
+		mode = null;
+		msmode = null;
 	}
 	
 	@Test
@@ -80,16 +87,22 @@ public class TestMasterSlaveMode {
 		assertEquals(gui.getText(), "Slave located!");
 	}
 	
-	/**
-	 * Empty test clause that ensures no exception is thrown
-	 * @author Jurek
-	 */
 	@Test
-	public void testOnGridButtonPress() {
-		try {
-			msmode.onGridButtonPress(new GridButtonEvent(gui, 0, 0));
-		} catch (Exception e) {
-			fail();
-		}
+	public void testOnFunctionButtonPressOK() {
+		msmode.onFunctionButtonPress(new FunctionButtonEvent(gui, FunctionButton.OK));
+		assertThat(mode.getMode().getClass(), not(instanceOf(MasterSlaveMode.class)));
+	}
+	
+	@Test
+	public void testOnFunctionButtonPressON() {
+		msmode.onFunctionButtonPress(new FunctionButtonEvent(gui, FunctionButton.ON));
+		assertThat(mode.getMode().getClass(), not(instanceOf(MasterSlaveMode.class)));
+	}
+	
+	@Test
+	public void testOnFunctionButtonPressAnyother() {
+		msmode.onFunctionButtonPress(new FunctionButtonEvent(gui, FunctionButton.L1));
+		assertEquals(mode.getMode().getClass(), MasterSlaveMode.class);
+		
 	}
 }

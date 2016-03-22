@@ -33,7 +33,7 @@ import simori.ResourceManager;
  */
 public class ImageComponent extends JComponent {
 	
-	private Image image;
+	protected Image image;
 	
 	/**
 	 * Displays the image from the specified resource file or

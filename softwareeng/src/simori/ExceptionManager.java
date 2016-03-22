@@ -24,7 +24,6 @@ public class ExceptionManager implements UncaughtExceptionHandler,
 	
 	/** Sets constructed object as default uncaught exception handler */
 	public ExceptionManager() {
-		Thread.setDefaultUncaughtExceptionHandler(this);
 		queue = new ArrayList<Throwable>();
 		dialogOpen = false;
 	}
@@ -40,7 +39,7 @@ public class ExceptionManager implements UncaughtExceptionHandler,
 			 * you'd better make sure that one gets caught...
 			 * or else you get stuck in an infinite loop!
 			 */
-			thrown.printStackTrace(); // Maybe email the developers?
+		//	thrown.printStackTrace(); // Maybe email the developers?
 		}
 	}
 	
@@ -51,6 +50,7 @@ public class ExceptionManager implements UncaughtExceptionHandler,
 	 * Reports any errors which have been displayed so far.
 	 * @param gui The GUI, ready for {@link SimoriGui#reportError}
 	 * @param afs Sound effect system, for {@link AudioFeedbackSystem#play}
+	 * @author Matt
 	 */
 	public void simoriReady(SimoriGui gui, AudioFeedbackSystem afs) {
 		this.gui = gui;
@@ -62,6 +62,7 @@ public class ExceptionManager implements UncaughtExceptionHandler,
 	 * <p>{@inheritDoc}</p>
 	 * Displays any new errors which occurred whilst the
 	 * user was reading the dialog for the previous error.
+	 * @author Matt
 	 */
 	@Override
 	public void onErrorDismiss() {
@@ -75,6 +76,7 @@ public class ExceptionManager implements UncaughtExceptionHandler,
 	 * displaying another error is already open, the error(s) are
 	 * enqueued to display later.
 	 * @param errors Any number of errors to report in a dialog
+	 * @author Matt
 	 */
 	private void tryReport(Throwable... errors) {
 		if (gui == null || dialogOpen) {
@@ -86,7 +88,8 @@ public class ExceptionManager implements UncaughtExceptionHandler,
 	
 	/**
 	 * Empties the queue of errors to be reported and attempts to report them.
-	 * If they cannot be reported, {@link #tryReport} will re-queue them.
+	 * If they cannot be reported, {@link #tryReport} will re-queue them.]
+	 * @author Matt
 	 */
 	private void reportQueuedErrors() {
 		if (queue.size() == 0) return; // None queued to report
@@ -97,6 +100,8 @@ public class ExceptionManager implements UncaughtExceptionHandler,
 	
 	/**
 	 * Uses {@link #gui} to create a dialog reporting the given error(s).
+	 * @author Adam
+	 * @author Matt
 	 * @param errors The errors to report in the dialog
 	 */
 	private void openDialog(Throwable[] errors) {
@@ -106,7 +111,7 @@ public class ExceptionManager implements UncaughtExceptionHandler,
 		String title = "";
 		String longMessage = "";
 		for(Throwable error : errors){
-			if(error.getClass().getName().equals("SimoriFatalException")) 
+			if(error.getClass().getSimpleName().equals("SimoriFatalException")) 
 				fatal = true;
 						
 			longMessage = generateLongMessage(error,longMessage);
@@ -130,9 +135,10 @@ public class ExceptionManager implements UncaughtExceptionHandler,
 		gui.reportError(shortMsg, longMessage, title, this, fatal);
 	}
 	
-	
+	 
 	/**
 	 * Method to generate the long error message for a thrown error.
+	 * @author Adam
 	 * @param error         The error to generate the message about.
 	 * @param longMessage   The previous string of error messages.
 	 * @return A string containing the updated long message.
@@ -148,13 +154,14 @@ public class ExceptionManager implements UncaughtExceptionHandler,
 		return longMessage;
 	}
 	
-	/** Plays a sound to accompany the error dialog */
+	/** 
+	 * 
+	 * Plays a sound to accompany the error dialog 
+	 * @author Adam
+	 * */
 	private void playExceptionNoise() {
-		//afs.play(AudioFeedbackSystem.Sound.SAD);
-		/* 
-		 * Currently this excepts in a different thread if Simori is off
-		 * (resulting in infinite error dialog loop).
-		 * TODO Ask afs whether its receiver is open before attempting to play!
-		 */
+		if(afs.isOpen()){
+			afs.play(AudioFeedbackSystem.Sound.SAD);
+		}
 	}
 }

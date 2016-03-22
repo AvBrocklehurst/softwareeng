@@ -81,7 +81,7 @@ public class TestNoteProcessor {
 		model = new MatrixModel(16, 16);
 		keyboard = new QwertyKeyboard((byte)16, (byte)16);
 		gui = new SimoriJFrame(keyboard);
-		midisystem = new MIDISoundSystem();
+		midisystem = new MIDISoundSystem(false);
 		midi = new SimoriSoundSystem(midisystem);
 		audio = new AudioFeedbackSystem(midisystem, model);
 		modes = new ModeController(gui, model, audio, 20160);

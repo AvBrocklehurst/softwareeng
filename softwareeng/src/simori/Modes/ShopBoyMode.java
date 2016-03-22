@@ -103,7 +103,7 @@ public class ShopBoyMode extends PerformanceMode implements Observer {
 	 * @param f   A single song to process
 	 * @throws SimoriNonFatalException 
 	 */
-	private void songPlay(File f) throws SimoriNonFatalException{
+	private void songPlay(File f) {
 		song = f.listFiles();      //list all files in a single song subdirectory
 		SaveAndLoad.loadShop(getModel(), song[partCounter].getPath());       //load in a part
 	}
@@ -125,19 +125,11 @@ public class ShopBoyMode extends PerformanceMode implements Observer {
 				partCounter = 0;
 				counter++;                //next song subdirectory
 				playShopBoy(shopboy);
-				try {
 					songPlay(currentFile);
-				} catch (SimoriNonFatalException e) {
-					e.printStackTrace();
-				}
 			}
 			else{
 				playShopBoy(shopboy);       //continue to play
-				try {
 					songPlay(currentFile);
-				} catch (SimoriNonFatalException e) {
-					e.printStackTrace();
-				}
 			}
 		}
 		

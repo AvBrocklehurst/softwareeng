@@ -83,6 +83,7 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 	 */
 	@Override
 	public void tickerLight(byte col) {
+		
 		makeGridCopy(getDisplayLayer());   //copy the grid
 		grid[0][col] = true;
 		grid[5][col] = true;

@@ -124,5 +124,6 @@ public class Clock implements Runnable {
 		synchronized(bpmLock){
 			bpmLock.notify();
 		}
+		
 	}
 }

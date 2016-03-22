@@ -2,6 +2,7 @@ package simori.Modes;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -55,13 +56,17 @@ public class SaveAndLoad {
 	 * @author Adam
 	 * @param model     Model to replace.
 	 * @param filename  Filename of where to load the saved model from.
+	 * @throws FileNotFoundException 
+	 * @throws IOException 
+	 * @throws ClassNotFoundException 
 	 * @throws SimoriNonFatalException 
 	 */
-	public static boolean loadShop(MatrixModel model, String filename) {
-		try {
+	public static boolean loadShop(MatrixModel model, String filename)  {
+		try{
+			System.out.println(filename);
 			File file = new File(filename);
 			if (!file.exists()){
-				System.out.println("file doesn't exist");
+				System.err.println("file doesn't exist");
 				return false;
 			}
 	        FileInputStream fos = new FileInputStream(file);
@@ -71,8 +76,8 @@ public class SaveAndLoad {
 	        oos.close();
 	        model.convertModel(tempModel);
 	        return true;
-		} catch (Exception e){
-			  throw new SimoriNonFatalException("Unable to save file.");
+		} catch (Exception ex){
+			throw new SimoriNonFatalException("Unable to open file for loading");
 		}
 	}
 		
@@ -95,10 +100,9 @@ public class SaveAndLoad {
 	        model.convertModel(tempModel);
 	        return true;
 		} catch (IOException e){
-			 throw new SimoriNonFatalException("Unable to save file.");
+			 throw new SimoriNonFatalException("Unable to load file.");
 		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-			throw new SimoriNonFatalException("Unable to save file.");
+			throw new SimoriNonFatalException("Unable to load file.");
 		}
 	}
 	

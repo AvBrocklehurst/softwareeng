@@ -16,11 +16,10 @@ import java.awt.event.MouseMotionListener;
 import javax.swing.JFrame;
 import javax.swing.Timer;
 
-import simori.Animation;
-import simori.Animation.Frame;
-import simori.Animation.OnFinishListener;
 import simori.FunctionButton;
 import simori.SimoriGui;
+import simori.SimoriGui.Animation.Frame;
+import simori.SimoriGui.Animation.OnFinishListener;
 
 /**
  * Swing / AWT implementation of a Simori-ON GUI.

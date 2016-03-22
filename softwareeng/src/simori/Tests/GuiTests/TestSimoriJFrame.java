@@ -141,9 +141,10 @@ public class TestSimoriJFrame {
 	public void testSetAndGetGridButtonListener() {
 		try {
 			MatrixModel model = new MatrixModel(16, 16);
-			MIDISoundSystem midi = new MIDISoundSystem();
+			MIDISoundSystem midi = new MIDISoundSystem(false);
 			AudioFeedbackSystem audio = new AudioFeedbackSystem(midi, model);
 			ModeController mc = new ModeController(jframe, model, audio, 20160);
+			mc.setComponentsToPowerToggle(model);
 			Mode mode = new PerformanceMode(mc);
 			jframe.setGridButtonListener(mode);
 			assertEquals(mode, jframe.getGridButtonListener());
@@ -160,9 +161,10 @@ public class TestSimoriJFrame {
 	public void testSetAndGetFunctionButtonListener() {
 		try {
 			MatrixModel model = new MatrixModel(16, 16);
-			MIDISoundSystem midi = new MIDISoundSystem();
+			MIDISoundSystem midi = new MIDISoundSystem(false);
 			AudioFeedbackSystem audio = new AudioFeedbackSystem(midi, model);
 			ModeController mc = new ModeController(jframe, model, audio, 20160);
+			mc.setComponentsToPowerToggle(model);
 			Mode mode = new PerformanceMode(mc);
 			jframe.setFunctionButtonListener(mode);
 			assertEquals(mode, jframe.getFunctionButtonListener());
@@ -233,3 +235,4 @@ public class TestSimoriJFrame {
 		assertTrue(jframe.getCouldDragBefore());
 	}	
 }
+

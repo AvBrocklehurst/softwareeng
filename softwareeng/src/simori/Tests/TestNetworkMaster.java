@@ -25,7 +25,7 @@ public class TestNetworkMaster {
 		MatrixModel model = new MatrixModel(16, 16);
 		QwertyKeyboard keyboard = new QwertyKeyboard((byte)16, (byte)16);
 		SimoriJFrame gui = new SimoriJFrame(keyboard);
-		MIDISoundSystem midi = new MIDISoundSystem();
+		MIDISoundSystem midi = new MIDISoundSystem(false);
 		AudioFeedbackSystem audio = new AudioFeedbackSystem(midi, model);
 		ModeController modes = new ModeController(gui, model, audio, 20160);
 		modes.setComponentsToPowerToggle(model, midi, gui);

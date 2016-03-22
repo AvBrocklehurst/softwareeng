@@ -43,7 +43,7 @@ public class TestTextEntry {
 	public void setUp() throws SimoriNonFatalException {
 		gui = new SimoriJFrame(new QwertyKeyboard((byte)16, (byte)16));
 		model = new MatrixModel(16, 16);
-		midi = new MIDISoundSystem();
+		midi = new MIDISoundSystem(false);
 		audio = new AudioFeedbackSystem(midi, model);
 		mode = new ModeController(gui, model, audio, 20160);
 		text = new MockTextEntry(mode);
@@ -70,14 +70,10 @@ public class TestTextEntry {
 	}
 	@Test
 	public void testDoThingTo() {
-		try {
-			test = true;
-			assertTrue(text.doThingTo(mode));
-			test = false;
-			assertFalse(text.doThingTo(mode));
-		} catch (SimoriNonFatalException e) {
-			fail();
-		}
+		test = true;
+		assertTrue(text.doThingTo(mode));
+		test = false;
+		assertFalse(text.doThingTo(mode));
 	}
 	
 	@Test

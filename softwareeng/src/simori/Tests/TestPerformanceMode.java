@@ -49,7 +49,7 @@ public class TestPerformanceMode {
 		keyboard = new QwertyKeyboard((byte)16,(byte)16);
 		testmodel = new MatrixModel(16, 16);
 		testgui = new SimoriJFrame(keyboard);
-		testmidi = new MIDISoundSystem();
+		testmidi = new MIDISoundSystem(false);
 		testaudio = new AudioFeedbackSystem(testmidi, testmodel);
 		mockcontroller = new ModeController(testgui, testmodel, testaudio, 20160);
 		mockcontroller.setMode(new PerformanceMode(mockcontroller));
@@ -70,34 +70,23 @@ public class TestPerformanceMode {
 	
 	@Test
 	public void testOnGridButtonPress() {
-		try {
-			testpm.onGridButtonPress(testgb);
-			boolean changedgridcoords = testpm.getModifiedGrid()[5][5];
-			assertEquals("The grid button was not inverted!", true, changedgridcoords);
-		} catch (SimoriNonFatalException e) {
-			fail();
-		}
-		
-		
+		testpm.onGridButtonPress(testgb);
+		boolean changedgridcoords = testpm.getModifiedGrid()[5][5];
+		assertEquals("The grid button was not inverted!", true, changedgridcoords);	
 	}
 	
 	@Test
 	public void test_onGridButtonPress_false() {
-		try {
-			testpm.onGridButtonPress(testgb);
-			testpm.onGridButtonPress(testgb); //invert to false
-			boolean changedgridcoords = testpm.getModifiedGrid()[5][5];
-			assertEquals("The grid button was not inverted back to false!", false, changedgridcoords);
-		} catch (SimoriNonFatalException e) {
-			fail();
-		} //invert to true
+		testpm.onGridButtonPress(testgb);
+		testpm.onGridButtonPress(testgb); //invert to false
+		boolean changedgridcoords = testpm.getModifiedGrid()[5][5];
+		assertEquals("The grid button was not inverted back to false!", false, changedgridcoords); //invert to true
 	}
 	
 	
 	
 	@Test
 	public void test_tickerLight() throws SimoriNonFatalException {
-		
 		testpm.tickerLight((byte)0); 
 		boolean tickeredgridcoords = testpm.getModifiedGrid()[5][0];
 		assertEquals("The values are grid index grid[5][0] were not set to true by the ticker", true, tickeredgridcoords);
