@@ -7,15 +7,16 @@ import java.awt.Dimension;
 import org.junit.*;
 
 import simori.SwingGui.GuiProperties;
+import simori.SwingGui.ImageComponent;
 import simori.SwingGui.SplashImage;
 
 public class TestSplashImage {
 
-	private SplashImage image;
+	private ImageComponent image;
 	
 	@Before
 	public void setUp() {
-		image = new SplashImage();
+		image = new ImageComponent();
 	}
 
 	@After
