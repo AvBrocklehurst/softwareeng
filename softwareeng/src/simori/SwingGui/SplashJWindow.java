@@ -65,7 +65,6 @@ public class SplashJWindow extends JWindow implements SplashScreen {
 	/** {@inheritDoc} */
 	@Override
 	public void swapFor(SimoriGui gui, int after) {
-		System.out.println("hello?");
 		long elapsed = System.currentTimeMillis() - appeared;
 		if (elapsed >= after) {
 			swap(gui); // Swap immediately as GUI took a long time to be ready

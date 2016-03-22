@@ -65,7 +65,7 @@ public class SaveAndLoad {
 		try {
 			File file = new File(filename);
 			if (!file.exists()){
-				System.out.println("file doesn't exist");
+				System.err.println("file doesn't exist");
 				return false;
 			}
 	        FileInputStream fos = new FileInputStream(file);

@@ -52,12 +52,13 @@ public class Simori {
 	 */
 	public Simori() {
 		ExceptionManager errors = new ExceptionManager(); //Start catching
+		Thread.setDefaultUncaughtExceptionHandler(errors);
 		SplashScreen splash = new SplashJWindow(); // Displays immediately
 		InstrumentNamer.getInstance(); // Proved costly to initialise later
 		MatrixModel model = new MatrixModel(GRID_SIZE, GRID_SIZE);
 		QwertyKeyboard keyboard = new QwertyKeyboard(GRID_SIZE, GRID_SIZE);
 		SimoriJFrame gui = new SimoriJFrame(keyboard); // Swing implementation
-		MIDISoundSystem player = new MIDISoundSystem(true);
+		MIDISoundSystem player = new MIDISoundSystem(false);
 		AudioFeedbackSystem afs = new AudioFeedbackSystem(player, model);
 		ModeController modes = new ModeController(gui, model, afs, PORT);
 		NoteProcessor clock = new NoteProcessor(modes, model, player);
@@ -66,8 +67,7 @@ public class Simori {
 		modes.setOn(false, false); // Initially off without animation
 		splash.swapFor(gui, MIN_SPLASH_TIME, errors, afs); // GUI and errors
 		splash = null; // Allow garbage collector to reclaim splash screen
-		
-		throw new SimoriFatalException("This is a fatal test!");
+		throw new SimoriNonFatalException("This is a non fatal test!");
 	}
 
 	/**

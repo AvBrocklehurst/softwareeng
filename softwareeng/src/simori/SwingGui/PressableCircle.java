@@ -172,11 +172,7 @@ public abstract class PressableCircle
 	protected void pressed() {
 		if (greyedOut) return;
 		for (OnPressListener l : listeners) {
-			try {
-				l.onPress(this);
-			} catch (SimoriNonFatalException e) {
-				e.printStackTrace();
-			}
+			l.onPress(this);
 		}
 	}
 }
