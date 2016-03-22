@@ -19,7 +19,6 @@ import simori.Exceptions.SimoriNonFatalException;
  * JUnit tests for the InstrumentNamer Class.
  */
 public class TestInstrumentNamer {
-	// check zero doesn't work
 	
 	InstrumentNamer instrumentNamer;
 	String instrumentName;
