@@ -67,7 +67,6 @@ public class Simori {
 		modes.setOn(false, false); // Initially off without animation
 		splash.swapFor(gui, MIN_SPLASH_TIME, errors, afs); // GUI and errors
 		splash = null; // Allow garbage collector to reclaim splash screen
-		throw new SimoriNonFatalException("This is a non fatal test!");
 	}
 
 	/**
