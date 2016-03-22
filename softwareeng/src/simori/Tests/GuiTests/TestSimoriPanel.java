@@ -10,7 +10,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-
+import simori.FunctionButton;
 import simori.Exceptions.SimoriNonFatalException;
 import simori.Modes.QwertyKeyboard;
 import simori.SwingGui.Button;
@@ -24,7 +24,8 @@ import simori.Tests.GuiTests.MockSimoriJFrame.MockSimoriPanel;
 /**
  * 
  * @author Josh
- * @version 1.0.1
+ * @author Jurek
+ * @version 1.0.2
  * 
  * Class that tests SimoriPanel.
  */
@@ -137,5 +138,12 @@ public class TestSimoriPanel {
 		panel.paintComponent(g);
 		panel.paintBorder(g);
 	}
+	
+	@Test
+	public void testSetGreyedOutL1() {
+		panel.setGreyedOut(FunctionButton.L1, true);
+		assertEquals(panel.getLeftBar().getButtons()[0].getCursor(), GuiProperties.NORMAL_CURSOR);
+		assertEquals(panel.getLeftBar().getButtons()[1].getCursor(), GuiProperties.HAND_CURSOR);
+	} 
 
 }
