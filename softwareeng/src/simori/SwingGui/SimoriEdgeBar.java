@@ -56,6 +56,7 @@ public class SimoriEdgeBar extends JPanel implements PowerTogglable {
 		for (Button b : buttons) {
 			b.setGreyedOut(false);
 		}
+		if (lcd != null) lcd.switchOn();
 	}
 	
 	/** {@inheritDoc} */
@@ -68,6 +69,7 @@ public class SimoriEdgeBar extends JPanel implements PowerTogglable {
 		for (Button b : buttons) {
 			b.setGreyedOut(true);
 		}
+		if (lcd != null) lcd.switchOff();
 	}
 	
 	/**

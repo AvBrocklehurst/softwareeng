@@ -99,11 +99,6 @@ public abstract class PressableCircle
 						GuiProperties.CIRCLE_NOT_PRESSED;
 	}
 	
-	/** @return Colour to draw the outline of the circle */
-	protected Color getBorderColour() {
-		return GuiProperties.CIRCLE_BORDER;
-	}
-	
 	/** Fills the circular area using the {@link Graphics} provided */
 	@Override
 	public void paintComponent(Graphics g) {
@@ -114,7 +109,7 @@ public abstract class PressableCircle
 	/** Draws the circular outline using the {@link Graphics} provided */
 	@Override
 	public void paintBorder(Graphics g) {
-		g.setColor(getBorderColour());
+		g.setColor(GuiProperties.CIRCLE_BORDER);
 		g.drawOval(0, 0, getSize().width - 1, getSize().height - 1);
 	}
 	

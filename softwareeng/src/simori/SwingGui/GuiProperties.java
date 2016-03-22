@@ -90,55 +90,58 @@ public class GuiProperties {
 	public static final Color WINDOW_BACKGROUND = new Color(0,0,0,0);
 	
 	/** Colour to fill the {@link SimoriPanel}'s rounded rectangle shape */
-	public static final Color SIMORI_BACKGROUND = Color.WHITE;
+	public static final Color SIMORI_BACKGROUND = new Color(115, 115, 115);
 	
 	/** Colour to fill the square background area of the {@link LedPanel} */
-	public static final Color LED_PANEL_BACKGROUND = Color.WHITE;
-	
-	/** Colour to fill the background of the {@link SplashJWindow} */
-	public static final Color SPLASH_BACKGROUND = WINDOW_BACKGROUND;
-	
-	/** Colour to draw the circular border of an {@link Led} */
-	public static final Color LED_BORDER = Color.BLACK;
+	public static final Color LED_PANEL_BACKGROUND = new Color(160, 160, 160);
 	
 	/** Default border colour of a {@link PressableCircle} */
-	public static final Color CIRCLE_BORDER = Color.BLACK;
+	public static final Color CIRCLE_BORDER = new Color(45, 45, 45);
 	
 	/** Border colour of the {@link #Lcd} screen */
-	public static final Color LCD_BORDER = Color.BLACK;
+	public static final Color LCD_BORDER = CIRCLE_BORDER;
 	
 	/** Colour to draw the edge of the {@link LedPanel} */
-	public static final Color LED_PANEL_BORDER = Color.BLACK;
+	public static final Color LED_PANEL_BORDER = CIRCLE_BORDER;
 	
 	/** Colour to draw the rounded rectangle border of {@link SimoriPanel} */
-	public static final Color SIMORI_BORDER = Color.BLACK;
+	public static final Color SIMORI_BORDER = new Color(70, 70, 70);
 	
 	/** Colour to fill a pressed {@link PressableCircle} */
-	public static final Color CIRCLE_PRESSED = new Color(0xEEEEEE);
+	public static final Color CIRCLE_PRESSED = new Color(170, 170, 170);
 	
 	/** Colour to fill a non-pressed {@link PressableCircle} */
-	public static final Color CIRCLE_NOT_PRESSED = Color.WHITE;
+	public static final Color CIRCLE_NOT_PRESSED = new Color(200, 200, 200);
 	
 	/** Colour to fill a grayed-out {@link PressableCircle} */
-	public static final Color CIRCLE_GREYED = new Color(0xDDDDDD);
+	public static final Color CIRCLE_GREYED = new Color(140, 140, 140);
 	
 	/** Colour to fill an illuminated but not pressed {@link Led} */
-	public static final Color LED_COLOUR_ON = new Color(255, 176, 0);
+	public static final Color LED_COLOUR_ON = new Color(240, 240, 240);
 	
 	/** Colour to fill an {@link Led} which is both illuminated and pressed */
-	public static final Color LED_COLOUR_ON_IN = new Color(205, 126, 0);
+	public static final Color LED_COLOUR_ON_IN = new Color(215, 215, 215);
 	
 	/** Colour to fill a non-illuminated, non-pressed {@link Led} */
-	public static final Color LED_COLOUR_OFF = Color.WHITE;
+	public static final Color LED_COLOUR_OFF = new Color(180, 180, 180);
 	
 	/** Colour to fill a pressed but not illuminated {@link Led} */
-	public static final Color LED_COLOUR_OFF_IN = new Color(0xEEEEEE);
+	public static final Color LED_COLOUR_OFF_IN = new Color(140, 140, 140);
 	
 	/** Colour to draw the text of a {@link Button} */
 	public static final Color BUTTON_TEXT = Color.BLACK;
 	
 	/** Colour to draw the text of the {@link Lcd} */
-	public static final Color LCD_TEXT = Color.BLACK;
+	public static final Color LCD_TEXT = new Color(75, 95, 0);
+	
+	/** Colour to draw background of {@link Lcd} when on */
+	public static final Color LCD_BACKGROUND_ON = new Color(160, 190, 0);
+	
+	/** Colour to draw background of {@link Lcd} when off */
+	public static final Color LCD_BACKGROUND_OFF = new Color(100, 100, 100);
+	
+	/** Colour to fill the background of the {@link SplashJWindow} */
+	public static final Color SPLASH_BACKGROUND = WINDOW_BACKGROUND;
 	
 	/** Colour to draw backup {@link ImageComponent} text */
 	public static final Color IMAGE_BACKUP_TEXT = Color.WHITE;

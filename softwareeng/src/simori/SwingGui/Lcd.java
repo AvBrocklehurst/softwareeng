@@ -9,6 +9,8 @@ import java.awt.image.BufferedImage;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 
+import simori.Simori.PowerTogglable;
+
 /**
  * A JLabel with its appearance modified to represent
  * the Simori-ON's LCD screen. It sets its own text
@@ -18,7 +20,7 @@ import javax.swing.JLabel;
  * @author Matt
  * @version 1.2.0
  */
-public class Lcd extends JLabel {
+public class Lcd extends JLabel implements PowerTogglable {
 	
 	private final boolean vertical;
 	
@@ -28,6 +30,8 @@ public class Lcd extends JLabel {
 	 */
 	public Lcd(boolean vertical) {
 		this.vertical = vertical;
+		setOpaque(true);
+		setBackground(GuiProperties.LCD_BACKGROUND_OFF);
 		setBorder(BorderFactory.createLineBorder(GuiProperties.LCD_BORDER));
 		addComponentListener(makeResizeListener());
 	}
@@ -105,5 +109,25 @@ public class Lcd extends JLabel {
 		g.setFont(getFont());
 		GuiProperties.sizeFontTo(text, size.width, size.height, g);
 		setFont(g.getFont());
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public void ready() {}
+
+	/** {@inheritDoc} */
+	@Override
+	public void switchOn() {
+		setBackground(GuiProperties.LCD_BACKGROUND_ON);
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public void stop() {}
+
+	/** {@inheritDoc} */
+	@Override
+	public void switchOff() {
+		setBackground(GuiProperties.LCD_BACKGROUND_OFF);
 	}
 }

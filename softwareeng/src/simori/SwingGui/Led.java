@@ -49,13 +49,6 @@ public class Led extends PressableCircle {
 	
 	/** {@inheritDoc} */
 	@Override
-	protected Color getBorderColour() {
-		if (isGreyedOut()) return super.getBorderColour();
-		return lit ? null : GuiProperties.LED_BORDER; // No outline when lit
-	}	
-	
-	/** {@inheritDoc} */
-	@Override
 	public void mouseEntered(MouseEvent e) {
 		super.mouseEntered(e);
 		
