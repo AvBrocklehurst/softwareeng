@@ -27,6 +27,7 @@ public class GreyCentreWipe implements Animation {
 							boolean btnInitGrey, boolean upwards,
 								int size) {
 		this.outwards = outwards;
+		this.upwards = upwards;
 		this.size = size;
 		frame = new Frame();
 		frame.ledsGreyed = new boolean[size][size];
@@ -58,7 +59,7 @@ public class GreyCentreWipe implements Animation {
 			int phase = outwards ? frameNum : size / 2 - frameNum - 1;
 			invertSquare(frame.ledsGreyed, phase);
 		} else if (excess < btns.length) {
-			int i = upwards ? excess : btns.length - 1 - excess;
+			int i = upwards ? btns.length - 1 - excess : excess;
 			for (FunctionButton fb : btns[i]) {
 				boolean greyed = frame.btnsGreyed.get(fb);
 				frame.btnsGreyed.put(fb, !greyed);

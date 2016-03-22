@@ -18,7 +18,7 @@ import simori.SwingGui.SimoriJFrame;
  * @author Jurek
  *
  */
-public class TestAnimation {
+public class TestGreyCentreWipe {
 
 	private class MockAnimation extends Animation {
 		public MockAnimation(int size, OnFinishListener listener, boolean isStartup) {
