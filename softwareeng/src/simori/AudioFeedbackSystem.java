@@ -106,6 +106,13 @@ public class AudioFeedbackSystem extends MIDIMessengerSystem {
 	}
 	
 	/**
+	 * @author Adam
+	 */
+	public boolean isOpen(){
+		return player.isOpen();
+	}
+	
+	/**
 	 * @author Josh - I am the music man ...
 	 * @throws InvalidMidiDataException
 	 * @throws InterruptedException
