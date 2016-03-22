@@ -50,7 +50,7 @@ public class TestModeController{
 		testmodel = new MatrixModel(16, 16);
 		testslave = new NetworkSlave(0, mockcontroller);
 		testmaster = new NetworkMaster(0, mockcontroller, testslave);
-		testmidi = new MIDISoundSystem();
+		testmidi = new MIDISoundSystem(false);
 		testaudio = new AudioFeedbackSystem(testmidi, testmodel);
 		mockcontroller = new MockModeController(testgui, testmodel, testaudio, 0);
 	}

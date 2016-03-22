@@ -49,7 +49,7 @@ public class TestPerformanceMode {
 		keyboard = new QwertyKeyboard((byte)16,(byte)16);
 		testmodel = new MatrixModel(16, 16);
 		testgui = new SimoriJFrame(keyboard);
-		testmidi = new MIDISoundSystem();
+		testmidi = new MIDISoundSystem(false);
 		testaudio = new AudioFeedbackSystem(testmidi, testmodel);
 		mockcontroller = new ModeController(testgui, testmodel, testaudio, 20160);
 		mockcontroller.setMode(new PerformanceMode(mockcontroller));

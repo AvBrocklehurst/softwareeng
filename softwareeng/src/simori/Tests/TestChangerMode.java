@@ -83,7 +83,7 @@ public class TestChangerMode {
 		keyboard = new QwertyKeyboard((byte)16,(byte)16);
 		testgui = new SimoriJFrame(keyboard);
 		testmodel = new MatrixModel(16, 16);
-		testmidi = new MIDISoundSystem();
+		testmidi = new MIDISoundSystem(false);
 		testaudio = new AudioFeedbackSystem(testmidi, testmodel);
 		testcontroller = new ModeController(testgui, testmodel, testaudio, 0);
 		testslave = new NetworkSlave(0, testcontroller);

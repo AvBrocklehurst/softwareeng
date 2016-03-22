@@ -41,7 +41,7 @@ public class TestShopBoyMode {
 	public void setUp() throws SimoriNonFatalException {
 		gui = new MockSimoriJFrame(new QwertyKeyboard((byte)16, (byte)16));
 		model = new MatrixModel(16, 16);
-		midi = new MIDISoundSystem();
+		midi = new MIDISoundSystem(false);
 		audio = new AudioFeedbackSystem(midi, model);
 		mode = new MockModeController(gui, model, audio, 20160);
 		mode.setComponentsToPowerToggle(model, gui);
