@@ -125,7 +125,7 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 			
 			//play the mock object to determine max delay
 			long time = System.currentTimeMillis();
-			try{getNotes();}catch(Exception e){e.printStackTrace();System.exit(1);} //exception should never be reached
+			getNotes();
 			long endTime = System.currentTimeMillis();
 			long maxTime = endTime - time;
 			maxTime = (long) (Math.ceil(maxTime/10)*10);
@@ -293,13 +293,7 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 		public void update(Observable a, Object b) {
 			clock.updateBPM(model.getBPM());	
 			if(model.getPlaying() == false){
-				try {
-					midi.stopPlay();
-					this.audible = false;
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				this.audible = false;
 			} else {
 				this.audible = true;
 			}

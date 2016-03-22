@@ -120,9 +120,7 @@ public class SimoriPanel extends JPanel implements PowerTogglable {
 	/** {@inheritDoc} */
 	@Override
 	public void switchOn() {
-		System.out.println("hello from the in side");
-		System.out.println(components.length);
-		for (PowerTogglable p : components) {System.out.println("trying to turn on!");p.switchOn();}
+		for (PowerTogglable p : components) {p.switchOn();}
 	}
 	
 	/** {@inheritDoc} */

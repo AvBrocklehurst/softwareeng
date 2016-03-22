@@ -24,7 +24,6 @@ public class ExceptionManager implements UncaughtExceptionHandler,
 	
 	/** Sets constructed object as default uncaught exception handler */
 	public ExceptionManager() {
-		Thread.setDefaultUncaughtExceptionHandler(this);
 		queue = new ArrayList<Throwable>();
 		dialogOpen = false;
 	}
@@ -40,7 +39,7 @@ public class ExceptionManager implements UncaughtExceptionHandler,
 			 * you'd better make sure that one gets caught...
 			 * or else you get stuck in an infinite loop!
 			 */
-			thrown.printStackTrace(); // Maybe email the developers?
+		//	thrown.printStackTrace(); // Maybe email the developers?
 		}
 	}
 	

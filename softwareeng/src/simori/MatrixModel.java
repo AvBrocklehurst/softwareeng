@@ -283,6 +283,7 @@ public class MatrixModel extends Observable implements Serializable, PowerToggla
 		this.layers = new Layer[16]; //make layers 16 long to hold all 16 layers
 		this.layers[0] = new Layer(width, height); //Instantiate the first layer
 		playing = false;
+		
 	}
 	
 	/** {@inheritDoc} */
