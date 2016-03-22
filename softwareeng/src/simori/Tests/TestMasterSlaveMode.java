@@ -2,14 +2,18 @@ package simori.Tests;
 
 import static org.junit.Assert.*;
 import org.junit.*;
+import static org.hamcrest.CoreMatchers.*;
 
 import simori.AudioFeedbackSystem;
+import simori.FunctionButton;
 import simori.MIDISoundSystem;
 import simori.MatrixModel;
 import simori.ModeController;
+import simori.SimoriGui.FunctionButtonEvent;
 import simori.SimoriGui.GridButtonEvent;
 import simori.Exceptions.SimoriNonFatalException;
 import simori.Modes.MasterSlaveMode;
+import simori.Modes.Mode;
 import simori.Modes.QwertyKeyboard;
 import simori.Tests.GuiTests.MockSimoriJFrame;
 
@@ -22,7 +26,7 @@ public class TestMasterSlaveMode {
 
 	private MockSimoriJFrame gui;
 	private MatrixModel model;
-	private ModeController mode;
+	private MockModeController mode;
 	private MasterSlaveMode msmode;
 	private AudioFeedbackSystem audio;
 	private MIDISoundSystem midi;
@@ -33,9 +37,10 @@ public class TestMasterSlaveMode {
 		model = new MatrixModel(16, 16);
 		midi = new MIDISoundSystem();
 		audio = new AudioFeedbackSystem(midi, model);
-		mode = new ModeController(gui, model, audio, 20160);
+		mode = new MockModeController(gui, model, audio, 20160);
 		msmode = new MasterSlaveMode(mode);
 		mode.setComponentsToPowerToggle(model, gui);
+		mode.setOn(false, false);
 		mode.setOn(true, false);
 	}
 	
@@ -86,10 +91,12 @@ public class TestMasterSlaveMode {
 	 */
 	@Test
 	public void testOnGridButtonPress() {
-		try {
-			msmode.onGridButtonPress(new GridButtonEvent(gui, 0, 0));
-		} catch (Exception e) {
-			fail();
-		}
+		msmode.onGridButtonPress(new GridButtonEvent(gui, 0, 0));
+	}
+	
+	@Test
+	public void testOnFunctionButtonPressOK() {
+		msmode.onFunctionButtonPress(new FunctionButtonEvent(gui, FunctionButton.OK));
+		assertThat(mode.getMode(), instanceOf(MasterSlaveMode.class));
 	}
 }
