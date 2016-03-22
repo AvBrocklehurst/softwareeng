@@ -40,19 +40,19 @@ public class TestAudioFeedbackSystem {
 	// Test all 4 sounds.
 	@Test public void testPlayHappy() throws InterruptedException {
 		afs.play(Sound.HAPPY); 
-		Thread.sleep(5000); // in order to get code coverage we need to stay in test until sound is complete.
+		Thread.sleep(2100); // in order to get code coverage we need to stay in test until sound is complete.
 	}
 	@Test public void testPlaySad() throws InterruptedException {
 		afs.play(Sound.SAD);
-		Thread.sleep(5000); 
+		Thread.sleep(3100); 
 	}	
 	@Test public void testPlayWelcome() throws InterruptedException {
 		afs.play(Sound.WELCOME);
-		Thread.sleep(5000); 
+		Thread.sleep(2800); 
 	}
 	@Test public void testPlayGoodbye() throws InterruptedException {
 		afs.play(Sound.GOODBYE);
-		Thread.sleep(5000); 
+		Thread.sleep(3700); 
 	}
 	
 	//Test that we can play multiple tunes ok.

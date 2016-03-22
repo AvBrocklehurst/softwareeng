@@ -29,7 +29,10 @@ import simori.Tests.GuiTests.GuiTestSuite;
 	
 	TestMidiSoundSystem.class,
 	TestMIDIMessengerSystem.class,
-	TestAudioFeedbackSystem.class,
-	TestSimoriSoundSystem.class
+	TestSimoriSoundSystem.class,
+	
+	
+	
+	TestAudioFeedbackSystem.class // I would leave this one til last due to its thread.sleeps.
 })
 public class TestSuite {}
