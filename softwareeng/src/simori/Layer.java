@@ -16,7 +16,7 @@ public class Layer implements Serializable {
 	private byte channel;
 	private byte velocity;
 	private int width;
-	private int height;
+
 	
 	/**
 	 * Constructor for an individual layer.
@@ -28,7 +28,6 @@ public class Layer implements Serializable {
 	public Layer(int width, int height) {
 		this.grid = new boolean[width][height]; //Initialise the grid as a 16x16 2 dimensional array.
 		this.instrument = 1; //Set a default instrument.
-		this.height = height;
 		this.width = width;
 		this.channel = 0;
 		this.velocity = 80;
