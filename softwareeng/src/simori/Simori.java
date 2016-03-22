@@ -56,7 +56,7 @@ public class Simori {
 		MatrixModel model = new MatrixModel(GRID_SIZE, GRID_SIZE);
 		QwertyKeyboard keyboard = new QwertyKeyboard(GRID_SIZE, GRID_SIZE);
 		SimoriJFrame gui = new SimoriJFrame(keyboard); // Swing implementation
-		MIDISoundSystem player = new MIDISoundSystem();
+		MIDISoundSystem player = new MIDISoundSystem(true);
 		AudioFeedbackSystem afs = new AudioFeedbackSystem(player, model);
 		ModeController modes = new ModeController(gui, model, afs, PORT);
 		NoteProcessor clock = new NoteProcessor(modes, model, player);
