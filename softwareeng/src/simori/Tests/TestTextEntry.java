@@ -43,7 +43,7 @@ public class TestTextEntry {
 	public void setUp() throws SimoriNonFatalException {
 		gui = new SimoriJFrame(new QwertyKeyboard((byte)16, (byte)16));
 		model = new MatrixModel(16, 16);
-		midi = new MIDISoundSystem();
+		midi = new MIDISoundSystem(false);
 		audio = new AudioFeedbackSystem(midi, model);
 		mode = new ModeController(gui, model, audio, 20160);
 		text = new MockTextEntry(mode);
