@@ -41,12 +41,14 @@ public class MIDISoundSystem implements PowerTogglable {
 	 * 
 	 * Constructor that creates a MIDISynthesizer with a connected receiver that can send MIDI short messages to the synthesizer.
 	 */
-	public MIDISoundSystem(){
+	public MIDISoundSystem(boolean useBetterSound){
 		try {
 			synth = MidiSystem.getSynthesizer();
 			synth.open();
+			if(useBetterSound){
 			synth.unloadAllInstruments(synth.getDefaultSoundbank()); 
 			setSoundbank(); // change to new sound bank.
+			}
 			reciever = synth.getReceiver();
 			
 		} catch (MidiUnavailableException e) {throw new SimoriNonFatalException("MidiSystem is unavailable. You will be unable to play sound.");}
