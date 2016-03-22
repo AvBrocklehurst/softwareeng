@@ -1,9 +1,10 @@
 package simori;
 
 import java.util.EventObject;
+import java.util.Map;
 
-import simori.Animation.OnFinishListener;
 import simori.Simori.PowerTogglable;
+import simori.SimoriGui.Animation.OnFinishListener;
 import simori.Modes.Mode;
 
 /**
@@ -246,5 +247,61 @@ public interface SimoriGui extends PowerTogglable {
 		
 		/** Called when the error is dismissed by whatever means */
 		public void onErrorDismiss();
+	}
+	
+	/**
+	 * Provides a sequence of {@link Animation.Frame}s
+	 * to be displayed one at a time.
+	 * @author Matt
+	 * @version 2.0.0
+	 */
+	public interface Animation {
+		
+		/** @return the number of frames in the animation */
+		public int getFrameCount();
+		
+		/**
+		 * Returns the next frame in the sequence,
+		 * or null if there are no more frames.
+		 * @return The next frame to display
+		 */
+		public Frame getNextFrame();
+		
+		/**
+		 * Interface for receiving callbacks when an animation is complete.
+		 * @author Matt
+		 * @version 1.0.0
+		 */
+		public interface OnFinishListener {
+			
+			/** Called when the final frame has been displayed */
+			public void onAnimationFinished();
+		}
+		
+		/**
+		 * Simple data structure which defines a state the GUI can be in:
+		 * <br/>{@link #ledsGreyed}, the pattern of LEDs which are greyed out
+		 * <br/>{@link #ledsIlluminated}, the pattern of LEDs illuminated
+		 * <br/>{@link #btnsGreyed}, the greyed out state of each edge button
+		 * Each may be null, indicating that the state of these components is
+		 * not specified in this frame, and should be left as it was before.
+		 * @author Matt
+		 * @version 2.0.0
+		 */
+		public class Frame {
+			
+			/** true in locations corresponding to LEDs to grey out */
+			public boolean[][] ledsGreyed;
+			
+			/** true in locations corresponding to LEDs to illuminate */
+			public boolean[][] ledsIlluminated;
+			
+			/**
+			 * Maps FunctionButtons to true if the corresponding button
+			 * should be greyed out, false if it should be enabled,
+			 * or null if unspecified
+			 */
+			public Map<FunctionButton, Boolean> btnsGreyed;
+		}
 	}
 }

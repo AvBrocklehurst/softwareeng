@@ -12,6 +12,8 @@ import static simori.FunctionButton.R4;
 
 import java.util.HashMap;
 
+import simori.SimoriGui.Animation;
+
 public class GreyCentreWipe implements Animation {
 	
 	private boolean outwards, upwards;

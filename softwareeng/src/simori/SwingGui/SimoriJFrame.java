@@ -21,7 +21,6 @@ import simori.Animation.Frame;
 import simori.Animation.OnFinishListener;
 import simori.FunctionButton;
 import simori.SimoriGui;
-import simori.Exceptions.SimoriNonFatalException;
 
 /**
  * Swing / AWT implementation of a Simori-ON GUI.
@@ -113,13 +112,15 @@ public class SimoriJFrame extends JFrame implements SimoriGui, MouseMotionListen
 	/** {@inheritDoc} */
 	public void play(final Animation toPlay, long duration,
 									final OnFinishListener listener) {
+		// Interpolate time for each frame
 		float pause = (float) duration / (float) toPlay.getFrameCount();
-		final Timer timer = new Timer((int) pause + 1, null);
+		int frameMillis = (int) pause + 1; // Round up to nearest millisecond
+		final Timer timer = new Timer(frameMillis, null);
 		timer.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Frame next = toPlay.getNextFrame();
-				if (next == null) {
+				if (next == null) { // Returns null at end of animation
 					timer.stop();
 					if (listener != null) listener.onAnimationFinished();
 				} else {
@@ -130,8 +131,8 @@ public class SimoriJFrame extends JFrame implements SimoriGui, MouseMotionListen
 		timer.start();
 	}
 	
+	/** Displays the given individual animation frame */
 	private void play(Frame frame) {
-		System.out.println(frame.btnsGreyed);
 		if (frame.ledsIlluminated != null) setGrid(frame.ledsIlluminated);
 		if (frame.ledsGreyed != null) panel.setGreyedOut(frame.ledsGreyed);
 		if (frame.btnsGreyed != null) {

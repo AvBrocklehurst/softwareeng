@@ -2,8 +2,9 @@ package simori;
 
 import java.io.IOException;
 
-import simori.Animation.OnFinishListener;
 import simori.Simori.PowerTogglable;
+import simori.SimoriGui.Animation;
+import simori.SimoriGui.Animation.OnFinishListener;
 import simori.SimoriGui.FunctionButtonEvent;
 import simori.Exceptions.SimoriNonFatalException;
 import simori.Modes.Mode;
@@ -30,6 +31,8 @@ import simori.Modes.ShopBoyMode;
 public class ModeController {
 	
 	private static final short DEFAULT_BPM = 88;
+	private static final long STARTUP_DURATION = 2700;
+	private static final long SHUTDOWN_DURATION = 3650;
 	
 	private SimoriGui gui;
 	private MatrixModel model;
@@ -194,9 +197,9 @@ public class ModeController {
 				switchOn();
 			}
 		};
-		Animation strartup =
+		Animation startUp =
 				new GreyCentreWipe(true, true, true, true, gui.getGridSize());
-		gui.play(strartup, 2700, switchOn);
+		gui.play(startUp, STARTUP_DURATION, switchOn);
 		animating = true;
 	}
 	
@@ -218,7 +221,7 @@ public class ModeController {
 		};
 		Animation shutDown =
 				new GreyCentreWipe(false, false, false, false, gui.getGridSize());
-		gui.play(shutDown, 3650, switchOff);
+		gui.play(shutDown, SHUTDOWN_DURATION, switchOff);
 		animating = true;
 	}
 	

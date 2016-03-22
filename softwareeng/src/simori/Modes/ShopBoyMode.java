@@ -45,10 +45,9 @@ public class ShopBoyMode extends PerformanceMode implements Observer {
 		songPlay(currentFile);
 	}
 	
-	/**{@inheritDoc}
-	 * @throws SimoriNonFatalException */
+	/** {@inheritDoc} */
 	@Override
-	public void onFunctionButtonPress(FunctionButtonEvent e) throws SimoriNonFatalException{
+	public void onFunctionButtonPress(FunctionButtonEvent e) {
 		switch(e.getFunctionButton()){
 		case ON:
 			getModel().deleteObserver(this);
@@ -56,9 +55,9 @@ public class ShopBoyMode extends PerformanceMode implements Observer {
 			break;
 		case OK:
 			getModel().deleteObserver(this);
-			getController().setMode(new PerformanceMode(getController()));
 			File blank = ResourceManager.getResource("BLANK.song");
-			SaveAndLoad.loadShop(getModel(), blank.getPath());
+			SaveAndLoad.loadShop(getModel(), blank.getPath()); // Before switching modes
+			getController().setMode(new PerformanceMode(getController()));
 			break;  //return to Performance Mode as normal
 		
 		default:
