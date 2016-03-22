@@ -2,6 +2,7 @@
 package simori;
 
 import simori.SimoriGui.SplashScreen;
+import simori.Exceptions.SimoriFatalException;
 import simori.Exceptions.SimoriNonFatalException;
 import simori.Modes.QwertyKeyboard;
 import simori.SwingGui.SimoriJFrame;
@@ -66,7 +67,7 @@ public class Simori {
 		splash.swapFor(gui, MIN_SPLASH_TIME, errors, afs); // GUI and errors
 		splash = null; // Allow garbage collector to reclaim splash screen
 		
-		throw new SimoriNonFatalException("This is a test!");
+		throw new SimoriFatalException("This is a fatal test!");
 	}
 
 	/**

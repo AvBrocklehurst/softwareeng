@@ -49,8 +49,8 @@ public class MIDISoundSystem implements PowerTogglable {
 			reciever = synth.getReceiver();
 			
 		} catch (MidiUnavailableException e) {throw new SimoriNonFatalException("MidiSystem is unavailable. You will be unable to play sound.");}
-		if (synth == null) System.exit(1);
-		if (reciever == null) System.exit(1);
+		if (synth == null) throw new SimoriNonFatalException("MidiSystem is unavailable. You will be unable to play sound.");
+		if (reciever == null) throw new SimoriNonFatalException("MidiSystem is unavailable. You will be unable to play sound.");
 	}
 	
 	/**
@@ -113,6 +113,17 @@ public class MIDISoundSystem implements PowerTogglable {
 	void stopSound(){
 		synth.getChannels()[0].allNotesOff(); // these are the only channels that are ever used.
 		synth.getChannels()[9].allNotesOff();
+	}
+	
+	
+	/**
+	 * Check if a synth is open.
+	 * @return boolean, true if synth is open.
+	 */
+	public boolean isOpen(){
+		if(synth == null) return false;
+		if(reciever == null) return false;
+		return synth.isOpen();
 	}
 	
 	/** {@inheritDoc} */
