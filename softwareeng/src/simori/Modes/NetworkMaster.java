@@ -26,14 +26,6 @@ import simori.Exceptions.SimoriNonFatalException;
  */
 public class NetworkMaster implements Runnable {
 	
-	/*
-	 * FIXME
-	 * Should running be volatile?
-	 * 192.168.0 range appears to be scanned twice
-	 * Is running ever set false if the end of the scan is reached?
-	 * (With successful and / or unsuccessful outcome)
-	 */
-	
 	private static final String OS_NAME =
 			System.getProperty("os.name").toLowerCase();
 	

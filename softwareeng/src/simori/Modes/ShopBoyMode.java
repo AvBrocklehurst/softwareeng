@@ -1,7 +1,6 @@
 package simori.Modes;
 
 import java.io.File;
-import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -133,7 +132,6 @@ public class ShopBoyMode extends PerformanceMode implements Observer {
 					e.printStackTrace();
 				}
 			}
-			
 			else{
 				playShopBoy(shopboy);       //continue to play
 				try {
@@ -145,6 +143,4 @@ public class ShopBoyMode extends PerformanceMode implements Observer {
 		}
 		
 	}
-	
-	
 }

@@ -16,7 +16,6 @@ public class ChangerMode extends Mode {
 	
 	protected Changer changer;
 	private boolean hLine, vLine;
-	private int rows, columns;
 	
 	/**
 	 * Creates a mode which changes some property of the Simori-ON,
@@ -32,11 +31,6 @@ public class ChangerMode extends Mode {
 		this.changer = changer;
 		this.hLine = horizontalLine;
 		this.vLine = verticalLine;
-		
-		//Measure the number of rows and columns from the model
-		boolean[][] grid = getModel().getGrid(getDisplayLayer());
-		rows = grid.length;
-		columns = grid[0].length;
 	}
 	
 	/**
@@ -46,7 +40,8 @@ public class ChangerMode extends Mode {
 	 * @param y The row in which to draw a horizontal line, if applicable
 	 */
 	private void drawSelector(Byte x, Byte y) {
-		boolean[][] grid = new boolean[rows][columns];
+		int size = getGui().getGridSize();
+		boolean[][] grid = new boolean[size][size];
 		if (vLine && x != null) addVerticalLineTo(grid, x);
 		if (hLine && y != null) addHorizontalLineTo(grid, y);
 		getGui().setGrid(grid);
