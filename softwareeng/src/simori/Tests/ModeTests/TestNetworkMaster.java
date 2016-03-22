@@ -1,7 +1,7 @@
 	/**
  * 
  */
-package simori.Tests;
+package simori.Tests.ModeTests;
 
 import org.junit.Test;
 

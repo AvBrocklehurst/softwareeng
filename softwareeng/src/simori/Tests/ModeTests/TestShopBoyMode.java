@@ -1,4 +1,4 @@
-package simori.Tests;
+package simori.Tests.ModeTests;
 
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.*;
@@ -21,6 +21,7 @@ import simori.Modes.MasterSlaveMode;
 import simori.Modes.PerformanceMode;
 import simori.Modes.QwertyKeyboard;
 import simori.Modes.ShopBoyMode;
+import simori.Tests.MockModeController;
 import simori.Tests.GuiTests.MockSimoriJFrame;
 
 /**

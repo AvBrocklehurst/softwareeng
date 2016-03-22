@@ -1,4 +1,4 @@
-package simori.Tests;
+package simori.Tests.ModeTests;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.junit.Assert.*;

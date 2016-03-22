@@ -1,4 +1,4 @@
-package simori.Tests;
+package simori.Tests.ModeTests;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.junit.Assert.assertEquals;
@@ -25,6 +25,8 @@ import simori.Modes.NetworkMaster;
 import simori.Modes.NetworkSlave;
 import simori.Modes.QwertyKeyboard;
 import simori.SwingGui.SimoriJFrame;
+import simori.Tests.MockChangerModeFactory;
+import simori.Tests.MockModeController;
 
 /**
  * A class to test ChangerModeFactory.

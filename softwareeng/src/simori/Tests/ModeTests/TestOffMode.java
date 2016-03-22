@@ -1,4 +1,4 @@
-package simori.Tests;
+package simori.Tests.ModeTests;
 
 import java.io.IOException;
 

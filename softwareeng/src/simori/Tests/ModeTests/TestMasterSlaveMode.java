@@ -1,4 +1,4 @@
-package simori.Tests;
+package simori.Tests.ModeTests;
 
 import static org.junit.Assert.*;
 import org.junit.*;
@@ -15,6 +15,7 @@ import simori.Exceptions.SimoriNonFatalException;
 import simori.Modes.MasterSlaveMode;
 import simori.Modes.Mode;
 import simori.Modes.QwertyKeyboard;
+import simori.Tests.MockModeController;
 import simori.Tests.GuiTests.MockSimoriJFrame;
 
 /**

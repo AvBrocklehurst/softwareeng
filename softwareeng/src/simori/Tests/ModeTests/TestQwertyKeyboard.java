@@ -1,4 +1,4 @@
-package simori.Tests;
+package simori.Tests.ModeTests;
 
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertEquals;
