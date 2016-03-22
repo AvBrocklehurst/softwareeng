@@ -40,12 +40,6 @@ public class TestLcd {
 	}
 	
 	@Test
-	public void testSetShorterSide() throws InterruptedException, SimoriNonFatalException{
-		lcd.setShorterSize(10);
-		assertEquals(2, lcd.getHeight());
-	}
-	
-	@Test
 	public void testSetText() throws InterruptedException, SimoriNonFatalException{
 		lcd.setText("hello world!");
 		String text = lcd.getText();
