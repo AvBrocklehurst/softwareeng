@@ -37,7 +37,7 @@ abstract class MIDIMessengerSystem {
 	 * Method that creates a PROGRAM_CHANGE message.
 	 */
 	ShortMessage createMessage(byte channel, byte instrument) {
-		ShortMessage message = new ShortMessage();
+		ShortMessage message = new ShortMessage();e
 		try {
 			message.setMessage(ShortMessage.PROGRAM_CHANGE, channel, instrument, 0);
 		} catch (InvalidMidiDataException e) {

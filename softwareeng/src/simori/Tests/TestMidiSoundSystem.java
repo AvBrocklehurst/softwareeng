@@ -24,7 +24,7 @@ public class TestMidiSoundSystem {
 	
 	@Before
 	public void setUp() throws Exception {
-		midi = new MIDISoundSystem();
+		midi = new MockMIDISoundSystem();
 		message = new ShortMessage();
 		message.setMessage(ShortMessage.NOTE_ON, 0, 60, 80);
 	}
