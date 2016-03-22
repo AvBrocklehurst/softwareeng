@@ -30,27 +30,30 @@ import simori.Simori.PowerTogglable;
  */
 public class MIDISoundSystem implements PowerTogglable {
 	final static int TIMESTAMP = -1; // Timestamp of -1 means MIDI messages will be executed immediately.
-	private Synthesizer synth;
-	private Receiver reciever;
+	protected Synthesizer synth;
+	protected Receiver reciever;
 	
 	/**
 	 * @author Josh
 	 * @version 1.0.1
+	 * @param should I use the better soundbank? (Takes longer due to loading)
 	 * @throws MidiUnavailableException
 	 * 
 	 * Constructor that creates a MIDISynthesizer with a connected receiver that can send MIDI short messages to the synthesizer.
 	 */
-	public MIDISoundSystem(){
+	public MIDISoundSystem(boolean useBetterSound){
 		try {
 			synth = MidiSystem.getSynthesizer();
 			synth.open();
+			if(useBetterSound){
 			synth.unloadAllInstruments(synth.getDefaultSoundbank()); 
 			setSoundbank(); // change to new sound bank.
+			}
 			reciever = synth.getReceiver();
 			
 		} catch (MidiUnavailableException e) {throw new SimoriNonFatalException("MidiSystem is unavailable. You will be unable to play sound.");}
-		if (synth == null) System.exit(1);
-		if (reciever == null) System.exit(1);
+		if (synth == null) throw new SimoriNonFatalException("MidiSystem is unavailable. You will be unable to play sound.");
+		if (reciever == null) throw new SimoriNonFatalException("MidiSystem is unavailable. You will be unable to play sound.");
 	}
 	
 	/**
@@ -87,7 +90,7 @@ public class MIDISoundSystem implements PowerTogglable {
 	 * 
 	 * Method takes a MIDIMessage and sends it to the synth.
 	 */
-	void sendCommand(ShortMessage message){
+	protected void sendCommand(ShortMessage message){
 		reciever.send(message, TIMESTAMP);
 	}
 	
@@ -98,7 +101,7 @@ public class MIDISoundSystem implements PowerTogglable {
 	 * 
 	 * Method takes arrayList of MIDI messages and sends them to the synth simultaneously (or near simultaneously).
 	 */
-	void sendCommands(ShortMessage[] toBePlayed){
+	protected void sendCommands(ShortMessage[] toBePlayed){
 		for (ShortMessage message : toBePlayed) {
 			sendCommand(message);
 		}
@@ -110,9 +113,20 @@ public class MIDISoundSystem implements PowerTogglable {
 	 * 
 	 * Method that tells the synth to stop making noise ASAP.
 	 */
-	void stopSound(){
+	protected void stopSound(){
 		synth.getChannels()[0].allNotesOff(); // these are the only channels that are ever used.
 		synth.getChannels()[9].allNotesOff();
+	}
+	
+	
+	/**
+	 * Check if a synth is open.
+	 * @return boolean, true if synth is open.
+	 */
+	public boolean isOpen(){
+		if(synth == null) return false;
+		if(reciever == null) return false;
+		return synth.isOpen();
 	}
 	
 	/** {@inheritDoc} */

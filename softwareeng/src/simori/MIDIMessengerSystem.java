@@ -67,6 +67,14 @@ abstract class MIDIMessengerSystem {
 	}
 	
 	/**
+	 * Check is the players synth is open.
+	 * @return  boolean, true if open synth.
+	 */
+	public boolean isOpen(){
+		return player.isOpen();
+	}
+	
+	/**
 	 * @author Josh
 	 * @version 1.0.1
 	 * 

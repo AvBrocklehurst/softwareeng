@@ -101,7 +101,6 @@ public class SaveAndLoad {
 		} catch (IOException e){
 			 throw new SimoriNonFatalException("Unable to save file.");
 		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 			throw new SimoriNonFatalException("Unable to save file.");
 		}
 	}

@@ -7,13 +7,12 @@ import org.junit.Before;
 import org.junit.Test;
 import simori.AudioFeedbackSystem;
 import simori.AudioFeedbackSystem.Sound;
-import simori.MIDISoundSystem;
 import simori.MatrixModel;
 
 /**
  * 
  * @author Josh
- * @version 1.0.0
+ * @version 1.3.2
  * 
  * Class that tests AudioFeedback System.
  * Since this class extends (and implements) the abstract class MIDIMessengerSystem those methods will also be tested.
@@ -24,7 +23,7 @@ public class TestAudioFeedbackSystem {
 	
 	@Before
 	public void setUp() throws Exception {
-		afs = new AudioFeedbackSystem(new MIDISoundSystem(), new MatrixModel(16, 16));
+		afs = new AudioFeedbackSystem(new MockMIDISoundSystem(false), new MatrixModel(16, 16));
 	}
 
 	@After
@@ -39,17 +38,30 @@ public class TestAudioFeedbackSystem {
 	}
 	
 	// Test all 4 sounds.
-	@Test public void testPlayHappy() {afs.play(Sound.HAPPY);}
-	@Test public void testPlaySad() {afs.play(Sound.SAD);}	
-	@Test public void testPlayWelcome() {afs.play(Sound.WELCOME);}
-	@Test public void testPlayGoodbye() {afs.play(Sound.GOODBYE);}
-
+	@Test public void testPlayHappy() throws InterruptedException {
+		afs.play(Sound.HAPPY); 
+		Thread.sleep(5000); // in order to get code coverage we need to stay in test until sound is complete.
+	}
+	@Test public void testPlaySad() throws InterruptedException {
+		afs.play(Sound.SAD);
+		Thread.sleep(5000); 
+	}	
+	@Test public void testPlayWelcome() throws InterruptedException {
+		afs.play(Sound.WELCOME);
+		Thread.sleep(5000); 
+	}
+	@Test public void testPlayGoodbye() throws InterruptedException {
+		afs.play(Sound.GOODBYE);
+		Thread.sleep(5000); 
+	}
+	
 	//Test that we can play multiple tunes ok.
-	@Test public void testPlayMultiple() {
+	@Test public void testPlayMultiple() throws InterruptedException {
 		afs.play(Sound.WELCOME);
 		afs.play(Sound.HAPPY);
 		afs.play(Sound.SAD);
 		afs.play(Sound.GOODBYE);
+		Thread.sleep(5000);
 	}
 	
 }
