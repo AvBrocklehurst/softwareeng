@@ -24,6 +24,8 @@ import simori.Tests.GuiTests.GuiTestSuite;
 
 	TestSaveAndLoad.class,
 	TestSimoriGui.class,
-	TestNoteProcessor.class
+	TestNoteProcessor.class,
+	TestMidiSoundSystem.class,
+	TestAudioFeedbackSystem.class
 })
 public class TestSuite {}
