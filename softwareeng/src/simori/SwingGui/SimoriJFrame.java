@@ -195,9 +195,12 @@ public class SimoriJFrame extends JFrame implements SimoriGui, MouseMotionListen
 	
 	/** {@inheritDoc} */
 	@Override
-	public void reportError(String shortMessage, String longMessage,
-								String title, OnErrorDismissListener l) {
-		ErrorDialog d = new ErrorDialog(this);
+	public void reportError(String shortMessage,
+							String longMessage,
+							String title,
+							OnErrorDismissListener l,
+							boolean fatal) {
+		ErrorDialog d = new ErrorDialog(this, fatal);
 		if (title != null )d.setTitle(title);
 		d.setOnDismissListener(l);
 		d.setShortMessage(shortMessage);

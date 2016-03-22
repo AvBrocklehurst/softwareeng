@@ -69,13 +69,18 @@ public interface SimoriGui extends PowerTogglable {
 	
 	/**
 	 * Displays the given information as an error message.
+	 * If the error was fatal, the dialog should force the user to exit.
 	 * @param shortMessage User-friendly summary of error (optionally HTML)
 	 * @param longMessage Long text detailing error (no formatting)
 	 * @param title Title for error dialog
 	 * @param l To receive callback when the user dismisses the error
+	 * @param fatal true if the error was fatal
 	 */
-	public void reportError(String shortMessage, String longMessage,
-								String title, OnErrorDismissListener l);
+	public void reportError(String shortMessage,
+							String longMessage,
+							String title,
+							OnErrorDismissListener l,
+							boolean fatal);
 	
 	/** @return Number of rows / columns in the LED grid */
 	public int getGridSize();

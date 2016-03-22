@@ -101,20 +101,51 @@ public class ExceptionManager implements UncaughtExceptionHandler,
 	 */
 	private void openDialog(Throwable[] errors) {
 		playExceptionNoise();
+		boolean fatal = false;
 		String shortMsg = "";
 		String title = "";
 		String longMessage = "";
 		for(Throwable error : errors){
-			title = error.getClass().getSimpleName();
-			shortMsg = "<html><b>" + error.getMessage() + "</b></html>";
-			StringWriter sw = new StringWriter();
-			error.printStackTrace(new PrintWriter(sw));
-			String exceptionAsString = sw.toString();
-			longMessage += exceptionAsString;
-			longMessage += " \n\n";
+			if(error.getClass().getName().equals("SimoriFatalException")) 
+				fatal = true;
+						
+			longMessage = generateLongMessage(error,longMessage);
 		}
+		
+		if(fatal){
+			title = "Simori Fatal Exception";
+			shortMsg = "<html><b>A Fatal Exception has been thrown!"
+					+ "<br>Fatal Errors cause the Simori to be unusable."
+					+ " Please contact the Developers and send them"
+					+ " the infromation provided below.</b></html>";
+		} else {
+			title = "Simori Non Fatal Exception";
+			shortMsg = "<html><b>A Non Fatal Exception has been thrown!"
+					+ "<br>No worries though, the Simori will continue to"
+					+ " function. If something will no longer work, it will"
+					+ " be mentioned in the error message below.</b></html>";
+		}
+		
 		dialogOpen = true;
-		gui.reportError(shortMsg, longMessage, title, this);
+		gui.reportError(shortMsg, longMessage, title, this, fatal);
+	}
+	
+	
+	/**
+	 * Method to generate the long error message for a thrown error.
+	 * @param error         The error to generate the message about.
+	 * @param longMessage   The previous string of error messages.
+	 * @return A string containing the updated long message.
+	 */
+	private String generateLongMessage(Throwable error, String longMessage){
+		StringWriter sw = new StringWriter();
+		error.printStackTrace(new PrintWriter(sw));
+		String exceptionAsString = sw.toString();
+		longMessage += "Error Message: " + error.getMessage() + "\n\n";
+		longMessage += "Stack Trace: \n";
+		longMessage += exceptionAsString;
+		longMessage += " \n\n";
+		return longMessage;
 	}
 	
 	/** Plays a sound to accompany the error dialog */

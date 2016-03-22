@@ -101,8 +101,6 @@ public class AudioFeedbackSystem extends MIDIMessengerSystem {
 			player.stopSound(); // stop the audio sound being played (in case it is still making noise).
 		} catch (InterruptedException e) {
 			throw new SimoriNonFatalException("Audio Thread was inturrupted.");
-		} catch (InvalidMidiDataException e) {
-			throw new SimoriNonFatalException("Invalid Midi data send to the reciever.");
 		}
 		model.setPlaying(); // tell the usual music player that it can carry on making noise.
 	}
@@ -115,7 +113,7 @@ public class AudioFeedbackSystem extends MIDIMessengerSystem {
 	 *  
 	 * "a short, distinctive sequence of notes that fills the user with a sense of joyful anticipation at what is to come."
 	 */
-	private void playWelcomeSound() throws InvalidMidiDataException, InterruptedException {
+	private void playWelcomeSound() throws InterruptedException {
 		playInstrument(1, C5, VELOCITY, 100, true);
 		playInstrument(1, E5, VELOCITY, 150, true);
 		playInstrument(1, G5, VELOCITY, 150, true);
@@ -137,7 +135,7 @@ public class AudioFeedbackSystem extends MIDIMessengerSystem {
 	 * " A short distinctive sequence of notes that fills the user with a carefree satisfaction at what has been done."
 	 * Sounds suspiciously like a lullaby.
 	 */
-	private void playGoodbyeSound() throws InvalidMidiDataException, InterruptedException {
+	private void playGoodbyeSound() throws InterruptedException {
 		playInstrument(1, C6, VELOCITY, 350, false);
 		playInstrument(1, G5, VELOCITY, 400, false);
 		playInstrument(1, E5, VELOCITY, 400, false);
@@ -153,7 +151,7 @@ public class AudioFeedbackSystem extends MIDIMessengerSystem {
 	 * "a short, distinctive sequence of notes that gives the user the sense of a treat awarded."
 	 * Congratulations! Here is a trumpet fanfare for using the Simori correctly.
 	 */
-	private void playHappySound() throws InvalidMidiDataException, InterruptedException {
+	private void playHappySound() throws InterruptedException {
 		playInstrument(62, C6, VELOCITYHIGH, 250, true);
 		playInstrument(62, C6, VELOCITYHIGH, 150, true);
 		playInstrument(62, C6, VELOCITYHIGH, 150, true);
@@ -169,7 +167,7 @@ public class AudioFeedbackSystem extends MIDIMessengerSystem {
 	 * "A short, distinctive sequences of notes that gives the user the sense of a treat denied."
 	 * DUN DUN DUNNNNNNNNNNNN.
 	 */
-	private void playSadSound() throws InvalidMidiDataException, InterruptedException {
+	private void playSadSound() throws InterruptedException {
 		playInstrument(56, D5, VELOCITYHIGH, 0, false);
 		playInstrument(20, D5, VELOCITYHIGH, 400, true);
 		

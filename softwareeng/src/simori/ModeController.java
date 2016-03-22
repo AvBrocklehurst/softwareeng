@@ -25,7 +25,7 @@ import simori.Modes.ShopBoyMode;
  * 
  * @author Matt
  * @author Adam
- * @version 1.7.0
+ * @version 1.7.1
  */
 public class ModeController {
 	
@@ -166,6 +166,7 @@ public class ModeController {
 	
 	/**
 	 * Sets the power state of the Simori-ON.
+	 * Will not switch on correctly if not explicitly switched off beforehand.
 	 * @param on true to switch on, or false to switch off
 	 * @throws SimoriNonFatalException 
 	 */
@@ -179,7 +180,7 @@ public class ModeController {
 	}
 	
 	private void bootUp(boolean animated) {
-		for (PowerTogglable p : toPowerToggle) p.ready(); //TODO in a different thread?
+		for (PowerTogglable p : toPowerToggle) p.ready();
 		if (!animated){
 			switchOn();
 			return;
