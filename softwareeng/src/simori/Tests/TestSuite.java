@@ -25,7 +25,11 @@ import simori.Tests.GuiTests.GuiTestSuite;
 	TestSaveAndLoad.class,
 	TestSimoriGui.class,
 	TestNoteProcessor.class,
+	
+	
 	TestMidiSoundSystem.class,
-	TestAudioFeedbackSystem.class
+	TestMIDIMessengerSystem.class,
+	TestAudioFeedbackSystem.class,
+	TestSimoriSoundSystem.class
 })
 public class TestSuite {}
