@@ -10,10 +10,8 @@ import java.io.ObjectOutputStream;
 
 import simori.MatrixModel;
 import simori.ModeController;
-import simori.ResourceManager;
+import simori.Exceptions.SimoriNonFatalException;
 import simori.Modes.ChangerMode.Changer;
-import simori.Exceptions.*;
-
 
 /**
  * Class for the saving and loading of the model.
@@ -34,7 +32,7 @@ public class SaveAndLoad {
 	 * Static method to save the contents of the model to a given file.
 	 * @author Adam
 	 * @version 1.0.0
-	 * @param model     The model to serialize.
+	 * @param model     The model to serialise.
 	 * @param filename  The file to save it to.
 	 * @throws SimoriNonFatalException 
 	 */
@@ -42,9 +40,7 @@ public class SaveAndLoad {
 		try {
 			File file = getLocationFor(filename);
 	        FileOutputStream fos = new FileOutputStream(file);
-
 	        ObjectOutputStream oos = new ObjectOutputStream(fos);
-
 	        oos.writeObject(model);
 	        fos.close();
 	        oos.close();
@@ -56,7 +52,7 @@ public class SaveAndLoad {
 	/**
 	 * Static method to load a model into the Simori-ON.
 	 * It searches for the ShopBoySongs folder for use
-	 * in the shopboy mode.
+	 * in the Shop Boy mode.
 	 * @author Adam
 	 * @param model     Model to replace.
 	 * @param filename  Filename of where to load the saved model from.
@@ -129,7 +125,7 @@ public class SaveAndLoad {
 	
 	/**
 	 * This implementation of the Changer interface allows a user to input
-	 * unix and windows compatible symbols and letters in order to produce
+	 * Unix and Windows compatible symbols and letters in order to produce
 	 * a filename to save the current simori configuration to.
 	 * 
 	 * @author James

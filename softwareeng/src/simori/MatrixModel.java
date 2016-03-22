@@ -25,7 +25,6 @@ public class MatrixModel extends Observable implements Serializable, PowerToggla
 	private byte currentColumn;
 	private volatile boolean playing;
 	
-	
 	/**
 	 * Constructor that takes no arguments.
 	 * Initialises the Layer list and creates the first one.

@@ -39,8 +39,8 @@ public class MockSimoriJFrame extends SimoriJFrame {
 	
 	@Override
 	protected void addSimoriPanel() {
-		simoriPanel = new MockSimoriPanel(mapping, new OnPressListenerMaker(this));
-		add(simoriPanel);
+		panel = new MockSimoriPanel(mapping, new OnPressListenerMaker(this));
+		add(panel);
 		lcd = getBottomBar().getLcd();
 	}
 	
@@ -53,23 +53,23 @@ public class MockSimoriJFrame extends SimoriJFrame {
 	}
 	
 	public MockSimoriPanel getSimoriPanel() {
-		return (MockSimoriPanel) simoriPanel;
+		return (MockSimoriPanel) panel;
 	}
 	
 	public MockSimoriEdgeBar getTopBar() {
-		return ((MockSimoriPanel) simoriPanel).getTopBar();
+		return ((MockSimoriPanel) panel).getTopBar();
 	}
 	
 	public MockSimoriEdgeBar getLeftBar() {
-		return ((MockSimoriPanel) simoriPanel).getLeftBar();
+		return ((MockSimoriPanel) panel).getLeftBar();
 	}
 	
 	public MockSimoriEdgeBar getRightBar() {
-		return ((MockSimoriPanel) simoriPanel).getRightBar();
+		return ((MockSimoriPanel) panel).getRightBar();
 	}
 	
 	public MockSimoriEdgeBar getBottomBar() {
-		return ((MockSimoriPanel) simoriPanel).getBottomBar();
+		return ((MockSimoriPanel) panel).getBottomBar();
 	}
 	
 	public MockGridPanel getGridPanel() {

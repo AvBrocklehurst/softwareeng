@@ -18,7 +18,7 @@ import simori.SwingGui.SimoriJFrame;
  * @author Jurek
  *
  */
-public class TestAnimation {
+public class TestGreyCentreWipe {
 
 	private class MockAnimation extends Animation {
 		public MockAnimation(int size, OnFinishListener listener, boolean isStartup) {
@@ -73,7 +73,7 @@ public class TestAnimation {
 	@Test (expected=UnsupportedOperationException.class)
 	public void testNextStarting() {
 		anim = constructAnimation(true);
-		anim.next();
+		anim.getNextFrame();
 		int size = 16;
 		int symmetry = --size % 2 == 0 ? 0 : 1;
 		int bl = size / 2 - anim.getPhase();
@@ -84,20 +84,20 @@ public class TestAnimation {
 			assertTrue(anim.getWhich()[i][tr]);
 			assertTrue(anim.getWhich()[i][bl]);
 		}
-		anim.next();
-		anim.next();
-		anim.next();
-		anim.next();
-		anim.next();
-		anim.next();
-		anim.next();
-		assertNull(anim.next());
+		anim.getNextFrame();
+		anim.getNextFrame();
+		anim.getNextFrame();
+		anim.getNextFrame();
+		anim.getNextFrame();
+		anim.getNextFrame();
+		anim.getNextFrame();
+		assertNull(anim.getNextFrame());
 	}
 
 	@Test (expected=UnsupportedOperationException.class)
 	public void testNextFinishing() {
 		anim = constructAnimation(false);
-		anim.next();
+		anim.getNextFrame();
 		int size = 16;
 		int symmetry = --size % 2 == 0 ? 0 : 1;
 		int bl = size / 2 - anim.getPhase();
@@ -108,14 +108,14 @@ public class TestAnimation {
 			assertFalse(anim.getWhich()[i][tr]);
 			assertFalse(anim.getWhich()[i][bl]);
 		}
-		anim.next();
-		anim.next();
-		anim.next();
-		anim.next();
-		anim.next();
-		anim.next();
-		anim.next();
-		assertNull(anim.next());
+		anim.getNextFrame();
+		anim.getNextFrame();
+		anim.getNextFrame();
+		anim.getNextFrame();
+		anim.getNextFrame();
+		anim.getNextFrame();
+		anim.getNextFrame();
+		assertNull(anim.getNextFrame());
 	}
 	
 	@Test (expected=UnsupportedOperationException.class)

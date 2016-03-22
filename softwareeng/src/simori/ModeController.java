@@ -2,8 +2,9 @@ package simori;
 
 import java.io.IOException;
 
-import simori.Animation.OnFinishListener;
 import simori.Simori.PowerTogglable;
+import simori.SimoriGui.Animation;
+import simori.SimoriGui.Animation.OnFinishListener;
 import simori.SimoriGui.FunctionButtonEvent;
 import simori.Exceptions.SimoriNonFatalException;
 import simori.Modes.Mode;
@@ -25,22 +26,37 @@ import simori.Modes.ShopBoyMode;
  * 
  * @author Matt
  * @author Adam
- * @version 1.7.1
+ * @version 1.9.0
  */
 public class ModeController {
 	
+	/** Tempo at which clock should start */
 	private static final short DEFAULT_BPM = 88;
 	
-	private SimoriGui gui;
+	/** Duration of startup animation and sound, in milliseconds */
+	private static final long STARTUP_DURATION = 2700;
+	
+	/** Duration of shutdown animation and sound, in milliseconds */
+	private static final long SHUTDOWN_DURATION = 3650;
+	
+	// Model and views this component sits between
 	private MatrixModel model;
+	private SimoriGui gui;
+	private AudioFeedbackSystem afs;
+	
+	// Networking subcomponents
 	private NetworkMaster master;
 	private NetworkSlave slave;
-	private AudioFeedbackSystem afs;
-	private PowerTogglable[] toPowerToggle;
 	private int port;
-	protected Mode mode;
-	private byte displayLayer;
-	protected boolean on = true;
+	
+	// List of components to give power state callbacks to
+	private PowerTogglable[] toPowerToggle;
+	
+	//State information
+	protected boolean on = true; // Power state of Simori-ON
+	protected Mode mode; // Mode currently in effect
+	private byte displayLayer; // Latest layer displayed in PerformanceMode
+	private boolean isAnimating; // Flag set whilst animations are playing
 	
 	/**
 	 * Creates a ModeController to accept input from the
@@ -63,7 +79,6 @@ public class ModeController {
 	 * Draws the clock hand in the specified column. If the current
 	 * mode is not {@link PerformanceMode}, this has no effect.
 	 * @param column x coordinate at which to draw clock hand
-	 * @throws SimoriNonFatalException 
 	 */
 	public void tickThrough(byte column) {
 			mode.tickerLight(column);
@@ -79,7 +94,7 @@ public class ModeController {
 		return gui;
 	}
 	
-	/** @return false if the Simori-ON is in {@link OffMode} */
+	/** @return true if the Simori-ON is powered on */
 	public boolean isOn() {
 		return on;
 	}
@@ -136,7 +151,13 @@ public class ModeController {
 		toPowerToggle = s;
 	}
 	
-	/** Searches searches for another Simori-ON to copy the configuration to */
+	/**
+	 * Searches searches for another Simori-ON on the network,
+	 * and attempts to copy the current configuration to it.
+	 * Does not restart the scan if one is already underway.
+	 * @see NetworkMaster.ScanProgressListener
+	 * @return Component which can be used to register for callbacks
+	 */
 	public NetworkMaster startNetworkMaster() {
 		if (master == null) return null;
 		master.scan();
@@ -147,7 +168,6 @@ public class ModeController {
 	 * Displays the name of the given instrument in the LCD screen.
 	 * If the current mode is not PerformanceMode, this has no effect.
 	 * @param num The number of the instrument to show the name of
-	 * @throws SimoriNonFatalException 
 	 */
 	public void showInstrumentName(int num) {
 		if (mode instanceof PerformanceMode) {
@@ -156,10 +176,12 @@ public class ModeController {
 		}
 	}
 	
+	/** Plays a sound meant to indicate success */
 	public void happySound() {
 		afs.play(AudioFeedbackSystem.Sound.HAPPY);
 	}
 	
+	/** Plays a sound meant to indicate failure */
 	public void sadSound() {
 		afs.play(AudioFeedbackSystem.Sound.SAD);
 	}
@@ -167,11 +189,12 @@ public class ModeController {
 	/**
 	 * Sets the power state of the Simori-ON.
 	 * Will not switch on correctly if not explicitly switched off beforehand.
+	 * Whilst the Simori-ON is animating between on and
+	 * off states, calls to this method are ignored.
 	 * @param on true to switch on, or false to switch off
-	 * @throws SimoriNonFatalException 
 	 */
 	public void setOn(boolean on, boolean animated) {
-		if (this.on == on) return;
+		if (isAnimating || this.on == on) return;
 		if (on) {
 			bootUp(animated);
 		} else {
@@ -179,22 +202,53 @@ public class ModeController {
 		}
 	}
 	
+	/**
+	 * Informs the listening components that the Simori-ON
+	 * is powering up, then either switches on instantly
+	 * or calls {@link #playBootSequence} to switch on after
+	 * the startup animation and sound have played, depending
+	 * on the value of the animated parameter.
+	 */
 	private void bootUp(boolean animated) {
 		for (PowerTogglable p : toPowerToggle) p.ready();
 		if (!animated){
 			switchOn();
 			return;
 		}
+		playBootSequence();
+	}
+	
+	/**
+	 * Plays the startup animation and sound on worker threads.
+	 * After the animation has completed, {@link #switchOn} is
+	 * called to fully switch on the Simori-ON. Handles the
+	 * setting and clearing of the {@link #isAnimating} flag.
+	 * Currently the animation and sound are not automatically
+	 * synchronised, so the specified animation duration should
+	 * be manually set to at least the duration of the sound.
+	 */
+	private void playBootSequence() {
 		afs.play(AudioFeedbackSystem.Sound.WELCOME);
 		OnFinishListener switchOn = new OnFinishListener() {
 			@Override
 			public void onAnimationFinished() {
+				isAnimating = false;
 				switchOn();
 			}
 		};
-		gui.play(new Animation(gui.getGridSize(), switchOn, true));
+		Animation startUp =
+				new GreyCentreWipe(true, true, true, true, gui.getGridSize());
+		gui.play(startUp, STARTUP_DURATION, switchOn);
+		isAnimating = true;
 	}
 	
+	/**
+	 * Informs the listening components that the Simori-ON
+	 * is shutting down, then either switches off instantly
+	 * or calls {@link #playShutDownSequence} to switch off
+	 * after the shutdown animation and sound have played,
+	 * depending on the value of the animated parameter.
+	 */
 	private void shutDown(boolean animated) {
 		for (int i = toPowerToggle.length - 1; i >= 0; i--) {
 			toPowerToggle[i].stop();
@@ -203,16 +257,39 @@ public class ModeController {
 			switchOff();
 			return;
 		}
+		playShutDownSequence();
+	}
+	
+	/**
+	 * Plays the shutdown animation and sound on worker threads.
+	 * After the animation has completed, {@link #switchOff} is
+	 * called to fully switch off the Simori-ON. Handles the
+	 * setting and clearing of the {@link #isAnimating} flag.
+	 * Currently the animation and sound are not automatically
+	 * synchronised, so the specified animation duration should
+	 * be manually set to at least the duration of the sound to
+	 * avoid errors with the MIDI receiver closing too soon!
+	 */
+	private void playShutDownSequence() {
 		afs.play(AudioFeedbackSystem.Sound.GOODBYE);
 		OnFinishListener switchOff = new OnFinishListener() {
 			@Override
 			public void onAnimationFinished() {
+				isAnimating = false;
 				switchOff();
 			}
 		};
-		gui.play(new Animation(gui.getGridSize(), switchOff, false));
+		Animation shutDown =
+				new GreyCentreWipe(false, false, false, false, gui.getGridSize());
+		gui.setText(null); // Turn of LCD before animation
+		gui.play(shutDown, SHUTDOWN_DURATION, switchOff);
+		isAnimating = true;
 	}
 	
+	/**
+	 * Finished switching the Simori-ON on,
+	 * updating its state and notifying listeners accordingly.
+	 */
 	private void switchOn() {
 		for (PowerTogglable t : toPowerToggle) t.switchOn();
 		on = true;	
@@ -223,11 +300,16 @@ public class ModeController {
 		try {
 			master = new NetworkMaster(port, this, slave);
 		} catch (IOException e) {
-			throw new SimoriNonFatalException("Can't start network master. Master slave mde unavailable.");
+			throw new SimoriNonFatalException("Can't start network master. "
+												+ "Master slave mode unavailable.");
 		}
 		slave.switchOn();
 	}
 	
+	/**
+	 * Finishes switching the Simori-ON off,
+	 * updating its state and notifying listeners accordingly.
+	 */
 	private void switchOff() {
 		on = false;
 		setMode(makeOffMode());
@@ -250,13 +332,13 @@ public class ModeController {
 		return new PerformanceMode(this) {
 			@Override
 			public void onFunctionButtonPress(FunctionButtonEvent e) {
-					if (e.getFunctionButton().equals(FunctionButton.OK)) {
-					
-						setMode(new ShopBoyMode(ModeController.this));
-					
-					} else {
-						super.onFunctionButtonPress(e);
-					}
+				if (e.getFunctionButton().equals(FunctionButton.OK)) {
+				
+					setMode(new ShopBoyMode(ModeController.this));
+				
+				} else {
+					super.onFunctionButtonPress(e);
+				}
 			}
 		};
 	}

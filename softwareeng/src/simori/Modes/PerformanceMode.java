@@ -14,7 +14,7 @@ import simori.Exceptions.SimoriNonFatalException;
  * the abstract class Mode.
  * 
  * @author James
- * @version 1.0.0
+ * @version 1.6.0
  * @see Mode
  */
 
@@ -24,7 +24,7 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 
 	/**
 	 * Constructor for Performance Mode. In performance mode the ticker loops
-	 * at a loopspeed to a certain looppoint. Notes are played depending on the
+	 * at a loop speed to a certain loop point. Notes are played depending on the
 	 * layer. They are played with a certain voice and at a certain velocity.
 	 * 
 	 * @param controller  The current ModeController

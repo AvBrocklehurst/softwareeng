@@ -36,7 +36,7 @@ abstract class MIDIMessengerSystem {
 	 * 
 	 * Method that creates a PROGRAM_CHANGE message.
 	 */
-	 protected ShortMessage createMessage(byte channel, byte instrument) {
+	ShortMessage createMessage(byte channel, byte instrument) {
 		ShortMessage message = new ShortMessage();
 		try {
 			message.setMessage(ShortMessage.PROGRAM_CHANGE, channel, instrument, 0);
@@ -56,7 +56,7 @@ abstract class MIDIMessengerSystem {
 	 * 
 	 * Method that creates a NOTE_ON message.
 	 */
-	 protected ShortMessage createMessage(byte channel, byte pitch, byte velocity) {
+	ShortMessage createMessage(byte channel, byte pitch, byte velocity) {
 		ShortMessage message = new ShortMessage();
 		try {
 			message.setMessage(ShortMessage.NOTE_ON, channel, pitch, velocity);
@@ -67,12 +67,6 @@ abstract class MIDIMessengerSystem {
 	}
 	
 	/**
-	 * Check is the players synth is open.
-	 * @return  boolean, true if open synth.
-	 */
-	public boolean isOpen(){return player.isOpen();}
-	
-	/**
 	 * @author Josh
 	 * @version 1.0.1
 	 * 
@@ -81,6 +75,4 @@ abstract class MIDIMessengerSystem {
 	public void stopPlay() {
 		player.stopSound();
 	}
-	
-	
 }

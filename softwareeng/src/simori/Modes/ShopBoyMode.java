@@ -1,7 +1,6 @@
 package simori.Modes;
 
 import java.io.File;
-import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -46,10 +45,9 @@ public class ShopBoyMode extends PerformanceMode implements Observer {
 		songPlay(currentFile);
 	}
 	
-	/**{@inheritDoc}
-	 * @throws SimoriNonFatalException */
+	/** {@inheritDoc} */
 	@Override
-	public void onFunctionButtonPress(FunctionButtonEvent e) throws SimoriNonFatalException{
+	public void onFunctionButtonPress(FunctionButtonEvent e) {
 		switch(e.getFunctionButton()){
 		case ON:
 			getModel().deleteObserver(this);
@@ -57,9 +55,9 @@ public class ShopBoyMode extends PerformanceMode implements Observer {
 			break;
 		case OK:
 			getModel().deleteObserver(this);
-			getController().setMode(new PerformanceMode(getController()));
 			File blank = ResourceManager.getResource("BLANK.song");
-			SaveAndLoad.loadShop(getModel(), blank.getPath());
+			SaveAndLoad.loadShop(getModel(), blank.getPath()); // Before switching modes
+			getController().setMode(new PerformanceMode(getController()));
 			break;  //return to Performance Mode as normal
 		
 		default:
@@ -129,7 +127,6 @@ public class ShopBoyMode extends PerformanceMode implements Observer {
 				playShopBoy(shopboy);
 					songPlay(currentFile);
 			}
-			
 			else{
 				playShopBoy(shopboy);       //continue to play
 					songPlay(currentFile);
@@ -137,6 +134,4 @@ public class ShopBoyMode extends PerformanceMode implements Observer {
 		}
 		
 	}
-	
-	
 }

@@ -6,12 +6,10 @@ import java.util.Map;
 import java.util.Scanner;
 import simori.Exceptions.SimoriNonFatalException;
 /**
- * 
  * @author Josh
  * @version 1.2.0
  * @see ResourceManager
- * 
- * Class that uses a csv file to map an instrument number to its name.
+ * Class that uses a .csv file to map an instrument number to its name.
  * The class is a singleton class as only instance of it is required at any given time.
  * This class can be used to find the name of instrument (e.g. bagpipes) given its number (e.g. 110).
  */
@@ -37,10 +35,7 @@ public class InstrumentNamer {
 		} catch (FileNotFoundException e) {
 			throw new SimoriNonFatalException("Couldn't find instrument name file,"
 					+ " instrument names will be unable to be shown.");
-			
 		}
-		
-		
 		while(scanner.hasNext()){
 			String[] instrument = scanner.nextLine().split(","); // take each line in csv file (each line consists of 2 elements).
         	map.put(Integer.parseInt(instrument[0]), instrument[1]); //add each element as key:value pair in the map.

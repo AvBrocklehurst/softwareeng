@@ -106,6 +106,13 @@ public class AudioFeedbackSystem extends MIDIMessengerSystem {
 	}
 	
 	/**
+	 * @author Adam
+	 */
+	public boolean isOpen(){
+		return player.isOpen();
+	}
+	
+	/**
 	 * @author Josh - I am the music man ...
 	 * @throws InvalidMidiDataException
 	 * @throws InterruptedException
@@ -155,7 +162,7 @@ public class AudioFeedbackSystem extends MIDIMessengerSystem {
 		playInstrument(62, C6, VELOCITYHIGH, 250, true);
 		playInstrument(62, C6, VELOCITYHIGH, 150, true);
 		playInstrument(62, C6, VELOCITYHIGH, 150, true);
-		playInstrument(62, G6, VELOCITYHIGH, 1500, true);
+		playInstrument(62, G6, VELOCITYHIGH, 500, true);
 	}
 	
 	/**
@@ -175,7 +182,7 @@ public class AudioFeedbackSystem extends MIDIMessengerSystem {
 		playInstrument(20, B4, VELOCITYHIGH, 600, true);
 		
 		playInstrument(56, F5, VELOCITYHIGH, 0, false);
-		playInstrument(20, F5, VELOCITYHIGH, 2000, true);
+		playInstrument(20, F5, VELOCITYHIGH, 600, true);
 	}
 	
 	/**
