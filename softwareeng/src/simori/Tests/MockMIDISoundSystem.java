@@ -13,7 +13,6 @@ import simori.MIDISoundSystem;
  */
 public class MockMIDISoundSystem extends MIDISoundSystem{
 	
-	// This constructor does not load in the external sound bank, saving time
 	public MockMIDISoundSystem(boolean soundbank) {
 		super(soundbank);
 	}

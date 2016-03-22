@@ -1,58 +1,108 @@
 package simori.Tests;
 
 import static org.junit.Assert.*;
+
+import javax.sound.midi.ShortMessage;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import simori.AudioFeedbackSystem;
 import simori.MIDISoundSystem;
 import simori.MatrixModel;
+import simori.Exceptions.SimoriNonFatalException;
 
 
 /**
  * 
  * @author Josh
  * @version 1.0.0
- * Class that tests MIDIMessengerSystem
- * Since this class is abstract i will use AudioFeedbackSystem as the concrete implementation to test the methods.
- * Since MIDIMessengerSystem is the class that holds a reference to MIDISoundSystem I will use this class to test some of its methods. of its sted.
+ * Class that tests MIDIMessengerSystem.
  */
 public class TestMIDIMessengerSystem {
-	AudioFeedbackSystem afs;
-	MIDISoundSystem soundSystem;
-
+	MockMIDIMessengerSystem mms;
+	ShortMessage message;
 	
 	@Before
 	public void setUp() throws Exception {
-		soundSystem = new MIDISoundSystem();
-		afs = new AudioFeedbackSystem(soundSystem, new MatrixModel(16, 16));
+		mms = new MockMIDIMessengerSystem(new MockMIDISoundSystem(false), new MatrixModel(16, 16));
 	}
 
 	@After
 	public void tearDown() throws Exception {
-		soundSystem = null;
-		afs = null;
+		mms = null;
 	}
 	
 	//constructor
 	@Test
 	public void testMIDIMessengerSystem() {
-		assertNotNull(afs); // constructor for MIDIMessengerSystem is used in AudioFeedback constructor.
+		assertNotNull(mms);
 	}
 
+	// Test normal PROGRAM_CHANGE Message
 	@Test
-	public void testCreateMessageByteByte() {
-		fail("Not yet implemented");
+	public void testCreatePROGRAM_CHANGEMessage() {
+		message = mms.createMessage(0, 110);
+		assertEquals(ShortMessage.PROGRAM_CHANGE, message.getCommand());
+		assertEquals(0, message.getChannel());
+		assertEquals(110, message.getData1());
+		assertEquals(0, message.getData2());
 	}
 
+	// Test bad channel PROGRAM_CHANGE Message
+	@Test(expected = SimoriNonFatalException.class)
+	public void testCreatePROGRAM_CHANGEMessageBadChannel() {
+		message = mms.createMessage(100, 110);
+	}
+	
+	// Test bad instrument PROGRAM_CHANGE Message
+	@Test(expected = SimoriNonFatalException.class)
+	public void testCreatePROGRAM_CHANGEMessageBadInstrument() {
+		message = mms.createMessage(0, 250);
+	}
+	
+	
+	// Test normal NOTE_ON Message
 	@Test
-	public void testCreateMessageByteByteByte() {
-		fail("Not yet implemented");
+	public void testCreateNOTE_ONMessage() {
+		message = mms.createMessage(0, 60, 80);
+		assertEquals(ShortMessage.NOTE_ON, message.getCommand());
+		assertEquals(0, message.getChannel());
+		assertEquals(60, message.getData1());
+		assertEquals(80, message.getData2());
 	}
 
+	// Test bad channel NOTE_ON Message
+	@Test(expected = SimoriNonFatalException.class)
+	public void testCreateNOTE_ONMessageBadChannel() {
+		message = mms.createMessage(100, 60, 80);
+	}
+	
+	// Test bad instrument NOTE_ON Message
+	@Test(expected = SimoriNonFatalException.class)
+	public void testCreateNOTE_ONMessageBadInstrument() {
+		message = mms.createMessage(0, 250,80);
+	}
+	
+	// Test bad velocity NOTE_ON Message
+	@Test(expected = SimoriNonFatalException.class)
+	public void testCreateNOTE_ONMessageBadvelocity() {
+		message = mms.createMessage(0, 60,200);
+	}
+	
+	// Test isOpen
+	@Test
+	public void testIsOpen(){
+		assertTrue(mms.isOpen());
+	}
+	
+	
+	
+	
+	//Test stop
 	@Test
 	public void testStopPlay() {
-		afs.stopPlay();
+		mms.stopPlay();
 	}
 
 }

@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import simori.SimoriSoundSystem;
+import simori.Exceptions.SimoriNonFatalException;
 /**
  * 
  * @author Josh
@@ -101,9 +102,6 @@ public class TestSimoriSoundSystem {
 		player.play(array); 
 	}
 	
-
-	
-
 	 //play a different instrument.
 	@Test
 	public void testPlayDifferentInstrument(){
@@ -112,7 +110,6 @@ public class TestSimoriSoundSystem {
 		player.play(array); 
 	}
 	
-
 	//play a percussion instrument.
 	@Test
 	public void testPlayPercussionInstrument(){
@@ -121,8 +118,6 @@ public class TestSimoriSoundSystem {
 		player.play(array); 
 	}
 	
-	
-
 	//play a different velocity.
 	@Test
 	public void testPlayDifferentVelocity(){
@@ -132,7 +127,7 @@ public class TestSimoriSoundSystem {
 	}
 	
 	//Test all 16 layers
-	@Test(timeout = 5000) // dont want it to take too long to play all the notes simultaneously, otherwise it will go out of sync!
+	@Test(timeout = 1000) // dont want it to take too long to play all the notes simultaneously, otherwise it will go out of sync!
 	public void testPlayMaximumLayersAndNotes() throws InvalidMidiDataException {
 		player.play(maximumLayersAndNotes); 
 	}
@@ -152,8 +147,6 @@ public class TestSimoriSoundSystem {
 		player.stopPlay();
 	}
 	
-	
-
 	//Test the stop play method with multiple inputs
 	@Test
 	public void testStopPlayMultiple() throws InvalidMidiDataException {
@@ -162,8 +155,6 @@ public class TestSimoriSoundSystem {
 		player.play(array); 
 		player.stopPlay();
 	}
-	
-	
 
 	//Test the stop play method with multiple layers
 	@Test
@@ -175,8 +166,6 @@ public class TestSimoriSoundSystem {
 		player.play(array); 
 		player.stopPlay();
 	}
-	
-	
 
 	//The ultimate test! 16 layers, 16 notes, each of a different instrument, each with a different velocity.
 	// Does it stop all the notes?
@@ -186,8 +175,37 @@ public class TestSimoriSoundSystem {
 		player.stopPlay();
 	}
 	
+	//throw exception if channel is bad.
+	@Test(expected = SimoriNonFatalException.class)
+	public void testPlayBadChannel() throws InvalidMidiDataException {
+		array = new byte[1][];
+		array[0] = badChannel;
+		player.play(array); 
+	}
 	
+	// throw exception if instrument is bad.
+	@Test(expected = SimoriNonFatalException.class)
+	public void testPlayBadInstrument() throws InvalidMidiDataException {
+		array = new byte[1][];
+		array[0] = badInstrument;
+		player.play(array); 
+	}
+
+	 // throw exception if velocity is bad
+	@Test(expected = SimoriNonFatalException.class)
+	public void testPlayBadVelocity() throws InvalidMidiDataException {
+		array = new byte[1][];
+		array[0] = badVelcoity;
+		player.play(array); 
+	}
 	
+	// throw exception if pitch is bad.
+	@Test(expected = SimoriNonFatalException.class)
+	public void testPlayBadPitch() throws InvalidMidiDataException {
+		array = new byte[1][];
+		array[0] = badPitch;
+		player.play(array); 
+	}
 	
 	
 }
