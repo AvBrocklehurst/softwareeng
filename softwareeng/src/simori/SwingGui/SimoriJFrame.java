@@ -17,6 +17,7 @@ import javax.swing.JFrame;
 import javax.swing.Timer;
 
 import simori.Animation;
+import simori.Animation.Frame;
 import simori.SimoriGui;
 import simori.Exceptions.SimoriNonFatalException;
 
@@ -109,16 +110,18 @@ public class SimoriJFrame extends JFrame implements SimoriGui, MouseMotionListen
 	
 	/** {@inheritDoc} */
 	public void play(final Animation toPlay) {
-		final Timer timer = new Timer(300, null);
+		final Timer timer = new Timer(300, null); //TODO something less...
 		timer.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-				boolean[][] which = toPlay.next();
-					if (which == null) {
+				Frame frame = toPlay.next();
+					if (frame == null) {
 						timer.stop();
 					} else {
-						simoriPanel.setGreyedOut(which);
+						if (frame.ledsGreyed != null) simoriPanel.setGreyedOut(frame.ledsGreyed);
+						if (frame.ledsIlluminated != null) simoriPanel.setGrid(frame.ledsIlluminated);
+						//TODO same for function buttons, and overhaul ModeController javadoc
 					} 
 				} catch (SimoriNonFatalException ex){
 					ex.printStackTrace();

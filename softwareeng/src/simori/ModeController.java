@@ -41,6 +41,7 @@ public class ModeController {
 	protected Mode mode;
 	private byte displayLayer;
 	protected boolean on = true;
+	private boolean animating;
 	
 	/**
 	 * Creates a ModeController to accept input from the
@@ -171,7 +172,7 @@ public class ModeController {
 	 * @throws SimoriNonFatalException 
 	 */
 	public void setOn(boolean on, boolean animated) {
-		if (this.on == on) return;
+		if (animating || this.on == on) return;
 		if (on) {
 			bootUp(animated);
 		} else {
@@ -189,10 +190,13 @@ public class ModeController {
 		OnFinishListener switchOn = new OnFinishListener() {
 			@Override
 			public void onAnimationFinished() {
+				animating = false;
 				switchOn();
 			}
 		};
-		gui.play(new Animation(gui.getGridSize(), switchOn, true));
+		gui.play(new GreyCentreWipe(true, true, true, true,
+										gui.getGridSize(), switchOn));
+		animating = true;
 	}
 	
 	private void shutDown(boolean animated) {
@@ -207,10 +211,13 @@ public class ModeController {
 		OnFinishListener switchOff = new OnFinishListener() {
 			@Override
 			public void onAnimationFinished() {
+				animating = false;
 				switchOff();
 			}
 		};
-		gui.play(new Animation(gui.getGridSize(), switchOff, false));
+		gui.play(new GreyCentreWipe(false, false, false, false,
+										gui.getGridSize(), switchOff));
+		animating = true;
 	}
 	
 	private void switchOn() {
