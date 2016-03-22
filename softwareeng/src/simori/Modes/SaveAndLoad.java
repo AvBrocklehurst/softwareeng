@@ -81,8 +81,7 @@ public class SaveAndLoad {
 	        model.convertModel(tempModel);
 	        return true;
 		} catch (Exception ex){
-			ex.printStackTrace();
-			return false;
+			throw new SimoriNonFatalException("Unable to open file for loading");
 		}
 	}
 		
@@ -105,9 +104,9 @@ public class SaveAndLoad {
 	        model.convertModel(tempModel);
 	        return true;
 		} catch (IOException e){
-			 throw new SimoriNonFatalException("Unable to save file.");
+			 throw new SimoriNonFatalException("Unable to load file.");
 		} catch (ClassNotFoundException e) {
-			throw new SimoriNonFatalException("Unable to save file.");
+			throw new SimoriNonFatalException("Unable to load file.");
 		}
 	}
 	
