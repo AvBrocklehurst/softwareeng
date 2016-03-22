@@ -2,6 +2,7 @@ package simori;
 
 import java.util.EventObject;
 
+import simori.Animation.OnFinishListener;
 import simori.Simori.PowerTogglable;
 import simori.Modes.Mode;
 
@@ -64,8 +65,15 @@ public interface SimoriGui extends PowerTogglable {
 	/** @return The mapping from grid button coordinates to character */
 	public KeyboardMapping getKeyboardMapping();
 	
-	/** @param Animation which will be played on the GUI's buttons */
-	public void play(Animation toPlay);
+	/**
+	 * Displays each {@link Animation.Frame} of the given animation.
+	 * Interpolates the time for each frame so that the complete
+	 * animation takes the specified amount of time.
+	 * @param toPlay Source of frames
+	 * @param duration Total milliseconds duration of animation
+	 * @param l to notify on completion
+	 */
+	public void play(Animation toPlay, long duration, OnFinishListener l);
 	
 	/**
 	 * Displays the given information as an error message.

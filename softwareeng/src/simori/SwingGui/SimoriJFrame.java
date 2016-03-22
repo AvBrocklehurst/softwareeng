@@ -18,6 +18,8 @@ import javax.swing.Timer;
 
 import simori.Animation;
 import simori.Animation.Frame;
+import simori.Animation.OnFinishListener;
+import simori.FunctionButton;
 import simori.SimoriGui;
 import simori.Exceptions.SimoriNonFatalException;
 
@@ -53,7 +55,7 @@ public class SimoriJFrame extends JFrame implements SimoriGui, MouseMotionListen
 	protected KeyboardMapping mapping;
 	
 	//Components
-	protected SimoriPanel simoriPanel;
+	protected SimoriPanel panel;
 	protected Lcd lcd;
 	
 	/**
@@ -87,7 +89,7 @@ public class SimoriJFrame extends JFrame implements SimoriGui, MouseMotionListen
 	/** {@inheritDoc} */
 	@Override
 	public void setGrid(boolean[][] grid) {
-		simoriPanel.setGrid(grid);
+		panel.setGrid(grid);
 	}
 	
 	/** {@inheritDoc} */
@@ -109,26 +111,35 @@ public class SimoriJFrame extends JFrame implements SimoriGui, MouseMotionListen
 	}
 	
 	/** {@inheritDoc} */
-	public void play(final Animation toPlay) {
-		final Timer timer = new Timer(300, null); //TODO something less...
+	public void play(final Animation toPlay, long duration,
+									final OnFinishListener listener) {
+		float pause = (float) duration / (float) toPlay.getFrameCount();
+		final Timer timer = new Timer((int) pause + 1, null);
 		timer.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				try {
-				Frame frame = toPlay.next();
-					if (frame == null) {
-						timer.stop();
-					} else {
-						if (frame.ledsGreyed != null) simoriPanel.setGreyedOut(frame.ledsGreyed);
-						if (frame.ledsIlluminated != null) simoriPanel.setGrid(frame.ledsIlluminated);
-						//TODO same for function buttons, and overhaul ModeController javadoc
-					} 
-				} catch (SimoriNonFatalException ex){
-					ex.printStackTrace();
+				Frame next = toPlay.getNextFrame();
+				if (next == null) {
+					timer.stop();
+					if (listener != null) listener.onAnimationFinished();
+				} else {
+					play(next);
 				}
 			}
 		});
 		timer.start();
+	}
+	
+	private void play(Frame frame) {
+		System.out.println(frame.btnsGreyed);
+		if (frame.ledsIlluminated != null) setGrid(frame.ledsIlluminated);
+		if (frame.ledsGreyed != null) panel.setGreyedOut(frame.ledsGreyed);
+		if (frame.btnsGreyed != null) {
+			for (FunctionButton fb : frame.btnsGreyed.keySet()) {
+				Boolean greyed = frame.btnsGreyed.get(fb);
+				if (greyed != null) panel.setGreyedOut(fb, greyed);
+			}
+		}
 	}
 	
 	/** {@inheritDoc} */
@@ -140,25 +151,25 @@ public class SimoriJFrame extends JFrame implements SimoriGui, MouseMotionListen
 	/** {@inheritDoc} */
 	@Override
 	public void ready() {
-		simoriPanel.ready();
+		panel.ready();
 	}
 	
 	/** {@inheritDoc} */
 	@Override
 	public void switchOn() {
-		simoriPanel.switchOn();
+		panel.switchOn();
 	}
 	
 	/** {@inheritDoc} */
 	@Override
 	public void stop() {
-		simoriPanel.stop();
+		panel.stop();
 	}
 	
 	/** {@inheritDoc} */
 	@Override
 	public void switchOff() {
-		simoriPanel.switchOff();
+		panel.switchOff();
 	}
 	
 	/** {@inheritDoc} */
@@ -186,7 +197,7 @@ public class SimoriJFrame extends JFrame implements SimoriGui, MouseMotionListen
 	/** {@inheritDoc} */
 	@Override
 	public void setKeyboardShown(boolean shown) {
-		simoriPanel.setKeyboardShown(shown);
+		panel.setKeyboardShown(shown);
 	}
 	
 	/** {@inheritDoc} */
@@ -231,9 +242,9 @@ public class SimoriJFrame extends JFrame implements SimoriGui, MouseMotionListen
 	 * and keeps reference to its {@link Lcd}.
 	 */
 	protected void addSimoriPanel() {
-		simoriPanel = new SimoriPanel(mapping, new OnPressListenerMaker(this));
-		lcd = simoriPanel.getLcd();
-		add(simoriPanel);
+		panel = new SimoriPanel(mapping, new OnPressListenerMaker(this));
+		lcd = panel.getLcd();
+		add(panel);
 	}
 	
 	/**
@@ -248,7 +259,7 @@ public class SimoriJFrame extends JFrame implements SimoriGui, MouseMotionListen
 		s.width = s.height = Math.min(s.width, s.height) + 2;
 		simoriSize = GuiProperties.ratioOf(SCREEN_PROPORTION, SCREEN_PROPORTION, s);
 		getContentPane().setPreferredSize(simoriSize);
-		simoriPanel.setSizes(simoriSize);
+		panel.setSizes(simoriSize);
 		pack(); //Update window size to fit changes
 		setResizable(false); //Disable manual resizing
 		setLocationRelativeTo(null); //Move to middle of screen
@@ -257,7 +268,7 @@ public class SimoriJFrame extends JFrame implements SimoriGui, MouseMotionListen
 	/** {@inheritDoc} */
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		if (simoriPanel.canDragFrom(e.getPoint())) {
+		if (panel.canDragFrom(e.getPoint())) {
 			//Update window location on screen based on mouse drag displacement
 			Point l = getLocation();
 			setLocation(l.x + e.getX() - startX, l.y + e.getY() - startY);
@@ -268,7 +279,7 @@ public class SimoriJFrame extends JFrame implements SimoriGui, MouseMotionListen
 	@Override
 	public void mouseMoved(MouseEvent e) {
 		//Updates the mouse cursor to indicate whether dragging is available
-		boolean canDrag = simoriPanel.canDragFrom(e.getPoint());
+		boolean canDrag = panel.canDragFrom(e.getPoint());
 		if (canDrag && !couldDragBefore) {
 			oldCursor = getCursor();
 			setCursor(GuiProperties.MOVE_CURSOR);

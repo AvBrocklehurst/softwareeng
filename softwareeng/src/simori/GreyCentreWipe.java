@@ -1,29 +1,34 @@
 package simori;
 
-import static simori.FunctionButton.*;
+import static simori.FunctionButton.L1;
+import static simori.FunctionButton.L2;
+import static simori.FunctionButton.L3;
+import static simori.FunctionButton.L4;
+import static simori.FunctionButton.OK;
+import static simori.FunctionButton.R1;
+import static simori.FunctionButton.R2;
+import static simori.FunctionButton.R3;
+import static simori.FunctionButton.R4;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
 public class GreyCentreWipe implements Animation {
 	
-	private boolean outwards;
+	private boolean outwards, upwards;
 	protected int size, phase;
 	private int frameNum;
 	protected Frame frame;
-	private OnFinishListener listener;
-	private ArrayList<FunctionButton> btnsGreyed;
 	private FunctionButton[][] btns =
 		{{L1, R1}, {L2, R2}, {L3, R3}, {L4, R4}, {OK}};
 	
 	public GreyCentreWipe(boolean ledInitGrey, boolean outwards,
 							boolean btnInitGrey, boolean upwards,
-								int size, OnFinishListener listener) {
+								int size) {
 		this.outwards = outwards;
-		this.listener = listener;
 		this.size = size;
 		frame = new Frame();
 		frame.ledsGreyed = new boolean[size][size];
-		btnsGreyed = new ArrayList<FunctionButton>();
+		frame.btnsGreyed = new HashMap<FunctionButton, Boolean>();
 		phase = outwards ? 0 : size / 2 - 1;
 		frameNum = 0;
 		initialise(ledInitGrey, btnInitGrey);
@@ -34,21 +39,30 @@ public class GreyCentreWipe implements Animation {
 			for (int i = 0; i < row.length; i++)
 				row[i] = ledInitGrey;
 		}
-		if (!btnInitGrey) return;
 		for (FunctionButton[] row : btns) {
-			for (FunctionButton fb : row) btnsGreyed.add(fb);
+			for (FunctionButton fb : row) {
+				frame.btnsGreyed.put(fb, btnInitGrey);
+			}
 		}
 	}
 	
-	public Frame next() {
-		if (frameNum < size / 2 ) {
+	public int getFrameCount() {
+		return size / 2 + btns.length;
+	}
+	
+	public Frame getNextFrame() {
+		int excess = frameNum - size / 2;
+		if (excess < 0) {
 			int phase = outwards ? frameNum : size / 2 - frameNum - 1;
 			invertSquare(frame.ledsGreyed, phase);
-		} else if (frameNum < (size / 2) + btns.length) {
-			//TODO take a function button off
+		} else if (excess < btns.length) {
+			int i = upwards ? excess : btns.length - 1 - excess;
+			for (FunctionButton fb : btns[i]) {
+				boolean greyed = frame.btnsGreyed.get(fb);
+				frame.btnsGreyed.put(fb, !greyed);
+			}
 		} else {
-			if (listener != null) listener.onAnimationFinished();
-			return null;
+			frame = null;
 		}
 		frameNum++;
 		return frame;

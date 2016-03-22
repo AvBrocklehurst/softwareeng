@@ -194,8 +194,9 @@ public class ModeController {
 				switchOn();
 			}
 		};
-		gui.play(new GreyCentreWipe(true, true, true, true,
-										gui.getGridSize(), switchOn));
+		Animation strartup =
+				new GreyCentreWipe(true, true, true, true, gui.getGridSize());
+		gui.play(strartup, 2700, switchOn);
 		animating = true;
 	}
 	
@@ -215,8 +216,9 @@ public class ModeController {
 				switchOff();
 			}
 		};
-		gui.play(new GreyCentreWipe(false, false, false, false,
-										gui.getGridSize(), switchOff));
+		Animation shutDown =
+				new GreyCentreWipe(false, false, false, false, gui.getGridSize());
+		gui.play(shutDown, 3650, switchOff);
 		animating = true;
 	}
 	

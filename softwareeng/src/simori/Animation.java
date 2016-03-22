@@ -1,8 +1,12 @@
 package simori;
 
-public interface Animation { //TODO merge into SimoriGui
+import java.util.Map;
+
+public interface Animation {
 	
-	public Frame next();
+	public int getFrameCount();
+	
+	public Frame getNextFrame();
 	
 	public interface OnFinishListener {
 		
@@ -12,6 +16,6 @@ public interface Animation { //TODO merge into SimoriGui
 	public class Frame {
 		public boolean[][] ledsGreyed;
 		public boolean[][] ledsIlluminated;
-		public FunctionButton[] btnsGreyed;
+		public Map<FunctionButton, Boolean> btnsGreyed;
 	}
 }
