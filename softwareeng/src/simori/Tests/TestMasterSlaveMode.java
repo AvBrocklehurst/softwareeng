@@ -42,6 +42,7 @@ public class TestMasterSlaveMode {
 		mode.setComponentsToPowerToggle(model, gui);
 		mode.setOn(false, false);
 		mode.setOn(true, false);
+		mode.setMode(msmode);
 	}
 	
 	@After
@@ -49,9 +50,10 @@ public class TestMasterSlaveMode {
 		mode.setOn(false, false);
 		gui = null;
 		model = null;
-		mode = null;
-		audio = null;
 		midi = null;
+		audio = null;
+		mode = null;
+		msmode = null;
 	}
 	
 	@Test
@@ -85,18 +87,22 @@ public class TestMasterSlaveMode {
 		assertEquals(gui.getText(), "Slave located!");
 	}
 	
-	/**
-	 * Empty test clause that ensures no exception is thrown
-	 * @author Jurek
-	 */
-	@Test
-	public void testOnGridButtonPress() {
-		msmode.onGridButtonPress(new GridButtonEvent(gui, 0, 0));
-	}
-	
 	@Test
 	public void testOnFunctionButtonPressOK() {
 		msmode.onFunctionButtonPress(new FunctionButtonEvent(gui, FunctionButton.OK));
-		assertThat(mode.getMode(), instanceOf(MasterSlaveMode.class));
+		assertThat(mode.getMode().getClass(), not(instanceOf(MasterSlaveMode.class)));
+	}
+	
+	@Test
+	public void testOnFunctionButtonPressON() {
+		msmode.onFunctionButtonPress(new FunctionButtonEvent(gui, FunctionButton.ON));
+		assertThat(mode.getMode().getClass(), not(instanceOf(MasterSlaveMode.class)));
+	}
+	
+	@Test
+	public void testOnFunctionButtonPressAnyother() {
+		msmode.onFunctionButtonPress(new FunctionButtonEvent(gui, FunctionButton.L1));
+		assertEquals(mode.getMode().getClass(), MasterSlaveMode.class);
+		
 	}
 }
