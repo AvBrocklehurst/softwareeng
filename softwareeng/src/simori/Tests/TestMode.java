@@ -108,7 +108,7 @@ public class TestMode{
 		testfbevent2 = new FunctionButtonEvent(testgui, testfb2);
 		testfbevent3 = new FunctionButtonEvent(testgui, testfb3);
 		testmodel = new MatrixModel(16, 16);
-		testmidi = new MIDISoundSystem();
+		testmidi = new MIDISoundSystem(false);
 		testaudio = new AudioFeedbackSystem(testmidi, testmodel);
 		mockcontroller = new MockModeController(testgui, testmodel, testaudio, 20160);
 		testslave = new NetworkSlave(0, mockcontroller);
@@ -126,14 +126,13 @@ public class TestMode{
 		testfb = null;
 		testfb2 = null;
 		testfb3 = null;
-		testslave = null;
 		testmodel = null;
 		mockcontroller = null;
+		testslave.switchOff();
 		testslave = null;
+		testmaster.stopRunning();
 		testmaster = null;
 		testermode = null;
-		testmaster.stopRunning();
-		testslave.switchOff();
 		testaudio = null;
 		testmidi = null;
 	}
