@@ -22,7 +22,8 @@ import simori.Tests.GuiTests.MockSimoriJFrame.MockSimoriEdgeBar;
 /**
  * 
  * @author Josh
- * @version 1.0.3
+ * @author Jurek
+ * @version 1.0.4
  * 
  * Class that tests the SimoriEdgeBar
  */
@@ -103,4 +104,16 @@ public class TestSimoriEdgeBar {
 			assertTrue(button.isEnabled());
 		}
 	} 
+	
+	@Test
+	public void testSetGreyedOutValid() {
+		assertTrue(edgeBarLeft.setGreyedOut(FunctionButton.L1, true));
+		
+	} 
+	
+	@Test
+	public void testSetGreyedOutInvalid() {
+		assertTrue(edgeBarLeft.setGreyedOut(FunctionButton.ON, true));
+		
+	}
 }

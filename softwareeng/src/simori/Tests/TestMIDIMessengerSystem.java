@@ -16,7 +16,7 @@ import simori.Exceptions.SimoriNonFatalException;
 /**
  * 
  * @author Josh
- * @version 1.0.0
+ * @version 1.0.2
  * Class that tests MIDIMessengerSystem.
  */
 public class TestMIDIMessengerSystem {

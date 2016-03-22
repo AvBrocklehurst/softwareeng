@@ -233,3 +233,4 @@ public class TestSimoriJFrame {
 		assertTrue(jframe.getCouldDragBefore());
 	}	
 }
+
