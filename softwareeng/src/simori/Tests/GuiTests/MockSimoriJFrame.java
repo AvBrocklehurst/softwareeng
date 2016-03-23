@@ -221,11 +221,6 @@ public class MockSimoriJFrame extends SimoriJFrame {
 		public Color getFillColour(){
 			return super.getFillColour();
 		}
-		
-		@Override
-		public Color getBorderColour(){
-			return super.getBorderColour(); 
-		}
 	}
 	
 	/**
@@ -287,11 +282,6 @@ public class MockSimoriJFrame extends SimoriJFrame {
 		@Override
 		public Color getFillColour(){
 			return super.getFillColour();
-		}
-		
-		@Override
-		public Color getBorderColour(){
-			return super.getBorderColour(); 
 		}
 
 	}
