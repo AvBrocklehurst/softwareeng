@@ -54,6 +54,7 @@ public class TestTextEntry {
 	
 	@After
 	public void tearDown() throws SimoriNonFatalException {
+		midi.switchOff();
 		mode.setOn(false, false);
 		gui = null;
 		model = null;

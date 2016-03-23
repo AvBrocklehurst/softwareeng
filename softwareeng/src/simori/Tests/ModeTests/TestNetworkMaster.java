@@ -21,7 +21,7 @@ import simori.SwingGui.SimoriJFrame;
 public class TestNetworkMaster {
 
 	@Test
-	public void testRunning() throws SimoriNonFatalException{
+	public void testRunning() {
 		MatrixModel model = new MatrixModel(16, 16);
 		QwertyKeyboard keyboard = new QwertyKeyboard((byte)16, (byte)16);
 		SimoriJFrame gui = new SimoriJFrame(keyboard);
@@ -32,5 +32,6 @@ public class TestNetworkMaster {
 		modes.setOn(false, false);
 		modes.setOn(true, false);
 		modes.startNetworkMaster();
+		midi.switchOff();
 	}
 }
