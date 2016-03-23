@@ -36,7 +36,7 @@ abstract class MIDIMessengerSystem {
 	 * 
 	 * Method that creates a PROGRAM_CHANGE message.
 	 */
-	ShortMessage createMessage(byte channel, byte instrument) {
+	protected ShortMessage createMessage(byte channel, byte instrument) {
 		ShortMessage message = new ShortMessage();
 		try {
 			message.setMessage(ShortMessage.PROGRAM_CHANGE, channel, instrument, 0);
@@ -56,7 +56,7 @@ abstract class MIDIMessengerSystem {
 	 * 
 	 * Method that creates a NOTE_ON message.
 	 */
-	ShortMessage createMessage(byte channel, byte pitch, byte velocity) {
+	protected ShortMessage createMessage(byte channel, byte pitch, byte velocity) {
 		ShortMessage message = new ShortMessage();
 		try {
 			message.setMessage(ShortMessage.NOTE_ON, channel, pitch, velocity);
