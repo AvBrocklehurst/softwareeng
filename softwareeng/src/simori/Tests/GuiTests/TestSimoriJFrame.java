@@ -20,6 +20,7 @@ import simori.MIDISoundSystem;
 import simori.MatrixModel;
 import simori.ModeController;
 import simori.SimoriGui.KeyboardMapping;
+import simori.SwingGui.GuiProperties;
 import simori.Exceptions.SimoriNonFatalException;
 import simori.Modes.Mode;
 import simori.Modes.PerformanceMode;
@@ -103,17 +104,17 @@ public class TestSimoriJFrame {
 		jframe.switchOn();
 		System.out.println("why u no work");
 		//bottom buttons
-		assertThat(new Color(0xDDDDDD), not(jframe.getBottomBar().getButton(0).getFillColour()));
+		assertThat(new Color(0x8C8C8C), not(jframe.getBottomBar().getButton(0).getFillColour()));
 		//left buttons
-		assertThat(new Color(0xDDDDDD), not(jframe.getLeftBar().getButton(0).getFillColour()));
-		assertThat(new Color(0xDDDDDD), not(jframe.getLeftBar().getButton(1).getFillColour()));
-		assertThat(new Color(0xDDDDDD), not(jframe.getLeftBar().getButton(2).getFillColour()));
-		assertThat(new Color(0xDDDDDD), not(jframe.getLeftBar().getButton(3).getFillColour()));
+		assertThat(new Color(0x8C8C8C), not(jframe.getLeftBar().getButton(0).getFillColour()));
+		assertThat(new Color(0x8C8C8C), not(jframe.getLeftBar().getButton(1).getFillColour()));
+		assertThat(new Color(0x8C8C8C), not(jframe.getLeftBar().getButton(2).getFillColour()));
+		assertThat(new Color(0x8C8C8C), not(jframe.getLeftBar().getButton(3).getFillColour()));
 		//right buttons
-		assertThat(new Color(0xDDDDDD), not(jframe.getRightBar().getButton(0).getFillColour()));
-		assertThat(new Color(0xDDDDDD), not(jframe.getRightBar().getButton(1).getFillColour()));
-		assertThat(new Color(0xDDDDDD), not(jframe.getRightBar().getButton(2).getFillColour()));
-		assertThat(new Color(0xDDDDDD), not(jframe.getRightBar().getButton(3).getFillColour()));
+		assertThat(new Color(0x8C8C8C), not(jframe.getRightBar().getButton(0).getFillColour()));
+		assertThat(new Color(0x8C8C8C), not(jframe.getRightBar().getButton(1).getFillColour()));
+		assertThat(new Color(0x8C8C8C), not(jframe.getRightBar().getButton(2).getFillColour()));
+		assertThat(new Color(0x8C8C8C), not(jframe.getRightBar().getButton(3).getFillColour()));
 	}
 	
 	/**
@@ -124,17 +125,17 @@ public class TestSimoriJFrame {
 		jframe.switchOn();
 		jframe.switchOff();
 		//bottom buttons
-		assertEquals(new Color(0xDDDDDD), jframe.getBottomBar().getButton(0).getFillColour());
+		assertEquals(new Color(0x8C8C8C), jframe.getBottomBar().getButton(0).getFillColour());
 		//left buttons
-		assertEquals(new Color(0xDDDDDD), jframe.getLeftBar().getButton(0).getFillColour());
-		assertEquals(new Color(0xDDDDDD), jframe.getLeftBar().getButton(1).getFillColour());
-		assertEquals(new Color(0xDDDDDD), jframe.getLeftBar().getButton(2).getFillColour());
-		assertEquals(new Color(0xDDDDDD), jframe.getLeftBar().getButton(3).getFillColour());
+		assertEquals(new Color(0x8C8C8C), jframe.getLeftBar().getButton(0).getFillColour());
+		assertEquals(new Color(0x8C8C8C), jframe.getLeftBar().getButton(1).getFillColour());
+		assertEquals(new Color(0x8C8C8C), jframe.getLeftBar().getButton(2).getFillColour());
+		assertEquals(new Color(0x8C8C8C), jframe.getLeftBar().getButton(3).getFillColour());
 		//right buttons
-		assertEquals(new Color(0xDDDDDD), jframe.getRightBar().getButton(0).getFillColour());
-		assertEquals(new Color(0xDDDDDD), jframe.getRightBar().getButton(1).getFillColour());
-		assertEquals(new Color(0xDDDDDD), jframe.getRightBar().getButton(2).getFillColour());
-		assertEquals(new Color(0xDDDDDD), jframe.getRightBar().getButton(3).getFillColour());
+		assertEquals(new Color(0x8C8C8C), jframe.getRightBar().getButton(0).getFillColour());
+		assertEquals(new Color(0x8C8C8C), jframe.getRightBar().getButton(1).getFillColour());
+		assertEquals(new Color(0x8C8C8C), jframe.getRightBar().getButton(2).getFillColour());
+		assertEquals(new Color(0x8C8C8C), jframe.getRightBar().getButton(3).getFillColour());
 	}
 	
 	/**
