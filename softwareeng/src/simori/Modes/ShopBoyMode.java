@@ -36,6 +36,7 @@ public class ShopBoyMode extends PerformanceMode implements Observer {
 	 */
 	@Override
 	public void setInitialGrid() {
+		getController().switchOffSlave();
 		getModel().addObserver(this);
 		getGui().clearGrid();
 		playShopBoy(shopboy);      //begin the first song
@@ -51,6 +52,7 @@ public class ShopBoyMode extends PerformanceMode implements Observer {
 			getController().setOn(!getController().isOn(), true);
 			break;
 		case OK:
+			getController().switchOnSlave();
 			getModel().deleteObserver(this);
 			File blank = ResourceManager.getResource("BLANK.song");
 			SaveAndLoad.loadShop(getModel(), blank.getPath()); // Before switching modes

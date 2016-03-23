@@ -317,6 +317,20 @@ public class ModeController {
 	}
 	
 	/**
+	 * @author adam
+	 */
+	public void switchOffSlave(){
+		slave.switchOff();
+	}
+	
+	/**
+	 * @author adam
+	 */
+	public void switchOnSlave(){
+		slave.switchOn();
+	}
+	
+	/**
 	 * Creates a PerformanceMode which enters ShopBoyMode when OK is pressed.
 	 * This should only be used when the Simori-ON has just been switched on.
 	 * @return Modified {@link PerformanceMode}
