@@ -1,9 +1,8 @@
 package simori.Tests.ModeTests;
 
-import static org.hamcrest.CoreMatchers.not;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
-import java.awt.Color;
 import java.util.Observable;
 
 import org.junit.After;
@@ -14,10 +13,8 @@ import simori.AudioFeedbackSystem;
 import simori.FunctionButton;
 import simori.MIDISoundSystem;
 import simori.MatrixModel;
-import simori.ModeController;
 import simori.SimoriGui.FunctionButtonEvent;
 import simori.Exceptions.SimoriNonFatalException;
-import simori.Modes.MasterSlaveMode;
 import simori.Modes.PerformanceMode;
 import simori.Modes.QwertyKeyboard;
 import simori.Modes.ShopBoyMode;
@@ -88,5 +85,4 @@ public class TestShopBoyMode {
 		sbmode.update(new Observable(), new Object());
 		//TODO i require the files to be able to play this
 	}
-	
 }

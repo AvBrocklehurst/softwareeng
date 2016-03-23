@@ -46,7 +46,7 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 			this.midi = new SimoriSoundSystem(player);
 			lock = new Object();
 			bpmLock = new Object();
-			clock = new Clock(findMaxProcessingTime(), running, model, bpmLock, lock);
+			clock = new Clock(findMaxProcessingTime(), running, bpmLock, lock);
 			this.audible = true;
 		}
 
@@ -119,7 +119,7 @@ public class NoteProcessor implements Runnable, PowerTogglable, Observer {
 			//populate a single column on each layer of the mock model
 			for(byte z=0;z<16;z++){
 				for(byte y=0;z<16;z++){
-					try{model.updateButton(z, (byte)0, y);}catch(SimoriNonFatalException e){}
+					model.updateButton(z, (byte)0, y);
 				}
 			}
 			

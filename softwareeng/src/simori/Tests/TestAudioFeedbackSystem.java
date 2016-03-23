@@ -22,12 +22,12 @@ public class TestAudioFeedbackSystem {
 	AudioFeedbackSystem afs;
 	
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		afs = new AudioFeedbackSystem(new MockMIDISoundSystem(false), new MatrixModel(16, 16));
 	}
 
 	@After
-	public void tearDown() throws Exception {
+	public void tearDown() {
 		afs = null;
 	}
 	

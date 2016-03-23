@@ -1,14 +1,15 @@
 package simori.Tests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import javax.sound.midi.ShortMessage;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import simori.AudioFeedbackSystem;
-import simori.MIDISoundSystem;
+
 import simori.MatrixModel;
 import simori.Exceptions.SimoriNonFatalException;
 
@@ -24,12 +25,12 @@ public class TestMIDIMessengerSystem {
 	ShortMessage message;
 	
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		mms = new MockMIDIMessengerSystem(new MockMIDISoundSystem(false), new MatrixModel(16, 16));
 	}
 
 	@After
-	public void tearDown() throws Exception {
+	public void tearDown() {
 		mms = null;
 	}
 	
@@ -95,9 +96,6 @@ public class TestMIDIMessengerSystem {
 	public void testIsOpen(){
 		assertTrue(mms.isOpen());
 	}
-	
-	
-	
 	
 	//Test stop
 	@Test

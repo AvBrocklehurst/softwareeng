@@ -3,9 +3,6 @@ package simori.Tests.ModeTests;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
-
-import java.io.IOException;
 
 import org.junit.After;
 import org.junit.Before;
@@ -19,7 +16,6 @@ import simori.ModeController;
 import simori.SimoriGui;
 import simori.SimoriGui.FunctionButtonEvent;
 import simori.SimoriGui.GridButtonEvent;
-import simori.Exceptions.SimoriNonFatalException;
 import simori.Modes.Mode;
 import simori.Modes.NetworkMaster;
 import simori.Modes.NetworkSlave;
@@ -99,7 +95,7 @@ public class TestMode{
 	}
 	
 	@Before
-	public void setUp() throws SimoriNonFatalException, IOException{
+	public void setUp() {
 		keyboard = new QwertyKeyboard((byte)16,(byte)16);
 		testgui = new SimoriJFrame(keyboard);
 		testfb = FunctionButton.OK;

@@ -1,17 +1,17 @@
 package simori.Tests.GuiTests;
 
-import static org.junit.Assert.*;
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 
-import org.junit.*;
+import org.junit.Test;
 
 import simori.SwingGui.GuiProperties;
 import simori.SwingGui.ImageComponent;
-import sun.awt.image.ToolkitImage;
 
 /**
  * 
@@ -58,7 +58,7 @@ public class TestImageComponent {
 	
 	@Test (expected=NullPointerException.class)
 	public void testImageComponentNullBackup() {
-		MockImageComponent image = new MockImageComponent(
+		new MockImageComponent(
 				"test.test",
 				null,
 				GuiProperties.SPLASH_MIN_PROPORTION,

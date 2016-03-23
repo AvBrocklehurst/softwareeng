@@ -3,9 +3,6 @@ package simori.Tests;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
-
-import java.io.IOException;
 
 import org.junit.After;
 import org.junit.Before;
@@ -15,7 +12,6 @@ import simori.AudioFeedbackSystem;
 import simori.MIDISoundSystem;
 import simori.MatrixModel;
 import simori.ModeController;
-import simori.Exceptions.SimoriNonFatalException;
 import simori.Modes.Mode;
 import simori.Modes.NetworkMaster;
 import simori.Modes.NetworkSlave;
@@ -44,7 +40,7 @@ public class TestModeController{
 	private MIDISoundSystem testmidi;
 	
 	@Before
-	public void setUp() throws SimoriNonFatalException, IOException{
+	public void setUp() {
 		keyboard = new QwertyKeyboard((byte)16, (byte)16);
 		testgui = new SimoriJFrame(keyboard);
 		testmodel = new MatrixModel(16, 16);

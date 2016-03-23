@@ -1,19 +1,22 @@
 package simori.Tests.ModeTests;
 
-import static org.junit.Assert.*;
-import org.junit.*;
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.hamcrest.CoreMatchers.not;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThat;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 import simori.AudioFeedbackSystem;
 import simori.FunctionButton;
 import simori.MIDISoundSystem;
 import simori.MatrixModel;
-import simori.ModeController;
 import simori.SimoriGui.FunctionButtonEvent;
-import simori.SimoriGui.GridButtonEvent;
-import simori.Exceptions.SimoriNonFatalException;
 import simori.Modes.MasterSlaveMode;
-import simori.Modes.Mode;
 import simori.Modes.QwertyKeyboard;
 import simori.Tests.MockModeController;
 import simori.Tests.GuiTests.MockSimoriJFrame;
@@ -33,7 +36,7 @@ public class TestMasterSlaveMode {
 	private MIDISoundSystem midi;
 	
 	@Before
-	public void setUp() throws SimoriNonFatalException {
+	public void setUp() {
 		gui = new MockSimoriJFrame(new QwertyKeyboard((byte)16, (byte)16));
 		model = new MatrixModel(16, 16);
 		midi = new MIDISoundSystem(false);
@@ -47,7 +50,7 @@ public class TestMasterSlaveMode {
 	}
 	
 	@After
-	public void tearDown() throws SimoriNonFatalException {
+	public void tearDown() {
 		mode.setOn(false, false);
 		gui = null;
 		model = null;

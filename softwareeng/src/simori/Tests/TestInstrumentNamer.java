@@ -1,13 +1,14 @@
 package simori.Tests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import simori.InstrumentNamer;
-import simori.Exceptions.SimoriNonFatalException;
 /**
  * 
  * @author Josh
@@ -19,6 +20,17 @@ import simori.Exceptions.SimoriNonFatalException;
  * JUnit tests for the InstrumentNamer Class.
  */
 public class TestInstrumentNamer {
+	InstrumentNamer instrumentNamer;
+	String instrumentName;
+	
+
+	@Before
+	public void setUp(){}
+
+	@After
+	public void tearDown() {
+		instrumentNamer = null;
+	}
 
 	/**
 	 * @version 1.0.1

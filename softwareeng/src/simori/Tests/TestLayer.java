@@ -44,12 +44,12 @@ public class TestLayer {
 	}
 	
 	@Test (expected=SimoriNonFatalException.class)
-	public void buttonInvalidCoordsTest() throws SimoriNonFatalException {
+	public void buttonInvalidCoordsTest() {
 		testlayer.updateButton((byte)-1, (byte)0);
 	}
 	
 	@Test
-	public void testCol() throws SimoriNonFatalException{
+	public void testCol(){
 		testlayer.updateButton((byte)0, (byte)0);
 		testlayer.updateButton((byte)0, (byte)2);
 		testlayer.updateButton((byte)0, (byte)4);
@@ -69,7 +69,7 @@ public class TestLayer {
 	}
 	
 	@Test
-	public void testGrid() throws SimoriNonFatalException{
+	public void testGrid() {
 		testlayer.updateButton((byte)0, (byte)0);
 		testlayer.updateButton((byte)2, (byte)2);
 		testlayer.updateButton((byte)4, (byte)4);

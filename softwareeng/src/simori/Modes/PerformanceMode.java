@@ -34,8 +34,7 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 	 */
 	public PerformanceMode(ModeController controller){
 		super(controller);
-
-		makeGridCopy((byte) controller.getDisplayLayer());
+		makeGridCopy(controller.getDisplayLayer());
 	}
 	
 	/**
@@ -140,6 +139,6 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 	public void setInitialGrid() {
 		short instr = getModel().getInstrument(getDisplayLayer());  //initial instrument
 		getGui().setText(InstrumentNamer.getInstance().getName(instr));
-		tickerLight((byte) (getModel().getCurrentColumn()));
+		tickerLight(getModel().getCurrentColumn());
 	}
 }

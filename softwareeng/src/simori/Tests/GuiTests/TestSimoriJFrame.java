@@ -1,7 +1,11 @@
 package simori.Tests.GuiTests;
 
-import static org.junit.Assert.*;
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.not;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.awt.Color;
 import java.awt.Point;
@@ -20,7 +24,6 @@ import simori.Exceptions.SimoriNonFatalException;
 import simori.Modes.Mode;
 import simori.Modes.PerformanceMode;
 import simori.Modes.QwertyKeyboard;
-import simori.SwingGui.SimoriJFrame;
 
 /**
  * Class that tests SimoriJFrame
@@ -36,7 +39,7 @@ public class TestSimoriJFrame {
 	 * @throws Exception
 	 */
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		mapping = new QwertyKeyboard((byte)16, (byte)16);
 		jframe = new MockSimoriJFrame(mapping);
 		
@@ -47,7 +50,7 @@ public class TestSimoriJFrame {
 	 * @throws Exception
 	 */
 	@After
-	public void tearDown() throws Exception {
+	public void tearDown() {
 		jframe = null;
 		mapping = null;
 	}

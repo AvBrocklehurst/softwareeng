@@ -1,7 +1,5 @@
 package simori;
 
-import java.io.IOException;
-
 import simori.Simori.PowerTogglable;
 import simori.SimoriGui.Animation;
 import simori.SimoriGui.Animation.OnFinishListener;
@@ -297,12 +295,7 @@ public class ModeController {
 		model.setBPM(DEFAULT_BPM);
 		model.setPlaying();
 		slave = new NetworkSlave(port, this);
-		try {
-			master = new NetworkMaster(port, this, slave);
-		} catch (IOException e) {
-			throw new SimoriNonFatalException("Can't start network master. "
-												+ "Master slave mode unavailable.");
-		}
+		master = new NetworkMaster(port, this, slave);
 		slave.switchOn();
 	}
 	

@@ -2,7 +2,6 @@ package simori.Modes;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -145,7 +144,7 @@ s	 */
 	/**
 	 * This implementation of the Changer interface allows a user to input
 	 * Unix and Windows compatible symbols and letters in order to produce
-	 * a filename to load a simori configuration from.
+	 * a filename to load a Simori-ON configuration from.
 	 * 
 	 * @author James
 	 * @version 1.0.0
@@ -162,15 +161,13 @@ s	 */
 				if (SaveAndLoad.load(controller.getModel(), text)) {
 					controller.happySound();
 					return true;
-				} else {
-					controller.sadSound();
-					if (controller.getGui().getText().equals(SONG_NOT_FOUND)) {
-						return true;
-					} else {
-						controller.getGui().setText(SONG_NOT_FOUND);
-						return false;
-					}
 				}
+				controller.sadSound();
+				if (controller.getGui().getText().equals(SONG_NOT_FOUND)) {
+					return true;
+				}
+				controller.getGui().setText(SONG_NOT_FOUND);
+				return false;
 			}
 		};
 	}

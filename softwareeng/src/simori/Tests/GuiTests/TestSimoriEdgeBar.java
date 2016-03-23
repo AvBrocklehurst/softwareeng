@@ -1,21 +1,21 @@
 package simori.Tests.GuiTests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import simori.FunctionButton;
-import simori.Exceptions.SimoriNonFatalException;
-import simori.Modes.QwertyKeyboard;
 import simori.SwingGui.Button;
 import simori.SwingGui.GuiProperties;
 import simori.SwingGui.Lcd;
 import simori.SwingGui.OnPressListenerMaker;
 import simori.SwingGui.SimoriEdgeBar;
-import simori.SwingGui.SimoriJFrame;
-import simori.SwingGui.SimoriPanel;
 import simori.Tests.GuiTests.MockSimoriJFrame.MockButton;
 import simori.Tests.GuiTests.MockSimoriJFrame.MockSimoriEdgeBar;
 
@@ -33,34 +33,34 @@ public class TestSimoriEdgeBar {
 	MockSimoriEdgeBar edgeBarLeft;
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		gui = new MockSimoriJFrame();
 		edgeBarBottom = gui.getBottomBar();
 		edgeBarLeft = gui.getLeftBar();
 	}
 
 	@After
-	public void tearDown() throws Exception {
+	public void tearDown() {
 		gui = null;
 		edgeBarBottom = null;
 		edgeBarLeft = null;
 	}
 
 	@Test
-	public void testConstructor() throws SimoriNonFatalException, InterruptedException {
+	public void testConstructor() {
 		OnPressListenerMaker maker = new OnPressListenerMaker(gui);
 		SimoriEdgeBar bar = new SimoriEdgeBar(true, true, maker, FunctionButton.L1, FunctionButton.L2, FunctionButton.L3, FunctionButton.L4); // since constructor hides most things away it means there is very little to test!
 		assertNotNull(bar);
 	}
 	
 	@Test
-	public void testWithLcd() throws SimoriNonFatalException, InterruptedException {
+	public void testWithLcd() {
 		Lcd lcd = edgeBarBottom.getLcd();
 		assertNotNull(lcd);
 	}
 	
 	@Test
-	public void testWithoutLcd() throws SimoriNonFatalException, InterruptedException {
+	public void testWithoutLcd() {
 		Lcd lcd = edgeBarLeft.getLcd();
 		assertNull(lcd);
 	}

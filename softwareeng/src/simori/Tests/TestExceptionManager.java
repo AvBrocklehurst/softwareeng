@@ -1,25 +1,24 @@
 package simori.Tests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.security.Permission;
-import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.*;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 import simori.AudioFeedbackSystem;
 import simori.ExceptionManager;
 import simori.MIDISoundSystem;
 import simori.MatrixModel;
 import simori.SimoriGui;
-import simori.SimoriGui.SplashScreen;
 import simori.Exceptions.SimoriFatalException;
 import simori.Exceptions.SimoriNonFatalException;
-import simori.SwingGui.SimoriJFrame;
 import simori.SwingGui.SplashJWindow;
 import simori.Tests.GuiTests.MockSimoriJFrame;
-import simori.Tests.TestNoteProcessor.ExitException;
 
 public class TestExceptionManager {
 

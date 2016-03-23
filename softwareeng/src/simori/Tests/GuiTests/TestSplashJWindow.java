@@ -1,12 +1,11 @@
 package simori.Tests.GuiTests;
 
-import org.junit.*;
+import org.junit.Test;
 
 import simori.AudioFeedbackSystem;
 import simori.ExceptionManager;
 import simori.MIDISoundSystem;
 import simori.MatrixModel;
-import simori.Exceptions.SimoriNonFatalException;
 import simori.Modes.QwertyKeyboard;
 import simori.SwingGui.SimoriJFrame;
 import simori.SwingGui.SplashJWindow;

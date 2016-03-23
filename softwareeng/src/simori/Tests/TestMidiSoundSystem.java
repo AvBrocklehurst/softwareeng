@@ -33,7 +33,7 @@ public class TestMidiSoundSystem {
 	}
 
 	@After
-	public void tearDown() throws Exception {
+	public void tearDown() {
 		midi = null;
 		message = null;
 		message2 = null;

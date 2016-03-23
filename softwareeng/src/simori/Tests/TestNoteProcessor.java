@@ -1,26 +1,27 @@
 package simori.Tests;
 
-import static org.junit.Assert.*;
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.not;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
+
+import java.security.Permission;
+
+import javax.sound.midi.MidiUnavailableException;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import javax.sound.midi.MidiUnavailableException;
-
-import simori.NoteProcessor;
-import simori.SimoriSoundSystem;
 import simori.AudioFeedbackSystem;
 import simori.MIDISoundSystem;
 import simori.MatrixModel;
 import simori.ModeController;
+import simori.NoteProcessor;
 import simori.Exceptions.SimoriNonFatalException;
 import simori.Modes.QwertyKeyboard;
 import simori.SwingGui.SimoriJFrame;
-
-import java.io.IOException;
-import java.security.Permission;
 
 /**
  * 
@@ -30,7 +31,6 @@ public class TestNoteProcessor {
 	private MatrixModel model;
 	private QwertyKeyboard keyboard;
 	private SimoriJFrame gui;
-	private SimoriSoundSystem midi;
 	private ModeController modes;
 	private NoteProcessor clock;
 	private Thread thread;
@@ -71,10 +71,6 @@ public class TestNoteProcessor {
 	/**
 	 * 
 	 * @author Jurek
-	 * @throws MidiUnavailableException
-	 * @throws InvalidCoordinatesException
-	 * @throws SimoriNonFatalException
-	 * @throws IOException 
 	 */
 	@Before
 	public void setUp() {
@@ -82,7 +78,6 @@ public class TestNoteProcessor {
 		keyboard = new QwertyKeyboard((byte)16, (byte)16);
 		gui = new SimoriJFrame(keyboard);
 		midisystem = new MIDISoundSystem(false);
-		midi = new SimoriSoundSystem(midisystem);
 		audio = new AudioFeedbackSystem(midisystem, model);
 		modes = new ModeController(gui, model, audio, 20160);
 		clock = new NoteProcessor(modes, model, midisystem);
@@ -96,7 +91,6 @@ public class TestNoteProcessor {
 	
 	/**
 	 * @author Jurek
-	 * @throws SimoriNonFatalException 
 	 */
 	@After
 	public void tearDown()  {
@@ -104,7 +98,6 @@ public class TestNoteProcessor {
 		model = null;
 		keyboard = null;
 		gui = null;
-		midi = null;
 		modes = null;
 		clock.switchOff();
 		clock = null;
@@ -114,7 +107,6 @@ public class TestNoteProcessor {
 	
 	/**
 	 * @author Jurek
-	 * @throws SimoriNonFatalException 
 	 */
 	private void setUpThread(ModeController modes, MatrixModel model, MIDISoundSystem midisystem) {
 		clock.switchOff();
@@ -125,7 +117,8 @@ public class TestNoteProcessor {
 		
 		thread = new Thread(clock);  
 		Thread.UncaughtExceptionHandler h = new Thread.UncaughtExceptionHandler() {
-		    public void uncaughtException(Thread t, Throwable e) {
+		    @Override
+			public void uncaughtException(Thread t, Throwable e) {
 		        TestNoteProcessor.this.e = e;
 		    }
 		};
@@ -161,7 +154,6 @@ public class TestNoteProcessor {
 	
 	/**
 	 * @author Jurek
-	 * @throws MidiUnavailableException
 	 */
 	@Test (expected=NullPointerException.class)
 	public void testRunNullModel() {
@@ -184,7 +176,6 @@ public class TestNoteProcessor {
 	
 	/**
 	 * @author Jurek
-	 * @throws MidiUnavailableException
 	 */
 	@Test
 	public void testRunNullMode() {
@@ -198,7 +189,6 @@ public class TestNoteProcessor {
 
 	/**
 	 * @author Jurek
-	 * @throws MidiUnavailableException
 	 */
 	@Test
 	public void testRunZeroBpm() {
@@ -255,8 +245,6 @@ public class TestNoteProcessor {
 
 	/**
 	 * @author Jurek
-	 * @throws MidiUnavailableException
-	 * @throws SimoriNonFatalException 
 	 */
 	@Test
 	public void testRunPercussion()  {
@@ -277,7 +265,6 @@ public class TestNoteProcessor {
 	
 	/**
 	 * @author Jurek
-	 * @throws SimoriNonFatalException
 	 */
 	@Test
 	public void testRunBoundaryInstrument() {
@@ -304,7 +291,6 @@ public class TestNoteProcessor {
 
 	/**
 	 * @author Jurek
-	 * @throws SimoriNonFatalException 
 	 */
 	@Test
 	public void testRunBoundaryVelocity() {
@@ -331,7 +317,6 @@ public class TestNoteProcessor {
 
 	/**
 	 * @author Jurek
-	 * @throws SimoriNonFatalException
 	 */
 	@Test
 	public void testRunBoundaryPitch(){
@@ -350,7 +335,6 @@ public class TestNoteProcessor {
 
 	/**
 	 * @author Jurek
-	 * @throws SimoriNonFatalException 
 	 */
 	@Test
 	public void testRunExtreme(){
