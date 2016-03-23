@@ -54,11 +54,6 @@ public class TestLed {
 		assertEquals("The fill colour should be an illuminated led", LED_COLOUR_ON, testled.getFillColour());
 	}
 	
-	@Test
-	public void test_getBorderColour(){
-		assertEquals("The border colour was not returned correctly", GuiProperties.LED_BORDER, testled.getBorderColour());
-	}
-	
 	@Test 
 	public void test_mouseEntered(){
 		testled.setMouseDown();

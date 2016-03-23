@@ -113,7 +113,7 @@ public class TestExceptionManager {
 		
 	}
 	
-	//@Test
+	@Test
 	public void testUnnchaughtExceptionFatal() {
 		try{
 			exman.uncaughtException(thread, new SimoriFatalException());

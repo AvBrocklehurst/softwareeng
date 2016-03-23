@@ -64,10 +64,6 @@ public class TestPressableCircle {
 		assertEquals("Fill colour was not succesfully retrieved", CIRCLE_NOT_PRESSED, mockcircle.getFillColour());
 	}
 	
-	@Test 
-	public void test_getBorderColour(){
-		assertEquals("The border colour was not succesfully retrieved!", CIRCLE_BORDER, mockcircle.getBorderColour());
-	}
 	
 	@Test 
 	public void test_mouseEntered(){

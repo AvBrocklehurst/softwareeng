@@ -70,9 +70,8 @@ public class TestShopBoyMode {
 	
 	@Test
 	public void testOnFunctionButtonPressON() {
-		boolean current = mode.isOn();
 		sbmode.onFunctionButtonPress(new FunctionButtonEvent(gui, FunctionButton.ON));
-		assertEquals(mode.isOn(), !current);
+		assertEquals(false, !mode.isOn());
 	}
 
 	@Test

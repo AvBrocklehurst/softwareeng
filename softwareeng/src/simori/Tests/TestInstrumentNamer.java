@@ -20,7 +20,6 @@ import simori.InstrumentNamer;
  * JUnit tests for the InstrumentNamer Class.
  */
 public class TestInstrumentNamer {
-	
 	InstrumentNamer instrumentNamer;
 	String instrumentName;
 	
@@ -40,7 +39,7 @@ public class TestInstrumentNamer {
 	 */
 	@Test
 	public void testGetInstanceOnce() {
-			instrumentNamer = InstrumentNamer.getInstance();
+			InstrumentNamer instrumentNamer = InstrumentNamer.getInstance();
 			assertNotNull(instrumentNamer);
 	}
 	
@@ -51,8 +50,8 @@ public class TestInstrumentNamer {
 	 */
 	@Test
 	public void testGetInstanceTwice() {
-			instrumentNamer = InstrumentNamer.getInstance();
-			instrumentNamer = InstrumentNamer.getInstance();
+		InstrumentNamer instrumentNamer = InstrumentNamer.getInstance();
+		instrumentNamer = InstrumentNamer.getInstance();
 			assertNotNull(instrumentNamer);  
 	}
 	
@@ -63,7 +62,9 @@ public class TestInstrumentNamer {
 	 */
 	@Test
 	public void testGetInstrument() {
-		instrumentName = InstrumentNamer.getInstance().getName(110);
+		InstrumentNamer instrumentNamer = InstrumentNamer.getInstance();
+		String instrumentName = instrumentNamer.getName(110);
+		//String instrumentName = InstrumentNamer.getInstance().getName(110);
 		assertEquals("Bagpipe", instrumentName);
 	}
 	
@@ -74,7 +75,7 @@ public class TestInstrumentNamer {
 	 */
 	@Test
 	public void testGetPercussionInstrument() {
-			instrumentName = InstrumentNamer.getInstance().getName(133);
+		String instrumentName = InstrumentNamer.getInstance().getName(133);
 			assertEquals("Hand Clap", instrumentName);
 	}
 	
@@ -85,7 +86,7 @@ public class TestInstrumentNamer {
 	 */
 	@Test
 	public void testGetInstrumentZero() {
-			instrumentName = InstrumentNamer.getInstance().getName(0);
+		String instrumentName = InstrumentNamer.getInstance().getName(0);
 			assertNull(instrumentName);
 	}
 	
@@ -96,7 +97,7 @@ public class TestInstrumentNamer {
 	 */
 	@Test
 	public void testGetInstrument500() {
-			instrumentName = InstrumentNamer.getInstance().getName(500);
+		String instrumentName = InstrumentNamer.getInstance().getName(500);
 			assertNull(instrumentName);
 	}
 	

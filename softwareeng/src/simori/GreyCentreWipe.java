@@ -36,7 +36,7 @@ public class GreyCentreWipe implements Animation {
 	
 	private boolean outwards; // Whether LED change starts at centre
 	private boolean upwards; // Whether button change starts at bottom
-	private int frameNum;   // Counter for frames produced
+	protected int frameNum;   // Counter for frames produced
 	private int size;      // Dimension of LED grid to animate
 	private Frame frame;  // Frame to modify each time
 	
