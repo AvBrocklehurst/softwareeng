@@ -2,7 +2,6 @@ package simori.Tests.GuiTests;
 
 import org.junit.*;
 
-import simori.Exceptions.SimoriNonFatalException;
 import simori.Modes.QwertyKeyboard;
 import simori.SwingGui.ErrorDialog;
 import simori.SwingGui.SimoriJFrame;

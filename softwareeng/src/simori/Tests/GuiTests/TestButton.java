@@ -8,7 +8,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import simori.Exceptions.SimoriNonFatalException;
 import simori.SwingGui.Button;
 import simori.Tests.GuiTests.MockSimoriJFrame.MockButton;
 
@@ -27,7 +26,7 @@ public class TestButton {
 	private MockButton testbutt;
 	
 	@Before 
-	public void setUp() throws SimoriNonFatalException{
+	public void setUp() {
 		testbutt = new MockButton();
 	}
 	
