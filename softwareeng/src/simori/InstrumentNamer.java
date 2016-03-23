@@ -40,7 +40,6 @@ public class InstrumentNamer {
         	map.put(Integer.parseInt(instrument[0]), instrument[1]); //add each element as key:value pair in the map.
         }
         scanner.close();
-        System.out.println(map.containsKey(5));
 	}
 	
 	/**
