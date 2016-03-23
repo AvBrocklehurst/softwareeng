@@ -75,7 +75,9 @@ public class SimoriCentrePanel extends JPanel implements PowerTogglable {
 	
 	/** {@inheritDoc} */
 	@Override
-	public void stop() {}
+	public void stop() {
+		layout.show(this, LEDS);
+	}
 
 	/** {@inheritDoc} */
 	@Override
