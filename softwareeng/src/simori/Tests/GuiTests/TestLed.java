@@ -10,7 +10,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import simori.SwingGui.GuiProperties;
 import simori.SwingGui.Led;
 import simori.Tests.GuiTests.MockSimoriJFrame.MockLed;
 
