@@ -29,7 +29,6 @@ import simori.Tests.ModeTests.ModeTestSuite;
 	TestMIDIMessengerSystem.class,
 	TestAudioFeedbackSystem.class,
 	TestSimoriSoundSystem.class,
-	TestExceptionManager.class,
 	TestMain.class
 	
 })

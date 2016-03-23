@@ -30,8 +30,8 @@ import simori.SimoriGui.OnErrorDismissListener;
 public class ErrorDialog extends JDialog {
 	
 	private boolean fatal;
-	private JLabel label; // Formattable area for short summary
-	private JTextArea textArea; // Scrollable area for long message
+	protected JLabel label; // Formattable area for short summary
+	protected JTextArea textArea; // Scrollable area for long message
 	private OnErrorDismissListener listener; // To notify on close
 	
 	/**
