@@ -20,6 +20,7 @@ import simori.MIDISoundSystem;
 import simori.MatrixModel;
 import simori.ModeController;
 import simori.SimoriGui.KeyboardMapping;
+import simori.SwingGui.GuiProperties;
 import simori.Exceptions.SimoriNonFatalException;
 import simori.Modes.Mode;
 import simori.Modes.PerformanceMode;
@@ -103,6 +104,7 @@ public class TestSimoriJFrame {
 	public void testSwitchOn() {
 		jframe.switchOn();
 		//bottom buttons
+
 		assertThat(TESTCOLOUR, not(jframe.getBottomBar().getButton(0).getFillColour()));
 		//left buttons
 		assertThat(TESTCOLOUR, not(jframe.getLeftBar().getButton(0).getFillColour()));
@@ -114,6 +116,7 @@ public class TestSimoriJFrame {
 		assertThat(TESTCOLOUR, not(jframe.getRightBar().getButton(1).getFillColour()));
 		assertThat(TESTCOLOUR, not(jframe.getRightBar().getButton(2).getFillColour()));
 		assertThat(TESTCOLOUR, not(jframe.getRightBar().getButton(3).getFillColour()));
+
 	}
 	
 	/**
@@ -124,6 +127,7 @@ public class TestSimoriJFrame {
 		jframe.switchOn();
 		jframe.switchOff();
 		//bottom buttons
+
 		assertEquals(TESTCOLOUR, jframe.getBottomBar().getButton(0).getFillColour());
 		//left buttons
 		assertEquals(TESTCOLOUR, jframe.getLeftBar().getButton(0).getFillColour());
@@ -135,6 +139,7 @@ public class TestSimoriJFrame {
 		assertEquals(TESTCOLOUR, jframe.getRightBar().getButton(1).getFillColour());
 		assertEquals(TESTCOLOUR, jframe.getRightBar().getButton(2).getFillColour());
 		assertEquals(TESTCOLOUR, jframe.getRightBar().getButton(3).getFillColour());
+
 	}
 	
 	/**
