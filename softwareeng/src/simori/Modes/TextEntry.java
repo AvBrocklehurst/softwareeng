@@ -34,9 +34,8 @@ public abstract class TextEntry implements Changer {
 	 * The text is to be validated and used for some purpose.
 	 * @param text The text which has been entered before pressing OK
 	 * @return true to close keyboard and exit mode, false to reject text
-	 * @throws SimoriNonFatalException 
 	 */
-	protected abstract boolean useText(String text) throws SimoriNonFatalException;
+	protected abstract boolean useText(String text);
 
 	/** {@inheritDoc} */
 	@Override
@@ -45,10 +44,9 @@ public abstract class TextEntry implements Changer {
 		return builder.toString(); // Display modified text on LCD screen
 	}
 
-	/** {@inheritDoc} 
-	 * @throws SimoriNonFatalException */
+	/** {@inheritDoc} */
 	@Override
-	public boolean doThingTo(ModeController controller) throws SimoriNonFatalException {
+	public boolean doThingTo(ModeController controller)  {
 		if (useText(builder.toString())) {
 			controller.getGui().setKeyboardShown(false);
 			return true; // Re-enter PerformanceMode with keyboard hidden

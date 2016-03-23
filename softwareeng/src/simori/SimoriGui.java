@@ -147,6 +147,8 @@ public interface SimoriGui extends PowerTogglable {
 		}
 		
 		/** @return GUI instance containing button pressed */
+		
+		@Override
 		public SimoriGui getSource() {
 			return src;
 		}
@@ -181,6 +183,7 @@ public interface SimoriGui extends PowerTogglable {
 		}
 		
 		/** @return GUI instance containing button pressed */
+		@Override
 		public SimoriGui getSource() {
 			return src;
 		}

@@ -39,7 +39,8 @@ public class OnPressListenerMaker {
 	 */
 	public OnPressListener getListener(final int x, final int y) {
 		return new OnPressListener() {
-			public void onPress(PressableCircle circle) throws SimoriNonFatalException {
+			@Override
+			public void onPress(PressableCircle circle) {
 					final GridButtonEvent e = new GridButtonEvent(gui, x, y);
 					gui.getGridButtonListener().onGridButtonPress(e);
 			}

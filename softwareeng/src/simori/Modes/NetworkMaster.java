@@ -9,7 +9,6 @@ import java.io.OutputStream;
 import java.net.Inet4Address;
 import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

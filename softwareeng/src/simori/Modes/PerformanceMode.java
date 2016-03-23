@@ -47,8 +47,8 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 	 * @see SimoriGuiEvents$GridButtonEvent, SimoriGuiEvents.GridButtonListener, Layer.updateButton, SimoriGui.setGrid
 	 * @see GridButtonEvent.getX(), GridButtonEvent.getY(), GridButtonEvent.getSource()
 	 * @version 1.1.3
-	 * @throws SimoriNonFatalException 
 	 */
+	@Override
 	public void onGridButtonPress(GridButtonEvent e) {
 		
 		int x = e.getX();            //grid position of button press
@@ -60,8 +60,8 @@ public class PerformanceMode extends Mode implements GridButtonListener {
 		sc.setGrid(grid);       //relay the change to the gui
 	}
 	
-	/** {@inheritDoc} 
-	 * @throws SimoriNonFatalException */
+	/** {@inheritDoc} */
+	@Override
 	public void onFunctionButtonPress(FunctionButtonEvent e) {
 		if (e.getFunctionButton().equals(FunctionButton.OK)) {
 			getController().sadSound();

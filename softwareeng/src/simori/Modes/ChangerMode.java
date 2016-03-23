@@ -3,7 +3,6 @@ package simori.Modes;
 import simori.ModeController;
 import simori.SimoriGui.FunctionButtonEvent;
 import simori.SimoriGui.GridButtonEvent;
-import simori.Exceptions.SimoriNonFatalException;
 
 /**
  * Mode which implements the common functionality of modes such as
@@ -52,7 +51,6 @@ public class ChangerMode extends Mode {
 	 * which corresponds to the coordinates of the button pressed.
 	 * If text exists, it is displayed on the LCD screen. If a setting
 	 * exists at those coordinates, the selector line(s) are drawn.
-	 * @throws SimoriNonFatalException 
 	 */
 	@Override
 	public void onGridButtonPress(GridButtonEvent e) {
@@ -70,7 +68,6 @@ public class ChangerMode extends Mode {
 	 * If the setting is valid, {@link Changer#doThingTo} is called
 	 * to apply the change, and the standard behaviour of returning
 	 * to {@link PerformanceMode} is allowed to proceed.
-	 * @throws SimoriNonFatalException 
 	 */
 	@Override
 	public void onFunctionButtonPress(FunctionButtonEvent e) {
@@ -98,7 +95,6 @@ public class ChangerMode extends Mode {
 	 * allows for the current setting to be shown to the user
 	 * when the mode is entered. If the Changer does not
 	 * provide an initial setting, the grid is simply cleared.
-	 * @throws SimoriNonFatalException 
 	 */
 	@Override
 	public void setInitialGrid() {
@@ -149,7 +145,6 @@ public class ChangerMode extends Mode {
 		 * be null, which will result in no selector line(s) being drawn.
 		 * @param setting Containing the coordinates of the button pressed
 		 * @return A description of the setting, or null if none exists
-		 * @throws SimoriNonFatalException 
 		 */
 		public String getText(Setting setting);
 		
@@ -164,7 +159,6 @@ public class ChangerMode extends Mode {
 		 * and model, to allow changes to be made where applicable.
 		 * @param controller upon which to make the relevant changes
 		 * @return true if the changes were applied successfully
-		 * @throws SimoriNonFatalException 
 		 */
 		public boolean doThingTo(ModeController controller);
 		
