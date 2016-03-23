@@ -62,12 +62,7 @@ public class TestTextEntry {
 		audio = null;
 		midi = null;
 	}
-	
-	@Test
-	public void testGetText() {
-		StringBuilder builder = text.getBuilder();
-		assertEquals(builder.toString(), text.getText(new Setting((byte)1, (byte)1)));
-	}
+
 	@Test
 	public void testDoThingTo() {
 		test = true;

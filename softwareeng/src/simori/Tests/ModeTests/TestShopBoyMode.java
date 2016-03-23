@@ -2,9 +2,6 @@ package simori.Tests.ModeTests;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-
-import java.util.Observable;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,6 +21,7 @@ import simori.Tests.GuiTests.MockSimoriJFrame;
 /**
  * 
  * @author Jurek
+ * @author Adam
  *
  */
 public class TestShopBoyMode {
@@ -79,10 +77,5 @@ public class TestShopBoyMode {
 		sbmode.onFunctionButtonPress(new FunctionButtonEvent(gui, FunctionButton.OK));
 		assertEquals(mode.getMode().getClass(), PerformanceMode.class);
 	}
-	
-	@Test
-	public void testUpdate() {
-		sbmode.update(new Observable(), new Object());
-		//TODO i require the files to be able to play this
-	}
+
 }
