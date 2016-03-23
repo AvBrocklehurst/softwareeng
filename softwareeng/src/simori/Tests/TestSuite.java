@@ -20,7 +20,7 @@ import simori.Tests.ModeTests.ModeTestSuite;
 	TestModeController.class,
 	TestResourceManager.class,
 	TestSimoriGui.class,
-	//ModeTestSuite.class,
+	ModeTestSuite.class,
 	GuiTestSuite.class,
 	TestNoteProcessor.class,
 	TestMidiSoundSystem.class,
