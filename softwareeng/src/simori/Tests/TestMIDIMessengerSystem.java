@@ -23,14 +23,17 @@ import simori.Exceptions.SimoriNonFatalException;
 public class TestMIDIMessengerSystem {
 	MockMIDIMessengerSystem mms;
 	ShortMessage message;
+	MockMIDISoundSystem mock;
 	
 	@Before
 	public void setUp() {
-		mms = new MockMIDIMessengerSystem(new MockMIDISoundSystem(false), new MatrixModel(16, 16));
+		mock = new MockMIDISoundSystem(false);
+		mms = new MockMIDIMessengerSystem(mock, new MatrixModel(16, 16));
 	}
 
 	@After
 	public void tearDown() {
+		mock.switchOff();
 		mms = null;
 	}
 	

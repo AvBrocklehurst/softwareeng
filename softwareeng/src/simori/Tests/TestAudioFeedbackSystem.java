@@ -20,14 +20,17 @@ import simori.MatrixModel;
  */
 public class TestAudioFeedbackSystem {
 	AudioFeedbackSystem afs;
+	MockMIDISoundSystem mock;
 	
 	@Before
 	public void setUp() {
-		afs = new AudioFeedbackSystem(new MockMIDISoundSystem(false), new MatrixModel(16, 16));
+		mock = new MockMIDISoundSystem(false);
+		afs = new AudioFeedbackSystem(mock, new MatrixModel(16, 16));
 	}
 
 	@After
 	public void tearDown() {
+		mock.switchOff();
 		afs = null;
 	}
 	

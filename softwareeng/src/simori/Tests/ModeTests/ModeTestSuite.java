@@ -12,13 +12,13 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({
 	TestChangerMode.class,
 	TestChangerModeFactory.class,
-	//TestMasterSlaveMode.class,
+	TestMasterSlaveMode.class,
 	TestMode.class,
 	TestNetworkMaster.class,
 	TestPerformanceMode.class,
 	TestQwertyKeyboard.class,
 	TestSaveAndLoad.class,
-	//TestShopBoyMode.class,
+	TestShopBoyMode.class,
 	TestTextEntry.class
 })
 public class ModeTestSuite {}

@@ -9,11 +9,17 @@ import simori.Tests.ModeTests.ModeTestSuite;
 /**
  * Test suite to run all our unit tests
  * @author Josh
+ * @author Adam
  * @version 4.0.0
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
 
+	TestMidiSoundSystem.class,
+	TestMIDIMessengerSystem.class,
+	TestAudioFeedbackSystem.class,
+	TestSimoriSoundSystem.class,
+	TestInstrumentNamer.class,
 	TestLayer.class,
 	TestMatrixModel.class,
 	TestSimoriGui.class,
@@ -23,11 +29,7 @@ import simori.Tests.ModeTests.ModeTestSuite;
 	ModeTestSuite.class,
 	GuiTestSuite.class,
 	TestNoteProcessor.class,
-	TestMidiSoundSystem.class,
-	TestMIDIMessengerSystem.class,
-	TestAudioFeedbackSystem.class,
-	TestSimoriSoundSystem.class,
-	TestInstrumentNamer.class,
+
 	
 })
 public class TestSuite {}
