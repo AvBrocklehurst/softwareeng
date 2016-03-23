@@ -6,7 +6,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextArea;
 
 import org.junit.*;
-
+	
 import simori.Modes.QwertyKeyboard;
 import simori.SwingGui.ErrorDialog;
 import simori.SwingGui.SimoriJFrame;
