@@ -17,10 +17,10 @@ import simori.SimoriGui.OnErrorDismissListener;
 public class ExceptionManager implements UncaughtExceptionHandler,
 											OnErrorDismissListener {
 	
-	private SimoriGui gui;            // To generate error dialogs
+	protected SimoriGui gui;            // To generate error dialogs
 	private AudioFeedbackSystem afs; //  To play a noise
 	protected List<Throwable> queue ; //   Holds errors to report later
-	private boolean dialogOpen;    //    Flag to prevent simultaneous dialogs
+	protected boolean dialogOpen;    //    Flag to prevent simultaneous dialogs
 	
 	/** Sets constructed object as default uncaught exception handler */
 	public ExceptionManager() {
