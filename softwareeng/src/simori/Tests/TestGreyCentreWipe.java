@@ -20,13 +20,22 @@ import simori.SwingGui.SimoriJFrame;
  *
  */
 public class TestGreyCentreWipe {
-	public Moc	s
+	class MockGreyCentreWipe extends GreyCentreWipe {
+		public MockGreyCentreWipe(boolean ledInitGrey, boolean outwards,
+				boolean btnInitGrey, boolean upwards, int size) {
+			super(ledInitGrey, outwards, btnInitGrey, upwards, size);
+		}
+		
+		public int getPhase() {
+			return frameNum;
+		}
+	}
 	
-	private GreyCentreWipe anim;
+	private MockGreyCentreWipe anim;
 	
 	@Test
-	public void testAnimation() {
-		anim = new GreyCentreWipe(true, true, true, true, 16);
+	public void testAnimationTrue() {
+		anim = new MockGreyCentreWipe(true, true, true, true, 16);
 		Frame frame = anim.getNextFrame();
 		boolean[][] which = frame.ledsGreyed;
 		for(int x=0; x<16; x++){
@@ -34,44 +43,41 @@ public class TestGreyCentreWipe {
 				assertTrue(which[x][y]);
 			}
 		}
-		int count = 0;
-		for(int column=0; column<8; column++){
-			if(which[column][8]==true) count++;
-		}
-		assertEquals(count, 0);
+		assertEquals(anim.getPhase(), 1);
 	}
 	
 	@Test
-	public void testAnimationFinishing() {
-		anim = new GreyCentreWipe(false, false, false, false, 16);
+	public void testAnimationFalse() {
+		anim = new MockGreyCentreWipe(false, false, false, false, 16);
 		Frame frame = anim.getNextFrame();
 		boolean[][] which = frame.ledsGreyed;
 		for(int x=0; x<16; x++){
 			for(int y=0; x<16; x++){
-				assertFalse(which[x][y]);
+				assertTrue(which[x][y]);
 			}
 		}
-		int count = 0;
-		for(int column=0; column<8; column++){
-			if(which[column][8]==true) count++;
-		}
-		assertEquals(count, 7);
+		assertEquals(anim.getPhase(), 1);
 	}
 	
-	@Test (expected=UnsupportedOperationException.class)
+	@Test
 	public void testNextStarting() {
-		anim = new GreyCentreWipe(false, false, false, false, 16);
-		anim.getNextFrame();
+		anim = new MockGreyCentreWipe(false, false, false, false, 16);
+		Frame frame = anim.getNextFrame();
 		int size = 16;
 		int symmetry = --size % 2 == 0 ? 0 : 1;
 		int bl = size / 2 - anim.getPhase();
 		int tr = size / 2 + anim.getPhase() + symmetry;
 		for (int i = bl; i <= tr; i++) {
-			assertTrue(anim.getWhich()[tr][i]);
-			assertTrue(anim.getWhich()[bl][i]);
-			assertTrue(anim.getWhich()[i][tr]);
-			assertTrue(anim.getWhich()[i][bl]);
+			assertFalse(frame.ledsGreyed[tr][i]);
+			assertFalse(frame.ledsGreyed[bl][i]);
+			assertFalse(frame.ledsGreyed[i][tr]);
+			assertFalse(frame.ledsGreyed[i][bl]);
 		}
+		anim.getNextFrame();
+		anim.getNextFrame();
+		anim.getNextFrame();
+		anim.getNextFrame();
+		anim.getNextFrame();
 		anim.getNextFrame();
 		anim.getNextFrame();
 		anim.getNextFrame();
@@ -82,19 +88,19 @@ public class TestGreyCentreWipe {
 		assertNull(anim.getNextFrame());
 	}
 
-	//@Test (expected=UnsupportedOperationException.class)
+	@Test
 	public void testNextFinishing() {
-		anim = new GreyCentreWipe(false, false, false, false, 16);
-		anim.getNextFrame();
+		anim = new MockGreyCentreWipe(false, false, false, false, 16);
+		Frame frame = anim.getNextFrame();
 		int size = 16;
 		int symmetry = --size % 2 == 0 ? 0 : 1;
 		int bl = size / 2 - anim.getPhase();
 		int tr = size / 2 + anim.getPhase() + symmetry;
 		for (int i = bl; i <= tr; i++) {
-			assertFalse(anim.getWhich()[tr][i]);
-			assertFalse(anim.getWhich()[bl][i]);
-			assertFalse(anim.getWhich()[i][tr]);
-			assertFalse(anim.getWhich()[i][bl]);
+			assertFalse(frame.ledsGreyed[tr][i]);
+			assertFalse(frame.ledsGreyed[bl][i]);
+			assertFalse(frame.ledsGreyed[i][tr]);
+			assertFalse(frame.ledsGreyed[i][bl]);
 		}
 		anim.getNextFrame();
 		anim.getNextFrame();
@@ -103,12 +109,11 @@ public class TestGreyCentreWipe {
 		anim.getNextFrame();
 		anim.getNextFrame();
 		anim.getNextFrame();
+		anim.getNextFrame();
+		anim.getNextFrame();
+		anim.getNextFrame();
+		anim.getNextFrame();
+		anim.getNextFrame();
 		assertNull(anim.getNextFrame());
-	}
-	
-	//@Test (expected=UnsupportedOperationException.class)
-	public void testFinishing() {
-		anim = new GreyCentreWipe(true, true, true, true, 16);
-		anim.finished();
 	}
 }
