@@ -71,7 +71,6 @@ public class TestExceptionManager {
         }
     }
     
-	private SplashJWindow splash;
 	private MockExceptionManager exman;
 	private Thread thread;
 	private MockSimoriJFrame gui;
@@ -85,9 +84,7 @@ public class TestExceptionManager {
 		midi = new MIDISoundSystem(false);
 		model = new MatrixModel(16, 16);
 		audio = new AudioFeedbackSystem(midi, model);
-		splash = new SplashJWindow();
 		gui = new MockSimoriJFrame();
-		splash.swapFor(gui, 3000, exman, audio);
 		thread = new Thread();
         System.setSecurityManager(new NoExitSecurityManager());
 	}
@@ -98,7 +95,6 @@ public class TestExceptionManager {
 		midi = null;
 		model = null;
 		audio = null;
-		splash = null;
 		gui = null;
 		thread = null;
         System.setSecurityManager(null);
