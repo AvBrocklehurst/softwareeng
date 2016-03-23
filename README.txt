@@ -16,11 +16,13 @@ junit-4.12.jar
 hamcrest-core-1.3.jar
 These are included within the zip file.
 
-The network master mode currently does not have an active gui. It works the same as any other mode, you press R4 to go into master mode. The screen will go white and then you can press okay immediatly to go back to performance mode. As soon as you pressed R4 the master mode started to probe ips to find another listening simori, and will continue to do so even after you press okay.
+There is now not a single missing @Override tag! (According to Eclipse's optional error reporting for missing override annotations). Fields and methods are encapsulated as much as possible where appropriate. However, because Java has no concept of a subpackage, each of the folders in our project's structure is technically a different top-level package. This means that we cannot declare any of the classes as package private, as it would make it possible to unit test them from test classes in our test packages. We also rely on the usage of mock objects which inherit from many of our classes, which is why we have not declared any as final.
 
 All files were tested on the machines in the blue room as specified in the specification.
-
+Sadly, the blue room machines do not support Window transparency. This means that the rounded corners of the Simori-ON have a black square behind them. This also affects the splash screen.
 Please note that on some blue room machines there is a local problem that causes "lock: no locks available" to appear.
+
+See also SHOPBOYREADME.txt
 
 Cheers,
 Team H
