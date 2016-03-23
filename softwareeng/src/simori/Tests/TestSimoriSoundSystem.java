@@ -66,6 +66,7 @@ public class TestSimoriSoundSystem {
 
 	@After
 	public void tearDown() {
+		
 		player = null;
 	}
 

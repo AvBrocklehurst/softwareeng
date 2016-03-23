@@ -34,6 +34,7 @@ public class TestMidiSoundSystem {
 
 	@After
 	public void tearDown() {
+		midi.switchOff();
 		midi = null;
 		message = null;
 		message2 = null;

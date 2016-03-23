@@ -13,23 +13,27 @@ import simori.Tests.ModeTests.ModeTestSuite;
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
+	
 
-	GuiTestSuite.class,
-	ModeTestSuite.class,
+	
+
 	TestLayer.class,
 	TestMatrixModel.class,
 	TestSimoriGui.class,
 	TestModeController.class,
 	TestResourceManager.class,
 	TestSimoriGui.class,
-	TestInstrumentNamer.class,
+	ModeTestSuite.class,
+	GuiTestSuite.class,
 	//TestNoteProcessor.class,
-
 	TestMidiSoundSystem.class,
 	TestMIDIMessengerSystem.class,
-	TestAudioFeedbackSystem.class,
+	//TestAudioFeedbackSystem.class,
 	TestSimoriSoundSystem.class,
-	TestInstrumentNamer.class
+	TestInstrumentNamer.class,
+	
+
+
 	
 })
 public class TestSuite {}

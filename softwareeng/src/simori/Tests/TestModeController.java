@@ -60,6 +60,7 @@ public class TestModeController{
 		testgui = null;
 		testmodel = null;
 		mockcontroller = null;
+		testmidi.switchOff();
 		testaudio = null;
 		testmidi = null;
 	}
