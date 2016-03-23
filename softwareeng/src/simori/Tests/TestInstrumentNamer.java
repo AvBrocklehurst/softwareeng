@@ -50,7 +50,9 @@ public class TestInstrumentNamer {
 	 */
 	@Test
 	public void testGetInstrument() {
-		String instrumentName = InstrumentNamer.getInstance().getName(110);
+		InstrumentNamer instrumentNamer = InstrumentNamer.getInstance();
+		String instrumentName = instrumentNamer.getName(110);
+		//String instrumentName = InstrumentNamer.getInstance().getName(110);
 		assertEquals("Bagpipe", instrumentName);
 	}
 	

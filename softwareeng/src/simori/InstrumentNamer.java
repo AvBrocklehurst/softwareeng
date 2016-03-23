@@ -33,14 +33,14 @@ public class InstrumentNamer {
 		try {
 			scanner = new Scanner(ResourceManager.getResource(CSV_NAME)); //get the csv file.
 		} catch (FileNotFoundException e) {
-			throw new SimoriNonFatalException("Couldn't find instrument name file,"
-					+ " instrument names will be unable to be shown.");
+			throw new SimoriNonFatalException("Couldn't find instrument name file, instrument names will be unable to be shown.");
 		}
 		while(scanner.hasNext()){
 			String[] instrument = scanner.nextLine().split(","); // take each line in csv file (each line consists of 2 elements).
         	map.put(Integer.parseInt(instrument[0]), instrument[1]); //add each element as key:value pair in the map.
         }
         scanner.close();
+        System.out.println(map.containsKey(5));
 	}
 	
 	/**
