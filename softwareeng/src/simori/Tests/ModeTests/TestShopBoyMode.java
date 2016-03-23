@@ -54,6 +54,7 @@ public class TestShopBoyMode {
 		mode = null;
 		audio = null;
 		midi = null;
+		sbmode = null;
 	}
 	
 	@Test
