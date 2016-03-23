@@ -63,6 +63,7 @@ public class TestChangerModeFactory {
 	
 	@After 
 	public void tearDown(){
+		testmidi.switchOff();
 		testslave.switchOff();
 		testmaster.stopRunning();
 		keyboard = null;

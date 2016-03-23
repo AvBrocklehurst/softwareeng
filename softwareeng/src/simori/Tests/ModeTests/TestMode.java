@@ -116,6 +116,7 @@ public class TestMode{
 	
 	@After
 	public void tearDown(){
+		testmidi.switchOff();
 		keyboard = null;
 		testgui = null;
 		testfbevent = null;

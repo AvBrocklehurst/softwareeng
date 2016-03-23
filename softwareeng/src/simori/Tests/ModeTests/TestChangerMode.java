@@ -92,6 +92,7 @@ public class TestChangerMode {
 	public void tearDown(){
 		testmaster.stopRunning();
 		testslave.switchOff();
+		testmidi.switchOff();
 		keyboard = null;
 		testgui = null;
 		testmodel = null;

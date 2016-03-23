@@ -51,6 +51,7 @@ public class TestPerformanceMode {
 	
 	@After
 	public void tearDown(){
+		testmidi.switchOff();
 		keyboard = null;
 		testmodel = null;
 		testgui = null;

@@ -51,6 +51,7 @@ public class TestMasterSlaveMode {
 	
 	@After
 	public void tearDown() {
+		midi.switchOff();
 		mode.setOn(false, false);
 		gui = null;
 		model = null;
