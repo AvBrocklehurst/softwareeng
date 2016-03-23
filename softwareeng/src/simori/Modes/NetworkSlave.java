@@ -124,7 +124,7 @@ public class NetworkSlave implements Runnable, PowerTogglable {
 					MatrixModel ours = controller.getModel();
 					ours.convertModel(received);
 					int num = ours.getInstrument(controller.getDisplayLayer());
-				controller.showInstrumentName(num);
+					controller.showInstrumentName(num);
 				} catch (ClassNotFoundException e1) {
 					throw new SimoriNonFatalException("Matrix Model Class not loaded in.");
 				} 

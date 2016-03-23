@@ -57,7 +57,6 @@ public class SaveAndLoad {
 s	 */
 	public static boolean loadShop(MatrixModel model, String filename)  {
 		try{
-			System.out.println(filename);
 			File file = new File(filename);
 			if (!file.exists()){
 				System.err.println("file doesn't exist");
