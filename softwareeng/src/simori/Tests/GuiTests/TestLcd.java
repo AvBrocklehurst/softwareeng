@@ -20,7 +20,7 @@ public class TestLcd {
 	Lcd lcd;
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		gui = new MockSimoriJFrame();
 		lcd = gui.getBottomBar().getLcd();
 	}

@@ -7,7 +7,6 @@ import javax.swing.JTextArea;
 
 import org.junit.*;
 
-import simori.Exceptions.SimoriNonFatalException;
 import simori.Modes.QwertyKeyboard;
 import simori.SwingGui.ErrorDialog;
 import simori.SwingGui.SimoriJFrame;
@@ -33,13 +32,13 @@ public class TestErrorDialog {
 	private MockErrorDialog error;
 	
 	@Test
-	public void testErrorDialog() throws SimoriNonFatalException {
+	public void testErrorDialog() {
 		jframe = new SimoriJFrame(new QwertyKeyboard((byte)16, (byte)16));
 		error = new MockErrorDialog(jframe, false);
 	}
 	
 	@Test (expected=NullPointerException.class)
-	public void testErrorDialogNull() throws SimoriNonFatalException {
+	public void testErrorDialogNull() {
 		error = new MockErrorDialog(null, false);
 	}
 	

@@ -36,7 +36,7 @@ public class TestSimoriPanel {
 	MockSimoriPanel panel;
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		gui = new MockSimoriJFrame();
 		panel = gui.getSimoriPanel();
 	}

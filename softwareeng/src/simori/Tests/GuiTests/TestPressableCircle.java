@@ -2,7 +2,6 @@ package simori.Tests.GuiTests;
 
 import static org.junit.Assert.assertEquals;
 import static simori.SwingGui.GuiProperties.CIRCLE_NOT_PRESSED;
-import static simori.SwingGui.GuiProperties.CIRCLE_BORDER;
 
 import java.awt.event.MouseEvent;
 
@@ -10,7 +9,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import simori.Exceptions.SimoriNonFatalException;
 import simori.Modes.QwertyKeyboard;
 import simori.SwingGui.OnPressListenerMaker;
 import simori.SwingGui.OnPressListenerMaker.OnPressListener;
@@ -35,7 +33,7 @@ public class TestPressableCircle {
 	private MouseEvent testevent;
 	
 	@Before
-	public void setUp() throws SimoriNonFatalException{
+	public void setUp() {
 		mockcircle = new MockPressableCircle();
 		keyboard = new QwertyKeyboard((byte)16, (byte)16);
 		testgui = new SimoriJFrame(keyboard);
