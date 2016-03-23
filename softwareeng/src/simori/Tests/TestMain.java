@@ -3,16 +3,11 @@ package simori.Tests;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.junit.Assert.assertThat;
 
-import java.io.IOException;
-
-import javax.sound.midi.MidiUnavailableException;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import simori.Simori;
-import simori.Exceptions.SimoriNonFatalException;
 
 /**
  * Tests the main method and consequently Simori's constructor.
@@ -27,7 +22,7 @@ public class TestMain {
 	private Simori testsimori;
 	
 	@Before
-	public void setUp() throws MidiUnavailableException, SimoriNonFatalException, IOException{
+	public void setUp() {
 		testsimori = new Simori();
 	}
 	
@@ -52,10 +47,9 @@ public class TestMain {
 	/**
 	 * Runs the main method to check for exceptions.
 	 * Makes the code coverage report look better.
-	 * @throws SimoriNonFatalException 
 	 */
 	@Test
-	public void testMainMethod() throws MidiUnavailableException, SimoriNonFatalException {
+	public void testMainMethod()  {
 		Simori.main(null);
 	}
 }

@@ -1,6 +1,9 @@
 package simori.Tests.GuiTests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.awt.Graphics;
 import java.awt.Point;
@@ -11,7 +14,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import simori.FunctionButton;
-import simori.Exceptions.SimoriNonFatalException;
 import simori.Modes.QwertyKeyboard;
 import simori.SwingGui.Button;
 import simori.SwingGui.GuiProperties;
@@ -40,14 +42,14 @@ public class TestSimoriPanel {
 	}
 
 	@After
-	public void tearDown() throws Exception {
+	public void tearDown() {
 		gui = null;
 		panel = null;
 	}
 
 	
 	@Test
-	public void testConstructor() throws SimoriNonFatalException, InterruptedException {
+	public void testConstructor() {
 		QwertyKeyboard map = new QwertyKeyboard((byte)16, (byte)16);
 		OnPressListenerMaker maker = new OnPressListenerMaker(gui);
 		SimoriPanel panel = new SimoriPanel(map, maker);// since constructor hides most things away it means there is very little to test!
@@ -112,7 +114,7 @@ public class TestSimoriPanel {
 	}
 	
 	@Test
-	public void testSetGrid() throws InterruptedException {
+	public void testSetGrid() {
 		boolean[][] grid = new boolean[16][16];
 		for(int i = 0; i<15; i++){
 			grid[i][i] = true;
@@ -127,7 +129,7 @@ public class TestSimoriPanel {
 	}
 	
 	@Test
-	public void testPainting() throws InterruptedException {
+	public void testPainting() {
 		// very hard to test if something is painted!
 		// instead test that paint methods were called when panel is created
 		// this is done through checking code coverage using emma,

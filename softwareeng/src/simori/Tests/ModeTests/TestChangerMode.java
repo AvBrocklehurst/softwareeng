@@ -1,9 +1,9 @@
 package simori.Tests.ModeTests;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.junit.Assert.*;
-
-import java.io.IOException;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThat;
 
 import org.junit.After;
 import org.junit.Before;
@@ -16,7 +16,6 @@ import simori.MatrixModel;
 import simori.ModeController;
 import simori.SimoriGui.FunctionButtonEvent;
 import simori.SimoriGui.GridButtonEvent;
-import simori.Exceptions.SimoriNonFatalException;
 import simori.Modes.ChangerMode;
 import simori.Modes.ChangerMode.Changer;
 import simori.Modes.ChangerMode.Setting;
@@ -70,16 +69,11 @@ public class TestChangerMode {
 			public Setting getCurrentSetting() {
 				return null;
 			}
-			
-			public String produceNullText(){
-				return null;
-			}
-			
 		};
 	}
 	
 	@Before
-	public void setUp() throws IOException{
+	public void setUp() {
 		keyboard = new QwertyKeyboard((byte)16,(byte)16);
 		testgui = new SimoriJFrame(keyboard);
 		testmodel = new MatrixModel(16, 16);

@@ -8,7 +8,6 @@ import simori.ModeController;
 import simori.ResourceManager;
 import simori.SimoriGui.FunctionButtonEvent;
 import simori.SimoriGui.GridButtonEvent;
-import simori.Exceptions.SimoriNonFatalException;
 
 /**
  * ShopBoyMode is a demonstration mode where a serious of songs
@@ -78,17 +77,14 @@ public class ShopBoyMode extends PerformanceMode implements Observer {
 	 * @param f  A file to search for songs in
 	 */
 	private void playShopBoy(File f){
-		if(!f.isDirectory() || f == null){        //if shopboy for some reason was not retrieved correctly
+		if(f == null || !f.isDirectory()){ //if shopboy for some reason was not retrieved correctly
 			System.err.println("Shopboy is not a directory or is null!");
 			return;
 		}
-		
-		else{
-			File[] files = f.listFiles();        //a list of subdirectories to ShopBoySongs
-			if(counter == files.length) counter = 0;       //loops if the end of the songs is reached
-			getGui().setText(files[counter].getName());      //song name on LCD
-			currentFile = files[counter];
-		}
+		File[] files = f.listFiles();        //a list of subdirectories to ShopBoySongs
+		if(counter == files.length) counter = 0;       //loops if the end of the songs is reached
+		getGui().setText(files[counter].getName());      //song name on LCD
+		currentFile = files[counter];
 	}
 	
 	/**

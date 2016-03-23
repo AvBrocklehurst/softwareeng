@@ -2,7 +2,6 @@ package simori.Modes;
 
 import simori.ModeController;
 import simori.SimoriGui.KeyboardMapping;
-import simori.Exceptions.SimoriNonFatalException;
 import simori.Modes.ChangerMode.Changer;
 import simori.Modes.ChangerMode.Setting;
 

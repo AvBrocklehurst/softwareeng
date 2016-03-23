@@ -3,14 +3,13 @@ package simori.Modes;
 import simori.FunctionButton;
 import simori.InstrumentNamer;
 import simori.ModeController;
-import simori.Exceptions.SimoriNonFatalException;
 import simori.Modes.ChangerMode.Changer;
 import simori.Modes.ChangerMode.Setting;
 
 /**
  * The ChangerModeFactory provides a centralised method which defines which mode to
  * change to on press of a Function button. The methods which facilitate the change and
- * send data to the lcd are also included.
+ * send data to the LCD are also included.
  * 
  *@author James
  *@version 1.3.1
@@ -157,7 +156,6 @@ public class ChangerModeFactory {
 			 * @author Adam
 			 * @see Changer.getText(), InstrumentNamer.getInstance(), coordsConverter(), InstrumentNamer.getName()
 			 * @version 1.0.1
-			 * @throws SimoriNonFatalException 
 			 */
 			@Override
 			public String getText(Setting s) {
@@ -307,7 +305,7 @@ public class ChangerModeFactory {
 				if(selectedTempo == null){
 					return false;
 				}
-				controller.getModel().setBPM((short)selectedTempo);
+				controller.getModel().setBPM(selectedTempo);
 				controller.happySound();
 				return true;
 			}

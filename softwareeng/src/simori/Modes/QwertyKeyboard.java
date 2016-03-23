@@ -31,7 +31,6 @@ public class QwertyKeyboard implements KeyboardMapping {
 	 * the specified dimensions to rows of letters centred within the grid.
 	 * @param rows Width of grid of buttons to size keyboard to
 	 * @param columns Height of grid of buttons to size keyboard to
-	 * @throws SimoriNonFatalException If the requested dimensions are insufficient
 	 */
 	public QwertyKeyboard(byte rows, byte columns) {
 		this.rows = rows;
@@ -44,8 +43,7 @@ public class QwertyKeyboard implements KeyboardMapping {
 	 * Calculates how many buttons away from the edge to begin drawing the
 	 * rows so that the keyboard appears centred vertically, and iterates
 	 * over {@link #ROWS} to place the letters into {@link #keys}.
-	 * @throws SimoriNonFatalException If there are too few rows or columns
-	 */
+s	 */
 	private void placeRows() {
 		if (ROWS.length > rows) // Not tall enough for number of rows
 			throw new SimoriNonFatalException("Requested keyboard too narrow");
@@ -60,7 +58,6 @@ public class QwertyKeyboard implements KeyboardMapping {
 	 * at such a number of buttons from the edge that it appears centred.
 	 * @param row The index of {@link #ROWS} to place the letters of
 	 * @param yOffset The distance from the bottom edge to draw the bottom row
-	 * @throws SimoriNonFatalException If columns does not fit "QWERTYUIOP"
 	 */
 	private void placeLetters(int row, int yOffset) {
 		Character[] fromRow = getCharactersForRow(row);

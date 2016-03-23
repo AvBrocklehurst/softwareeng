@@ -1,8 +1,6 @@
 package simori.Tests;
 
-import static org.junit.Assert.*;
-
-import javax.sound.midi.InvalidMidiDataException;
+import static org.junit.Assert.assertNotNull;
 
 import org.junit.After;
 import org.junit.Before;
@@ -62,12 +60,12 @@ public class TestSimoriSoundSystem {
 	};
 	
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		player = new SimoriSoundSystem(new MockMIDISoundSystem(false));
 	}
 
 	@After
-	public void tearDown() throws Exception {
+	public void tearDown() {
 		player = null;
 	}
 
@@ -128,7 +126,7 @@ public class TestSimoriSoundSystem {
 	
 	//Test all 16 layers
 	@Test(timeout = 1000) // dont want it to take too long to play all the notes simultaneously, otherwise it will go out of sync!
-	public void testPlayMaximumLayersAndNotes() throws InvalidMidiDataException {
+	public void testPlayMaximumLayersAndNotes() {
 		player.play(maximumLayersAndNotes); 
 	}
 	
@@ -140,7 +138,7 @@ public class TestSimoriSoundSystem {
 	
 	//Test the stop play method with a usual input
 	@Test
-	public void testStopPlay() throws InvalidMidiDataException {
+	public void testStopPlay() {
 		array = new byte[1][];
 		array[0] = singleNote;
 		player.play(array); 
@@ -149,7 +147,7 @@ public class TestSimoriSoundSystem {
 	
 	//Test the stop play method with multiple inputs
 	@Test
-	public void testStopPlayMultiple() throws InvalidMidiDataException {
+	public void testStopPlayMultiple() {
 		array = new byte[1][];
 		array[0] = multiNotes;
 		player.play(array); 
@@ -158,7 +156,7 @@ public class TestSimoriSoundSystem {
 
 	//Test the stop play method with multiple layers
 	@Test
-	public void testStopPlayMultipleLayers() throws InvalidMidiDataException {
+	public void testStopPlayMultipleLayers() {
 		array = new byte[3][];
 		array[0] = singleNote;
 		array[1] = multiNotes;
@@ -170,14 +168,14 @@ public class TestSimoriSoundSystem {
 	//The ultimate test! 16 layers, 16 notes, each of a different instrument, each with a different velocity.
 	// Does it stop all the notes?
 	@Test(timeout = 1000) // dont want it to take too long to play all the notes simultaneously, otherwise it will go out of sync!
-	public void testStopPlayMaximumLayersAndNotes() throws InvalidMidiDataException {
+	public void testStopPlayMaximumLayersAndNotes() {
 		player.play(maximumLayersAndNotes); 
 		player.stopPlay();
 	}
 	
 	//throw exception if channel is bad.
 	@Test(expected = SimoriNonFatalException.class)
-	public void testPlayBadChannel() throws InvalidMidiDataException {
+	public void testPlayBadChannel() {
 		array = new byte[1][];
 		array[0] = badChannel;
 		player.play(array); 
@@ -185,7 +183,7 @@ public class TestSimoriSoundSystem {
 	
 	// throw exception if instrument is bad.
 	@Test(expected = SimoriNonFatalException.class)
-	public void testPlayBadInstrument() throws InvalidMidiDataException {
+	public void testPlayBadInstrument() {
 		array = new byte[1][];
 		array[0] = badInstrument;
 		player.play(array); 
@@ -193,7 +191,7 @@ public class TestSimoriSoundSystem {
 
 	 // throw exception if velocity is bad
 	@Test(expected = SimoriNonFatalException.class)
-	public void testPlayBadVelocity() throws InvalidMidiDataException {
+	public void testPlayBadVelocity() {
 		array = new byte[1][];
 		array[0] = badVelcoity;
 		player.play(array); 
@@ -201,7 +199,7 @@ public class TestSimoriSoundSystem {
 	
 	// throw exception if pitch is bad.
 	@Test(expected = SimoriNonFatalException.class)
-	public void testPlayBadPitch() throws InvalidMidiDataException {
+	public void testPlayBadPitch() {
 		array = new byte[1][];
 		array[0] = badPitch;
 		player.play(array); 

@@ -1,13 +1,14 @@
 package simori.Tests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import simori.InstrumentNamer;
-import simori.Exceptions.SimoriNonFatalException;
 /**
  * 
  * @author Josh
@@ -25,11 +26,10 @@ public class TestInstrumentNamer {
 	
 
 	@Before
-	public void setUp() throws Exception {
-	}
+	public void setUp(){}
 
 	@After
-	public void tearDown() throws Exception {
+	public void tearDown() {
 		instrumentNamer = null;
 	}
 

@@ -90,7 +90,7 @@ public class TestMatrixModel {
 	}
 	
 	@Test
-	public void testGrid() throws SimoriNonFatalException{
+	public void testGrid(){
 		model.updateButton((byte) 0,(byte)0, (byte)0);
 		model.updateButton((byte) 0,(byte)2, (byte)2);
 		model.updateButton((byte) 0,(byte)4, (byte)4);

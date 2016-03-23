@@ -45,8 +45,7 @@ public class NetworkMaster implements Runnable {
 	 * @param model  The model to export.
 	 * @throws IOException 
 	 */
-	public NetworkMaster(int port, ModeController controller, NetworkSlave slave)
-			throws IOException {
+	public NetworkMaster(int port, ModeController controller, NetworkSlave slave) {
 		this.port = port;
 		this.controller = controller;
 		this.slave = slave;
@@ -104,7 +103,6 @@ public class NetworkMaster implements Runnable {
 	 * @author Adam
 	 * @param ip  The IP range to iterate over
 	 * @return  boolean, true if an exception IP was found
-	 * @throws SimoriNonFatalException 
 	 */
 	private boolean closestRangeIP(String ip) {
 		rangeUnderScan = ip.substring(0, ip.length() - 1);
@@ -143,7 +141,7 @@ public class NetworkMaster implements Runnable {
         socket.connect(new InetSocketAddress(ip, port), 200);
         if (listener != null) listener.onCompletion(true);
        
-        OutputStream out = (OutputStream) socket.getOutputStream();
+        OutputStream out = socket.getOutputStream();
         ObjectOutputStream serializer = new ObjectOutputStream(out);
        
         /* Serialise and write the model to the output stream */

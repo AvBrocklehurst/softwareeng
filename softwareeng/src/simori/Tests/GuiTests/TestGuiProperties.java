@@ -224,7 +224,7 @@ public class TestGuiProperties {
 	 * @see TestGuiProperties
 	 */
 	//@Test	//Disabled because FixMethodOrder doesn't work
-	public void testZ_Font() throws IOException {
+	public void testZ_Font() {
 		Font made = GuiProperties.getFont();
 		// Calling breakFile here fails because it's locked
 		Font cached = GuiProperties.getFont();

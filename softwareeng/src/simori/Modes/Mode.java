@@ -8,7 +8,6 @@ import simori.SimoriGui.FunctionButtonEvent;
 import simori.SimoriGui.FunctionButtonListener;
 import simori.SimoriGui.GridButtonEvent;
 import simori.SimoriGui.GridButtonListener;
-import simori.Exceptions.SimoriNonFatalException;
 
 /**
  * An abstract class defining methods for general

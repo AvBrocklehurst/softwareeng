@@ -1,12 +1,12 @@
 package simori.Tests.GuiTests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import simori.Exceptions.SimoriNonFatalException;
 import simori.SwingGui.Lcd;
 /**
  * 
@@ -26,7 +26,7 @@ public class TestLcd {
 	}
 
 	@After
-	public void tearDown() throws Exception {
+	public void tearDown() {
 		gui = null;
 		lcd = null;
 	}
@@ -39,7 +39,7 @@ public class TestLcd {
 	}
 	
 	@Test
-	public void testSetText() throws InterruptedException, SimoriNonFatalException{
+	public void testSetText() {
 		lcd.setText("hello world!");
 		String text = lcd.getText();
 		assertEquals("hello world!", text);
@@ -47,7 +47,7 @@ public class TestLcd {
 	}
 	
 	@Test
-	public void testSetTextLong() throws InterruptedException, SimoriNonFatalException{
+	public void testSetTextLong() {
 		lcd.setText("hello world my goodness this is a long sentance!");
 		String text = lcd.getText();
 	
@@ -55,7 +55,7 @@ public class TestLcd {
 		
 	}
 	@Test
-	public void testSetTextNone() throws InterruptedException, SimoriNonFatalException{
+	public void testSetTextNone() {
 		lcd.setText("");
 		String text = lcd.getText();
 		assertEquals("", text);

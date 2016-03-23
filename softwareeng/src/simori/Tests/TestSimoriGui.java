@@ -10,7 +10,6 @@ import org.junit.Test;
 import simori.SimoriGui;
 import simori.SimoriGui.FunctionButtonEvent;
 import simori.SimoriGui.GridButtonEvent;
-import simori.Exceptions.SimoriNonFatalException;
 import simori.Modes.QwertyKeyboard;
 import simori.SwingGui.SimoriJFrame;
 
@@ -24,28 +23,9 @@ public class TestSimoriGui {
 	
 	SimoriGui mockGui;
 
-	private static final boolean O = false;
-	private static final boolean[][] prettyGrid = {
-			{O,O,O,O,O,O,O,O,O,O,O,O,O,O,O,O},
-			{O,O,O,O,O,O,O,O,O,O,O,O,O,O,O,O},
-			{O,O,O,O,O,O,O,O,O,O,O,O,O,O,O,O},
-			{O,O,O,O,O,O,O,O,O,O,O,O,O,O,O,O},
-			{O,O,O,O,O,O,O,O,O,O,O,O,O,O,O,O},
-			{O,O,O,O,O,O,O,O,O,O,O,O,O,O,O,O},
-			{O,O,O,O,O,O,O,O,O,O,O,O,O,O,O,O}, 
-			{O,O,O,O,O,O,O,O,O,O,O,O,O,O,O,O},
-			{O,O,O,O,O,O,O,O,O,O,O,O,O,O,O,O},
-			{O,O,O,O,O,O,O,O,O,O,O,O,O,O,O,O},
-			{O,O,O,O,O,O,O,O,O,O,O,O,O,O,O,O},
-			{O,O,O,O,O,O,O,O,O,O,O,O,O,O,O,O},
-			{O,O,O,O,O,O,O,O,O,O,O,O,O,O,O,O},
-			{O,O,O,O,O,O,O,O,O,O,O,O,O,O,O,O},
-			{O,O,O,O,O,O,O,O,O,O,O,O,O,O,O,O},
-			{O,O,O,O,O,O,O,O,O,O,O,O,O,O,O,O}};
-
 	/** Instantiates mock GUI */
 	@Before
-	public void setUp() throws SimoriNonFatalException {
+	public void setUp() {
 		mockGui = new SimoriJFrame(new QwertyKeyboard((byte) 16, (byte) 16));
 	}
 	

@@ -1,9 +1,6 @@
 package simori.Tests.ModeTests;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
-
-import java.io.IOException;
 
 import org.junit.After;
 import org.junit.Before;
@@ -14,14 +11,9 @@ import simori.MIDISoundSystem;
 import simori.MatrixModel;
 import simori.ModeController;
 import simori.SimoriGui.GridButtonEvent;
-import simori.Exceptions.SimoriNonFatalException;
-import simori.Modes.NetworkMaster;
-import simori.Modes.NetworkSlave;
 import simori.Modes.PerformanceMode;
 import simori.Modes.QwertyKeyboard;
 import simori.SwingGui.SimoriJFrame;
-
-
 
 /**
  * The class for testing Performance Mode - unfinished.
@@ -45,7 +37,7 @@ public class TestPerformanceMode {
 	
 	
 	@Before
-	public void setUp() throws SimoriNonFatalException, IOException{
+	public void setUp() {
 		keyboard = new QwertyKeyboard((byte)16,(byte)16);
 		testmodel = new MatrixModel(16, 16);
 		testgui = new SimoriJFrame(keyboard);
@@ -86,7 +78,7 @@ public class TestPerformanceMode {
 	
 	
 	@Test
-	public void test_tickerLight() throws SimoriNonFatalException {
+	public void test_tickerLight() {
 		testpm.tickerLight((byte)0); 
 		boolean tickeredgridcoords = testpm.getModifiedGrid()[5][0];
 		assertEquals("The values are grid index grid[5][0] were not set to true by the ticker", true, tickeredgridcoords);
@@ -94,7 +86,6 @@ public class TestPerformanceMode {
 	
 	@Test
 	public void test_makeGridCopy(){
-		boolean[][] initialgrid = testpm.getModifiedGrid();
 		testpm.makeGridCopy((byte)0);
 		boolean[][] finalgrid = testpm.getModifiedGrid();
 		assertEquals("The grid was not copied correctly!", false, finalgrid[5][5]);
