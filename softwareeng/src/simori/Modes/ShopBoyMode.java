@@ -31,14 +31,12 @@ public class ShopBoyMode extends PerformanceMode implements Observer {
 		shopboy = ResourceManager.getResource("ShopBoySongs");    //get the folder
 	}
 	
-	/**{@inheritDoc}*/
-	/**
+	/**{@inheritDoc}
 	 * @author James
 	 * @version 1.0.0
-	 * @throws SimoriNonFatalException 
 	 */
 	@Override
-	public void setInitialGrid() throws SimoriNonFatalException {
+	public void setInitialGrid() {
 		getModel().addObserver(this);
 		getGui().clearGrid();
 		playShopBoy(shopboy);      //begin the first song
@@ -101,7 +99,6 @@ public class ShopBoyMode extends PerformanceMode implements Observer {
 	 * @version 2.0.0
 	 * @see java.io.File, SaveAndLoad.load()
 	 * @param f   A single song to process
-	 * @throws SimoriNonFatalException 
 	 */
 	private void songPlay(File f) {
 		song = f.listFiles();      //list all files in a single song subdirectory
@@ -115,7 +112,6 @@ public class ShopBoyMode extends PerformanceMode implements Observer {
 	 */
 	@Override
 	public void update(Observable o, Object arg) {
-		byte looppoint = getModel().getLoopPoint();
 		byte currentcolumn = getModel().getCurrentColumn();
 		
 		if(currentcolumn == 0){                 //if the end of the simori's columns is reached

@@ -2,8 +2,6 @@
 package simori;
 
 import simori.SimoriGui.SplashScreen;
-import simori.Exceptions.SimoriFatalException;
-import simori.Exceptions.SimoriNonFatalException;
 import simori.Modes.QwertyKeyboard;
 import simori.SwingGui.SimoriJFrame;
 import simori.SwingGui.SplashJWindow;
@@ -58,7 +56,7 @@ public class Simori {
 		MatrixModel model = new MatrixModel(GRID_SIZE, GRID_SIZE);
 		QwertyKeyboard keyboard = new QwertyKeyboard(GRID_SIZE, GRID_SIZE);
 		SimoriJFrame gui = new SimoriJFrame(keyboard); // Swing implementation
-		MIDISoundSystem player = new MIDISoundSystem(false);
+		MIDISoundSystem player = new MIDISoundSystem(true);
 		AudioFeedbackSystem afs = new AudioFeedbackSystem(player, model);
 		ModeController modes = new ModeController(gui, model, afs, PORT);
 		NoteProcessor clock = new NoteProcessor(modes, model, player);

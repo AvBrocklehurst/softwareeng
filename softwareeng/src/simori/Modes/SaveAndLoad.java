@@ -34,7 +34,6 @@ public class SaveAndLoad {
 	 * @version 1.0.0
 	 * @param model     The model to serialise.
 	 * @param filename  The file to save it to.
-	 * @throws SimoriNonFatalException 
 	 */
 	public static void save(MatrixModel model, String filename) {
 		try {
@@ -56,11 +55,7 @@ public class SaveAndLoad {
 	 * @author Adam
 	 * @param model     Model to replace.
 	 * @param filename  Filename of where to load the saved model from.
-	 * @throws FileNotFoundException 
-	 * @throws IOException 
-	 * @throws ClassNotFoundException 
-	 * @throws SimoriNonFatalException 
-	 */
+s	 */
 	public static boolean loadShop(MatrixModel model, String filename)  {
 		try{
 			System.out.println(filename);

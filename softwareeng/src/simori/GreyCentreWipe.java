@@ -81,11 +81,13 @@ public class GreyCentreWipe implements Animation {
 	}
 	
 	/** {@inheritDoc} */
+	@Override
 	public int getFrameCount() {
 		return size / 2 + BUTTONS.length;
 	}
 	
 	/** {@inheritDoc} */
+	@Override
 	public Frame getNextFrame() {
 		// Tick further than the wipe needs
 		int excess = frameNum - size / 2;
